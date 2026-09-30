@@ -107,4 +107,735 @@ nav a:hover {
     max-width: 680px;
     margin: 0 auto 30px;
 
-    font-size:
+    font-size: 20px;
+}
+
+.btn {
+    display: inline-block;
+
+    background: #c79a4b;
+    color: white;
+
+    padding: 14px 30px;
+
+    border-radius: 5px;
+
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.btn:hover {
+    background: #a97b32;
+}
+
+/* ================= GENERAL ================= */
+
+section {
+    padding: 85px 20px;
+}
+
+.container {
+    max-width: 1150px;
+    margin: auto;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 45px;
+}
+
+.section-title h2 {
+    color: #174b3b;
+    font-size: 38px;
+    margin-bottom: 10px;
+}
+
+.section-title p {
+    color: #777;
+}
+
+/* ================= DESTINATIONS ================= */
+
+.destination-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.card {
+    background: white;
+
+    border: 1px solid #eeeeee;
+    border-radius: 12px;
+
+    overflow: hidden;
+
+    box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-7px);
+}
+
+.card-top {
+    height: 190px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: white;
+
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.sigiriya {
+    background: linear-gradient(135deg,#9b642d,#e1b56d);
+}
+
+.kandy {
+    background: linear-gradient(135deg,#315f48,#8ca66e);
+}
+
+.ella {
+    background: linear-gradient(135deg,#416d62,#91b39a);
+}
+
+.yala {
+    background: linear-gradient(135deg,#52642f,#aaa25b);
+}
+
+.galle {
+    background: linear-gradient(135deg,#315c68,#9dbdc2);
+}
+
+.mirissa {
+    background: linear-gradient(135deg,#147389,#67c1ca);
+}
+
+.card-content {
+    padding: 22px;
+}
+
+.card-content h3 {
+    color: #174b3b;
+    margin-bottom: 8px;
+}
+
+.card-content p {
+    color: #666;
+}
+
+/* ================= TOURS ================= */
+
+.tours {
+    background: #f7f7f5;
+}
+
+.tour-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.tour {
+    background: white;
+
+    padding: 30px;
+
+    border-radius: 12px;
+
+    border: 1px solid #eeeeee;
+
+    box-shadow: 0 5px 20px rgba(0,0,0,0.04);
+}
+
+.tour h3 {
+    color: #174b3b;
+    margin-bottom: 12px;
+}
+
+.tour p {
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.price {
+    color: #c79a4b;
+    font-weight: bold;
+}
+
+/* ================= WHY US ================= */
+
+.features {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 20px;
+}
+
+.feature {
+    text-align: center;
+    padding: 25px;
+}
+
+.feature-icon {
+    font-size: 42px;
+    margin-bottom: 15px;
+}
+
+.feature h3 {
+    color: #174b3b;
+    margin-bottom: 8px;
+}
+
+.feature p {
+    color: #777;
+}
+
+/* ================= ABOUT ================= */
+
+.about {
+    background: #fafafa;
+}
+
+.about-content {
+    max-width: 850px;
+    margin: auto;
+
+    text-align: center;
+}
+
+.about-content p {
+    color: #666;
+    font-size: 18px;
+}
+
+/* ================= CTA ================= */
+
+.cta {
+    background: #174b3b;
+    color: white;
+    text-align: center;
+}
+
+.cta h2 {
+    font-size: 40px;
+    margin-bottom: 15px;
+}
+
+.cta p {
+    margin-bottom: 25px;
+}
+
+/* ================= FOOTER ================= */
+
+footer {
+    background: #102f26;
+    color: #ccc;
+
+    text-align: center;
+
+    padding: 30px 20px;
+}
+
+footer strong {
+    color: white;
+}
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 850px) {
+
+    .navbar {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    nav a {
+        margin: 0 7px;
+        font-size: 14px;
+    }
+
+    .destination-grid,
+    .tour-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .features {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .hero {
+        min-height: 560px;
+    }
+}
+
+@media (max-width: 500px) {
+
+    .hero h1 {
+        font-size: 45px;
+    }
+
+    .hero p {
+        font-size: 17px;
+    }
+
+    .features {
+        grid-template-columns: 1fr;
+    }
+
+    .section-title h2 {
+        font-size: 30px;
+    }
+
+    nav a {
+        margin: 0 4px;
+        font-size: 13px;
+    }
+}
+</style>
+</head>
+
+
+<body>
+
+<!-- ================= HEADER ================= -->
+
+<header>
+
+<div class="navbar">
+
+    <div class="logo">
+        Ceylon <span>Aura Travels</span>
+    </div>
+
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#destinations">Destinations</a>
+        <a href="#tours">Tours</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+    </nav>
+
+</div>
+
+</header>
+
+
+<!-- ================= HERO ================= -->
+
+<section class="hero" id="home">
+
+<div class="hero-content">
+
+    <h1>Discover Sri Lanka</h1>
+
+    <p>
+        Experience the beauty, culture and adventure of
+        the Pearl of the Indian Ocean with Ceylon Aura Travels.
+    </p>
+
+    <a href="#tours" class="btn">
+        Explore Our Tours
+    </a>
+
+</div>
+
+</section>
+
+
+<!-- ================= DESTINATIONS ================= -->
+
+<section id="destinations">
+
+<div class="container">
+
+<div class="section-title">
+
+    <h2>Explore Sri Lanka</h2>
+
+    <p>
+        Discover unforgettable destinations across the island.
+    </p>
+
+</div>
+
+
+<div class="destination-grid">
+
+
+<!-- SIGIRIYA -->
+
+<div class="card">
+
+    <div class="card-top sigiriya">
+        SIGIRIYA
+    </div>
+
+    <div class="card-content">
+
+        <h3>Sigiriya</h3>
+
+        <p>
+            Explore the ancient rock fortress and
+            discover Sri Lanka's fascinating history.
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- KANDY -->
+
+<div class="card">
+
+    <div class="card-top kandy">
+        KANDY
+    </div>
+
+    <div class="card-content">
+
+        <h3>Kandy</h3>
+
+        <p>
+            Experience culture, temples and
+            the peaceful beauty of the hill country.
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- ELLA -->
+
+<div class="card">
+
+    <div class="card-top ella">
+        ELLA
+    </div>
+
+    <div class="card-content">
+
+        <h3>Ella</h3>
+
+        <p>
+            Mountains, waterfalls, tea plantations
+            and breathtaking views.
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- YALA -->
+
+<div class="card">
+
+    <div class="card-top yala">
+        YALA
+    </div>
+
+    <div class="card-content">
+
+        <h3>Yala</h3>
+
+        <p>
+            Discover Sri Lanka's wildlife and
+            unforgettable national park experiences.
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- GALLE -->
+
+<div class="card">
+
+    <div class="card-top galle">
+        GALLE
+    </div>
+
+    <div class="card-content">
+
+        <h3>Galle</h3>
+
+        <p>
+            Walk through the historic streets
+            and atmosphere of Galle Fort.
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- MIRISSA -->
+
+<div class="card">
+
+    <div class="card-top mirissa">
+        MIRISSA
+    </div>
+
+    <div class="card-content">
+
+        <h3>Mirissa</h3>
+
+        <p>
+            Relax beside the ocean and enjoy
+            Sri Lanka's beautiful southern coast.
+        </p>
+
+    </div>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= TOURS ================= -->
+
+<section class="tours" id="tours">
+
+<div class="container">
+
+<div class="section-title">
+
+    <h2>Our Travel Experiences</h2>
+
+    <p>
+        Journeys designed around your interests.
+    </p>
+
+</div>
+
+
+<div class="tour-grid">
+
+
+<div class="tour">
+
+    <h3>Classic Sri Lanka</h3>
+
+    <p>
+        Explore ancient cities, cultural landmarks,
+        mountains and tropical beaches.
+    </p>
+
+    <div class="price">
+        Custom Itinerary
+    </div>
+
+</div>
+
+
+<div class="tour">
+
+    <h3>Hill Country Escape</h3>
+
+    <p>
+        Discover Kandy, Nuwara Eliya and Ella
+        surrounded by beautiful mountain scenery.
+    </p>
+
+    <div class="price">
+        Custom Itinerary
+    </div>
+
+</div>
+
+
+<div class="tour">
+
+    <h3>Island Paradise</h3>
+
+    <p>
+        Enjoy beaches, sunsets and tropical
+        experiences along Sri Lanka's southern coast.
+    </p>
+
+    <div class="price">
+        Custom Itinerary
+    </div>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= WHY US ================= -->
+
+<section>
+
+<div class="container">
+
+<div class="section-title">
+
+    <h2>Why Travel With Us?</h2>
+
+    <p>
+        Travel differently. Experience more.
+    </p>
+
+</div>
+
+
+<div class="features">
+
+
+<div class="feature">
+
+    <div class="feature-icon">
+        🌴
+    </div>
+
+    <h3>Private Travel</h3>
+
+    <p>
+        Enjoy a more personal travel experience.
+    </p>
+
+</div>
+
+
+<div class="feature">
+
+    <div class="feature-icon">
+        ✨
+    </div>
+
+    <h3>Tailor Made</h3>
+
+    <p>
+        Create a journey around your interests.
+    </p>
+
+</div>
+
+
+<div class="feature">
+
+    <div class="feature-icon">
+        🌿
+    </div>
+
+    <h3>Local Experiences</h3>
+
+    <p>
+        Discover authentic Sri Lankan experiences.
+    </p>
+
+</div>
+
+
+<div class="feature">
+
+    <div class="feature-icon">
+        🤝
+    </div>
+
+    <h3>Personal Service</h3>
+
+    <p>
+        We help make your journey simple and memorable.
+    </p>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= ABOUT ================= -->
+
+<section class="about" id="about">
+
+<div class="container">
+
+<div class="section-title">
+
+    <h2>About Ceylon Aura Travels</h2>
+
+</div>
+
+
+<div class="about-content">
+
+<p>
+    Ceylon Aura Travels is a Sri Lanka travel brand
+    focused on creating memorable journeys across
+    the island. From ancient heritage sites and misty
+    mountains to golden beaches and wildlife,
+    discover Sri Lanka at your own pace.
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= CONTACT ================= -->
+
+<section class="cta" id="contact">
+
+<div class="container">
+
+    <h2>Ready to Explore Sri Lanka?</h2>
+
+    <p>
+        Start planning your next unforgettable journey.
+    </p>
+
+    <a
+        href="https://wa.me/message/XOOAFQKPPUQNP1"
+        class="btn">
+        Contact Us on WhatsApp
+    </a>
+
+</div>
+
+</section>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+<p>
+    © 2026 <strong>Ceylon Aura Travels</strong>.
+    All rights reserved.
+</p>
+
+<p>
+    Discover Sri Lanka • Travel • Explore • Experience
+</p>
+
+</footer>
+
+
+</body>
+    </html>
