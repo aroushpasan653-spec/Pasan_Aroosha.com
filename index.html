@@ -4,9 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Ceylon Aura Travels | Discover Sri Lanka</title>
+<title>Ceylon Aura Travels | Private Sri Lanka Journeys</title>
 
 <style>
+
+/* =========================
+   RESET
+========================= */
+
 * {
     margin: 0;
     padding: 0;
@@ -19,25 +24,42 @@ html {
 
 body {
     font-family: Arial, Helvetica, sans-serif;
-    background: #ffffff;
-    color: #222;
+    background: #f8f6f0;
+    color: #1c2924;
     line-height: 1.6;
 }
 
-/* ================= HEADER ================= */
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.container {
+    width: min(1180px, 92%);
+    margin: auto;
+}
+
+/* =========================
+   HEADER
+========================= */
 
 header {
-    position: sticky;
+    position: absolute;
     top: 0;
+    left: 0;
+    width: 100%;
     z-index: 1000;
-    background: rgba(255,255,255,0.97);
-    border-bottom: 1px solid #eeeeee;
+
+    color: white;
+
+    border-bottom: 1px solid rgba(255,255,255,0.25);
 }
 
 .navbar {
-    max-width: 1200px;
+    width: min(1250px, 92%);
     margin: auto;
-    padding: 18px 25px;
+
+    min-height: 90px;
 
     display: flex;
     justify-content: space-between;
@@ -45,362 +67,800 @@ header {
 }
 
 .logo {
-    font-size: 24px;
+    font-family: Georgia, serif;
+    font-size: 25px;
     font-weight: bold;
-    color: #174b3b;
+    letter-spacing: 1px;
 }
 
 .logo span {
-    color: #c79a4b;
+    color: #d6b36a;
+}
+
+nav {
+    display: flex;
+    gap: 28px;
 }
 
 nav a {
-    text-decoration: none;
-    color: #333;
-    margin-left: 24px;
-    font-size: 15px;
-    font-weight: 600;
-}
-
-nav a:hover {
-    color: #c79a4b;
-}
-
-/* ================= HERO ================= */
-
-.hero {
-    min-height: 650px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    text-align: center;
+    font-size: 14px;
     color: white;
-
-    padding: 60px 20px;
-
-    background:
-        linear-gradient(
-            rgba(0,0,0,0.45),
-            rgba(0,0,0,0.45)
-        ),
-        linear-gradient(
-            135deg,
-            #174b3b,
-            #287258,
-            #c79a4b
-        );
-}
-
-.hero-content {
-    max-width: 850px;
-}
-
-.hero h1 {
-    font-size: clamp(45px, 8vw, 80px);
-    line-height: 1.1;
-    margin-bottom: 20px;
-}
-
-.hero p {
-    max-width: 680px;
-    margin: 0 auto 30px;
-
-    font-size: 20px;
-}
-
-.btn {
-    display: inline-block;
-
-    background: #c79a4b;
-    color: white;
-
-    padding: 14px 30px;
-
-    border-radius: 5px;
-
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.btn:hover {
-    background: #a97b32;
-}
-
-/* ================= GENERAL ================= */
-
-section {
-    padding: 85px 20px;
-}
-
-.container {
-    max-width: 1150px;
-    margin: auto;
-}
-
-.section-title {
-    text-align: center;
-    margin-bottom: 45px;
-}
-
-.section-title h2 {
-    color: #174b3b;
-    font-size: 38px;
-    margin-bottom: 10px;
-}
-
-.section-title p {
-    color: #777;
-}
-
-/* ================= DESTINATIONS ================= */
-
-.destination-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 25px;
-}
-
-.card {
-    background: white;
-
-    border: 1px solid #eeeeee;
-    border-radius: 12px;
-
-    overflow: hidden;
-
-    box-shadow: 0 5px 20px rgba(0,0,0,0.06);
-
     transition: 0.3s;
 }
 
-.card:hover {
-    transform: translateY(-7px);
+nav a:hover {
+    color: #d6b36a;
 }
 
-.card-top {
-    height: 190px;
+.nav-button {
+    border: 1px solid rgba(255,255,255,0.7);
+    padding: 11px 18px;
+    border-radius: 2px;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero {
+    min-height: 780px;
+
+    display: flex;
+    align-items: center;
+
+    color: white;
+
+    position: relative;
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(8,28,21,0.90),
+            rgba(8,28,21,0.55),
+            rgba(8,28,21,0.25)
+        ),
+        linear-gradient(
+            135deg,
+            #123d2e,
+            #28634d 45%,
+            #b28b4f
+        );
+}
+
+.hero::after {
+    content: "";
+
+    position: absolute;
+    width: 500px;
+    height: 500px;
+
+    right: -180px;
+    bottom: -220px;
+
+    border-radius: 50%;
+
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+.hero-content {
+    width: min(850px, 92%);
+    margin-left: max(4%, calc((100% - 1180px)/2));
+
+    position: relative;
+    z-index: 2;
+}
+
+.hero-small {
+    color: #d6b36a;
+    letter-spacing: 4px;
+    font-size: 13px;
+    font-weight: bold;
+
+    margin-bottom: 20px;
+}
+
+.hero h1 {
+    font-family: Georgia, serif;
+
+    font-size: clamp(50px, 8vw, 88px);
+
+    line-height: 1.03;
+
+    max-width: 800px;
+
+    margin-bottom: 25px;
+}
+
+.hero p {
+    max-width: 650px;
+
+    color: #e8e8e3;
+
+    font-size: 19px;
+
+    margin-bottom: 35px;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.btn-gold {
+    background: #d6b36a;
+    color: #17261f;
+
+    padding: 15px 27px;
+
+    font-weight: bold;
+
+    display: inline-block;
+}
+
+.btn-outline {
+    border: 1px solid rgba(255,255,255,0.7);
+    color: white;
+
+    padding: 14px 27px;
+
+    display: inline-block;
+}
+
+/* =========================
+   INTRO
+========================= */
+
+.intro {
+    padding: 110px 0;
+
+    background: #f8f6f0;
+}
+
+.intro-grid {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 80px;
+
+    align-items: center;
+}
+
+.eyebrow {
+    color: #a17b3e;
+
+    font-size: 12px;
+
+    letter-spacing: 3px;
+
+    font-weight: bold;
+
+    margin-bottom: 15px;
+}
+
+h2 {
+    font-family: Georgia, serif;
+
+    font-size: clamp(35px, 5vw, 55px);
+
+    line-height: 1.15;
+
+    color: #17372b;
+
+    margin-bottom: 20px;
+}
+
+.intro p {
+    color: #626b65;
+
+    font-size: 17px;
+
+    margin-bottom: 18px;
+}
+
+.intro-box {
+    min-height: 430px;
 
     display: flex;
     align-items: center;
     justify-content: center;
+
+    background:
+        linear-gradient(
+            145deg,
+            #214f3d,
+            #6e805b 55%,
+            #c8a564
+        );
+
+    position: relative;
+}
+
+.intro-box-inner {
+    border: 1px solid rgba(255,255,255,0.45);
+
+    width: 75%;
+    height: 75%;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+
+    color: white;
+
+    text-align: center;
+}
+
+.intro-box-inner strong {
+    font-family: Georgia, serif;
+    font-size: 35px;
+}
+
+/* =========================
+   JOURNEY PROCESS
+========================= */
+
+.process {
+    background: #17372b;
+
+    color: white;
+
+    padding: 100px 0;
+}
+
+.process h2 {
+    color: white;
+}
+
+.process-intro {
+    max-width: 650px;
+    color: #cbd5cf;
+    margin-bottom: 50px;
+}
+
+.process-grid {
+    display: grid;
+
+    grid-template-columns: repeat(4,1fr);
+
+    gap: 20px;
+}
+
+.process-card {
+    padding: 30px 20px;
+
+    border-top: 1px solid rgba(255,255,255,0.3);
+}
+
+.process-number {
+    color: #d6b36a;
+
+    font-family: Georgia, serif;
+
+    font-size: 38px;
+
+    margin-bottom: 20px;
+}
+
+.process-card h3 {
+    margin-bottom: 10px;
+}
+
+.process-card p {
+    color: #bac8c1;
+    font-size: 14px;
+}
+
+/* =========================
+   JOURNEYS
+========================= */
+
+.journeys {
+    padding: 110px 0;
+
+    background: #f8f6f0;
+}
+
+.section-heading {
+    text-align: center;
+
+    max-width: 700px;
+
+    margin: 0 auto 55px;
+}
+
+.section-heading p {
+    color: #68716b;
+}
+
+.journey-grid {
+    display: grid;
+
+    grid-template-columns: repeat(3,1fr);
+
+    gap: 25px;
+}
+
+.journey {
+    min-height: 430px;
+
+    position: relative;
+
+    overflow: hidden;
+
+    display: flex;
+
+    align-items: flex-end;
+
+    background: #315f4b;
+}
+
+.journey:nth-child(2) {
+    background: #9b8054;
+}
+
+.journey:nth-child(3) {
+    background: #426b68;
+}
+
+.journey:nth-child(4) {
+    background: #56693c;
+}
+
+.journey:nth-child(5) {
+    background: #52737c;
+}
+
+.journey:nth-child(6) {
+    background: #806044;
+}
+
+.journey::before {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(
+            transparent 30%,
+            rgba(0,0,0,0.8)
+        );
+}
+
+.journey-content {
+    position: relative;
+
+    z-index: 2;
+
+    padding: 30px;
+
+    color: white;
+}
+
+.journey-content span {
+    color: #e1c987;
+
+    font-size: 11px;
+
+    letter-spacing: 2px;
+}
+
+.journey-content h3 {
+    font-family: Georgia, serif;
+
+    font-size: 29px;
+
+    margin: 8px 0;
+}
+
+.journey-content p {
+    color: #eeeeee;
+
+    font-size: 14px;
+}
+
+/* =========================
+   WHY US
+========================= */
+
+.why {
+    background: white;
+
+    padding: 110px 0;
+}
+
+.why-grid {
+    display: grid;
+
+    grid-template-columns: repeat(4,1fr);
+
+    gap: 30px;
+}
+
+.why-card {
+    padding: 30px 0;
+
+    border-top: 1px solid #ddd;
+}
+
+.why-icon {
+    font-size: 32px;
+
+    margin-bottom: 20px;
+}
+
+.why-card h3 {
+    font-family: Georgia, serif;
+
+    color: #17372b;
+
+    margin-bottom: 10px;
+}
+
+.why-card p {
+    color: #6c746e;
+
+    font-size: 14px;
+}
+
+/* =========================
+   VEHICLES
+========================= */
+
+.vehicles {
+    padding: 110px 0;
+
+    background: #eeeae0;
+}
+
+.vehicle-grid {
+    display: grid;
+
+    grid-template-columns: repeat(3,1fr);
+
+    gap: 25px;
+}
+
+.vehicle {
+    background: #17372b;
+
+    color: white;
+
+    min-height: 280px;
+
+    padding: 35px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: flex-end;
+}
+
+.vehicle:nth-child(2) {
+    background: #6b573a;
+}
+
+.vehicle:nth-child(3) {
+    background: #405b59;
+}
+
+.vehicle h3 {
+    font-family: Georgia, serif;
+
+    font-size: 28px;
+
+    margin-bottom: 8px;
+}
+
+.vehicle p {
+    color: #d5ddd8;
+
+    font-size: 14px;
+}
+
+/* =========================
+   ITINERARY CTA
+========================= */
+
+.itinerary {
+    padding: 110px 0;
+
+    background: #d9c7a3;
+}
+
+.itinerary-box {
+    max-width: 900px;
+
+    margin: auto;
+
+    text-align: center;
+}
+
+.itinerary h2 {
+    color: #17372b;
+}
+
+.itinerary p {
+    color: #4e574f;
+
+    max-width: 650px;
+
+    margin: 0 auto 30px;
+}
+
+/* =========================
+   TESTIMONIAL
+========================= */
+
+.testimonial {
+    padding: 110px 0;
+
+    background: #17372b;
+
+    color: white;
+
+    text-align: center;
+}
+
+.quote {
+    max-width: 800px;
+
+    margin: auto;
+}
+
+.quote-mark {
+    color: #d6b36a;
+
+    font-family: Georgia, serif;
+
+    font-size: 70px;
+
+    line-height: 0.7;
+}
+
+.quote p {
+    font-family: Georgia, serif;
+
+    font-size: 28px;
+
+    line-height: 1.4;
+
+    margin: 30px 0;
+}
+
+.quote small {
+    color: #c4cec8;
+
+    letter-spacing: 2px;
+}
+
+/* =========================
+   FAQ
+========================= */
+
+.faq {
+    padding: 110px 0;
+
+    background: #f8f6f0;
+}
+
+.faq-grid {
+    max-width: 850px;
+
+    margin: auto;
+}
+
+details {
+    border-bottom: 1px solid #d8d5cc;
+
+    padding: 22px 0;
+}
+
+summary {
+    cursor: pointer;
+
+    font-family: Georgia, serif;
+
+    font-size: 19px;
+
+    color: #17372b;
+}
+
+details p {
+    padding-top: 15px;
+
+    color: #68716b;
+}
+
+/* =========================
+   CONTACT
+========================= */
+
+.contact {
+    padding: 110px 0;
+
+    background:
+        linear-gradient(
+            rgba(12,40,30,0.94),
+            rgba(12,40,30,0.94)
+        );
+
+    color: white;
+
+    text-align: center;
+}
+
+.contact h2 {
+    color: white;
+}
+
+.contact p {
+    color: #c8d0cb;
+
+    max-width: 650px;
+
+    margin: 0 auto 30px;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+    background: #0c251c;
+
+    color: #9eaaa4;
+
+    padding: 45px 0;
+
+    text-align: center;
+}
+
+.footer-logo {
+    font-family: Georgia, serif;
 
     color: white;
 
     font-size: 25px;
-    font-weight: bold;
+
+    margin-bottom: 10px;
 }
 
-.sigiriya {
-    background: linear-gradient(135deg,#9b642d,#e1b56d);
+.footer-logo span {
+    color: #d6b36a;
 }
 
-.kandy {
-    background: linear-gradient(135deg,#315f48,#8ca66e);
-}
+/* =========================
+   WHATSAPP
+========================= */
 
-.ella {
-    background: linear-gradient(135deg,#416d62,#91b39a);
-}
+.whatsapp {
+    position: fixed;
 
-.yala {
-    background: linear-gradient(135deg,#52642f,#aaa25b);
-}
+    right: 20px;
+    bottom: 20px;
 
-.galle {
-    background: linear-gradient(135deg,#315c68,#9dbdc2);
-}
+    width: 58px;
+    height: 58px;
 
-.mirissa {
-    background: linear-gradient(135deg,#147389,#67c1ca);
-}
+    background: #25D366;
 
-.card-content {
-    padding: 22px;
-}
-
-.card-content h3 {
-    color: #174b3b;
-    margin-bottom: 8px;
-}
-
-.card-content p {
-    color: #666;
-}
-
-/* ================= TOURS ================= */
-
-.tours {
-    background: #f7f7f5;
-}
-
-.tour-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 25px;
-}
-
-.tour {
-    background: white;
-
-    padding: 30px;
-
-    border-radius: 12px;
-
-    border: 1px solid #eeeeee;
-
-    box-shadow: 0 5px 20px rgba(0,0,0,0.04);
-}
-
-.tour h3 {
-    color: #174b3b;
-    margin-bottom: 12px;
-}
-
-.tour p {
-    color: #666;
-    margin-bottom: 20px;
-}
-
-.price {
-    color: #c79a4b;
-    font-weight: bold;
-}
-
-/* ================= WHY US ================= */
-
-.features {
-    display: grid;
-    grid-template-columns: repeat(4,1fr);
-    gap: 20px;
-}
-
-.feature {
-    text-align: center;
-    padding: 25px;
-}
-
-.feature-icon {
-    font-size: 42px;
-    margin-bottom: 15px;
-}
-
-.feature h3 {
-    color: #174b3b;
-    margin-bottom: 8px;
-}
-
-.feature p {
-    color: #777;
-}
-
-/* ================= ABOUT ================= */
-
-.about {
-    background: #fafafa;
-}
-
-.about-content {
-    max-width: 850px;
-    margin: auto;
-
-    text-align: center;
-}
-
-.about-content p {
-    color: #666;
-    font-size: 18px;
-}
-
-/* ================= CTA ================= */
-
-.cta {
-    background: #174b3b;
     color: white;
-    text-align: center;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 28px;
+
+    z-index: 2000;
+
+    box-shadow: 0 5px 20px rgba(0,0,0,0.25);
 }
 
-.cta h2 {
-    font-size: 40px;
-    margin-bottom: 15px;
-}
+/* =========================
+   MOBILE
+========================= */
 
-.cta p {
-    margin-bottom: 25px;
-}
+@media(max-width:900px) {
 
-/* ================= FOOTER ================= */
-
-footer {
-    background: #102f26;
-    color: #ccc;
-
-    text-align: center;
-
-    padding: 30px 20px;
-}
-
-footer strong {
-    color: white;
-}
-
-/* ================= MOBILE ================= */
-
-@media (max-width: 850px) {
-
-    .navbar {
-        flex-direction: column;
-        gap: 15px;
+    nav {
+        gap: 12px;
     }
 
     nav a {
-        margin: 0 7px;
-        font-size: 14px;
+        font-size: 12px;
     }
 
-    .destination-grid,
-    .tour-grid {
+    .intro-grid {
         grid-template-columns: 1fr;
     }
 
-    .features {
+    .process-grid {
         grid-template-columns: 1fr 1fr;
     }
 
-    .hero {
-        min-height: 560px;
+    .journey-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .why-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .vehicle-grid {
+        grid-template-columns: 1fr;
     }
 }
 
-@media (max-width: 500px) {
+@media(max-width:600px) {
+
+    .navbar {
+        min-height: 75px;
+    }
+
+    .logo {
+        font-size: 19px;
+    }
+
+    nav {
+        display: none;
+    }
+
+    .hero {
+        min-height: 700px;
+    }
 
     .hero h1 {
-        font-size: 45px;
+        font-size: 50px;
     }
 
     .hero p {
         font-size: 17px;
     }
 
-    .features {
+    .intro,
+    .process,
+    .journeys,
+    .why,
+    .vehicles,
+    .itinerary,
+    .testimonial,
+    .faq,
+    .contact {
+        padding: 75px 0;
+    }
+
+    .process-grid,
+    .journey-grid,
+    .why-grid {
         grid-template-columns: 1fr;
     }
 
-    .section-title h2 {
-        font-size: 30px;
+    .journey {
+        min-height: 360px;
     }
 
-    nav a {
-        margin: 0 4px;
-        font-size: 13px;
+    .quote p {
+        font-size: 21px;
     }
 }
+
 </style>
 </head>
 
-
 <body>
+
 
 <!-- ================= HEADER ================= -->
 
@@ -413,11 +873,13 @@ footer strong {
     </div>
 
     <nav>
-        <a href="#home">Home</a>
-        <a href="#destinations">Destinations</a>
-        <a href="#tours">Tours</a>
-        <a href="#about">About</a>
-        <a href="#contact">Contact</a>
+        <a href="#journeys">Journeys</a>
+        <a href="#experience">Experience</a>
+        <a href="#vehicles">Vehicles</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contact" class="nav-button">
+            Plan Your Journey
+        </a>
     </nav>
 
 </div>
@@ -431,173 +893,82 @@ footer strong {
 
 <div class="hero-content">
 
-    <h1>Discover Sri Lanka</h1>
+    <div class="hero-small">
+        PRIVATE SRI LANKA JOURNEYS
+    </div>
+
+    <h1>
+        Your Sri Lanka.<br>
+        Your Journey.
+    </h1>
 
     <p>
-        Experience the beauty, culture and adventure of
-        the Pearl of the Indian Ocean with Ceylon Aura Travels.
+        Discover Sri Lanka through tailor-made private journeys,
+        meaningful experiences and the freedom to travel at your own pace.
     </p>
 
-    <a href="#tours" class="btn">
-        Explore Our Tours
-    </a>
+    <div class="hero-buttons">
+
+        <a href="#contact" class="btn-gold">
+            Plan My Journey
+        </a>
+
+        <a href="#journeys" class="btn-outline">
+            Explore Journeys
+        </a>
+
+    </div>
 
 </div>
 
 </section>
 
 
-<!-- ================= DESTINATIONS ================= -->
+<!-- ================= INTRO ================= -->
 
-<section id="destinations">
+<section class="intro">
 
 <div class="container">
 
-<div class="section-title">
+<div class="intro-grid">
 
-    <h2>Explore Sri Lanka</h2>
+<div>
+
+    <div class="eyebrow">
+        WELCOME TO CEYLON
+    </div>
+
+    <h2>
+        Travel beyond the ordinary.
+    </h2>
 
     <p>
-        Discover unforgettable destinations across the island.
+        Sri Lanka is an island of extraordinary contrasts.
+        Ancient kingdoms, mist-covered mountains, golden beaches,
+        wildlife and warm local culture are waiting to be discovered.
+    </p>
+
+    <p>
+        At Ceylon Aura Travels, we create private journeys
+        around the way you want to travel.
     </p>
 
 </div>
 
 
-<div class="destination-grid">
+<div class="intro-box">
 
+<div class="intro-box-inner">
 
-<!-- SIGIRIYA -->
+    <strong>CEYLON</strong>
 
-<div class="card">
-
-    <div class="card-top sigiriya">
-        SIGIRIYA
-    </div>
-
-    <div class="card-content">
-
-        <h3>Sigiriya</h3>
-
-        <p>
-            Explore the ancient rock fortress and
-            discover Sri Lanka's fascinating history.
-        </p>
-
-    </div>
+    <span>
+        The Pearl of the Indian Ocean
+    </span>
 
 </div>
 
-
-<!-- KANDY -->
-
-<div class="card">
-
-    <div class="card-top kandy">
-        KANDY
-    </div>
-
-    <div class="card-content">
-
-        <h3>Kandy</h3>
-
-        <p>
-            Experience culture, temples and
-            the peaceful beauty of the hill country.
-        </p>
-
-    </div>
-
 </div>
-
-
-<!-- ELLA -->
-
-<div class="card">
-
-    <div class="card-top ella">
-        ELLA
-    </div>
-
-    <div class="card-content">
-
-        <h3>Ella</h3>
-
-        <p>
-            Mountains, waterfalls, tea plantations
-            and breathtaking views.
-        </p>
-
-    </div>
-
-</div>
-
-
-<!-- YALA -->
-
-<div class="card">
-
-    <div class="card-top yala">
-        YALA
-    </div>
-
-    <div class="card-content">
-
-        <h3>Yala</h3>
-
-        <p>
-            Discover Sri Lanka's wildlife and
-            unforgettable national park experiences.
-        </p>
-
-    </div>
-
-</div>
-
-
-<!-- GALLE -->
-
-<div class="card">
-
-    <div class="card-top galle">
-        GALLE
-    </div>
-
-    <div class="card-content">
-
-        <h3>Galle</h3>
-
-        <p>
-            Walk through the historic streets
-            and atmosphere of Galle Fort.
-        </p>
-
-    </div>
-
-</div>
-
-
-<!-- MIRISSA -->
-
-<div class="card">
-
-    <div class="card-top mirissa">
-        MIRISSA
-    </div>
-
-    <div class="card-content">
-
-        <h3>Mirissa</h3>
-
-        <p>
-            Relax beside the ocean and enjoy
-            Sri Lanka's beautiful southern coast.
-        </p>
-
-    </div>
-
-</div>
-
 
 </div>
 
@@ -606,70 +977,215 @@ footer strong {
 </section>
 
 
-<!-- ================= TOURS ================= -->
+<!-- ================= PROCESS ================= -->
 
-<section class="tours" id="tours">
+<section class="process" id="experience">
 
 <div class="container">
 
-<div class="section-title">
+<div class="eyebrow">
+    THE AURA WAY
+</div>
 
-    <h2>Our Travel Experiences</h2>
+<h2>
+    Your journey, thoughtfully created.
+</h2>
+
+<p class="process-intro">
+    From the first conversation to your return home,
+    every detail can be shaped around you.
+</p>
+
+
+<div class="process-grid">
+
+<div class="process-card">
+
+    <div class="process-number">01</div>
+
+    <h3>Tell Us Your Vision</h3>
 
     <p>
-        Journeys designed around your interests.
+        Share your travel dates, interests,
+        preferred pace and the places you dream of seeing.
     </p>
 
 </div>
 
 
-<div class="tour-grid">
+<div class="process-card">
 
+    <div class="process-number">02</div>
 
-<div class="tour">
-
-    <h3>Classic Sri Lanka</h3>
+    <h3>We Design Your Route</h3>
 
     <p>
-        Explore ancient cities, cultural landmarks,
-        mountains and tropical beaches.
+        We help create a balanced itinerary
+        connecting the places and experiences you want.
     </p>
-
-    <div class="price">
-        Custom Itinerary
-    </div>
 
 </div>
 
 
-<div class="tour">
+<div class="process-card">
 
-    <h3>Hill Country Escape</h3>
+    <div class="process-number">03</div>
+
+    <h3>Choose Your Experiences</h3>
 
     <p>
-        Discover Kandy, Nuwara Eliya and Ella
-        surrounded by beautiful mountain scenery.
+        Culture, nature, food, wildlife,
+        beaches or adventure — make the journey yours.
     </p>
-
-    <div class="price">
-        Custom Itinerary
-    </div>
 
 </div>
 
 
-<div class="tour">
+<div class="process-card">
 
-    <h3>Island Paradise</h3>
+    <div class="process-number">04</div>
+
+    <h3>Travel Your Way</h3>
 
     <p>
-        Enjoy beaches, sunsets and tropical
-        experiences along Sri Lanka's southern coast.
+        Enjoy a flexible private journey
+        with support throughout your trip.
     </p>
 
-    <div class="price">
-        Custom Itinerary
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= JOURNEYS ================= -->
+
+<section class="journeys" id="journeys">
+
+<div class="container">
+
+<div class="section-heading">
+
+    <div class="eyebrow">
+        JOURNEY IDEAS
     </div>
+
+    <h2>
+        Find your way around Sri Lanka.
+    </h2>
+
+    <p>
+        These are starting points, not fixed packages.
+        Your itinerary can be adapted to suit you.
+    </p>
+
+</div>
+
+
+<div class="journey-grid">
+
+
+<div class="journey">
+
+<div class="journey-content">
+
+    <span>HERITAGE</span>
+
+    <h3>Ancient Ceylon</h3>
+
+    <p>
+        Sigiriya • Dambulla • Kandy
+    </p>
+
+</div>
+
+</div>
+
+
+<div class="journey">
+
+<div class="journey-content">
+
+    <span>HIGHLANDS</span>
+
+    <h3>Misty Mountains</h3>
+
+    <p>
+        Kandy • Nuwara Eliya • Ella
+    </p>
+
+</div>
+
+</div>
+
+
+<div class="journey">
+
+<div class="journey-content">
+
+    <span>NATURE</span>
+
+    <h3>Wild Sri Lanka</h3>
+
+    <p>
+        National parks • Wildlife • Nature
+    </p>
+
+</div>
+
+</div>
+
+
+<div class="journey">
+
+<div class="journey-content">
+
+    <span>COAST</span>
+
+    <h3>Southern Shores</h3>
+
+    <p>
+        Galle • Mirissa • South Coast
+    </p>
+
+</div>
+
+</div>
+
+
+<div class="journey">
+
+<div class="journey-content">
+
+    <span>BEACH</span>
+
+    <h3>Island Escape</h3>
+
+    <p>
+        Beaches • Ocean • Relaxation
+    </p>
+
+</div>
+
+</div>
+
+
+<div class="journey">
+
+<div class="journey-content">
+
+    <span>COMPLETE</span>
+
+    <h3>Grand Sri Lanka</h3>
+
+    <p>
+        Culture • Mountains • Wildlife • Coast
+    </p>
+
+</div>
 
 </div>
 
@@ -683,79 +1199,77 @@ footer strong {
 
 <!-- ================= WHY US ================= -->
 
-<section>
+<section class="why">
 
 <div class="container">
 
-<div class="section-title">
+<div class="section-heading">
 
-    <h2>Why Travel With Us?</h2>
+    <div class="eyebrow">
+        WHY CEYLON AURA
+    </div>
+
+    <h2>
+        Travel with freedom and confidence.
+    </h2>
+
+</div>
+
+
+<div class="why-grid">
+
+
+<div class="why-card">
+
+    <div class="why-icon">✦</div>
+
+    <h3>Private Journeys</h3>
 
     <p>
-        Travel differently. Experience more.
+        Your journey is designed for you,
+        rather than built around a large group.
     </p>
 
 </div>
 
 
-<div class="features">
+<div class="why-card">
 
-
-<div class="feature">
-
-    <div class="feature-icon">
-        🌴
-    </div>
-
-    <h3>Private Travel</h3>
-
-    <p>
-        Enjoy a more personal travel experience.
-    </p>
-
-</div>
-
-
-<div class="feature">
-
-    <div class="feature-icon">
-        ✨
-    </div>
+    <div class="why-icon">◈</div>
 
     <h3>Tailor Made</h3>
 
     <p>
-        Create a journey around your interests.
+        Adjust your route, pace and experiences
+        around the way you want to travel.
     </p>
 
 </div>
 
 
-<div class="feature">
+<div class="why-card">
 
-    <div class="feature-icon">
-        🌿
-    </div>
+    <div class="why-icon">◇</div>
 
-    <h3>Local Experiences</h3>
+    <h3>Local Perspective</h3>
 
     <p>
-        Discover authentic Sri Lankan experiences.
+        Discover destinations and experiences
+        beyond the usual tourist route.
     </p>
 
 </div>
 
 
-<div class="feature">
+<div class="why-card">
 
-    <div class="feature-icon">
-        🤝
-    </div>
+    <div class="why-icon">○</div>
 
-    <h3>Personal Service</h3>
+    <h3>Personal Support</h3>
 
     <p>
-        We help make your journey simple and memorable.
+        Have a dedicated point of contact
+        while planning and travelling.
     </p>
 
 </div>
@@ -768,28 +1282,216 @@ footer strong {
 </section>
 
 
-<!-- ================= ABOUT ================= -->
+<!-- ================= VEHICLES ================= -->
 
-<section class="about" id="about">
+<section class="vehicles" id="vehicles">
 
 <div class="container">
 
-<div class="section-title">
+<div class="section-heading">
 
-    <h2>About Ceylon Aura Travels</h2>
+    <div class="eyebrow">
+        TRAVEL IN COMFORT
+    </div>
+
+    <h2>
+        Your private journey starts here.
+    </h2>
+
+    <p>
+        Choose transportation suited to your group
+        and the style of your journey.
+    </p>
 
 </div>
 
 
-<div class="about-content">
+<div class="vehicle-grid">
+
+
+<div class="vehicle">
+
+    <h3>Private Car</h3>
+
+    <p>
+        Comfortable travel for couples
+        and smaller private journeys.
+    </p>
+
+</div>
+
+
+<div class="vehicle">
+
+    <h3>Luxury Van</h3>
+
+    <p>
+        Spacious transportation for families
+        and small groups.
+    </p>
+
+</div>
+
+
+<div class="vehicle">
+
+    <h3>Group Travel</h3>
+
+    <p>
+        Practical transport solutions
+        for larger travelling parties.
+    </p>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= ITINERARY ================= -->
+
+<section class="itinerary">
+
+<div class="container">
+
+<div class="itinerary-box">
+
+    <div class="eyebrow">
+        ALREADY HAVE A PLAN?
+    </div>
+
+    <h2>
+        Bring us your itinerary.
+    </h2>
+
+    <p>
+        Already know where you want to go?
+        Send us your ideas and we can help turn them
+        into a comfortable, well-paced Sri Lankan journey.
+    </p>
+
+    <a href="#contact" class="btn-gold">
+        Send My Travel Plan
+    </a>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= TESTIMONIAL ================= -->
+
+<section class="testimonial">
+
+<div class="container">
+
+<div class="quote">
+
+    <div class="quote-mark">
+        “
+    </div>
+
+    <p>
+        The best journeys are not simply about
+        the places you visit. They are about the
+        moments you remember.
+    </p>
+
+    <small>
+        CEYLON AURA TRAVELS
+    </small>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= FAQ ================= -->
+
+<section class="faq" id="faq">
+
+<div class="container">
+
+<div class="section-heading">
+
+    <div class="eyebrow">
+        QUESTIONS
+    </div>
+
+    <h2>
+        Frequently asked questions.
+    </h2>
+
+</div>
+
+
+<div class="faq-grid">
+
+
+<details>
+
+<summary>
+Are the tours private?
+</summary>
 
 <p>
-    Ceylon Aura Travels is a Sri Lanka travel brand
-    focused on creating memorable journeys across
-    the island. From ancient heritage sites and misty
-    mountains to golden beaches and wildlife,
-    discover Sri Lanka at your own pace.
+Our journeys are designed around private travel,
+with itineraries that can be adapted to your group.
 </p>
+
+</details>
+
+
+<details>
+
+<summary>
+Can I customise my itinerary?
+</summary>
+
+<p>
+Yes. Journey ideas on this website are starting points.
+Your route and experiences can be adjusted around your interests.
+</p>
+
+</details>
+
+
+<details>
+
+<summary>
+Can you help with airport transfers?
+</summary>
+
+<p>
+Airport transfers can be included when planning your journey.
+Contact us with your arrival details.
+</p>
+
+</details>
+
+
+<details>
+
+<summary>
+How do I start planning?
+</summary>
+
+<p>
+Simply contact Ceylon Aura Travels and tell us
+your approximate dates, group size and what you would
+like to experience in Sri Lanka.
+</p>
+
+</details>
+
 
 </div>
 
@@ -800,21 +1502,30 @@ footer strong {
 
 <!-- ================= CONTACT ================= -->
 
-<section class="cta" id="contact">
+<section class="contact" id="contact">
 
 <div class="container">
 
-    <h2>Ready to Explore Sri Lanka?</h2>
+<div class="eyebrow">
+    LET'S START PLANNING
+</div>
 
-    <p>
-        Start planning your next unforgettable journey.
-    </p>
+<h2>
+    Your Sri Lanka story starts here.
+</h2>
 
-    <a
-        href="https://wa.me/message/XOOAFQKPPUQNP1"
-        class="btn">
-        Contact Us on WhatsApp
-    </a>
+<p>
+    Tell us about your travel plans and
+    let's create an unforgettable journey together.
+</p>
+
+<a
+    href="https://wa.me/message/XOOAFQKPPUQNP1"
+    class="btn-gold">
+
+    Start a Conversation
+
+</a>
 
 </div>
 
@@ -825,17 +1536,38 @@ footer strong {
 
 <footer>
 
-<p>
-    © 2026 <strong>Ceylon Aura Travels</strong>.
-    All rights reserved.
-</p>
+<div class="container">
+
+<div class="footer-logo">
+    Ceylon <span>Aura Travels</span>
+</div>
 
 <p>
-    Discover Sri Lanka • Travel • Explore • Experience
+    Private journeys across Sri Lanka.
 </p>
+
+<br>
+
+<p>
+    © 2026 Ceylon Aura Travels. All rights reserved.
+</p>
+
+</div>
 
 </footer>
 
 
+<!-- ================= WHATSAPP ================= -->
+
+<a
+    class="whatsapp"
+    href="https://wa.me/message/XOOAFQKPPUQNP1"
+    aria-label="Contact Ceylon Aura Travels on WhatsApp">
+
+    ☎
+
+</a>
+
+
 </body>
-    </html>
+</html>
