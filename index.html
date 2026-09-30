@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Ceylon Luxe Escapes | Luxury Sri Lanka Tours</title>
+<title>Ceylon Aura Travels | Discover Sri Lanka</title>
 
 <style>
 * {
@@ -18,24 +18,27 @@ html {
 }
 
 body {
-    font-family: Arial, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     background: #ffffff;
     color: #222;
     line-height: 1.6;
 }
 
+/* ================= HEADER ================= */
+
 header {
-    background: #ffffff;
-    border-bottom: 1px solid #eeeeee;
     position: sticky;
     top: 0;
     z-index: 1000;
+    background: rgba(255,255,255,0.97);
+    border-bottom: 1px solid #eeeeee;
 }
 
 .navbar {
     max-width: 1200px;
     margin: auto;
     padding: 18px 25px;
+
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -44,40 +47,50 @@ header {
 .logo {
     font-size: 24px;
     font-weight: bold;
-    color: #164a3a;
+    color: #174b3b;
 }
 
 .logo span {
-    color: #c69b52;
+    color: #c79a4b;
 }
 
 nav a {
     text-decoration: none;
     color: #333;
-    margin-left: 25px;
-    font-weight: 500;
+    margin-left: 24px;
+    font-size: 15px;
+    font-weight: 600;
 }
 
 nav a:hover {
-    color: #c69b52;
+    color: #c79a4b;
 }
 
-/* HERO */
+/* ================= HERO ================= */
 
 .hero {
     min-height: 650px;
-    background: linear-gradient(
-        rgba(0,0,0,0.45),
-        rgba(0,0,0,0.45)
-    ),
-    linear-gradient(135deg, #164a3a, #286b54, #c69b52);
 
     display: flex;
     align-items: center;
     justify-content: center;
+
     text-align: center;
     color: white;
+
     padding: 60px 20px;
+
+    background:
+        linear-gradient(
+            rgba(0,0,0,0.45),
+            rgba(0,0,0,0.45)
+        ),
+        linear-gradient(
+            135deg,
+            #174b3b,
+            #287258,
+            #c79a4b
+        );
 }
 
 .hero-content {
@@ -85,249 +98,13 @@ nav a:hover {
 }
 
 .hero h1 {
-    font-size: clamp(42px, 8vw, 78px);
-    margin-bottom: 20px;
+    font-size: clamp(45px, 8vw, 80px);
     line-height: 1.1;
+    margin-bottom: 20px;
 }
 
 .hero p {
-    font-size: 20px;
-    max-width: 650px;
+    max-width: 680px;
     margin: 0 auto 30px;
-}
 
-.btn {
-    display: inline-block;
-    background: #c69b52;
-    color: white;
-    padding: 14px 30px;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.btn:hover {
-    background: #a97d38;
-}
-
-/* GENERAL */
-
-section {
-    padding: 80px 20px;
-}
-
-.container {
-    max-width: 1150px;
-    margin: auto;
-}
-
-.section-title {
-    text-align: center;
-    margin-bottom: 45px;
-}
-
-.section-title h2 {
-    font-size: 38px;
-    color: #164a3a;
-    margin-bottom: 10px;
-}
-
-.section-title p {
-    color: #777;
-}
-
-/* DESTINATIONS */
-
-.destination-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 25px;
-}
-
-.card {
-    border: 1px solid #eeeeee;
-    border-radius: 12px;
-    overflow: hidden;
-    background: white;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.06);
-}
-
-.card-top {
-    height: 180px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 25px;
-    font-weight: bold;
-}
-
-.sigiriya {
-    background: linear-gradient(135deg, #b77b3d, #e2b66d);
-}
-
-.kandy {
-    background: linear-gradient(135deg, #315f48, #83a66f);
-}
-
-.ella {
-    background: linear-gradient(135deg, #416d62, #9ab69d);
-}
-
-.yala {
-    background: linear-gradient(135deg, #596b35, #b1a65d);
-}
-
-.galle {
-    background: linear-gradient(135deg, #315b66, #9ab8bd);
-}
-
-.mirissa {
-    background: linear-gradient(135deg, #17758a, #6cc2ca);
-}
-
-.card-content {
-    padding: 22px;
-}
-
-.card-content h3 {
-    color: #164a3a;
-    margin-bottom: 8px;
-}
-
-.card-content p {
-    color: #666;
-}
-
-/* TOURS */
-
-.tours {
-    background: #f7f7f5;
-}
-
-.tour-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 25px;
-}
-
-.tour {
-    background: white;
-    padding: 30px;
-    border-radius: 12px;
-    border: 1px solid #eeeeee;
-}
-
-.tour h3 {
-    color: #164a3a;
-    margin-bottom: 12px;
-}
-
-.tour p {
-    color: #666;
-    margin-bottom: 20px;
-}
-
-.price {
-    color: #c69b52;
-    font-weight: bold;
-}
-
-/* WHY US */
-
-.features {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-}
-
-.feature {
-    text-align: center;
-    padding: 25px;
-}
-
-.feature-icon {
-    font-size: 40px;
-    margin-bottom: 15px;
-}
-
-.feature h3 {
-    color: #164a3a;
-    margin-bottom: 8px;
-}
-
-.feature p {
-    color: #777;
-}
-
-/* CTA */
-
-.cta {
-    background: #164a3a;
-    color: white;
-    text-align: center;
-}
-
-.cta h2 {
-    font-size: 40px;
-    margin-bottom: 15px;
-}
-
-.cta p {
-    margin-bottom: 25px;
-}
-
-/* FOOTER */
-
-footer {
-    background: #102f26;
-    color: #ccc;
-    text-align: center;
-    padding: 30px 20px;
-}
-
-footer strong {
-    color: white;
-}
-
-/* MOBILE */
-
-@media (max-width: 800px) {
-
-    .navbar {
-        flex-direction: column;
-        gap: 15px;
-    }
-
-    nav a {
-        margin: 0 7px;
-        font-size: 14px;
-    }
-
-    .hero {
-        min-height: 550px;
-    }
-
-    .hero h1 {
-        font-size: 45px;
-    }
-
-    .hero p {
-        font-size: 17px;
-    }
-
-    .destination-grid,
-    .tour-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .features {
-        grid-template-columns: 1fr 1fr;
-    }
-}
-
-@media (max-width: 500px) {
-
-    .features {
-        grid-template-columns: 1fr;
-   
+    font-size:
