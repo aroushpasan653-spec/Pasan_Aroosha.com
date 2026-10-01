@@ -2,311 +2,220 @@
 <html lang="en">
 
 <head>
-
   <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Login | Pasan Aroosha</title>
 
-
   <style>
-
     * {
       box-sizing: border-box;
     }
 
     body {
-
       margin: 0;
-
       font-family: Arial, sans-serif;
-
       background: #0b0f19;
-
       color: white;
-
       min-height: 100vh;
-
       display: flex;
-
       justify-content: center;
-
       align-items: center;
-
     }
-
 
     .login-box {
-
       width: 90%;
-
       max-width: 400px;
-
       background: #121826;
-
       padding: 30px;
-
       border-radius: 20px;
-
       border: 1px solid #252d3d;
-
-      box-shadow:
-        0 20px 50px rgba(0,0,0,0.4);
-
+      box-shadow: 0 20px 50px rgba(0,0,0,0.4);
     }
-
 
     h1 {
-
       text-align: center;
-
       margin-bottom: 25px;
-
     }
-
 
     input {
-
       width: 100%;
-
       padding: 14px;
-
       margin-bottom: 15px;
-
       border-radius: 10px;
-
       border: 1px solid #30394d;
-
       background: #0b0f19;
-
       color: white;
-
       outline: none;
-
     }
-
 
     input:focus {
-
       border-color: #8b5cf6;
-
     }
-
 
     button {
-
       width: 100%;
-
       padding: 14px;
-
       margin-top: 10px;
-
       border: none;
-
       border-radius: 10px;
-
       background: #8b5cf6;
-
       color: white;
-
       font-size: 16px;
-
       font-weight: bold;
-
       cursor: pointer;
-
     }
-
 
     button:hover {
-
       background: #7c3aed;
-
     }
 
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
 
     .back {
-
       display: block;
-
       text-align: center;
-
       margin-top: 20px;
-
       color: #a78bfa;
-
       text-decoration: none;
-
     }
-
 
     #message {
-
       text-align: center;
-
       margin-top: 15px;
-
       color: #aeb4c2;
-
       font-size: 14px;
-
+      line-height: 1.5;
     }
-
   </style>
-
 </head>
-
 
 <body>
 
-
   <div class="login-box">
 
-
-    <h1>
-      Login
-    </h1>
-
+    <h1>Login</h1>
 
     <input
       type="email"
       id="email"
       placeholder="Email address"
+      autocomplete="email"
     >
-
 
     <input
       type="password"
       id="password"
       placeholder="Password"
+      autocomplete="current-password"
     >
-
 
     <button id="loginBtn">
       Login
     </button>
 
-
     <button id="signupBtn">
       Create Account
     </button>
 
-
     <p id="message"></p>
 
-
-    <a
-      href="index.html"
-      class="back"
-    >
+    <a href="index.html" class="back">
       ← Back to website
     </a>
-
 
   </div>
 
 
-
   <script type="module">
 
-
-    import {
-      initializeApp
-    } from
-      "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
-
+    import { initializeApp }
+      from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
 
     import {
       getAuth,
       createUserWithEmailAndPassword,
       signInWithEmailAndPassword
-    } from
-      "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+    }
+      from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
 
 
     const firebaseConfig = {
 
-      apiKey:
-        "AIzaSyB3G98XBTZH6NFiZx6NQmyEKR8g6vnSYNQ",
+      apiKey: "AIzaSyB3G98XBTZH6NFiZx6NQmyEKR8g6vnSYNQ",
 
-      authDomain:
-        "pasan-fc8e2.firebaseapp.com",
+      authDomain: "pasan-fc8e2.firebaseapp.com",
 
-      projectId:
-        "pasan-fc8e2",
+      projectId: "pasan-fc8e2",
 
-      storageBucket:
-        "pasan-fc8e2.firebasestorage.app",
+      storageBucket: "pasan-fc8e2.firebasestorage.app",
 
-      messagingSenderId:
-        "330282693990",
+      messagingSenderId: "330282693990",
 
-      appId:
-        "1:330282693990:web:f754a4a09efaa73ab5c4a7",
+      appId: "1:330282693990:web:f754a4a09efaa73ab5c4a7",
 
-      measurementId:
-        "G-B12LL33EQ3"
+      measurementId: "G-B12LL33EQ3"
 
     };
 
 
-    const app =
-      initializeApp(firebaseConfig);
+    const app = initializeApp(firebaseConfig);
+
+    const auth = getAuth(app);
 
 
-    const auth =
-      getAuth(app);
+    const emailInput = document.getElementById("email");
+
+    const passwordInput = document.getElementById("password");
+
+    const message = document.getElementById("message");
+
+    const loginBtn = document.getElementById("loginBtn");
+
+    const signupBtn = document.getElementById("signupBtn");
 
 
-    const emailInput =
-      document.getElementById("email");
+    // -------------------------
+    // CREATE ACCOUNT
+    // -------------------------
+
+    signupBtn.addEventListener("click", async function () {
+
+      const email = emailInput.value.trim();
+
+      const password = passwordInput.value;
 
 
-    const passwordInput =
-      document.getElementById("password");
+      if (!email || !password) {
+
+        message.textContent =
+          "Please enter your email and password.";
+
+        return;
+      }
 
 
-    const message =
-      document.getElementById("message");
+      if (password.length < 6) {
+
+        message.textContent =
+          "Password must be at least 6 characters.";
+
+        return;
+      }
 
 
-    const loginBtn =
-      document.getElementById("loginBtn");
+      signupBtn.disabled = true;
+
+      message.textContent =
+        "Creating your account...";
 
 
-    const signupBtn =
-      document.getElementById("signupBtn");
+      try {
 
-
-
-    signupBtn.addEventListener(
-      "click",
-      async () => {
-
-        const email =
-          emailInput.value.trim();
-
-
-        const password =
-          passwordInput.value;
-
-
-        if (!email || !password) {
-
-          message.textContent =
-            "Please enter email and password.";
-
-          return;
-
-        }
-
-
-        try {
-
+        const userCredential =
           await createUserWithEmailAndPassword(
             auth,
             email,
@@ -314,54 +223,66 @@
           );
 
 
-          message.textContent =
-            "Account created successfully!";
+        console.log(
+          "Account created:",
+          userCredential.user.email
+        );
 
 
-          setTimeout(() => {
-
-            window.location.href =
-              "index.html";
-
-          }, 1000);
+        message.textContent =
+          "✅ Account created successfully!";
 
 
-        } catch (error) {
+        setTimeout(function () {
 
-          message.textContent =
-            error.message;
+          window.location.href = "index.html";
 
-        }
+        }, 1000);
+
+
+      } catch (error) {
+
+        console.error(error);
+
+        message.textContent =
+          "❌ " + error.code + " — " + error.message;
+
+        signupBtn.disabled = false;
 
       }
-    );
+
+    });
 
 
+    // -------------------------
+    // LOGIN
+    // -------------------------
 
-    loginBtn.addEventListener(
-      "click",
-      async () => {
+    loginBtn.addEventListener("click", async function () {
 
-        const email =
-          emailInput.value.trim();
+      const email = emailInput.value.trim();
 
-
-        const password =
-          passwordInput.value;
+      const password = passwordInput.value;
 
 
-        if (!email || !password) {
+      if (!email || !password) {
 
-          message.textContent =
-            "Please enter email and password.";
+        message.textContent =
+          "Please enter your email and password.";
 
-          return;
+        return;
+      }
 
-        }
+
+      loginBtn.disabled = true;
+
+      message.textContent =
+        "Logging in...";
 
 
-        try {
+      try {
 
+        const userCredential =
           await signInWithEmailAndPassword(
             auth,
             email,
@@ -369,31 +290,38 @@
           );
 
 
-          message.textContent =
-            "Login successful!";
+        console.log(
+          "Logged in:",
+          userCredential.user.email
+        );
 
 
-          setTimeout(() => {
-
-            window.location.href =
-              "index.html";
-
-          }, 500);
+        message.textContent =
+          "✅ Login successful!";
 
 
-        } catch (error) {
+        setTimeout(function () {
 
-          message.textContent =
-            error.message;
+          window.location.href = "index.html";
 
-        }
+        }, 700);
+
+
+      } catch (error) {
+
+        console.error(error);
+
+        message.textContent =
+          "❌ " + error.code + " — " + error.message;
+
+        loginBtn.disabled = false;
 
       }
-    );
+
+    });
 
 
   </script>
-
 
 </body>
 
