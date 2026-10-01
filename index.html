@@ -38,11 +38,43 @@
 
 .nav-links {
   display: flex;
-  align-items: center;
-  gap: 28px;
-  list-style: none;
 
-  background: transparent !important;
+  position: fixed;
+  top: 65px;
+
+  left: 0;
+  right: auto;
+
+  width: 230px;
+
+  flex-direction: column;
+  align-items: flex-start;
+
+  gap: 0;
+  padding: 15px 20px;
+
+  background: rgba(11, 15, 25, 0.45) !important;
+
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-left: none;
+
+  border-radius: 0 12px 12px 0;
+
+  box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.2);
+
+  /* Hidden on the LEFT */
+  transform: translateX(-100%);
+
+  transition: transform 0.3s ease;
+
+  z-index: 10000;
+}
+
+.nav-links.active {
+  transform: translateX(0);
 }
 
     .nav-container {
