@@ -1,1426 +1,875 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
   <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Pasan Aroosha | Personal Blog</title>
 
-
   <style>
-
     * {
-      box-sizing: border-box;
       margin: 0;
       padding: 0;
-    }
-
-
-    html {
+      box-sizing: border-box;
       scroll-behavior: smooth;
-      scroll-padding-top: 90px;
     }
-
 
     body {
-
-      font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
+      font-family: Arial, sans-serif;
       background: #0b0f19;
-
-      color: white;
-
+      color: #ffffff;
       line-height: 1.6;
-
     }
 
-
-    /* =========================
-       NAVBAR
-    ========================= */
+    /* ================= NAVBAR ================= */
 
     nav {
-
       position: sticky;
-
       top: 0;
-
       z-index: 9999;
-
       background: transparent;
-backdrop-filter: none;
--webkit-backdrop-filter: none;
-border-bottom: none;
-
-      backdrop-filter:
-        blur(15px);
-
-      border-bottom:
-        1px solid #20283a;
-
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      border-bottom: none;
     }
-
 
     .nav-container {
-
       max-width: 1200px;
-
       margin: auto;
-
-      min-height: 76px;
-
-      padding:
-        0 25px;
+      padding: 18px 25px;
 
       display: flex;
-
       align-items: center;
-
       justify-content: space-between;
-
     }
-
-
-    /* =========================
-       LOGO
-    ========================= */
 
     .logo {
-
-      color: white;
-
+      color: #ffffff;
       text-decoration: none;
-
       font-size: 24px;
-
-      font-weight: 800;
-
-      letter-spacing: -0.5px;
-
-      white-space: nowrap;
-
+      font-weight: bold;
+      letter-spacing: 0.5px;
     }
-
 
     .logo span {
-
       color: #8b5cf6;
-
     }
-
-
-    /* =========================
-       DESKTOP MENU
-    ========================= */
 
     .nav-links {
-
       display: flex;
-
       align-items: center;
-
-      gap: 30px;
-
+      gap: 28px;
       list-style: none;
-
     }
-
 
     .nav-links a {
-
-      color: #d1d5db;
-
+      color: #ffffff;
       text-decoration: none;
-
-      font-size: 14px;
-
-      font-weight: 600;
-
-      transition:
-        color 0.25s,
-        transform 0.25s;
-
-      position: relative;
-
+      font-size: 15px;
+      font-weight: 500;
+      transition: 0.3s;
     }
-
 
     .nav-links a:hover {
-
-      color: #a78bfa;
-
+      color: #8b5cf6;
     }
-
-
-    .nav-links a:not(#loginLink)::after {
-
-      content: "";
-
-      position: absolute;
-
-      left: 50%;
-
-      bottom: -8px;
-
-      width: 0;
-
-      height: 2px;
-
-      background: #8b5cf6;
-
-      transform:
-        translateX(-50%);
-
-      transition: 0.25s;
-
-    }
-
-
-    .nav-links a:not(#loginLink):hover::after {
-
-      width: 100%;
-
-    }
-
-
-    /* =========================
-       LOGIN BUTTON
-    ========================= */
-
-    #loginLink {
-
-      background: #8b5cf6;
-
-      color: white;
-
-      padding:
-        10px 18px;
-
-      border-radius: 8px;
-
-      font-weight: 700;
-
-    }
-
-
-    #loginLink:hover {
-
-      background: #7c3aed;
-
-      color: white;
-
-      transform:
-        translateY(-1px);
-
-    }
-
-
-    /* =========================
-       USER EMAIL
-    ========================= */
 
     #userEmail {
-
       display: none;
-
-      color: #a78bfa;
-
-      font-size: 13px;
-
-      max-width: 170px;
-
+      color: #c4b5fd;
+      font-size: 14px;
+      max-width: 180px;
       overflow: hidden;
-
       text-overflow: ellipsis;
-
       white-space: nowrap;
-
     }
-
-
-    /* =========================
-       LOGOUT
-    ========================= */
 
     #logoutBtn {
-
       display: none;
-
-      padding:
-        9px 15px;
-
-      border:
-        1px solid #6d28d9;
-
+      border: none;
+      background: #8b5cf6;
+      color: white;
+      padding: 9px 16px;
       border-radius: 8px;
-
-      background: transparent;
-
-      color: #c4b5fd;
-
       cursor: pointer;
-
-      font-weight: 700;
-
+      font-size: 14px;
+      font-weight: 600;
+      transition: 0.3s;
     }
-
 
     #logoutBtn:hover {
-
-      background:
-        rgba(139, 92, 246, 0.12);
-
+      background: #7c3aed;
+      transform: translateY(-1px);
     }
 
-
-    /* =========================
-       MOBILE MENU BUTTON
-    ========================= */
-
-    .menu-toggle {
-
+    .menu-btn {
       display: none;
-
+      background: none;
       border: none;
-
-      background: transparent;
-
       color: white;
-
-      font-size: 30px;
-
+      font-size: 28px;
       cursor: pointer;
-
-      line-height: 1;
-
     }
 
-
-    /* =========================
-       HERO
-    ========================= */
-
-    #home {
-
-      scroll-margin-top: 90px;
-
-    }
-
+    /* ================= HERO ================= */
 
     .hero {
-
       min-height: 88vh;
-
       max-width: 1200px;
-
       margin: auto;
-
-      padding:
-        80px 25px;
+      padding: 80px 25px;
 
       display: flex;
-
       align-items: center;
-
-      justify-content: center;
-
+      justify-content: space-between;
+      gap: 60px;
     }
 
-
-    .hero-content {
-
-      text-align: center;
-
-      max-width: 850px;
-
+    .hero-text {
+      flex: 1;
     }
 
-
-    .profile-image {
-
-      width: 155px;
-
-      height: 155px;
-
-      object-fit: cover;
-
-      border-radius: 50%;
-
-      border:
-        4px solid #8b5cf6;
-
-      margin-bottom: 25px;
-
-      box-shadow:
-        0 0 50px
-        rgba(139, 92, 246, 0.28);
-
+    .hero-text .small-title {
+      color: #a78bfa;
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 12px;
     }
 
-
-    .hero h1 {
-
-      font-size:
-        clamp(40px, 7vw, 72px);
-
+    .hero-text h1 {
+      font-size: 58px;
       line-height: 1.1;
-
-      margin-bottom: 18px;
-
+      margin-bottom: 20px;
     }
 
-
-    .hero h1 span {
-
+    .hero-text h1 span {
       color: #8b5cf6;
-
     }
 
-
-    .hero p {
-
-      color: #9ca3af;
-
+    .hero-text p {
+      color: #a7adbd;
       font-size: 18px;
-
-      margin-bottom: 32px;
-
+      max-width: 600px;
+      margin-bottom: 30px;
     }
-
 
     .hero-buttons {
-
       display: flex;
-
-      justify-content: center;
-
-      gap: 12px;
-
+      gap: 15px;
       flex-wrap: wrap;
-
     }
-
 
     .btn {
-
       display: inline-block;
-
-      padding:
-        13px 23px;
-
-      border-radius: 9px;
-
       text-decoration: none;
-
-      font-weight: 700;
-
-      transition: 0.25s;
-
+      padding: 13px 22px;
+      border-radius: 9px;
+      font-weight: 600;
+      transition: 0.3s;
     }
-
 
     .btn-primary {
-
       background: #8b5cf6;
-
       color: white;
-
     }
-
 
     .btn-primary:hover {
-
       background: #7c3aed;
-
-      transform:
-        translateY(-2px);
-
+      transform: translateY(-2px);
     }
-
 
     .btn-secondary {
-
-      border:
-        1px solid #3b465d;
-
-      color: #d1d5db;
-
+      border: 1px solid #8b5cf6;
+      color: #c4b5fd;
     }
-
 
     .btn-secondary:hover {
-
-      border-color: #8b5cf6;
-
-      color: #c4b5fd;
-
+      background: #8b5cf6;
+      color: white;
     }
 
+    .hero-image {
+      flex: 0 0 340px;
+      display: flex;
+      justify-content: center;
+    }
 
-    /* =========================
-       SECTIONS
-    ========================= */
+    .hero-image img {
+      width: 310px;
+      height: 310px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 5px solid #8b5cf6;
+      box-shadow: 0 0 40px rgba(139, 92, 246, 0.35);
+    }
+
+    /* ================= SECTIONS ================= */
 
     section {
-
       max-width: 1200px;
-
       margin: auto;
-
-      padding:
-        100px 25px;
-
-      scroll-margin-top: 80px;
-
+      padding: 90px 25px;
     }
-
 
     .section-title {
-
       text-align: center;
-
-      font-size: 34px;
-
-      margin-bottom: 45px;
-
+      margin-bottom: 50px;
     }
 
-
-    .section-title span {
-
-      color: #8b5cf6;
-
+    .section-title h2 {
+      font-size: 38px;
+      margin-bottom: 10px;
     }
 
+    .section-title p {
+      color: #8f96a8;
+    }
 
-    /* =========================
-       ABOUT
-    ========================= */
+    /* ================= ABOUT ================= */
 
-    .about-card {
-
+    .about-box {
+      background: #111827;
+      border: 1px solid #20283a;
+      border-radius: 18px;
+      padding: 40px;
       max-width: 900px;
-
       margin: auto;
-
-      background: #121826;
-
-      border:
-        1px solid #252d3d;
-
-      border-radius: 20px;
-
-      padding: 35px;
-
-      color: #b7bfce;
-
-      text-align: center;
-
     }
 
-
-    .about-card p {
-
-      margin-bottom: 15px;
-
+    .about-box p {
+      color: #b7bdca;
+      font-size: 17px;
     }
 
-
-    /* =========================
-       BLOG
-    ========================= */
+    /* ================= BLOG ================= */
 
     .blog-grid {
-
       display: grid;
-
-      grid-template-columns:
-        repeat(3, 1fr);
-
-      gap: 22px;
-
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
     }
-
 
     .blog-card {
-
-      background: #121826;
-
-      border:
-        1px solid #252d3d;
-
-      border-radius: 18px;
-
-      padding: 27px;
-
-      transition:
-        transform 0.25s,
-        border-color 0.25s;
-
+      background: #111827;
+      border: 1px solid #20283a;
+      border-radius: 16px;
+      padding: 28px;
+      transition: 0.3s;
     }
-
 
     .blog-card:hover {
-
-      transform:
-        translateY(-6px);
-
-      border-color:
-        #6d28d9;
-
+      transform: translateY(-6px);
+      border-color: #8b5cf6;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
     }
 
+    .blog-icon {
+      width: 50px;
+      height: 50px;
+      background: rgba(139, 92, 246, 0.15);
+      color: #a78bfa;
+      border-radius: 12px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-size: 22px;
+      margin-bottom: 20px;
+    }
 
     .blog-card h3 {
-
+      font-size: 21px;
       margin-bottom: 12px;
-
-      color: white;
-
-      font-size: 20px;
-
     }
-
 
     .blog-card p {
-
-      color: #9ca3af;
-
-      font-size: 14px;
-
+      color: #9299aa;
+      font-size: 15px;
     }
 
-
-    .read-more {
-
-      display: inline-block;
-
-      margin-top: 18px;
-
-      color: #a78bfa;
-
-      text-decoration: none;
-
-      font-size: 14px;
-
-      font-weight: bold;
-
-    }
-
-
-    .read-more:hover {
-
-      color: #c4b5fd;
-
-    }
-
-
-    /* =========================
-       CONTACT
-    ========================= */
+    /* ================= CONTACT ================= */
 
     .contact-box {
+      background: linear-gradient(
+        135deg,
+        #151126,
+        #111827
+      );
 
-      max-width: 900px;
-
-      margin: auto;
-
+      border: 1px solid #2c2250;
+      border-radius: 20px;
+      padding: 50px;
       text-align: center;
-
-      background:
-        linear-gradient(
-          135deg,
-          #17122b,
-          #121826
-        );
-
-      border:
-        1px solid #302454;
-
-      border-radius: 22px;
-
-      padding:
-        50px 25px;
-
     }
 
+    .contact-box h2 {
+      font-size: 32px;
+      margin-bottom: 15px;
+    }
 
     .contact-box p {
-
       color: #9ca3af;
-
       margin-bottom: 25px;
-
     }
 
+    .whatsapp-btn {
+      display: inline-block;
+      background: #25d366;
+      color: white;
+      text-decoration: none;
+      padding: 13px 24px;
+      border-radius: 9px;
+      font-weight: bold;
+      transition: 0.3s;
+    }
 
-    /* =========================
-       FOOTER
-    ========================= */
+    .whatsapp-btn:hover {
+      transform: translateY(-2px);
+      opacity: 0.9;
+    }
+
+    /* ================= FOOTER ================= */
 
     footer {
-
-      border-top:
-        1px solid #20283a;
-
+      border-top: 1px solid #1d2433;
+      padding: 30px 20px;
       text-align: center;
-
-      padding:
-        28px 20px;
-
-      color: #667085;
-
-      font-size: 13px;
-
+      color: #737b8f;
+      font-size: 14px;
     }
 
-
-    /* =========================
-       MOBILE
-    ========================= */
+    /* ================= MOBILE ================= */
 
     @media (max-width: 850px) {
 
-      .menu-toggle {
-
-        display: block;
-
-      }
-
-
-      .nav-container {
-
-        min-height: 70px;
-
-      }
-
-
       .nav-links {
-
-        position: absolute;
-
-        top: 70px;
-
-        left: 0;
-
-        width: 100%;
-
-        background:
-          rgba(11, 15, 25, 0.98);
-
-        border-bottom:
-          1px solid #20283a;
-
         display: none;
+        position: absolute;
+        top: 70px;
+        left: 15px;
+        right: 15px;
 
         flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
 
-        align-items: center;
-
-        gap: 22px;
-
-        padding:
-          25px 20px;
-
+        background: #111827;
+        border: 1px solid #252d40;
+        border-radius: 12px;
+        padding: 10px;
       }
-
 
       .nav-links.active {
-
         display: flex;
-
       }
 
+      .nav-links li {
+        width: 100%;
+      }
 
       .nav-links a {
-
-        font-size: 15px;
-
+        display: block;
+        width: 100%;
+        padding: 12px;
       }
 
+      #userEmail {
+        display: block;
+        width: 100%;
+        max-width: none;
+        padding: 12px;
+      }
+
+      #logoutBtn {
+        margin: 8px 12px 12px;
+      }
+
+      .menu-btn {
+        display: block;
+      }
+
+      .hero {
+        flex-direction: column-reverse;
+        text-align: center;
+        padding-top: 50px;
+      }
+
+      .hero-text p {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .hero-buttons {
+        justify-content: center;
+      }
+
+      .hero-image {
+        flex: none;
+      }
+
+      .hero-image img {
+        width: 240px;
+        height: 240px;
+      }
+
+      .hero-text h1 {
+        font-size: 42px;
+      }
 
       .blog-grid {
-
         grid-template-columns: 1fr;
-
       }
-
     }
-
 
     @media (max-width: 500px) {
 
       .nav-container {
-
-        padding:
-          0 18px;
-
+        padding: 15px 18px;
       }
-
 
       .logo {
-
         font-size: 21px;
-
       }
-
-
-      .hero {
-
-        padding:
-          60px 20px;
-
-      }
-
-
-      .hero h1 {
-
-        font-size: 40px;
-
-      }
-
-
-      .hero p {
-
-        font-size: 16px;
-
-      }
-
 
       section {
-
-        padding:
-          75px 20px;
-
+        padding: 70px 18px;
       }
 
-
-      .section-title {
-
-        font-size: 29px;
-
+      .hero {
+        padding: 40px 18px 70px;
       }
 
-
-      .profile-image {
-
-        width: 135px;
-
-        height: 135px;
-
+      .hero-text h1 {
+        font-size: 36px;
       }
 
+      .hero-text p {
+        font-size: 16px;
+      }
+
+      .about-box {
+        padding: 25px;
+      }
+
+      .contact-box {
+        padding: 35px 20px;
+      }
+
+      .section-title h2 {
+        font-size: 31px;
+      }
     }
-
   </style>
-
 </head>
-
 
 <body>
 
-
-  <!-- =========================
-       NAVBAR
-  ========================= -->
+  <!-- ================= NAVBAR ================= -->
 
   <nav>
-
     <div class="nav-container">
 
-
-      <!-- LOGO -->
-
-      <a
-        href="#home"
-        class="logo"
-      >
+      <a href="index.html" class="logo">
         Pasan<span>Aroosha</span>
       </a>
 
-
-      <!-- MOBILE MENU -->
-
-      <button
-        class="menu-toggle"
-        id="menuToggle"
-        type="button"
-        aria-label="Open menu"
-      >
+      <button class="menu-btn" id="menuBtn">
         ☰
       </button>
 
-
-      <!-- MENU -->
-
-      <ul
-        class="nav-links"
-        id="navLinks"
-      >
-
+      <ul class="nav-links" id="navLinks">
 
         <li>
-          <a href="#home">
-            Home
-          </a>
+          <a href="index.html">Home</a>
         </li>
-
 
         <li>
-          <a href="#about">
-            About
-          </a>
+          <a href="#about">About</a>
         </li>
-
 
         <li>
-          <a href="#blog">
-            Blog
-          </a>
+          <a href="#blog">Blog</a>
         </li>
 
+        <!-- GALLERY -->
+        <li>
+          <a href="gallery.html">Gallery</a>
+        </li>
 
         <li>
-          <a href="#contact">
-            Contact
-          </a>
+          <a href="#contact">Contact</a>
         </li>
-
 
         <!-- LOGIN -->
-
-        <li>
-          <a
-            href="login.html"
-            id="loginLink"
-          >
-            Login
-          </a>
+        <li id="loginItem">
+          <a href="login.html" id="loginLink">Login</a>
         </li>
 
-
-        <!-- USER -->
-
+        <!-- USER EMAIL -->
         <li>
           <span id="userEmail"></span>
         </li>
 
-
         <!-- LOGOUT -->
-
         <li>
-          <button
-            id="logoutBtn"
-            type="button"
-          >
-            Logout
-          </button>
+          <button id="logoutBtn">Logout</button>
         </li>
-
 
       </ul>
 
     </div>
-
   </nav>
 
 
+  <!-- ================= HERO ================= -->
 
-  <!-- =========================
-       HOME
-  ========================= -->
-
-  <main id="home">
+  <main>
 
     <div class="hero">
 
-      <div class="hero-content">
+      <div class="hero-text">
 
+        <div class="small-title">
+          Welcome to my personal space
+        </div>
+
+        <h1>
+          Hi, I'm <span>Pasan Aroosha</span>
+        </h1>
+
+        <p>
+          Welcome to my personal blog where I share my
+          thoughts, experiences, memories and adventures.
+        </p>
+
+        <div class="hero-buttons">
+
+          <a href="#blog" class="btn btn-primary">
+            Explore My Blog
+          </a>
+
+          <a href="#about" class="btn btn-secondary">
+            About Me
+          </a>
+
+        </div>
+
+      </div>
+
+
+      <div class="hero-image">
 
         <img
           src="file_00000000024481fab62caedd87400316.png"
           alt="Pasan Aroosha"
-          class="profile-image"
         >
-
-
-        <h1>
-
-          Hi, I'm
-
-          <span>
-            Pasan Aroosha
-          </span>
-
-        </h1>
-
-
-        <p>
-          Welcome to my personal website and blog.
-        </p>
-
-
-        <div class="hero-buttons">
-
-
-          <a
-            href="#blog"
-            class="btn btn-primary"
-          >
-            Explore My Blog
-          </a>
-
-
-          <a
-            href="#about"
-            class="btn btn-secondary"
-          >
-            About Me
-          </a>
-
-
-        </div>
-
 
       </div>
 
     </div>
 
+
+    <!-- ================= ABOUT ================= -->
+
+    <section id="about">
+
+      <div class="section-title">
+
+        <h2>About Me</h2>
+
+        <p>
+          A little bit about myself
+        </p>
+
+      </div>
+
+      <div class="about-box">
+
+        <p>
+          Hello! I'm Pasan Aroosha. This is my personal
+          space on the internet where I share my journey,
+          thoughts, experiences and the things I love.
+
+          <br><br>
+
+          This website is a place to keep my memories,
+          write about my adventures and share my stories
+          with others.
+
+          <br><br>
+
+          Thank you for visiting my website!
+        </p>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================= BLOG ================= -->
+
+    <section id="blog">
+
+      <div class="section-title">
+
+        <h2>My Blog</h2>
+
+        <p>
+          Stories, thoughts and experiences
+        </p>
+
+      </div>
+
+
+      <div class="blog-grid">
+
+        <!-- BLOG 1 -->
+
+        <div class="blog-card">
+
+          <div class="blog-icon">
+            ✍️
+          </div>
+
+          <h3>
+            My First Blog
+          </h3>
+
+          <p>
+            Welcome to my first blog post.
+            Here I share how this journey started
+            and why I created this website.
+          </p>
+
+        </div>
+
+
+        <!-- BLOG 2 -->
+
+        <div class="blog-card">
+
+          <div class="blog-icon">
+            🌍
+          </div>
+
+          <h3>
+            My Journey
+          </h3>
+
+          <p>
+            Every journey has a story.
+            This is a collection of my experiences,
+            lessons and unforgettable moments.
+          </p>
+
+        </div>
+
+
+        <!-- BLOG 3 -->
+
+        <div class="blog-card">
+
+          <div class="blog-icon">
+            🚀
+          </div>
+
+          <h3>
+            New Adventures
+          </h3>
+
+          <p>
+            New places, new experiences and new dreams.
+            Follow along as I continue my journey.
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================= CONTACT ================= -->
+
+    <section id="contact">
+
+      <div class="contact-box">
+
+        <h2>
+          Let's Connect
+        </h2>
+
+        <p>
+          Want to get in touch with me?
+          Feel free to contact me through WhatsApp.
+        </p>
+
+        <a
+          href="https://wa.me/message/XOOAFQKPPUQNP1"
+          target="_blank"
+          class="whatsapp-btn"
+        >
+          💬 Contact Me on WhatsApp
+        </a>
+
+      </div>
+
+    </section>
+
   </main>
 
 
-
-  <!-- =========================
-       ABOUT
-  ========================= -->
-
-  <section id="about">
-
-
-    <h2 class="section-title">
-
-      About
-      <span>Me</span>
-
-    </h2>
-
-
-    <div class="about-card">
-
-      <p>
-        Welcome to my personal space on the internet.
-      </p>
-
-      <p>
-        This website is where I share my thoughts,
-        ideas, experiences and things I enjoy.
-      </p>
-
-      <p>
-        Thanks for visiting Pasan Aroosha.
-      </p>
-
-    </div>
-
-
-  </section>
-
-
-
-  <!-- =========================
-       BLOG
-  ========================= -->
-
-  <section id="blog">
-
-
-    <h2 class="section-title">
-
-      Latest
-      <span>Posts</span>
-
-    </h2>
-
-
-    <div class="blog-grid">
-
-
-      <article class="blog-card">
-
-        <h3>
-          My First Blog
-        </h3>
-
-        <p>
-          Welcome to my personal blog.
-          Here I will share my thoughts,
-          experiences and interesting stories.
-        </p>
-
-        <a
-          href="#"
-          class="read-more"
-        >
-          Read More →
-        </a>
-
-      </article>
-
-
-      <article class="blog-card">
-
-        <h3>
-          My Journey
-        </h3>
-
-        <p>
-          A place where I can share
-          some of the things I learn
-          along my journey.
-        </p>
-
-        <a
-          href="#"
-          class="read-more"
-        >
-          Read More →
-        </a>
-
-      </article>
-
-
-      <article class="blog-card">
-
-        <h3>
-          New Adventures
-        </h3>
-
-        <p>
-          New ideas, new experiences
-          and new things to discover.
-        </p>
-
-        <a
-          href="#"
-          class="read-more"
-        >
-          Read More →
-        </a>
-
-      </article>
-
-
-    </div>
-
-
-  </section>
-
-
-
-  <!-- =========================
-       CONTACT
-  ========================= -->
-
-  <section id="contact">
-
-
-    <h2 class="section-title">
-
-      Get In
-      <span>Touch</span>
-
-    </h2>
-
-
-    <div class="contact-box">
-
-
-      <p>
-        Have something to say?
-        Feel free to get in touch with me.
-      </p>
-
-
-      <a
-        href="https://wa.me/message/XOOAFQKPPUQNP1"
-        class="btn btn-primary"
-        target="_blank"
-        rel="noopener"
-      >
-        Contact Me
-      </a>
-
-
-    </div>
-
-
-  </section>
-
-
-
-  <!-- =========================
-       FOOTER
-  ========================= -->
+  <!-- ================= FOOTER ================= -->
 
   <footer>
 
-    © 2026 Pasan Aroosha.
-    All rights reserved.
+    © 2026 Pasan Aroosha. All rights reserved.
 
   </footer>
 
 
-
-  <!-- =========================
-       FIREBASE
-  ========================= -->
+  <!-- ================= FIREBASE ================= -->
 
   <script type="module">
 
-
     import {
       initializeApp
-    } from
-      "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
-
+    } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
 
     import {
       getAuth,
       onAuthStateChanged,
       signOut
-    } from
-      "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+    } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
 
 
-    /* =========================
-       FIREBASE CONFIG
-    ========================= */
+    /* Firebase Configuration */
 
     const firebaseConfig = {
 
-      apiKey:
-        "AIzaSyB3G98XBTZH6NFiZx6NQmyEKR8g6vnSYNQ",
+      apiKey: "AIzaSyB3G98XBTZH6NFiZx6NQmyEKR8g6vnSYNQ",
 
-      authDomain:
-        "pasan-fc8e2.firebaseapp.com",
+      authDomain: "pasan-fc8e2.firebaseapp.com",
 
-      projectId:
-        "pasan-fc8e2",
+      projectId: "pasan-fc8e2",
 
-      storageBucket:
-        "pasan-fc8e2.firebasestorage.app",
+      storageBucket: "pasan-fc8e2.firebasestorage.app",
 
-      messagingSenderId:
-        "330282693990",
+      messagingSenderId: "330282693990",
 
-      appId:
-        "1:330282693990:web:f754a4a09efaa73ab5c4a7",
+      appId: "1:330282693990:web:f754a4a09efaa73ab5c4a7",
 
-      measurementId:
-        "G-B12LL33EQ3"
+      measurementId: "G-B12LL33EQ3"
 
     };
 
 
-    /* =========================
-       INITIALIZE FIREBASE
-    ========================= */
+    /* Initialize Firebase */
 
-    const app =
-      initializeApp(firebaseConfig);
+    const app = initializeApp(firebaseConfig);
 
-
-    const auth =
-      getAuth(app);
+    const auth = getAuth(app);
 
 
-    /* =========================
-       ELEMENTS
-    ========================= */
+    /* Navbar Elements */
 
     const loginLink =
-      document.getElementById(
-        "loginLink"
-      );
-
+      document.getElementById("loginLink");
 
     const userEmail =
-      document.getElementById(
-        "userEmail"
-      );
-
+      document.getElementById("userEmail");
 
     const logoutBtn =
-      document.getElementById(
-        "logoutBtn"
-      );
+      document.getElementById("logoutBtn");
 
 
-    const menuToggle =
-      document.getElementById(
-        "menuToggle"
-      );
+    /* Firebase Login State */
+
+    onAuthStateChanged(auth, (user) => {
+
+      if (user) {
+
+        /* User is logged in */
+
+        loginLink.style.display = "none";
+
+        userEmail.style.display = "inline";
+
+        logoutBtn.style.display = "inline-block";
+
+        userEmail.textContent = user.email;
+
+      } else {
+
+        /* User is logged out */
+
+        loginLink.style.display = "inline";
+
+        userEmail.style.display = "none";
+
+        logoutBtn.style.display = "none";
+
+      }
+
+    });
 
 
-    const navLinks =
-      document.getElementById(
-        "navLinks"
-      );
+    /* Logout */
 
+    logoutBtn.addEventListener("click", async () => {
 
-    /* =========================
-       MOBILE MENU
-    ========================= */
+      try {
 
-    menuToggle.addEventListener(
-      "click",
-      () => {
+        await signOut(auth);
 
-        navLinks.classList.toggle(
-          "active"
+        alert("You have been logged out.");
+
+        window.location.href = "index.html";
+
+      } catch (error) {
+
+        console.error(error);
+
+        alert(
+          "Logout failed: " + error.message
         );
 
-        if (
-          navLinks.classList.contains(
-            "active"
-          )
-        ) {
-
-          menuToggle.textContent =
-            "✕";
-
-        }
-
-        else {
-
-          menuToggle.textContent =
-            "☰";
-
-        }
-
       }
-    );
+
+    });
 
 
-    /* =========================
-       CLOSE MOBILE MENU
-       AFTER CLICK
-    ========================= */
+    /* ================= MOBILE MENU ================= */
 
-    document
-      .querySelectorAll(
-        ".nav-links a"
-      )
-      .forEach(
-        (link) => {
+    const menuBtn =
+      document.getElementById("menuBtn");
 
-          link.addEventListener(
-            "click",
-            () => {
-
-              navLinks.classList.remove(
-                "active"
-              );
-
-              menuToggle.textContent =
-                "☰";
-
-            }
-          );
-
-        }
-      );
+    const navLinks =
+      document.getElementById("navLinks");
 
 
-    /* =========================
-       LOGIN STATE
-    ========================= */
+    menuBtn.addEventListener("click", () => {
 
-    onAuthStateChanged(
-      auth,
-      (user) => {
+      navLinks.classList.toggle("active");
 
-        if (user) {
-
-          loginLink.style.display =
-            "none";
-
-          userEmail.style.display =
-            "inline";
-
-          logoutBtn.style.display =
-            "inline-block";
-
-          userEmail.textContent =
-            user.email;
-
-        }
-
-        else {
-
-          loginLink.style.display =
-            "inline";
-
-          userEmail.style.display =
-            "none";
-
-          logoutBtn.style.display =
-            "none";
-
-        }
-
-      }
-    );
+    });
 
 
-    /* =========================
-       LOGOUT
-    ========================= */
+    /* Close mobile menu after clicking a link */
 
-    logoutBtn.addEventListener(
-      "click",
-      async () => {
+    document.querySelectorAll(".nav-links a")
+      .forEach(link => {
 
-        try {
+        link.addEventListener("click", () => {
 
-          await signOut(auth);
+          navLinks.classList.remove("active");
 
-          alert(
-            "You have been logged out."
-          );
+        });
 
-          window.location.href =
-            "index.html";
-
-        }
-
-        catch (error) {
-
-          console.error(error);
-
-          alert(
-            "Logout failed: " +
-            error.message
-          );
-
-        }
-
-      }
-    );
-
+      });
 
   </script>
 
-
 </body>
-
 </html>
