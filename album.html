@@ -25,7 +25,7 @@
       top: 0;
       z-index: 9999;
       background: transparent;
-      border-bottom: none;
+      border: none;
     }
 
     .nav-container {
@@ -95,12 +95,12 @@
       cursor: pointer;
     }
 
-    /* PAGE */
+    /* HEADER */
 
     .album-header {
       max-width: 1100px;
       margin: auto;
-      padding: 70px 25px 35px;
+      padding: 65px 25px 35px;
       text-align: center;
     }
 
@@ -155,9 +155,9 @@
       overflow: hidden;
       cursor: pointer;
 
-      border: 1px solid rgba(167,139,250,0.15);
-
       background: #111827;
+
+      border: 1px solid rgba(167,139,250,0.15);
 
       transition: 0.35s;
     }
@@ -172,7 +172,6 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-
       transition: 0.4s;
     }
 
@@ -180,21 +179,21 @@
       transform: scale(1.05);
     }
 
-    /* EMPTY MESSAGE */
+    /* EMPTY */
 
     .empty {
       display: none;
-
-      max-width: 600px;
-      margin: 20px auto 100px;
-      padding: 30px;
-
       text-align: center;
-
+      padding: 30px 20px 100px;
       color: #a1a1aa;
     }
 
-    /* FULL SCREEN IMAGE */
+    .empty h2 {
+      color: white;
+      margin-bottom: 10px;
+    }
+
+    /* LIGHTBOX */
 
     .lightbox {
       position: fixed;
@@ -205,8 +204,7 @@
       align-items: center;
       justify-content: center;
 
-      background: rgba(0,0,0,0.92);
-
+      background: rgba(0,0,0,0.94);
       padding: 25px;
     }
 
@@ -217,20 +215,17 @@
     .lightbox img {
       max-width: 95%;
       max-height: 90vh;
-
       object-fit: contain;
-
       border-radius: 10px;
     }
 
     .close-lightbox {
       position: absolute;
-      top: 20px;
+      top: 15px;
       right: 25px;
 
-      font-size: 35px;
+      font-size: 40px;
       color: white;
-
       cursor: pointer;
     }
 
@@ -242,6 +237,8 @@
 
       border-top: 1px solid rgba(255,255,255,0.08);
     }
+
+    /* MOBILE */
 
     @media (max-width: 850px) {
 
@@ -282,6 +279,14 @@
 
     @media (max-width: 550px) {
 
+      .nav-container {
+        padding: 0 18px;
+      }
+
+      .logo {
+        font-size: 21px;
+      }
+
       .photo-grid {
         grid-template-columns: 1fr;
         padding: 20px 18px 70px;
@@ -292,7 +297,7 @@
       }
 
       .album-header {
-        padding: 55px 18px 30px;
+        padding: 50px 18px 30px;
       }
 
       .album-header h1 {
@@ -307,7 +312,6 @@
   <!-- NAVBAR -->
 
   <nav>
-
     <div class="nav-container">
 
       <a href="index.html" class="logo">
@@ -345,9 +349,7 @@
         </button>
 
       </div>
-
     </div>
-
   </nav>
 
 
@@ -364,32 +366,38 @@
     </h1>
 
     <p id="albumDescription">
-      My photo collection
+      My photos
     </p>
 
   </section>
 
 
-  <!-- PHOTOS -->
+  <!-- PHOTO GRID -->
 
-  <section class="photo-grid" id="photoGrid">
-  </section>
+  <section
+    class="photo-grid"
+    id="photoGrid"
+  ></section>
 
 
-  <div class="empty" id="emptyMessage">
-
+  <div
+    class="empty"
+    id="emptyMessage"
+  >
     <h2>No Photos Yet</h2>
 
     <p>
-      Photos will be added to this album soon.
+      Add photos to this album.
     </p>
-
   </div>
 
 
-  <!-- IMAGE LIGHTBOX -->
+  <!-- LIGHTBOX -->
 
-  <div class="lightbox" id="lightbox">
+  <div
+    class="lightbox"
+    id="lightbox"
+  >
 
     <div
       class="close-lightbox"
@@ -401,7 +409,7 @@
     <img
       id="lightboxImage"
       src=""
-      alt="Full Photo"
+      alt="Photo"
     >
 
   </div>
@@ -469,7 +477,6 @@
     const logoutBtn =
       document.getElementById("logoutBtn");
 
-
     const albumTitle =
       document.getElementById("albumTitle");
 
@@ -483,7 +490,9 @@
       document.getElementById("emptyMessage");
 
 
-    /* ALBUM INFORMATION */
+    /* =========================
+       ALBUM NAMES
+       ========================= */
 
     const albums = {
 
@@ -520,7 +529,9 @@
     };
 
 
-    /* GET ALBUM FROM URL */
+    /* =========================
+       GET ALBUM FROM URL
+       ========================= */
 
     const params =
       new URLSearchParams(
@@ -531,38 +542,187 @@
       params.get("album");
 
 
-    /* AUTHENTICATION */
+    /* ==================================================
+       PHOTO NAMES
+       ==================================================
 
-    onAuthStateChanged(auth, (user) => {
+       මෙතන තමයි photo names දාන්න ඕන.
 
-      if (!user) {
+       Example:
 
-        window.location.href =
-          "login.html?redirect=gallery.html&album="
-          + encodeURIComponent(
-              albumName || ""
-            );
+       "gallery/album1/photo1.jpg"
 
-        return;
+       කියන්නේ:
+
+       gallery folder
+       → album1 folder
+       → photo1.jpg
+
+       ඔයාගේ GitHub filename එකට EXACT
+       match වෙන්න ඕන.
+    */
+
+
+    const photos = {
+
+      /* ALBUM 1 */
+
+      album1: [
+
+        "gallery/album1/photo1.jpg",
+        "gallery/album1/photo2.jpg",
+        "gallery/album1/photo3.jpg",
+        "gallery/album1/photo4.jpg",
+        "gallery/album1/photo5.jpg",
+        "gallery/album1/photo6.jpg",
+        "gallery/album1/photo7.jpg",
+        "gallery/album1/photo8.jpg",
+        "gallery/album1/photo9.jpg",
+        "gallery/album1/photo10.jpg"
+
+      ],
+
+
+      /* ALBUM 2 */
+
+      album2: [
+
+        "gallery/album2/photo1.jpg",
+        "gallery/album2/photo2.jpg",
+        "gallery/album2/photo3.jpg",
+        "gallery/album2/photo4.jpg",
+        "gallery/album2/photo5.jpg",
+        "gallery/album2/photo6.jpg",
+        "gallery/album2/photo7.jpg",
+        "gallery/album2/photo8.jpg",
+        "gallery/album2/photo9.jpg",
+        "gallery/album2/photo10.jpg"
+
+      ],
+
+
+      /* ALBUM 3 */
+
+      album3: [
+
+        "gallery/album3/photo1.jpg",
+        "gallery/album3/photo2.jpg",
+        "gallery/album3/photo3.jpg",
+        "gallery/album3/photo4.jpg",
+        "gallery/album3/photo5.jpg",
+        "gallery/album3/photo6.jpg",
+        "gallery/album3/photo7.jpg",
+        "gallery/album3/photo8.jpg",
+        "gallery/album3/photo9.jpg",
+        "gallery/album3/photo10.jpg"
+
+      ],
+
+
+      /* ALBUM 4 - DREAM */
+
+      dream: [
+
+        "gallery/dream/photo1.jpg",
+        "gallery/dream/photo2.jpg",
+        "gallery/dream/photo3.jpg",
+        "gallery/dream/photo4.jpg",
+        "gallery/dream/photo5.jpg",
+        "gallery/dream/photo6.jpg",
+        "gallery/dream/photo7.jpg",
+        "gallery/dream/photo8.jpg",
+        "gallery/dream/photo9.jpg",
+        "gallery/dream/photo10.jpg"
+
+      ],
+
+
+      /* ALBUM 5 */
+
+      album5: [
+
+        "gallery/album5/photo1.jpg",
+        "gallery/album5/photo2.jpg",
+        "gallery/album5/photo3.jpg",
+        "gallery/album5/photo4.jpg",
+        "gallery/album5/photo5.jpg",
+        "gallery/album5/photo6.jpg",
+        "gallery/album5/photo7.jpg",
+        "gallery/album5/photo8.jpg",
+        "gallery/album5/photo9.jpg",
+        "gallery/album5/photo10.jpg"
+
+      ],
+
+
+      /* ALBUM 6 */
+
+      album6: [
+
+        "gallery/album6/photo1.jpg",
+        "gallery/album6/photo2.jpg",
+        "gallery/album6/photo3.jpg",
+        "gallery/album6/photo4.jpg",
+        "gallery/album6/photo5.jpg",
+        "gallery/album6/photo6.jpg",
+        "gallery/album6/photo7.jpg",
+        "gallery/album6/photo8.jpg",
+        "gallery/album6/photo9.jpg",
+        "gallery/album6/photo10.jpg"
+
+      ]
+
+    };
+
+
+    /* =========================
+       LOGIN CHECK
+       ========================= */
+
+    onAuthStateChanged(
+      auth,
+      (user) => {
+
+        if (!user) {
+
+          const redirect =
+            "gallery.html?album="
+            + encodeURIComponent(
+                albumName || ""
+              );
+
+          window.location.href =
+            "login.html?redirect="
+            + encodeURIComponent(
+                redirect
+              );
+
+          return;
+        }
+
+
+        loginLink.style.display =
+          "none";
+
+        userEmail.style.display =
+          "inline";
+
+        logoutBtn.style.display =
+          "inline-block";
+
+        userEmail.textContent =
+          user.email;
+
+
+        loadAlbum();
+
       }
+    );
 
 
-      loginLink.style.display = "none";
-
-      userEmail.style.display = "inline";
-
-      logoutBtn.style.display = "inline-block";
-
-      userEmail.textContent =
-        user.email;
-
-
-      loadAlbum();
-
-    });
-
-
-    /* LOAD ALBUM */
+    /* =========================
+       LOAD ALBUM
+       ========================= */
 
     function loadAlbum() {
 
@@ -590,83 +750,18 @@
         + album.title
         + "</span>";
 
+
       albumDescription.textContent =
         album.description;
-
-
-      /*
-        මෙතනින් තමයි photos add කරන්නේ.
-
-        උදාහරණයක්:
-
-        "album1": [
-          "gallery/album1/photo1.jpg",
-          "gallery/album1/photo2.jpg"
-        ]
-
-        පස්සේ අපි මේක ඔයාගේ
-        ඇත්ත photos වලට වෙනස් කරමු.
-      */
-
-
-      const photos = {
-
-
-        album1: [
-          /*
-          "gallery/album1/photo1.jpg",
-          "gallery/album1/photo2.jpg"
-          */
-        ],
-
-
-        album2: [
-          /*
-          "gallery/album2/photo1.jpg",
-          "gallery/album2/photo2.jpg"
-          */
-        ],
-
-
-        album3: [
-          /*
-          "gallery/album3/photo1.jpg",
-          "gallery/album3/photo2.jpg"
-          */
-        ],
-
-
-        dream: [
-          /*
-          "gallery/dream/photo1.jpg",
-          "gallery/dream/photo2.jpg"
-          */
-        ],
-
-
-        album5: [
-          /*
-          "gallery/album5/photo1.jpg",
-          "gallery/album5/photo2.jpg"
-          */
-        ],
-
-
-        album6: [
-          /*
-          "gallery/album6/photo1.jpg",
-          "gallery/album6/photo2.jpg"
-          */
-        ]
-
-      };
 
 
       const albumPhotos =
         photos[albumName] || [];
 
 
-      if (albumPhotos.length === 0) {
+      if (
+        albumPhotos.length === 0
+      ) {
 
         emptyMessage.style.display =
           "block";
@@ -683,24 +778,33 @@
         (photoSrc) => {
 
           const photo =
-            document.createElement("div");
+            document.createElement(
+              "div"
+            );
 
           photo.className =
             "photo";
 
 
           const image =
-            document.createElement("img");
+            document.createElement(
+              "img"
+            );
 
-          image.src = photoSrc;
+          image.src =
+            photoSrc;
 
           image.alt =
             album.title;
 
 
-          photo.appendChild(image);
+          photo.appendChild(
+            image
+          );
 
-          photoGrid.appendChild(photo);
+          photoGrid.appendChild(
+            photo
+          );
 
 
           photo.addEventListener(
@@ -723,10 +827,14 @@
     }
 
 
-    /* LIGHTBOX */
+    /* =========================
+       LIGHTBOX
+       ========================= */
 
     const lightbox =
-      document.getElementById("lightbox");
+      document.getElementById(
+        "lightbox"
+      );
 
     const lightboxImage =
       document.getElementById(
@@ -773,7 +881,9 @@
     );
 
 
-    /* LOGOUT */
+    /* =========================
+       LOGOUT
+       ========================= */
 
     logoutBtn.addEventListener(
       "click",
@@ -801,7 +911,9 @@
     );
 
 
-    /* MOBILE MENU */
+    /* =========================
+       MOBILE MENU
+       ========================= */
 
     const menuToggle =
       document.getElementById(
@@ -828,4 +940,4 @@
   </script>
 
 </body>
-</html>
+  </html>
