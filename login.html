@@ -1,0 +1,85 @@
+<script type="module">
+
+  import { initializeApp }
+    from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+
+  import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword
+  } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyB3G98XBTZH6NFiZx6NQmyEKR8g6vnSYNQ",
+    authDomain: "pasan-fc8e2.firebaseapp.com",
+    projectId: "pasan-fc8e2",
+    storageBucket: "pasan-fc8e2.firebasestorage.app",
+    messagingSenderId: "330282693990",
+    appId: "1:330282693990:web:f754a4a09efaa73ab5c4a7",
+    measurementId: "G-B12LL33EQ3"
+  };
+
+
+  const app = initializeApp(firebaseConfig);
+
+  const auth = getAuth(app);
+
+
+  window.signup = async function () {
+
+    const email =
+      document.getElementById("email").value;
+
+    const password =
+      document.getElementById("password").value;
+
+    try {
+
+      await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      document.getElementById("message").innerText =
+        "Account created successfully!";
+
+    } catch (error) {
+
+      document.getElementById("message").innerText =
+        error.message;
+
+    }
+
+  };
+
+
+  window.login = async function () {
+
+    const email =
+      document.getElementById("email").value;
+
+    const password =
+      document.getElementById("password").value;
+
+    try {
+
+      await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      window.location.href = "index.html";
+
+    } catch (error) {
+
+      document.getElementById("message").innerText =
+        error.message;
+
+    }
+
+  };
+
+</script>
