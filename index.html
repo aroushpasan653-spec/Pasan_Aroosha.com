@@ -465,6 +465,94 @@
     align-items: flex-start;
     gap: 0;
 
+    list-style: none !important;
+    margin: 0 !important;
+    padding: 10px 15px !important;
+
+    /* PAZZAN.COM bar eka wage */
+    background: rgba(11, 15, 25, 0.18) !important;
+    backdrop-filter: blur(5px) !important;
+    -webkit-backdrop-filter: blur(5px) !important;
+
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 12px;
+
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.10);
+  }
+
+  .nav-links.active {
+    display: flex !important;
+  }
+
+  .nav-links li {
+    width: 100%;
+    list-style: none !important;
+  }
+
+  .nav-links a {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    color: #ffffff;
+  }
+
+  #userEmail {
+    width: 100%;
+    max-width: none;
+    padding: 12px;
+  }
+
+  #logoutBtn {
+    margin: 8px 12px 12px;
+  }
+
+  .hero {
+    flex-direction: column-reverse;
+    text-align: center;
+    padding-top: 50px;
+  }
+
+  .hero-text p {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hero-buttons {
+    justify-content: center;
+  }
+
+  .hero-image {
+    flex: none;
+  }
+
+  .hero-image img {
+    width: 240px;
+    height: 240px;
+  }
+
+  .hero-text h1 {
+    font-size: 42px;
+  }
+
+  .blog-grid {
+    grid-template-columns: 1fr;
+  }
+    }
+
+  .nav-links {
+    display: none !important;
+
+    position: absolute !important;
+    top: 70px !important;
+    left: auto !important;
+    right: 15px !important;
+
+    width: 230px !important;
+
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+
     /* PAZZAN.COM bar eka wage */
     background: rgba(11, 15, 25, 0.18) !important;
     backdrop-filter: blur(5px) !important;
