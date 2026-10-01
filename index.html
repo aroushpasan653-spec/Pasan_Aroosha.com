@@ -24,27 +24,27 @@
     /* ================= NAVBAR ================= */
 
     nav {
-  position: sticky;
-  top: 0;
-  z-index: 9999;
+      position: sticky;
+      top: 0;
+      z-index: 9999;
 
-  background: rgba(11, 15, 25, 0.18) !important;
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
+      background: rgba(11, 15, 25, 0.18) !important;
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
 
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.10);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.10);
     }
 
     .nav-container {
-  max-width: 1200px;
-  margin: auto;
-  height: 70px;
+      max-width: 1200px;
+      margin: auto;
+      height: 70px;
 
-  display: flex;
-  align-items: right;
+      display: flex;
+      align-items: right;
 
-  padding: 0 25px;
+      padding: 0 25px;
     }
 
     .logo {
@@ -59,34 +59,34 @@
     }
 
     .nav-links {
-  display: none;
+      display: none;
 
-  position: absolute;
+      position: absolute;
 
-  top: 65px;
-  right: 15px;
+      top: 65px;
+      right: 15px;
 
-  width: 230px;
+      width: 230px;
 
-  flex-direction: column;
+      flex-direction: column;
 
-  align-items: flex-start;
+      align-items: flex-start;
 
-  gap: 0;
+      gap: 0;
 
-  padding: 10px 15px;
+      padding: 10px 15px;
 
-  background: rgba(11, 15, 25, 0.45) !important;
+      background: rgba(11, 15, 25, 0.45) !important;
 
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
 
-  border: 1px solid rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.08);
 
-  border-radius: 12px;
+      border-radius: 12px;
 
-  box-shadow:
-    0 10px 30px rgba(0, 0, 0, 0.2);
+      box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.2);
     }
 
     .nav-links a {
@@ -466,6 +466,8 @@
         display: block;
       }
 
+      /* MOBILE RIBBON */
+
       .nav-links {
         display: none;
 
@@ -473,8 +475,13 @@
 
         top: 70px;
 
-        left: 15px;
+        /* ONLY CHANGE:
+           ribbon is now on the RIGHT */
+
+        left: auto;
         right: 15px;
+
+        width: 230px;
 
         flex-direction: column;
 
@@ -482,11 +489,19 @@
 
         gap: 0;
 
-        background: transparent;
+        background: rgba(11, 15, 25, 0.45) !important;
 
-        border: none;
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
 
-        padding: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+
+        border-radius: 12px;
+
+        padding: 10px 15px;
+
+        box-shadow:
+          0 10px 30px rgba(0, 0, 0, 0.2);
       }
 
       .nav-links.active {
@@ -653,8 +668,6 @@
           </a>
         </li>
 
-        <!-- GALLERY -->
-
         <li>
           <a href="gallery.html">
             Gallery
@@ -667,9 +680,6 @@
           </a>
         </li>
 
-
-        <!-- LOGIN -->
-
         <li>
           <a
             href="login.html"
@@ -679,15 +689,9 @@
           </a>
         </li>
 
-
-        <!-- USER EMAIL -->
-
         <li>
           <span id="userEmail"></span>
         </li>
-
-
-        <!-- LOGOUT -->
 
         <li>
           <button id="logoutBtn">
@@ -709,28 +713,22 @@
 
     <div class="hero">
 
-
-      <!-- HERO TEXT -->
-
       <div class="hero-text">
 
         <div class="small-title">
           Welcome to my personal space
         </div>
 
-
         <h1>
           Hi, I'm
           <span>Pasan Aroosha</span>
         </h1>
-
 
         <p>
           Welcome to my personal blog where I share
           my thoughts, experiences, memories and
           adventures.
         </p>
-
 
         <div class="hero-buttons">
 
@@ -740,7 +738,6 @@
           >
             Explore My Blog
           </a>
-
 
           <a
             href="#about"
@@ -754,9 +751,6 @@
       </div>
 
 
-
-      <!-- PROFILE IMAGE -->
-
       <div class="hero-image">
 
         <img
@@ -767,7 +761,6 @@
       </div>
 
     </div>
-
 
 
     <!-- ================= ABOUT ================= -->
@@ -813,7 +806,6 @@
     </section>
 
 
-
     <!-- ================= BLOG ================= -->
 
     <section id="blog">
@@ -833,8 +825,6 @@
 
       <div class="blog-grid">
 
-
-        <!-- BLOG 1 -->
 
         <div class="blog-card">
 
@@ -857,9 +847,6 @@
         </div>
 
 
-
-        <!-- BLOG 2 -->
-
         <div class="blog-card">
 
           <div class="blog-icon">
@@ -880,9 +867,6 @@
 
         </div>
 
-
-
-        <!-- BLOG 3 -->
 
         <div class="blog-card">
 
@@ -906,7 +890,6 @@
       </div>
 
     </section>
-
 
 
     <!-- ================= CONTACT ================= -->
@@ -942,7 +925,6 @@
   </main>
 
 
-
   <!-- ================= FOOTER ================= -->
 
   <footer>
@@ -951,7 +933,6 @@
     All rights reserved.
 
   </footer>
-
 
 
   <!-- ================= FIREBASE ================= -->
@@ -1007,7 +988,6 @@
       getAuth(app);
 
 
-
     /* ================= NAVBAR ELEMENTS ================= */
 
     const loginLink =
@@ -1020,16 +1000,11 @@
       document.getElementById("logoutBtn");
 
 
-
     /* ================= LOGIN STATE ================= */
 
     onAuthStateChanged(auth, (user) => {
 
       if (user) {
-
-        /*
-          User is logged in
-        */
 
         loginLink.style.display =
           "none";
@@ -1045,13 +1020,6 @@
 
       } else {
 
-        /*
-          User is NOT logged in.
-
-          Website remains visible.
-          Login is optional.
-        */
-
         loginLink.style.display =
           "inline";
 
@@ -1064,7 +1032,6 @@
       }
 
     });
-
 
 
     /* ================= LOGOUT ================= */
@@ -1099,7 +1066,6 @@
     );
 
 
-
     /* ================= MOBILE MENU ================= */
 
     const menuBtn =
@@ -1119,7 +1085,6 @@
 
       }
     );
-
 
 
     /* ================= CLOSE MOBILE MENU ================= */
@@ -1144,4 +1109,4 @@
   </script>
 
 </body>
-</html>
+  </html>
