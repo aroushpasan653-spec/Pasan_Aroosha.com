@@ -58,16 +58,32 @@
     }
 
     .nav-links {
-  list-style: none;
-  margin: 0;
-  padding: 10px 15px;
+  display: none !important;
 
+  position: absolute !important;
+  top: 70px !important;
+  left: auto !important;
+  right: 15px !important;
+
+  width: 230px !important;
+
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 10px 15px !important;
+
+  /* PAZZAN.COM bar එකේ same transparent effect */
   background: rgba(11, 15, 25, 0.18) !important;
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
 
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 12px;
+
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.10);
     }
 
 .nav-links.active {
