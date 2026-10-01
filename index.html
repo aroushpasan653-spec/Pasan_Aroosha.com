@@ -34,44 +34,21 @@
 
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-}
+
+  overflow: visible !important;
+    }
 
 .nav-links {
-  display: flex;
-
-  position: fixed;
+  position: absolute;
   top: 65px;
+  right: 15px;
+  left: auto;
 
-  right: 0;
-left: auto;
-transform: translateX(100%);
-
-  width: 230px;
-
-  flex-direction: column;
-  align-items: flex-start;
-
-  gap: 0;
-  padding: 15px 20px;
-
+  /* transparent */
   background: rgba(11, 15, 25, 0.45) !important;
 
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-left: none;
-
-  border-radius: 0 12px 12px 0;
-
-  box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.2);
-
-  /* Hidden on the LEFT */
-  transform: translateX(-100%);
-
-  transition: transform 0.3s ease;
-
-  z-index: 10000;
 }
 
 .nav-links.active {
