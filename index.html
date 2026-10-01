@@ -2,16 +2,11 @@
 <html lang="en">
 
 <head>
-
   <meta charset="UTF-8">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Pasan Aroosha | Personal Blog</title>
-
 
   <style>
 
@@ -21,501 +16,310 @@
       padding: 0;
     }
 
-
     html {
       scroll-behavior: smooth;
+      scroll-padding-top: 85px;
     }
-
 
     body {
-
-      font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
+      font-family: Arial, Helvetica, sans-serif;
       background: #0b0f19;
-
       color: white;
-
       line-height: 1.6;
-
     }
-
 
     /* =========================
        NAVBAR
     ========================= */
 
     nav {
-
       position: sticky;
-
       top: 0;
-
       z-index: 1000;
-
-      background:
-        rgba(11, 15, 25, 0.95);
-
-      backdrop-filter:
-        blur(12px);
-
-      border-bottom:
-        1px solid #20283a;
-
+      background: rgba(11, 15, 25, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid #20283a;
     }
-
 
     .nav-container {
-
       max-width: 1100px;
-
       margin: auto;
-
-      padding:
-        16px 20px;
+      padding: 16px 20px;
 
       display: flex;
-
       align-items: center;
-
       justify-content: space-between;
-
     }
-
 
     .logo {
-
       color: white;
-
       text-decoration: none;
-
       font-size: 22px;
-
       font-weight: bold;
-
     }
-
 
     .logo span {
-
       color: #8b5cf6;
-
     }
-
 
     .nav-links {
-
       display: flex;
-
       align-items: center;
-
       gap: 22px;
-
       list-style: none;
-
     }
-
 
     .nav-links a {
-
       color: #d1d5db;
-
       text-decoration: none;
-
       font-size: 14px;
-
-      transition: 0.2s;
-
+      transition: 0.25s;
+      position: relative;
     }
 
+    /* Navigation hover effect */
+
+    .nav-links a:not(#loginLink)::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -6px;
+      width: 0;
+      height: 2px;
+      background: #8b5cf6;
+      transition: 0.25s;
+    }
+
+    .nav-links a:not(#loginLink):hover::after {
+      width: 100%;
+    }
 
     .nav-links a:hover {
-
       color: #a78bfa;
-
     }
 
-
-    /* LOGIN LINK */
+    /* LOGIN */
 
     #loginLink {
-
-      padding:
-        9px 16px;
-
+      padding: 9px 16px;
       border-radius: 10px;
-
       background: #8b5cf6;
-
       color: white;
-
       font-weight: bold;
-
     }
-
 
     #loginLink:hover {
-
       background: #7c3aed;
-
       color: white;
-
     }
-
 
     /* USER EMAIL */
 
     #userEmail {
-
       display: none;
-
       color: #a78bfa;
-
       font-size: 13px;
-
       max-width: 180px;
-
       overflow: hidden;
-
       text-overflow: ellipsis;
-
       white-space: nowrap;
-
     }
-
 
     /* LOGOUT */
 
     #logoutBtn {
-
       display: none;
-
-      padding:
-        8px 14px;
-
+      padding: 8px 14px;
       border: 1px solid #6d28d9;
-
       border-radius: 9px;
-
       background: transparent;
-
       color: #c4b5fd;
-
       cursor: pointer;
-
       font-weight: bold;
-
     }
-
 
     #logoutBtn:hover {
-
-      background:
-        rgba(139, 92, 246, 0.12);
-
+      background: rgba(139, 92, 246, 0.12);
     }
-
 
     /* =========================
-       HERO
+       HERO / HOME
     ========================= */
 
+    #home {
+      scroll-margin-top: 80px;
+    }
+
     .hero {
-
       min-height: 85vh;
-
       max-width: 1100px;
-
       margin: auto;
-
-      padding:
-        80px 20px;
+      padding: 80px 20px;
 
       display: flex;
-
       align-items: center;
-
       justify-content: center;
-
     }
-
 
     .hero-content {
-
       text-align: center;
-
       max-width: 800px;
-
     }
 
-
     .profile-image {
-
       width: 150px;
-
       height: 150px;
-
       object-fit: cover;
-
       border-radius: 50%;
 
-      border:
-        4px solid #8b5cf6;
+      border: 4px solid #8b5cf6;
 
       margin-bottom: 25px;
 
       box-shadow:
-        0 0 40px
-        rgba(139, 92, 246, 0.25);
-
+        0 0 40px rgba(139, 92, 246, 0.25);
     }
-
 
     .hero h1 {
-
-      font-size:
-        clamp(38px, 7vw, 70px);
-
+      font-size: clamp(38px, 7vw, 70px);
       margin-bottom: 12px;
-
     }
-
 
     .hero h1 span {
-
       color: #8b5cf6;
-
     }
-
 
     .hero p {
-
       color: #9ca3af;
-
       font-size: 18px;
-
       margin-bottom: 30px;
-
     }
-
 
     .hero-buttons {
-
       display: flex;
-
       justify-content: center;
-
       gap: 12px;
-
       flex-wrap: wrap;
-
     }
-
 
     .btn {
-
       display: inline-block;
-
-      padding:
-        13px 22px;
-
+      padding: 13px 22px;
       border-radius: 11px;
-
       text-decoration: none;
-
       font-weight: bold;
-
       transition: 0.2s;
-
     }
-
 
     .btn-primary {
-
       background: #8b5cf6;
-
       color: white;
-
     }
-
 
     .btn-primary:hover {
-
       background: #7c3aed;
-
       transform: translateY(-2px);
-
     }
-
 
     .btn-secondary {
-
-      border:
-        1px solid #3b465d;
-
+      border: 1px solid #3b465d;
       color: #d1d5db;
-
     }
-
 
     .btn-secondary:hover {
-
       border-color: #8b5cf6;
-
       color: #c4b5fd;
-
     }
-
 
     /* =========================
        SECTIONS
     ========================= */
 
     section {
-
       max-width: 1100px;
-
       margin: auto;
-
-      padding:
-        80px 20px;
-
+      padding: 100px 20px;
+      scroll-margin-top: 70px;
     }
-
 
     .section-title {
-
       text-align: center;
-
       font-size: 32px;
-
       margin-bottom: 40px;
-
     }
-
 
     .section-title span {
-
       color: #8b5cf6;
-
     }
-
 
     /* =========================
        ABOUT
     ========================= */
 
     .about-card {
-
       background: #121826;
-
-      border:
-        1px solid #252d3d;
-
+      border: 1px solid #252d3d;
       border-radius: 20px;
-
       padding: 30px;
-
       color: #b7bfce;
-
       text-align: center;
-
     }
-
 
     .about-card p {
-
       margin-bottom: 15px;
-
     }
-
 
     /* =========================
        BLOG
     ========================= */
 
     .blog-grid {
-
       display: grid;
-
-      grid-template-columns:
-        repeat(3, 1fr);
-
+      grid-template-columns: repeat(3, 1fr);
       gap: 20px;
-
     }
-
 
     .blog-card {
-
       background: #121826;
-
-      border:
-        1px solid #252d3d;
-
+      border: 1px solid #252d3d;
       border-radius: 18px;
-
       padding: 25px;
-
       transition: 0.25s;
-
     }
-
 
     .blog-card:hover {
-
-      transform:
-        translateY(-5px);
-
-      border-color:
-        #6d28d9;
-
+      transform: translateY(-5px);
+      border-color: #6d28d9;
     }
-
 
     .blog-card h3 {
-
       margin-bottom: 12px;
-
       color: white;
-
     }
-
 
     .blog-card p {
-
       color: #9ca3af;
-
       font-size: 14px;
-
     }
-
 
     .read-more {
-
       display: inline-block;
-
       margin-top: 18px;
-
       color: #a78bfa;
-
       text-decoration: none;
-
       font-size: 14px;
-
       font-weight: bold;
-
     }
 
+    .read-more:hover {
+      color: #c4b5fd;
+    }
 
     /* =========================
        CONTACT
     ========================= */
 
     .contact-box {
-
       text-align: center;
 
       background:
@@ -525,45 +329,27 @@
           #121826
         );
 
-      border:
-        1px solid #302454;
-
+      border: 1px solid #302454;
       border-radius: 22px;
-
       padding: 45px 25px;
-
     }
-
 
     .contact-box p {
-
       color: #9ca3af;
-
       margin-bottom: 25px;
-
     }
-
 
     /* =========================
        FOOTER
     ========================= */
 
     footer {
-
-      border-top:
-        1px solid #20283a;
-
+      border-top: 1px solid #20283a;
       text-align: center;
-
-      padding:
-        25px 20px;
-
+      padding: 25px 20px;
       color: #667085;
-
       font-size: 13px;
-
     }
-
 
     /* =========================
        MOBILE
@@ -572,58 +358,39 @@
     @media (max-width: 800px) {
 
       .blog-grid {
-
-        grid-template-columns:
-          1fr;
-
+        grid-template-columns: 1fr;
       }
 
     }
 
-
     @media (max-width: 650px) {
 
       .nav-container {
-
         flex-direction: column;
-
         gap: 15px;
-
       }
-
 
       .nav-links {
-
         gap: 12px;
-
         flex-wrap: wrap;
-
         justify-content: center;
-
       }
-
 
       #userEmail {
-
         max-width: 120px;
-
       }
-
 
       .hero {
-
         min-height: 75vh;
-
         padding-top: 50px;
-
       }
 
-
       section {
+        padding: 75px 20px;
+      }
 
-        padding:
-          60px 20px;
-
+      .hero h1 {
+        font-size: 42px;
       }
 
     }
@@ -645,13 +412,14 @@
     <div class="nav-container">
 
 
-      <a
-        href="#home"
-        class="logo"
-      >
+      <!-- LOGO -->
+
+      <a href="#home" class="logo">
         Pasan<span>Aroosha</span>
       </a>
 
+
+      <!-- NAVIGATION -->
 
       <ul class="nav-links">
 
@@ -696,7 +464,7 @@
         </li>
 
 
-        <!-- LOGGED USER -->
+        <!-- USER EMAIL -->
 
         <li>
           <span id="userEmail"></span>
@@ -724,7 +492,7 @@
 
 
   <!-- =========================
-       HERO
+       HOME
   ========================= -->
 
   <main id="home">
@@ -779,7 +547,6 @@
       </div>
 
     </div>
-
 
   </main>
 
@@ -932,6 +699,8 @@
       <a
         href="https://wa.me/message/XOOAFQKPPUQNP1"
         class="btn btn-primary"
+        target="_blank"
+        rel="noopener"
       >
         Contact Me
       </a>
@@ -963,7 +732,6 @@
 
   <script type="module">
 
-
     import {
       initializeApp
     } from
@@ -978,10 +746,9 @@
       "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
 
 
-
-    // -------------------------
-    // FIREBASE CONFIG
-    // -------------------------
+    /* =========================
+       FIREBASE CONFIG
+    ========================= */
 
     const firebaseConfig = {
 
@@ -1009,10 +776,9 @@
     };
 
 
-
-    // -------------------------
-    // INITIALIZE FIREBASE
-    // -------------------------
+    /* =========================
+       INITIALIZE FIREBASE
+    ========================= */
 
     const app =
       initializeApp(firebaseConfig);
@@ -1022,79 +788,58 @@
       getAuth(app);
 
 
-
-    // -------------------------
-    // ELEMENTS
-    // -------------------------
+    /* =========================
+       ELEMENTS
+    ========================= */
 
     const loginLink =
-      document.getElementById(
-        "loginLink"
-      );
-
+      document.getElementById("loginLink");
 
     const userEmail =
-      document.getElementById(
-        "userEmail"
-      );
-
+      document.getElementById("userEmail");
 
     const logoutBtn =
-      document.getElementById(
-        "logoutBtn"
-      );
+      document.getElementById("logoutBtn");
 
 
-
-    // -------------------------
-    // CHECK LOGIN STATE
-    // -------------------------
+    /* =========================
+       LOGIN STATE
+    ========================= */
 
     onAuthStateChanged(
       auth,
       (user) => {
 
-
         if (user) {
 
-
-          // USER IS LOGGED IN
+          /* USER LOGGED IN */
 
           loginLink.style.display =
             "none";
 
-
           userEmail.style.display =
             "inline";
-
 
           logoutBtn.style.display =
             "inline-block";
 
-
           userEmail.textContent =
             user.email;
 
-
         }
-
 
         else {
 
-
-          // USER IS LOGGED OUT
+          /* USER LOGGED OUT */
 
           loginLink.style.display =
             "inline";
 
-
           userEmail.style.display =
             "none";
 
-
           logoutBtn.style.display =
             "none";
-
 
         }
 
@@ -1102,39 +847,30 @@
     );
 
 
-
-    // -------------------------
-    // LOGOUT
-    // -------------------------
+    /* =========================
+       LOGOUT
+    ========================= */
 
     logoutBtn.addEventListener(
       "click",
       async () => {
 
-
         try {
 
-
           await signOut(auth);
-
 
           alert(
             "You have been logged out."
           );
 
-
           window.location.href =
             "index.html";
 
-
         }
-
 
         catch (error) {
 
-
           console.error(error);
-
 
           alert(
             "Logout failed: " +
@@ -1146,10 +882,9 @@
       }
     );
 
-
   </script>
 
 
 </body>
 
-</html>
+    </html>
