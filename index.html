@@ -446,9 +446,114 @@
 
     @media (max-width: 850px) {
 
-      .menu-btn {
-        display: block;
-      }
+  .nav-container {
+    height: 65px;
+    padding: 0 18px;
+  }
+
+  /* Three-line menu */
+  .menu-btn {
+    display: block;
+    background: transparent !important;
+    border: none;
+    color: #ffffff;
+    font-size: 27px;
+    cursor: pointer;
+    padding: 5px;
+    z-index: 10001;
+  }
+
+  /* Menu comes from RIGHT side */
+  .nav-links {
+    display: flex;
+
+    position: fixed;
+    top: 65px;
+    right: 0;
+    left: auto;
+
+    width: 230px;
+
+    flex-direction: column;
+    align-items: flex-start;
+
+    gap: 0;
+
+    padding: 15px 20px;
+
+    /* Transparent */
+    background: rgba(11, 15, 25, 0.45) !important;
+
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-right: none;
+
+    border-radius: 12px 0 0 12px;
+
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+
+    /* Hidden to the right */
+    transform: translateX(100%);
+
+    transition: transform 0.3s ease;
+
+    z-index: 10000;
+  }
+
+  /* When ☰ is clicked */
+  .nav-links.active {
+    transform: translateX(0);
+  }
+
+  .nav-links li {
+    width: 100%;
+  }
+
+  .nav-links a {
+    display: block;
+    width: 100%;
+    padding: 12px 5px;
+
+    color: #ffffff;
+    background: transparent !important;
+  }
+
+  .nav-links a:hover {
+    color: #a78bfa;
+  }
+
+  .user-email {
+    padding: 12px 5px;
+  }
+
+  .logout-btn {
+    margin: 10px 0;
+  }
+
+  .hero h1 {
+    font-size: 36px;
+  }
+
+  .hero p {
+    font-size: 16px;
+  }
+
+  .blog-grid {
+    grid-template-columns: 1fr;
+  }
+
+  section {
+    padding: 70px 18px;
+  }
+
+  .about-box,
+  .contact-box,
+  .gallery-preview-box {
+    padding: 28px 20px;
+  }
+    }
 
       .nav-links {
         display: none;
