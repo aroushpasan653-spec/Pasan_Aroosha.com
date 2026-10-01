@@ -15,224 +15,132 @@
       scroll-behavior: smooth;
     }
 
-    html {
-      scroll-padding-top: 80px;
-    }
-
     body {
       font-family: Arial, Helvetica, sans-serif;
       background: #0b0f19;
       color: #ffffff;
       line-height: 1.6;
-
-      /* Space for fixed navbar */
-      padding-top: 70px;
     }
 
-
-    /* =================================
+    /* =========================
        NAVBAR
-    ================================= */
+    ========================= */
 
     nav {
-      position: fixed;
-
+      position: sticky;
       top: 0;
-      left: 0;
-
-      width: 100%;
-      height: 70px;
-
       z-index: 9999;
 
-      /* Transparent */
       background: rgba(11, 15, 25, 0.45) !important;
-
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
 
-      border-bottom:
-        1px solid rgba(255, 255, 255, 0.08);
-
-      box-shadow: none;
-
-      overflow: visible !important;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
     }
-
 
     .nav-container {
       max-width: 1200px;
-
+      margin: auto;
       height: 70px;
 
-      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
 
       padding: 0 25px;
-
-      display: flex;
-
-      align-items: center;
-
-      justify-content: space-between;
     }
-
-
-    /* Logo */
 
     .logo {
       color: #ffffff;
-
       text-decoration: none;
-
       font-size: 22px;
-
       font-weight: bold;
-
       letter-spacing: 0.5px;
-
       white-space: nowrap;
     }
 
-
-    /* Desktop menu */
-
     .nav-links {
       display: flex;
-
       align-items: center;
-
       gap: 28px;
-
       list-style: none;
-
       background: transparent !important;
-
-      margin: 0;
-      padding: 0;
     }
-
 
     .nav-links a,
     .nav-links a:visited {
-
       color: #ffffff;
-
       text-decoration: none;
-
       font-size: 15px;
-
-      background: transparent !important;
-
-      box-shadow: none !important;
-
       transition: color 0.3s ease;
+      background: transparent !important;
+      box-shadow: none !important;
     }
-
 
     .nav-links a:hover {
       color: #a78bfa;
     }
 
-
     .nav-links a:focus,
     .nav-links a:active {
-
       background: transparent !important;
-
       outline: none;
-
       box-shadow: none !important;
     }
 
-
-    /* User email */
-
     .user-email {
-
       color: #c4b5fd;
-
       font-size: 14px;
-
       display: none;
-
       max-width: 180px;
-
       overflow: hidden;
-
       text-overflow: ellipsis;
-
       white-space: nowrap;
     }
 
-
-    /* Logout */
-
     .logout-btn {
-
       display: none;
 
-      border:
-        1px solid rgba(167, 139, 250, 0.5);
-
-      background:
-        rgba(139, 92, 246, 0.15);
-
+      border: 1px solid rgba(167, 139, 250, 0.5);
+      background: rgba(139, 92, 246, 0.15);
       color: #ffffff;
 
       padding: 8px 15px;
-
       border-radius: 8px;
 
       cursor: pointer;
-
       font-size: 14px;
 
       transition: 0.3s ease;
     }
 
-
     .logout-btn:hover {
-
-      background:
-        rgba(139, 92, 246, 0.35);
+      background: rgba(139, 92, 246, 0.35);
     }
 
-
-    /* Mobile ☰ */
-
     .menu-btn {
-
       display: none;
 
       background: transparent !important;
-
       border: none;
-
       color: #ffffff;
 
       font-size: 27px;
-
       cursor: pointer;
 
       padding: 5px;
-
-      margin-left: auto;
     }
 
-
-
-    /* =================================
+    /* =========================
        HERO
-    ================================= */
+    ========================= */
 
     .hero {
-
-      min-height: calc(100vh - 70px);
+      min-height: 90vh;
 
       display: flex;
-
       align-items: center;
-
       justify-content: center;
 
       text-align: center;
@@ -240,7 +148,6 @@
       padding: 80px 20px;
 
       background:
-
         radial-gradient(
           circle at top,
           rgba(139, 92, 246, 0.18),
@@ -248,25 +155,19 @@
         );
     }
 
-
     .hero-content {
-
       max-width: 850px;
     }
 
-
     .profile-img {
-
       width: 150px;
-
       height: 150px;
 
       object-fit: cover;
 
       border-radius: 50%;
 
-      border:
-        3px solid rgba(167, 139, 250, 0.7);
+      border: 3px solid rgba(167, 139, 250, 0.7);
 
       margin-bottom: 25px;
 
@@ -274,49 +175,33 @@
         0 0 30px rgba(139, 92, 246, 0.25);
     }
 
-
     .hero h1 {
-
       font-size: 48px;
-
       margin-bottom: 15px;
     }
 
-
     .hero h1 span {
-
       color: #a78bfa;
     }
 
-
     .hero p {
-
       color: #cbd5e1;
-
       font-size: 18px;
-
       max-width: 650px;
-
       margin: auto;
     }
 
-
     .hero-buttons {
-
       margin-top: 30px;
 
       display: flex;
-
       justify-content: center;
-
       gap: 15px;
 
       flex-wrap: wrap;
     }
 
-
     .btn {
-
       display: inline-block;
 
       padding: 12px 22px;
@@ -330,101 +215,65 @@
       transition: 0.3s ease;
     }
 
-
     .btn-primary {
-
       background: #8b5cf6;
-
       color: #ffffff;
     }
-
 
     .btn-primary:hover {
-
       background: #7c3aed;
-
       transform: translateY(-2px);
     }
-
 
     .btn-secondary {
-
-      border:
-        1px solid rgba(167, 139, 250, 0.5);
-
+      border: 1px solid rgba(167, 139, 250, 0.5);
       color: #ffffff;
-
-      background:
-        rgba(139, 92, 246, 0.08);
+      background: rgba(139, 92, 246, 0.08);
     }
 
-
     .btn-secondary:hover {
-
-      background:
-        rgba(139, 92, 246, 0.2);
-
+      background: rgba(139, 92, 246, 0.2);
       transform: translateY(-2px);
     }
 
-
-
-    /* =================================
+    /* =========================
        SECTIONS
-    ================================= */
+    ========================= */
 
     section {
-
       padding: 90px 20px;
     }
 
-
     .container {
-
       max-width: 1100px;
-
       margin: auto;
     }
 
-
     .section-title {
-
       text-align: center;
-
       margin-bottom: 50px;
     }
 
-
     .section-title h2 {
-
       font-size: 35px;
-
       margin-bottom: 10px;
     }
 
-
     .section-title p {
-
       color: #94a3b8;
     }
 
-
-
-    /* =================================
+    /* =========================
        ABOUT
-    ================================= */
+    ========================= */
 
     .about-box {
-
       max-width: 850px;
-
       margin: auto;
 
-      background:
-        rgba(17, 24, 39, 0.55);
+      background: rgba(17, 24, 39, 0.55);
 
-      border:
-        1px solid rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.07);
 
       border-radius: 18px;
 
@@ -433,26 +282,19 @@
       text-align: center;
 
       backdrop-filter: blur(8px);
-
       -webkit-backdrop-filter: blur(8px);
     }
 
-
     .about-box p {
-
       color: #cbd5e1;
-
       font-size: 17px;
     }
 
-
-
-    /* =================================
+    /* =========================
        BLOG
-    ================================= */
+    ========================= */
 
     .blog-grid {
-
       display: grid;
 
       grid-template-columns:
@@ -461,14 +303,10 @@
       gap: 25px;
     }
 
-
     .blog-card {
+      background: rgba(17, 24, 39, 0.6);
 
-      background:
-        rgba(17, 24, 39, 0.6);
-
-      border:
-        1px solid rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.07);
 
       border-radius: 16px;
 
@@ -477,13 +315,10 @@
       transition: 0.3s ease;
 
       backdrop-filter: blur(8px);
-
       -webkit-backdrop-filter: blur(8px);
     }
 
-
     .blog-card:hover {
-
       transform: translateY(-5px);
 
       border-color:
@@ -493,23 +328,16 @@
         0 10px 30px rgba(0, 0, 0, 0.2);
     }
 
-
     .blog-card h3 {
-
       color: #ffffff;
-
       margin-bottom: 12px;
     }
 
-
     .blog-card p {
-
       color: #94a3b8;
     }
 
-
     .read-more {
-
       display: inline-block;
 
       margin-top: 18px;
@@ -521,97 +349,70 @@
       font-size: 14px;
     }
 
-
     .read-more:hover {
-
       color: #c4b5fd;
     }
 
-
-
-    /* =================================
+    /* =========================
        GALLERY
-    ================================= */
+    ========================= */
 
     .gallery-preview {
-
       text-align: center;
     }
 
-
     .gallery-preview-box {
-
       max-width: 800px;
-
       margin: auto;
 
       padding: 45px 25px;
 
-      background:
-        rgba(17, 24, 39, 0.55);
+      background: rgba(17, 24, 39, 0.55);
 
-      border:
-        1px solid rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.07);
 
       border-radius: 18px;
 
       backdrop-filter: blur(8px);
-
       -webkit-backdrop-filter: blur(8px);
     }
 
-
     .gallery-preview-box p {
-
       color: #94a3b8;
-
       margin-bottom: 25px;
     }
 
-
-
-    /* =================================
+    /* =========================
        CONTACT
-    ================================= */
+    ========================= */
 
     .contact-box {
-
       max-width: 700px;
-
       margin: auto;
 
       text-align: center;
 
-      background:
-        rgba(17, 24, 39, 0.6);
+      background: rgba(17, 24, 39, 0.6);
 
-      border:
-        1px solid rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.07);
 
       border-radius: 18px;
 
       padding: 40px;
 
       backdrop-filter: blur(8px);
-
       -webkit-backdrop-filter: blur(8px);
     }
 
-
     .contact-box p {
-
       color: #94a3b8;
-
       margin-bottom: 25px;
     }
 
-
     .whatsapp-btn {
-
       display: inline-block;
 
       background: #22c55e;
-
       color: #ffffff;
 
       text-decoration: none;
@@ -625,22 +426,16 @@
       transition: 0.3s ease;
     }
 
-
     .whatsapp-btn:hover {
-
       background: #16a34a;
-
       transform: translateY(-2px);
     }
 
-
-
-    /* =================================
+    /* =========================
        FOOTER
-    ================================= */
+    ========================= */
 
     footer {
-
       text-align: center;
 
       padding: 30px 20px;
@@ -653,59 +448,35 @@
       font-size: 14px;
     }
 
-
-
-    /* =================================
+    /* =========================
        MOBILE
-    ================================= */
+    ========================= */
 
     @media (max-width: 850px) {
 
-      body {
-
-        padding-top: 65px;
-      }
-
-
-      nav {
-
-        height: 65px;
-      }
-
-
       .nav-container {
-
         height: 65px;
-
         padding: 0 18px;
       }
 
-
-      /* ☰ */
-
       .menu-btn {
-
         display: block;
-
-        margin-left: auto;
       }
 
-
-      /* Mobile menu */
+      /*
+        ONLY THIS PART IS FOR
+        THE MOBILE MENU POSITION.
+      */
 
       .nav-links {
+        display: none;
 
         position: absolute;
 
         top: 65px;
 
         right: 15px;
-
         left: auto;
-
-        width: 230px;
-
-        display: flex;
 
         flex-direction: column;
 
@@ -713,58 +484,32 @@
 
         gap: 0;
 
-        padding: 10px 15px;
+        width: 230px;
 
-        background:
-          rgba(11, 15, 25, 0.45) !important;
+        background: rgba(11, 15, 25, 0.45) !important;
 
         backdrop-filter: blur(8px);
-
         -webkit-backdrop-filter: blur(8px);
 
-        border:
-          1px solid rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.08);
 
         border-radius: 12px;
 
         box-shadow:
           0 10px 30px rgba(0, 0, 0, 0.2);
 
-        opacity: 0;
-
-        visibility: hidden;
-
-        transform:
-          translateY(-10px);
-
-        transition:
-          opacity 0.25s ease,
-          transform 0.25s ease,
-          visibility 0.25s ease;
+        padding: 10px 15px;
       }
-
-
-      /* Open menu */
 
       .nav-links.active {
-
-        opacity: 1;
-
-        visibility: visible;
-
-        transform:
-          translateY(0);
+        display: flex;
       }
 
-
       .nav-links li {
-
         width: 100%;
       }
 
-
       .nav-links a {
-
         display: block;
 
         width: 100%;
@@ -773,106 +518,70 @@
 
         color: #ffffff;
 
-        background:
-          transparent !important;
+        background: transparent !important;
       }
 
-
       .nav-links a:hover {
-
         color: #a78bfa;
       }
 
-
       .user-email {
-
         padding: 12px 5px;
       }
 
-
       .logout-btn {
-
         margin: 10px 0;
       }
 
-
       .hero h1 {
-
         font-size: 36px;
       }
 
-
       .hero p {
-
         font-size: 16px;
       }
 
-
       .blog-grid {
-
         grid-template-columns: 1fr;
       }
 
-
       section {
-
         padding: 70px 18px;
       }
-
 
       .about-box,
       .contact-box,
       .gallery-preview-box {
-
         padding: 28px 20px;
       }
-
     }
-
-
-
-    /* =================================
-       SMALL MOBILE
-    ================================= */
 
     @media (max-width: 450px) {
 
       .logo {
-
         font-size: 19px;
       }
 
-
       .hero h1 {
-
         font-size: 31px;
       }
 
-
       .profile-img {
-
         width: 125px;
-
         height: 125px;
       }
-
     }
 
   </style>
 </head>
 
-
 <body>
 
-
-  <!-- =================================
-       NAVBAR
-  ================================= -->
+  <!-- NAVBAR -->
 
   <nav>
 
     <div class="nav-container">
-
 
       <a
         href="index.html"
@@ -880,9 +589,6 @@
       >
         PasanAroosha
       </a>
-
-
-      <!-- Mobile ☰ -->
 
       <button
         class="menu-btn"
@@ -892,18 +598,16 @@
         ☰
       </button>
 
-
       <ul
         class="nav-links"
         id="navLinks"
       >
 
         <li>
-          <a href="#home">
+          <a href="index.html">
             Home
           </a>
         </li>
-
 
         <li>
           <a href="#about">
@@ -911,13 +615,11 @@
           </a>
         </li>
 
-
         <li>
           <a href="#blog">
             Blog
           </a>
         </li>
-
 
         <li>
           <a href="gallery.html">
@@ -925,13 +627,11 @@
           </a>
         </li>
 
-
         <li>
           <a href="#contact">
             Contact
           </a>
         </li>
-
 
         <li>
           <a
@@ -942,26 +642,20 @@
           </a>
         </li>
 
-
         <li>
-
           <span
             class="user-email"
             id="userEmail"
           ></span>
-
         </li>
 
-
         <li>
-
           <button
             class="logout-btn"
             id="logoutBtn"
           >
             Logout
           </button>
-
         </li>
 
       </ul>
@@ -971,10 +665,7 @@
   </nav>
 
 
-
-  <!-- =================================
-       HERO
-  ================================= -->
+  <!-- HERO -->
 
   <section
     class="hero"
@@ -983,36 +674,25 @@
 
     <div class="hero-content">
 
-
       <img
         src="file_00000000024481fab62caedd87400316.png"
         alt="Pasan Aroosha"
         class="profile-img"
       >
 
-
       <h1>
-
         Hi, I'm
-        <span>
-          Pasan Aroosha
-        </span>
-
+        <span>Pasan Aroosha</span>
       </h1>
 
-
       <p>
-
         Welcome to my personal blog.
         Explore my journey, thoughts,
         memories, adventures and
         everything I love to share.
-
       </p>
 
-
       <div class="hero-buttons">
-
 
         <a
           href="#blog"
@@ -1021,14 +701,12 @@
           Explore My Blog
         </a>
 
-
         <a
           href="#about"
           class="btn btn-secondary"
         >
           About Me
         </a>
-
 
       </div>
 
@@ -1037,15 +715,11 @@
   </section>
 
 
-
-  <!-- =================================
-       ABOUT
-  ================================= -->
+  <!-- ABOUT -->
 
   <section id="about">
 
     <div class="container">
-
 
       <div class="section-title">
 
@@ -1059,17 +733,14 @@
 
       </div>
 
-
       <div class="about-box">
 
         <p>
-
           Hello! I'm Pasan Aroosha.
           This is my personal space on
           the internet where I share my
           experiences, thoughts, memories
           and things that inspire me.
-
         </p>
 
       </div>
@@ -1079,15 +750,11 @@
   </section>
 
 
-
-  <!-- =================================
-       BLOG
-  ================================= -->
+  <!-- BLOG -->
 
   <section id="blog">
 
     <div class="container">
-
 
       <div class="section-title">
 
@@ -1101,9 +768,7 @@
 
       </div>
 
-
       <div class="blog-grid">
-
 
         <div class="blog-card">
 
@@ -1112,12 +777,10 @@
           </h3>
 
           <p>
-
             Welcome to my first blog post.
             Here I will share my thoughts,
-            experiences and the beginning
-            of my blogging journey.
-
+            experiences and the beginning of
+            my blogging journey.
           </p>
 
           <a
@@ -1128,7 +791,6 @@
           </a>
 
         </div>
-
 
 
         <div class="blog-card">
@@ -1138,12 +800,10 @@
           </h3>
 
           <p>
-
             Every journey has a story.
             This is a place where I can
             share some of the experiences
             and lessons from my journey.
-
           </p>
 
           <a
@@ -1154,7 +814,6 @@
           </a>
 
         </div>
-
 
 
         <div class="blog-card">
@@ -1164,11 +823,9 @@
           </h3>
 
           <p>
-
             New places, new experiences
             and new memories. Follow along
             as I discover new adventures.
-
           </p>
 
           <a
@@ -1180,7 +837,6 @@
 
         </div>
 
-
       </div>
 
     </div>
@@ -1188,15 +844,11 @@
   </section>
 
 
-
-  <!-- =================================
-       GALLERY
-  ================================= -->
+  <!-- GALLERY -->
 
   <section id="gallery">
 
     <div class="container">
-
 
       <div class="section-title">
 
@@ -1210,20 +862,15 @@
 
       </div>
 
-
       <div class="gallery-preview">
-
 
         <div class="gallery-preview-box">
 
           <p>
-
             Take a look at my photos,
             travels, memories, dreams,
             nature and special moments.
-
           </p>
-
 
           <a
             href="gallery.html"
@@ -1241,15 +888,11 @@
   </section>
 
 
-
-  <!-- =================================
-       CONTACT
-  ================================= -->
+  <!-- CONTACT -->
 
   <section id="contact">
 
     <div class="container">
-
 
       <div class="section-title">
 
@@ -1263,16 +906,12 @@
 
       </div>
 
-
       <div class="contact-box">
 
         <p>
-
           If you would like to contact me,
           you can reach me through WhatsApp.
-
         </p>
-
 
         <a
           href="https://wa.me/message/XOOAFQKPPUQNP1"
@@ -1289,10 +928,7 @@
   </section>
 
 
-
-  <!-- =================================
-       FOOTER
-  ================================= -->
+  <!-- FOOTER -->
 
   <footer>
 
@@ -1302,10 +938,7 @@
   </footer>
 
 
-
-  <!-- =================================
-       FIREBASE
-  ================================= -->
+  <!-- FIREBASE -->
 
   <script type="module">
 
@@ -1314,7 +947,6 @@
     } from
       "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
 
-
     import {
       getAuth,
       onAuthStateChanged,
@@ -1322,8 +954,6 @@
     } from
       "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
 
-
-    /* Firebase Configuration */
 
     const firebaseConfig = {
 
@@ -1350,16 +980,12 @@
     };
 
 
-    /* Initialize Firebase */
-
     const app =
       initializeApp(firebaseConfig);
 
     const auth =
       getAuth(app);
 
-
-    /* Elements */
 
     const loginLink =
       document.getElementById(
@@ -1376,8 +1002,6 @@
         "logoutBtn"
       );
 
-
-    /* Authentication */
 
     onAuthStateChanged(
       auth,
@@ -1412,8 +1036,6 @@
       }
     );
 
-
-    /* Logout */
 
     logoutBtn.addEventListener(
       "click",
@@ -1496,4 +1118,4 @@
   </script>
 
 </body>
-</html>
+            </html>
