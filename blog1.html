@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Poems of Pansiluni | PAZZAN.COM</title>
+
+  <style>
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #0b0f19;
+      color: #ffffff;
+      line-height: 1.8;
+      overflow-x: hidden;
+    }
+
+
+    /* ================= NAVBAR ================= */
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 9999;
+
+      background: rgba(11, 15, 25, 0.18);
+
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+
+      animation: navDown 0.8s ease;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      height: 70px;
+
+      margin: auto;
+      padding: 0 25px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      color: #ffffff;
+      text-decoration: none;
+
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .logo span {
+      color: #8b5cf6;
+    }
+
+
+    /* ================= HERO ================= */
+
+    .article-hero {
+      min-height: 55vh;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      text-align: center;
+
+      padding: 80px 20px;
+
+      position: relative;
+
+      overflow: hidden;
+    }
+
+
+    /* Decorative circles */
+
+    .circle {
+      position: absolute;
+
+      border-radius: 50%;
+
+      filter: blur(2px);
+
+      opacity: 0.15;
+
+      pointer-events: none;
+    }
+
+    .circle-one {
+      width: 300px;
+      height: 300px;
+
+      background: #8b5cf6;
+
+      top: -120px;
+      left: -100px;
+
+      animation: floatOne 6s ease-in-out infinite;
+    }
+
+    .circle-two {
+      width: 250px;
+      height: 250px;
+
+      background: #6366f1;
+
+      right: -80px;
+      bottom: -100px;
+
+      animation: floatTwo 7s ease-in-out infinite;
+    }
+
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+
+      max-width: 850px;
+
+      animation: articleAppear 1.2s ease;
+    }
+
+    .article-label {
+      color: #a78bfa;
+
+      font-size: 15px;
+      font-weight: 600;
+
+      letter-spacing: 3px;
+      text-transform: uppercase;
+
+      margin-bottom: 18px;
+
+      animation: fadeUp 0.8s ease 0.2s both;
+    }
+
+    .hero-content h1 {
+      font-size: 58px;
+      line-height: 1.15;
+
+      margin-bottom: 20px;
+
+      animation: fadeUp 0.8s ease 0.4s both;
+    }
+
+    .hero-content h1 span {
+      color: #8b5cf6;
+    }
+
+    .article-info {
+      color: #8f96a8;
+
+      font-size: 15px;
+
+      animation: fadeUp 0.8s ease 0.6s both;
+    }
+
+
+    /* ================= ARTICLE ================= */
+
+    .article-container {
+      max-width: 900px;
+
+      margin: auto;
+
+      padding: 40px 25px 100px;
+    }
+
+    .article-card {
+      background: rgba(17, 24, 39, 0.75);
+
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+
+      border: 1px solid #20283a;
+
+      border-radius: 20px;
+
+      padding: 50px;
+
+      box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.25);
+
+      animation: articleSlide 1s ease;
+    }
+
+
+    /* ================= ARTICLE TEXT ================= */
+
+    .conversation {
+      margin-bottom: 40px;
+    }
+
+    .conversation p {
+      font-size: 18px;
+
+      margin-bottom: 18px;
+    }
+
+    .question {
+      color: #c4b5fd;
+
+      font-weight: 600;
+    }
+
+    .answer {
+      color: #d1d5db;
+    }
+
+
+    /* ================= POEM ================= */
+
+    .poem {
+      margin-top: 35px;
+
+      padding: 35px 30px;
+
+      border-left: 3px solid #8b5cf6;
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(139, 92, 246, 0.12),
+          rgba(17, 24, 39, 0.5)
+        );
+
+      border-radius: 0 16px 16px 0;
+
+      position: relative;
+
+      overflow: hidden;
+    }
+
+    .poem::before {
+      content: "“";
+
+      position: absolute;
+
+      top: -25px;
+      left: 15px;
+
+      font-size: 100px;
+
+      color: rgba(139, 92, 246, 0.15);
+
+      font-family: Georgia, serif;
+    }
+
+    .poem p {
+      position: relative;
+
+      z-index: 2;
+
+      color: #e5e7eb;
+
+      font-size: 20px;
+
+      line-height: 2;
+
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    .signature {
+      text-align: right;
+
+      margin-top: 25px;
+
+      color: #a78bfa;
+
+      font-size: 17px;
+
+      font-style: italic;
+    }
+
+
+    /* ================= HEART ================= */
+
+    .heart {
+      text-align: center;
+
+      font-size: 30px;
+
+      margin: 40px 0;
+
+      animation: heartbeat 2s ease-in-out infinite;
+    }
+
+
+    /* ================= BACK BUTTON ================= */
+
+    .back-section {
+      text-align: center;
+
+      margin-top: 50px;
+    }
+
+    .back-btn {
+      display: inline-block;
+
+      text-decoration: none;
+
+      color: #ffffff;
+
+      background: #8b5cf6;
+
+      padding: 13px 25px;
+
+      border-radius: 9px;
+
+      font-weight: 600;
+
+      transition: 0.3s;
+    }
+
+    .back-btn:hover {
+      background: #7c3aed;
+
+      transform: translateY(-3px);
+
+      box-shadow:
+        0 10px 25px rgba(139, 92, 246, 0.25);
+    }
+
+
+    /* ================= FOOTER ================= */
+
+    footer {
+      border-top: 1px solid #1d2433;
+
+      padding: 30px 20px;
+
+      text-align: center;
+
+      color: #737b8f;
+
+      font-size: 14px;
+    }
+
+
+    /* ================= ANIMATIONS ================= */
+
+    @keyframes navDown {
+
+      from {
+        transform: translateY(-100%);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+
+    }
+
+
+    @keyframes articleAppear {
+
+      from {
+        opacity: 0;
+        transform: scale(0.92);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+    }
+
+
+    @keyframes fadeUp {
+
+      from {
+        opacity: 0;
+        transform: translateY(25px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+    }
+
+
+    @keyframes articleSlide {
+
+      from {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+    }
+
+
+    @keyframes floatOne {
+
+      0%, 100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(30px);
+      }
+
+    }
+
+
+    @keyframes floatTwo {
+
+      0%, 100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-25px);
+      }
+
+    }
+
+
+    @keyframes heartbeat {
+
+      0%, 100% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.12);
+      }
+
+    }
+
+
+    /* ================= MOBILE ================= */
+
+    @media (max-width: 700px) {
+
+      .nav-container {
+        height: 65px;
+        padding: 0 18px;
+      }
+
+      .logo {
+        font-size: 21px;
+      }
+
+      .article-hero {
+        min-height: 45vh;
+        padding: 60px 18px;
+      }
+
+      .hero-content h1 {
+        font-size: 40px;
+      }
+
+      .article-label {
+        font-size: 13px;
+      }
+
+      .article-card {
+        padding: 28px 20px;
+      }
+
+      .conversation p {
+        font-size: 16px;
+      }
+
+      .poem {
+        padding: 25px 20px;
+      }
+
+      .poem p {
+        font-size: 17px;
+        line-height: 1.9;
+      }
+
+    }
+
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+  <!-- ================= NAVBAR ================= -->
+
+  <nav>
+
+    <div class="nav-container">
+
+      <a href="index.html" class="logo">
+        PAZZAN<span>.COM</span>
+      </a>
+
+    </div>
+
+  </nav>
+
+
+  <!-- ================= ARTICLE HERO ================= -->
+
+  <header class="article-hero">
+
+    <div class="circle circle-one"></div>
+    <div class="circle circle-two"></div>
+
+    <div class="hero-content">
+
+      <div class="article-label">
+        Poems of Pansiluni
+      </div>
+
+      <h1>
+        Poems of <span>Pansiluni</span>
+      </h1>
+
+      <div class="article-info">
+        ✍️ Written by SiLu
+      </div>
+
+    </div>
+
+  </header>
+
+
+  <!-- ================= ARTICLE ================= -->
+
+  <main class="article-container">
+
+    <article class="article-card">
+
+
+      <!-- Conversation -->
+
+      <div class="conversation">
+
+        <p class="question">
+          + මාසයක් වත් නැද්ද?
+        </p>
+
+        <p class="answer">
+          - ඔව්, මාසයක්වත් නැ.
+          ඒත් විශ්වාස කරන්න...
+          මේ දවස් කීපයට මම එයාට අවුරුදු ගානක ඉඳලා
+          ආදරේ කරා වගේ ආදරේ කරනවා.
+        </p>
+
+
+        <p class="question">
+          + කොහොමද එයාට ඔච්චර ආදරේ කරන්නෙ...
+        </p>
+
+        <p class="answer">
+          - ඒක අහන්න වෙන්නෙ හදවතින් තමයි... 😊
+        </p>
+
+      </div>
+
+
+      <!-- Heart -->
+
+      <div class="heart">
+        💗
+      </div>
+
+
+      <!-- Poem -->
+
+      <div class="poem">
+
+        <p>
+          මාසයකුත් නොමැති වූවද...<br>
+          දැනුනා ඔහු/ඇය මාගේ ම බව...<br>
+          නොදුටුවද දුර හදන්දා අප...<br>
+          කෙසේ ඇති වූවද පෙම...<br>
+          දැකිය යුතුම ද ඇති වන්නට පෙම<br>
+          සිත් නොවෙද ආදරෙන් වැලද ගත්ත යුතු...<br>
+          දැනීම නොවෙද...<br>
+          නොදත් දේ ඇත නුබ ගැන තව<br>
+          මහ සයුරක් ලෙසට නමුත්...<br>
+          පෙම ඇත නිමක් නොමැති වූ<br>
+          අහසක් ලෙසට
+        </p>
+
+        <div class="signature">
+          ~ SiLu 🖋️ ~
+        </div>
+
+      </div>
+
+
+      <!-- Back -->
+
+      <div class="back-section">
+
+        <a href="index.html#blog" class="back-btn">
+          ← Back to My Blog
+        </a>
+
+      </div>
+
+
+    </article>
+
+  </main>
+
+
+  <!-- ================= FOOTER ================= -->
+
+  <footer>
+
+    © 2026 Pasan Aroosha.
+    All rights reserved.
+
+  </footer>
+
+
+</body>
+  </html>
