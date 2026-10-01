@@ -2,327 +2,1099 @@
 <html lang="en">
 
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
   <title>Login | Pasan Aroosha</title>
 
+
   <style>
+
     * {
       box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
+
 
     body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0b0f19;
-      color: white;
+
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
       min-height: 100vh;
+
+      background:
+        radial-gradient(
+          circle at top left,
+          #24134d 0%,
+          #0b0f19 45%,
+          #070a11 100%
+        );
+
+      color: white;
+
       display: flex;
+
       justify-content: center;
+
       align-items: center;
+
+      padding: 20px;
+
     }
 
-    .login-box {
-      width: 90%;
-      max-width: 400px;
-      background: #121826;
-      padding: 30px;
-      border-radius: 20px;
-      border: 1px solid #252d3d;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+
+    .login-container {
+
+      width: 100%;
+
+      max-width: 430px;
+
     }
+
+
+    .login-card {
+
+      background:
+        rgba(18, 24, 38, 0.95);
+
+      border:
+        1px solid rgba(139, 92, 246, 0.25);
+
+      border-radius: 24px;
+
+      padding: 35px;
+
+      box-shadow:
+        0 25px 70px rgba(0, 0, 0, 0.55);
+
+      backdrop-filter:
+        blur(15px);
+
+    }
+
+
+    .logo {
+
+      width: 70px;
+
+      height: 70px;
+
+      margin: 0 auto 20px;
+
+      border-radius: 50%;
+
+      background:
+        linear-gradient(
+          135deg,
+          #8b5cf6,
+          #6d28d9
+        );
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      font-size: 30px;
+
+      font-weight: bold;
+
+      box-shadow:
+        0 10px 30px rgba(139, 92, 246, 0.35);
+
+    }
+
 
     h1 {
+
       text-align: center;
-      margin-bottom: 25px;
+
+      font-size: 30px;
+
+      margin-bottom: 8px;
+
     }
+
+
+    .subtitle {
+
+      text-align: center;
+
+      color: #9ca3af;
+
+      font-size: 14px;
+
+      margin-bottom: 30px;
+
+    }
+
+
+    .input-group {
+
+      margin-bottom: 18px;
+
+    }
+
+
+    label {
+
+      display: block;
+
+      margin-bottom: 8px;
+
+      color: #d1d5db;
+
+      font-size: 14px;
+
+      font-weight: 600;
+
+    }
+
 
     input {
+
       width: 100%;
-      padding: 14px;
-      margin-bottom: 15px;
-      border-radius: 10px;
-      border: 1px solid #30394d;
-      background: #0b0f19;
+
+      padding: 15px 16px;
+
+      border-radius: 12px;
+
+      border:
+        1px solid #30394d;
+
+      background:
+        #0b0f19;
+
       color: white;
+
+      font-size: 15px;
+
       outline: none;
+
+      transition: 0.2s;
+
     }
+
+
+    input::placeholder {
+
+      color: #667085;
+
+    }
+
 
     input:focus {
-      border-color: #8b5cf6;
+
+      border-color:
+        #8b5cf6;
+
+      box-shadow:
+        0 0 0 3px
+        rgba(139, 92, 246, 0.12);
+
     }
+
+
+    .buttons {
+
+      display: flex;
+
+      flex-direction: column;
+
+      gap: 12px;
+
+      margin-top: 25px;
+
+    }
+
 
     button {
+
       width: 100%;
-      padding: 14px;
-      margin-top: 10px;
+
+      padding: 15px;
+
       border: none;
-      border-radius: 10px;
-      background: #8b5cf6;
-      color: white;
+
+      border-radius: 12px;
+
       font-size: 16px;
+
       font-weight: bold;
+
       cursor: pointer;
+
+      transition:
+        transform 0.2s,
+        opacity 0.2s,
+        background 0.2s;
+
     }
+
 
     button:hover {
-      background: #7c3aed;
+
+      transform: translateY(-1px);
+
     }
+
 
     button:disabled {
+
       opacity: 0.6;
+
       cursor: not-allowed;
+
+      transform: none;
+
     }
 
-    .back {
-      display: block;
-      text-align: center;
-      margin-top: 20px;
-      color: #a78bfa;
-      text-decoration: none;
+
+    #loginBtn {
+
+      background:
+        linear-gradient(
+          135deg,
+          #8b5cf6,
+          #6d28d9
+        );
+
+      color: white;
+
     }
+
+
+    #loginBtn:hover {
+
+      background:
+        linear-gradient(
+          135deg,
+          #9969f7,
+          #7c3aed
+        );
+
+    }
+
+
+    #signupBtn {
+
+      background:
+        transparent;
+
+      color: #c4b5fd;
+
+      border:
+        1px solid #6d28d9;
+
+    }
+
+
+    #signupBtn:hover {
+
+      background:
+        rgba(139, 92, 246, 0.10);
+
+    }
+
 
     #message {
+
+      margin-top: 20px;
+
       text-align: center;
-      margin-top: 15px;
-      color: #aeb4c2;
+
       font-size: 14px;
+
       line-height: 1.5;
+
+      min-height: 22px;
+
     }
+
+
+    .success {
+
+      color: #4ade80;
+
+    }
+
+
+    .error {
+
+      color: #f87171;
+
+    }
+
+
+    .info {
+
+      color: #a78bfa;
+
+    }
+
+
+    .divider {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 12px;
+
+      margin: 25px 0;
+
+      color: #667085;
+
+      font-size: 12px;
+
+    }
+
+
+    .divider::before,
+    .divider::after {
+
+      content: "";
+
+      height: 1px;
+
+      flex: 1;
+
+      background: #252d3d;
+
+    }
+
+
+    .back {
+
+      display: block;
+
+      text-align: center;
+
+      color: #a78bfa;
+
+      text-decoration: none;
+
+      font-size: 14px;
+
+      margin-top: 22px;
+
+    }
+
+
+    .back:hover {
+
+      color: #c4b5fd;
+
+    }
+
+
+    .footer-text {
+
+      text-align: center;
+
+      color: #667085;
+
+      font-size: 12px;
+
+      margin-top: 20px;
+
+    }
+
+
+    @media (max-width: 480px) {
+
+      .login-card {
+
+        padding: 25px 20px;
+
+      }
+
+      h1 {
+
+        font-size: 26px;
+
+      }
+
+    }
+
   </style>
+
 </head>
+
 
 <body>
 
-  <div class="login-box">
 
-    <h1>Login</h1>
+  <div class="login-container">
 
-    <input
-      type="email"
-      id="email"
-      placeholder="Email address"
-      autocomplete="email"
-    >
 
-    <input
-      type="password"
-      id="password"
-      placeholder="Password"
-      autocomplete="current-password"
-    >
+    <div class="login-card">
 
-    <button id="loginBtn">
-      Login
-    </button>
 
-    <button id="signupBtn">
-      Create Account
-    </button>
+      <div class="logo">
+        PA
+      </div>
 
-    <p id="message"></p>
 
-    <a href="index.html" class="back">
-      ← Back to website
-    </a>
+      <h1>
+        Welcome Back
+      </h1>
+
+
+      <p class="subtitle">
+        Login or create your Pasan Aroosha account
+      </p>
+
+
+      <!-- EMAIL -->
+
+      <div class="input-group">
+
+        <label for="email">
+          Email Address
+        </label>
+
+        <input
+          type="email"
+          id="email"
+          placeholder="Enter your email"
+          autocomplete="email"
+        >
+
+      </div>
+
+
+      <!-- PASSWORD -->
+
+      <div class="input-group">
+
+        <label for="password">
+          Password
+        </label>
+
+        <input
+          type="password"
+          id="password"
+          placeholder="Enter your password"
+          autocomplete="current-password"
+        >
+
+      </div>
+
+
+      <!-- BUTTONS -->
+
+      <div class="buttons">
+
+
+        <!-- LOGIN -->
+
+        <button
+          id="loginBtn"
+          type="button"
+        >
+          Login
+        </button>
+
+
+        <!-- CREATE ACCOUNT -->
+
+        <button
+          id="signupBtn"
+          type="button"
+        >
+          Create New Account
+        </button>
+
+
+      </div>
+
+
+      <!-- MESSAGE -->
+
+      <p
+        id="message"
+      ></p>
+
+
+      <div class="divider">
+        <span>OR</span>
+      </div>
+
+
+      <!-- BACK -->
+
+      <a
+        href="index.html"
+        class="back"
+      >
+        ← Back to Website
+      </a>
+
+
+      <p class="footer-text">
+        © 2026 Pasan Aroosha
+      </p>
+
+
+    </div>
+
 
   </div>
 
 
+
+  <!-- FIREBASE -->
+
   <script type="module">
 
-    import { initializeApp }
-      from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
 
     import {
-      getAuth,
-      createUserWithEmailAndPassword,
-      signInWithEmailAndPassword
+      initializeApp
     }
-      from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
 
+    from
+      "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+
+
+    import {
+
+      getAuth,
+
+      createUserWithEmailAndPassword,
+
+      signInWithEmailAndPassword
+
+    }
+
+    from
+      "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+
+
+
+    // --------------------------------
+    // FIREBASE CONFIG
+    // --------------------------------
 
     const firebaseConfig = {
 
-      apiKey: "AIzaSyB3G98XBTZH6NFiZx6NQmyEKR8g6vnSYNQ",
+      apiKey:
+        "AIzaSyB3G98XBTZH6NFiZx6NQmyEKR8g6vnSYNQ",
 
-      authDomain: "pasan-fc8e2.firebaseapp.com",
+      authDomain:
+        "pasan-fc8e2.firebaseapp.com",
 
-      projectId: "pasan-fc8e2",
+      projectId:
+        "pasan-fc8e2",
 
-      storageBucket: "pasan-fc8e2.firebasestorage.app",
+      storageBucket:
+        "pasan-fc8e2.firebasestorage.app",
 
-      messagingSenderId: "330282693990",
+      messagingSenderId:
+        "330282693990",
 
-      appId: "1:330282693990:web:f754a4a09efaa73ab5c4a7",
+      appId:
+        "1:330282693990:web:f754a4a09efaa73ab5c4a7",
 
-      measurementId: "G-B12LL33EQ3"
+      measurementId:
+        "G-B12LL33EQ3"
 
     };
 
 
-    const app = initializeApp(firebaseConfig);
 
-    const auth = getAuth(app);
+    // --------------------------------
+    // INITIALIZE FIREBASE
+    // --------------------------------
 
-
-    const emailInput = document.getElementById("email");
-
-    const passwordInput = document.getElementById("password");
-
-    const message = document.getElementById("message");
-
-    const loginBtn = document.getElementById("loginBtn");
-
-    const signupBtn = document.getElementById("signupBtn");
+    const app =
+      initializeApp(firebaseConfig);
 
 
-    // -------------------------
+    const auth =
+      getAuth(app);
+
+
+
+    // --------------------------------
+    // GET ELEMENTS
+    // --------------------------------
+
+    const emailInput =
+      document.getElementById("email");
+
+
+    const passwordInput =
+      document.getElementById("password");
+
+
+    const loginBtn =
+      document.getElementById("loginBtn");
+
+
+    const signupBtn =
+      document.getElementById("signupBtn");
+
+
+    const message =
+      document.getElementById("message");
+
+
+
+    // --------------------------------
+    // SHOW MESSAGE
+    // --------------------------------
+
+    function showMessage(
+      text,
+      type
+    ) {
+
+      message.textContent =
+        text;
+
+      message.className =
+        type;
+
+    }
+
+
+
+    // --------------------------------
     // CREATE ACCOUNT
-    // -------------------------
+    // --------------------------------
 
-    signupBtn.addEventListener("click", async function () {
-
-      const email = emailInput.value.trim();
-
-      const password = passwordInput.value;
+    signupBtn.addEventListener(
+      "click",
+      async function () {
 
 
-      if (!email || !password) {
-
-        message.textContent =
-          "Please enter your email and password.";
-
-        return;
-      }
+        const email =
+          emailInput.value.trim();
 
 
-      if (password.length < 6) {
-
-        message.textContent =
-          "Password must be at least 6 characters.";
-
-        return;
-      }
+        const password =
+          passwordInput.value;
 
 
-      signupBtn.disabled = true;
 
-      message.textContent =
-        "Creating your account...";
+        // Check email
 
+        if (!email) {
 
-      try {
-
-        const userCredential =
-          await createUserWithEmailAndPassword(
-            auth,
-            email,
-            password
+          showMessage(
+            "Please enter your email address.",
+            "error"
           );
 
+          emailInput.focus();
 
-        console.log(
-          "Account created:",
-          userCredential.user.email
+          return;
+
+        }
+
+
+
+        // Check password
+
+        if (!password) {
+
+          showMessage(
+            "Please enter a password.",
+            "error"
+          );
+
+          passwordInput.focus();
+
+          return;
+
+        }
+
+
+
+        // Password length
+
+        if (password.length < 6) {
+
+          showMessage(
+            "Password must be at least 6 characters.",
+            "error"
+          );
+
+          passwordInput.focus();
+
+          return;
+
+        }
+
+
+
+        // Disable button
+
+        signupBtn.disabled =
+          true;
+
+        loginBtn.disabled =
+          true;
+
+
+        showMessage(
+          "Creating your account...",
+          "info"
         );
 
 
-        message.textContent =
-          "✅ Account created successfully!";
+
+        try {
 
 
-        setTimeout(function () {
+          // CREATE FIREBASE ACCOUNT
 
-          window.location.href = "index.html";
+          const userCredential =
+            await createUserWithEmailAndPassword(
+              auth,
+              email,
+              password
+            );
 
-        }, 1000);
+
+          console.log(
+            "New account:",
+            userCredential.user
+          );
 
 
-      } catch (error) {
+          showMessage(
+            "✓ Account created successfully!",
+            "success"
+          );
 
-        console.error(error);
 
-        message.textContent =
-          "❌ " + error.code + " — " + error.message;
 
-        signupBtn.disabled = false;
+          // Go home
+
+          setTimeout(
+            function () {
+
+              window.location.href =
+                "index.html";
+
+            },
+            1000
+          );
+
+
+        }
+
+
+        catch (error) {
+
+
+          console.error(
+            "Create account error:",
+            error
+          );
+
+
+          let errorMessage =
+            "Unable to create account.";
+
+
+          if (
+            error.code ===
+            "auth/email-already-in-use"
+          ) {
+
+            errorMessage =
+              "This email already has an account. Please Login.";
+
+          }
+
+
+          else if (
+            error.code ===
+            "auth/invalid-email"
+          ) {
+
+            errorMessage =
+              "Please enter a valid email address.";
+
+          }
+
+
+          else if (
+            error.code ===
+            "auth/weak-password"
+          ) {
+
+            errorMessage =
+              "Password must be at least 6 characters.";
+
+          }
+
+
+          else if (
+            error.code ===
+            "auth/operation-not-allowed"
+          ) {
+
+            errorMessage =
+              "Email/Password login is not enabled in Firebase.";
+
+          }
+
+
+          else if (
+            error.code ===
+            "auth/network-request-failed"
+          ) {
+
+            errorMessage =
+              "Network error. Please check your internet connection.";
+
+          }
+
+
+          else {
+
+            errorMessage =
+              error.message;
+
+          }
+
+
+          showMessage(
+            errorMessage,
+            "error"
+          );
+
+
+          signupBtn.disabled =
+            false;
+
+          loginBtn.disabled =
+            false;
+
+        }
 
       }
+    );
 
-    });
 
 
-    // -------------------------
+    // --------------------------------
     // LOGIN
-    // -------------------------
+    // --------------------------------
 
-    loginBtn.addEventListener("click", async function () {
-
-      const email = emailInput.value.trim();
-
-      const password = passwordInput.value;
+    loginBtn.addEventListener(
+      "click",
+      async function () {
 
 
-      if (!email || !password) {
-
-        message.textContent =
-          "Please enter your email and password.";
-
-        return;
-      }
+        const email =
+          emailInput.value.trim();
 
 
-      loginBtn.disabled = true;
-
-      message.textContent =
-        "Logging in...";
+        const password =
+          passwordInput.value;
 
 
-      try {
 
-        const userCredential =
-          await signInWithEmailAndPassword(
-            auth,
-            email,
-            password
+        if (!email) {
+
+          showMessage(
+            "Please enter your email address.",
+            "error"
           );
 
+          emailInput.focus();
 
-        console.log(
-          "Logged in:",
-          userCredential.user.email
+          return;
+
+        }
+
+
+
+        if (!password) {
+
+          showMessage(
+            "Please enter your password.",
+            "error"
+          );
+
+          passwordInput.focus();
+
+          return;
+
+        }
+
+
+
+        // Disable buttons
+
+        loginBtn.disabled =
+          true;
+
+        signupBtn.disabled =
+          true;
+
+
+        showMessage(
+          "Logging in...",
+          "info"
         );
 
 
-        message.textContent =
-          "✅ Login successful!";
+
+        try {
 
 
-        setTimeout(function () {
+          // LOGIN
 
-          window.location.href = "index.html";
+          const userCredential =
+            await signInWithEmailAndPassword(
+              auth,
+              email,
+              password
+            );
 
-        }, 700);
+
+          console.log(
+            "Logged in:",
+            userCredential.user
+          );
 
 
-      } catch (error) {
+          showMessage(
+            "✓ Login successful!",
+            "success"
+          );
 
-        console.error(error);
 
-        message.textContent =
-          "❌ " + error.code + " — " + error.message;
 
-        loginBtn.disabled = false;
+          // Go home
+
+          setTimeout(
+            function () {
+
+              window.location.href =
+                "index.html";
+
+            },
+            700
+          );
+
+
+        }
+
+
+        catch (error) {
+
+
+          console.error(
+            "Login error:",
+            error
+          );
+
+
+          let errorMessage =
+            "Unable to login.";
+
+
+          if (
+            error.code ===
+            "auth/invalid-credential"
+          ) {
+
+            errorMessage =
+              "Incorrect email or password.";
+
+          }
+
+
+          else if (
+            error.code ===
+            "auth/user-not-found"
+          ) {
+
+            errorMessage =
+              "No account found with this email.";
+
+          }
+
+
+          else if (
+            error.code ===
+            "auth/wrong-password"
+          ) {
+
+            errorMessage =
+              "Incorrect password.";
+
+          }
+
+
+          else if (
+            error.code ===
+            "auth/invalid-email"
+          ) {
+
+            errorMessage =
+              "Please enter a valid email address.";
+
+          }
+
+
+          else if (
+            error.code ===
+            "auth/network-request-failed"
+          ) {
+
+            errorMessage =
+              "Network error. Please check your internet connection.";
+
+          }
+
+
+          else {
+
+            errorMessage =
+              error.message;
+
+          }
+
+
+          showMessage(
+            errorMessage,
+            "error"
+          );
+
+
+          loginBtn.disabled =
+            false;
+
+          signupBtn.disabled =
+            false;
+
+        }
 
       }
-
-    });
+    );
 
 
   </script>
 
+
 </body>
 
-</html>
+  </html>
