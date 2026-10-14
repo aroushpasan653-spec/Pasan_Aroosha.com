@@ -1,645 +1,522 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Poems of Pansiluni | PAZZAN.COM</title>
-
-  <style>
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      font-family: Arial, sans-serif;
-      background: #0b0f19;
-      color: #ffffff;
-      line-height: 1.8;
-      overflow-x: hidden;
-    }
-
-
-    /* ================= NAVBAR ================= */
-
-    nav {
-      position: sticky;
-      top: 0;
-      z-index: 9999;
-
-      background: rgba(11, 15, 25, 0.18);
-
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-
-      animation: navDown 0.8s ease;
-    }
-
-    .nav-container {
-      max-width: 1200px;
-      height: 70px;
-
-      margin: auto;
-      padding: 0 25px;
-
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .logo {
-      color: #ffffff;
-      text-decoration: none;
-
-      font-size: 24px;
-      font-weight: bold;
-    }
-
-    .logo span {
-      color: #8b5cf6;
-    }
-
-
-    /* ================= HERO ================= */
-
-    .article-hero {
-      min-height: 55vh;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      text-align: center;
-
-      padding: 80px 20px;
-
-      position: relative;
-
-      overflow: hidden;
-    }
-
-
-    /* Decorative circles */
-
-    .circle {
-      position: absolute;
-
-      border-radius: 50%;
-
-      filter: blur(2px);
-
-      opacity: 0.15;
-
-      pointer-events: none;
-    }
-
-    .circle-one {
-      width: 300px;
-      height: 300px;
-
-      background: #8b5cf6;
-
-      top: -120px;
-      left: -100px;
-
-      animation: floatOne 6s ease-in-out infinite;
-    }
-
-    .circle-two {
-      width: 250px;
-      height: 250px;
-
-      background: #6366f1;
-
-      right: -80px;
-      bottom: -100px;
-
-      animation: floatTwo 7s ease-in-out infinite;
-    }
-
-
-    .hero-content {
-      position: relative;
-      z-index: 2;
-
-      max-width: 850px;
-
-      animation: articleAppear 1.2s ease;
-    }
-
-    .article-label {
-      color: #a78bfa;
-
-      font-size: 15px;
-      font-weight: 600;
-
-      letter-spacing: 3px;
-      text-transform: uppercase;
-
-      margin-bottom: 18px;
-
-      animation: fadeUp 0.8s ease 0.2s both;
-    }
-
-    .hero-content h1 {
-      font-size: 58px;
-      line-height: 1.15;
-
-      margin-bottom: 20px;
-
-      animation: fadeUp 0.8s ease 0.4s both;
-    }
-
-    .hero-content h1 span {
-      color: #8b5cf6;
-    }
-
-    .article-info {
-      color: #8f96a8;
-
-      font-size: 15px;
-
-      animation: fadeUp 0.8s ease 0.6s both;
-    }
-
-
-    /* ================= ARTICLE ================= */
-
-    .article-container {
-      max-width: 900px;
-
-      margin: auto;
-
-      padding: 40px 25px 100px;
-    }
-
-    .article-card {
-      background: rgba(17, 24, 39, 0.75);
-
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-
-      border: 1px solid #20283a;
-
-      border-radius: 20px;
-
-      padding: 50px;
-
-      box-shadow:
-        0 20px 60px rgba(0, 0, 0, 0.25);
-
-      animation: articleSlide 1s ease;
-    }
-
-
-    /* ================= ARTICLE TEXT ================= */
-
-    .conversation {
-      margin-bottom: 40px;
-    }
-
-    .conversation p {
-      font-size: 18px;
-
-      margin-bottom: 18px;
-    }
-
-    .question {
-      color: #c4b5fd;
-
-      font-weight: 600;
-    }
-
-    .answer {
-      color: #d1d5db;
-    }
-
-
-    /* ================= POEM ================= */
-
-    .poem {
-      margin-top: 35px;
-
-      padding: 35px 30px;
-
-      border-left: 3px solid #8b5cf6;
-
-      background:
-        linear-gradient(
-          135deg,
-          rgba(139, 92, 246, 0.12),
-          rgba(17, 24, 39, 0.5)
-        );
-
-      border-radius: 0 16px 16px 0;
-
-      position: relative;
-
-      overflow: hidden;
-    }
-
-    .poem::before {
-      content: "“";
-
-      position: absolute;
-
-      top: -25px;
-      left: 15px;
-
-      font-size: 100px;
-
-      color: rgba(139, 92, 246, 0.15);
-
-      font-family: Georgia, serif;
-    }
-
-    .poem p {
-      position: relative;
-
-      z-index: 2;
-
-      color: #e5e7eb;
-
-      font-size: 20px;
-
-      line-height: 2;
-
-      font-family: Georgia, "Times New Roman", serif;
-    }
-
-    .signature {
-      text-align: right;
-
-      margin-top: 25px;
-
-      color: #a78bfa;
-
-      font-size: 17px;
-
-      font-style: italic;
-    }
-
-
-    /* ================= HEART ================= */
-
-    .heart {
-      text-align: center;
-
-      font-size: 30px;
-
-      margin: 40px 0;
-
-      animation: heartbeat 2s ease-in-out infinite;
-    }
-
-
-    /* ================= BACK BUTTON ================= */
-
-    .back-section {
-      text-align: center;
-
-      margin-top: 50px;
-    }
-
-    .back-btn {
-      display: inline-block;
-
-      text-decoration: none;
-
-      color: #ffffff;
-
-      background: #8b5cf6;
-
-      padding: 13px 25px;
-
-      border-radius: 9px;
-
-      font-weight: 600;
-
-      transition: 0.3s;
-    }
-
-    .back-btn:hover {
-      background: #7c3aed;
-
-      transform: translateY(-3px);
-
-      box-shadow:
-        0 10px 25px rgba(139, 92, 246, 0.25);
-    }
-
-
-    /* ================= FOOTER ================= */
-
-    footer {
-      border-top: 1px solid #1d2433;
-
-      padding: 30px 20px;
-
-      text-align: center;
-
-      color: #737b8f;
-
-      font-size: 14px;
-    }
-
-
-    /* ================= ANIMATIONS ================= */
-
-    @keyframes navDown {
-
-      from {
-        transform: translateY(-100%);
-        opacity: 0;
-      }
-
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
-
-    }
-
-
-    @keyframes articleAppear {
-
-      from {
-        opacity: 0;
-        transform: scale(0.92);
-      }
-
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
-
-    }
-
-
-    @keyframes fadeUp {
-
-      from {
-        opacity: 0;
-        transform: translateY(25px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-
-    }
-
-
-    @keyframes articleSlide {
-
-      from {
-        opacity: 0;
-        transform: translateY(50px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-
-    }
-
-
-    @keyframes floatOne {
-
-      0%, 100% {
-        transform: translateY(0);
-      }
-
-      50% {
-        transform: translateY(30px);
-      }
-
-    }
-
-
-    @keyframes floatTwo {
-
-      0%, 100% {
-        transform: translateY(0);
-      }
-
-      50% {
-        transform: translateY(-25px);
-      }
-
-    }
-
-
-    @keyframes heartbeat {
-
-      0%, 100% {
-        transform: scale(1);
-      }
-
-      50% {
-        transform: scale(1.12);
-      }
-
-    }
-
-
-    /* ================= MOBILE ================= */
-
-    @media (max-width: 700px) {
-
-      .nav-container {
-        height: 65px;
-        padding: 0 18px;
-      }
-
-      .logo {
-        font-size: 21px;
-      }
-
-      .article-hero {
-        min-height: 45vh;
-        padding: 60px 18px;
-      }
-
-      .hero-content h1 {
-        font-size: 40px;
-      }
-
-      .article-label {
-        font-size: 13px;
-      }
-
-      .article-card {
-        padding: 28px 20px;
-      }
-
-      .conversation p {
-        font-size: 16px;
-      }
-
-      .poem {
-        padding: 25px 20px;
-      }
-
-      .poem p {
-        font-size: 17px;
-        line-height: 1.9;
-      }
-
-    }
-
-
-  </style>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Beyond the Ordinary | PASAN</title>
+<meta name="description" content="A personal article about dreams, creativity, learning and the journey beyond the ordinary.">
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --purple: #bd63ff;
+  --cyan: #48edff;
+  --background: #080b14;
+  --panel: #111727;
+  --muted: #b7bfd2;
+}
+
+body {
+  font-family: Arial, "Noto Sans Sinhala", sans-serif;
+  color: #f6f7ff;
+  background:
+    radial-gradient(ellipse at 15% 5%, #30104e70, transparent 40%),
+    radial-gradient(ellipse at 90% 45%, #07334355, transparent 38%),
+    var(--background);
+  min-height: 100vh;
+  line-height: 1.8;
+}
+
+/* HEADER */
+header {
+  padding: 18px 6%;
+  border-bottom: 1px solid #ffffff15;
+  background: #080b14cc;
+  backdrop-filter: blur(15px);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.nav {
+  max-width: 1000px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.logo {
+  color: white;
+  font-size: 23px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-decoration: none;
+}
+
+.logo span {
+  color: var(--purple);
+  text-shadow: 0 0 15px #bd63ff80;
+}
+
+.home-link {
+  color: var(--cyan);
+  text-decoration: none;
+  font-size: 14px;
+}
+
+/* ARTICLE HERO */
+.hero {
+  max-width: 850px;
+  margin: 65px auto 30px;
+  padding: 0 22px;
+  text-align: center;
+}
+
+.tag {
+  display: inline-block;
+  color: var(--cyan);
+  border: 1px solid #48edff70;
+  background: #48edff0b;
+  border-radius: 30px;
+  padding: 6px 15px;
+  font-size: 11px;
+  letter-spacing: 3px;
+}
+
+.hero h1 {
+  font-size: clamp(34px, 6vw, 58px);
+  line-height: 1.2;
+  margin: 24px 0 18px;
+  letter-spacing: -1px;
+}
+
+.hero h1 span {
+  color: var(--purple);
+  text-shadow: 0 0 30px #bd63ff55;
+}
+
+.hero p {
+  color: var(--muted);
+  font-size: 16px;
+}
+
+/* LANGUAGE BUTTONS */
+.language-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 28px auto 35px;
+  padding: 0 15px;
+}
+
+.language-bar button {
+  cursor: pointer;
+  border: 1px solid #ffffff25;
+  background: #111727;
+  color: #dce2f3;
+  border-radius: 10px;
+  padding: 10px 19px;
+  font-size: 14px;
+  font-weight: bold;
+  transition: .2s;
+}
+
+.language-bar button:hover,
+.language-bar button.active {
+  border-color: var(--purple);
+  color: white;
+  background: #bd63ff20;
+  box-shadow: 0 0 18px #bd63ff22;
+}
+
+/* ARTICLE CONTENT */
+.article {
+  max-width: 800px;
+  margin: 0 auto 60px;
+  padding: 38px 34px;
+  width: calc(100% - 32px);
+  background: #111727e8;
+  border: 1px solid #ffffff15;
+  border-radius: 22px;
+  box-shadow: 0 20px 70px #0004;
+}
+
+.article .intro {
+  color: var(--cyan);
+  font-size: 19px;
+  font-style: italic;
+  margin-bottom: 28px;
+}
+
+.article h2 {
+  color: var(--purple);
+  font-size: 23px;
+  margin: 30px 0 10px;
+  line-height: 1.5;
+}
+
+.article p {
+  color: #d0d6e6;
+  font-size: 16px;
+  margin-bottom: 17px;
+  overflow-wrap: anywhere;
+}
+
+.article .closing {
+  margin-top: 32px;
+  padding: 22px;
+  border-left: 3px solid var(--purple);
+  background: #bd63ff0b;
+  border-radius: 0 12px 12px 0;
+}
+
+.signature {
+  text-align: right;
+  color: var(--cyan) !important;
+  font-weight: bold;
+  margin-top: 18px;
+}
+
+.hidden {
+  display: none;
+}
+
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 25px 15px;
+  border-top: 1px solid #ffffff12;
+  color: #8993ad;
+  font-size: 13px;
+}
+
+footer span {
+  color: var(--purple);
+  font-weight: bold;
+}
+
+@media (max-width: 600px) {
+  header {
+    padding: 15px 18px;
+  }
+
+  .hero {
+    margin-top: 42px;
+  }
+
+  .article {
+    padding: 25px 20px;
+  }
+
+  .article h2 {
+    font-size: 21px;
+  }
+
+  .article p {
+    font-size: 15px;
+  }
+
+  .language-bar button {
+    padding: 10px 14px;
+  }
+}
+</style>
 </head>
-
 
 <body>
 
+<header>
+  <nav class="nav">
+    <a class="logo" href="index.html">
+      PASAN<span>.</span>
+    </a>
 
-  <!-- ================= NAVBAR ================= -->
-
-  <nav>
-
-    <div class="nav-container">
-
-      <a href="index.html" class="logo">
-        PAZZAN<span>.COM</span>
-      </a>
-
-    </div>
-
+    <a class="home-link" href="index.html">
+      ← Home
+    </a>
   </nav>
+</header>
 
+<section class="hero">
+  <span class="tag">✦ PERSONAL BLOG ✦</span>
 
-  <!-- ================= ARTICLE HERO ================= -->
+  <h1>
+    Beyond the Ordinary:<br>
+    <span>My Journey, My Dreams</span>
+  </h1>
 
-  <header class="article-hero">
+  <p id="subtitle">
+    A story about dreams, creativity, learning and new beginnings.
+  </p>
+</section>
 
-    <div class="circle circle-one"></div>
-    <div class="circle circle-two"></div>
+<div class="language-bar" aria-label="Choose article language">
+  <button type="button" id="englishBtn"
+    class="active" onclick="setLanguage('en')">
+    🇬🇧 English
+  </button>
 
-    <div class="hero-content">
+  <button type="button" id="sinhalaBtn"
+    onclick="setLanguage('si')">
+    🇱🇰 සිංහල
+  </button>
+</div>
 
-      <div class="article-label">
-        Poems of Pansiluni
-      </div>
+<main class="article">
 
-      <h1>
-        Poems of <span>Pansiluni</span>
-      </h1>
+  <!-- ENGLISH ARTICLE -->
+  <div id="englishArticle" lang="en">
 
-      <div class="article-info">
-        ✍️ Written by SiLu
-      </div>
+    <p class="intro">
+      Every great journey begins with a single step.
+    </p>
 
+    <p>
+      Life is more than just waking up every morning and
+      following the same routine. It is about discovering
+      who we are, learning from our experiences, and
+      building a future that reflects our dreams.
+    </p>
+
+    <p>
+      Welcome to my little corner of the internet — a place
+      where I share my thoughts, creativity, experiences,
+      and ideas with the world.
+    </p>
+
+    <h2>01. Dreams Give Life a Direction</h2>
+
+    <p>
+      Everyone has dreams. Some dream of becoming successful,
+      some want to explore the world, and others simply wish
+      to create a life filled with happiness and peace.
+    </p>
+
+    <p>
+      But dreams alone are not enough. They need patience,
+      dedication, and the courage to keep moving forward,
+      even when the road becomes difficult.
+    </p>
+
+    <p>
+      I believe that every small effort matters. A little
+      progress each day can eventually lead to something
+      extraordinary.
+    </p>
+
+    <h2>02. Learning Along the Way</h2>
+
+    <p>
+      Life is a journey full of lessons. Not every plan
+      works out, and not every day brings the results we
+      hope for. However, every experience gives us an
+      opportunity to learn something new.
+    </p>
+
+    <p>
+      Instead of being afraid of mistakes, we can use them
+      as stepping stones toward growth. The most important
+      thing is to stay curious, keep learning, and never
+      stop improving ourselves.
+    </p>
+
+    <h2>03. A Space for Creativity</h2>
+
+    <p>
+      This website is more than just a website to me.
+      It is a space where ideas can become reality.
+    </p>
+
+    <p>
+      Through PASAN, I hope to share interesting content,
+      explore new creative projects, and connect with people
+      who enjoy discovering something different.
+    </p>
+
+    <p>
+      There is still so much to learn and create, and this
+      is only the beginning.
+    </p>
+
+    <h2>04. The Journey Starts Here</h2>
+
+    <p>
+      I do not know exactly where this journey will lead me,
+      but I know that every new beginning brings fresh
+      opportunities.
+    </p>
+
+    <p>
+      My goal is to keep creating, keep learning, and keep
+      turning ideas into something meaningful.
+    </p>
+
+    <div class="closing">
+      <p>
+        Thank you for visiting my website and being a part
+        of this beginning.
+      </p>
+
+      <p>
+        This is my journey. This is my story.
+        And this is only the beginning.
+      </p>
     </div>
 
-  </header>
+    <p class="signature">
+      — PASAN | Think Beyond Ordinary.
+    </p>
+  </div>
 
+  <!-- SINHALA TRANSLATION -->
+  <div id="sinhalaArticle" class="hidden" lang="si">
 
-  <!-- ================= ARTICLE ================= -->
+    <p class="intro">
+      සෑම විශිෂ්ට ගමනක්ම ආරම්භ වන්නේ එක් කුඩා පියවරකිනි.
+    </p>
 
-  <main class="article-container">
+    <p>
+      ජීවිතය කියන්නේ හැම උදෑසනකම අවදි වී එකම දේ නැවත නැවත
+      කිරීම පමණක් නොවේ. අපි කවුදැයි හඳුනා ගැනීම,
+      අත්දැකීම්වලින් ඉගෙන ගැනීම සහ අපේ සිහිනවලට ගැළපෙන
+      අනාගතයක් ගොඩනැගීමත් ජීවිතයේ කොටසකි.
+    </p>
 
-    <article class="article-card">
+    <p>
+      මගේ අන්තර්ජාලයේ පුංචි අවකාශයට ඔයාලා සාදරයෙන්
+      පිළිගන්නවා. මගේ සිතුවිලි, නිර්මාණශීලී අදහස්,
+      අත්දැකීම් සහ අලුත් අදහස් ලෝකය සමඟ බෙදාගන්න
+      මම බලාපොරොත්තු වෙනවා.
+    </p>
 
+    <h2>01. සිහින ජීවිතයට දිශාවක් ලබා දෙයි</h2>
 
-      <!-- Conversation -->
+    <p>
+      හැම කෙනෙකුටම සිහින තියෙනවා. සමහරු සාර්ථක වෙන්න
+      සිහින දකිනවා. තවත් අය ලෝකය ගවේෂණය කරන්න
+      බලාපොරොත්තු වෙනවා. සමහරු සතුට සහ සාමය පිරුණු
+      ජීවිතයක් ගොඩනඟන්න කැමතියි.
+    </p>
 
-      <div class="conversation">
+    <p>
+      නමුත් සිහින දැකීම පමණක් ප්‍රමාණවත් නැහැ.
+      ඒවා සැබෑ කරගන්න ඉවසීම, කැපවීම සහ මඟ දුෂ්කර
+      වුණත් ඉදිරියට යාමට ධෛර්යය අවශ්‍යයි.
+    </p>
 
-        <p class="question">
-          + මාසයක් වත් නැද්ද?
-        </p>
+    <p>
+      සෑම කුඩා උත්සාහයක්ම වැදගත් කියලා මම විශ්වාස කරනවා.
+      හැම දවසකම ටිකෙන් ටික ඉදිරියට යාමෙන් කාලයත් සමඟ
+      විශේෂ දෙයක් නිර්මාණය කරගන්න පුළුවන්.
+    </p>
 
-        <p class="answer">
-          - ඔව්, මාසයක්වත් නැ.
-          ඒත් විශ්වාස කරන්න...
-          මේ දවස් කීපයට මම එයාට අවුරුදු ගානක ඉඳලා
-          ආදරේ කරා වගේ ආදරේ කරනවා.
-        </p>
+    <h2>02. ගමන අතරතුර ඉගෙන ගැනීම</h2>
 
+    <p>
+      ජීවිතය කියන්නේ පාඩම් රැසක් ඉගෙන ගන්න ලැබෙන ගමනක්.
+      අපි සැලසුම් කරන හැම දෙයක්ම සාර්ථක වෙන්නේ නැහැ.
+      බලාපොරොත්තු වන ප්‍රතිඵල හැම දවසකම ලැබෙන්නෙත් නැහැ.
+      ඒත් හැම අත්දැකීමක්ම අලුත් දෙයක් ඉගෙන ගැනීමට
+      අවස්ථාවක් ලබා දෙනවා.
+    </p>
 
-        <p class="question">
-          + කොහොමද එයාට ඔච්චර ආදරේ කරන්නෙ...
-        </p>
+    <p>
+      වැරදිවලට බිය වෙනවා වෙනුවට ඒවා අපේ දියුණුවට
+      පියවරක් කරගන්න පුළුවන්. වැදගත්ම දේ වන්නේ
+      අලුත් දේවල් ගැන උනන්දුවෙන් සිටීම, දිගටම ඉගෙනීම
+      සහ තමන්ව දියුණු කරගැනීම නතර නොකිරීමයි.
+    </p>
 
-        <p class="answer">
-          - ඒක අහන්න වෙන්නෙ හදවතින් තමයි... 😊
-        </p>
+    <h2>03. නිර්මාණශීලීත්වයට වෙන් වූ අවකාශයක්</h2>
 
-      </div>
+    <p>
+      මේ වෙබ් අඩවිය මට සාමාන්‍ය වෙබ් අඩවියක් විතරක්
+      නෙවෙයි. අදහස් සැබෑ නිර්මාණ බවට පත් කරගන්න
+      පුළුවන් අවකාශයක්.
+    </p>
 
+    <p>
+      PASAN හරහා රසවත් දේවල් බෙදාගන්නත්, අලුත්
+      නිර්මාණශීලී ව්‍යාපෘති අත්හදා බලන්නත්, වෙනස්
+      දෙයක් සොයාගන්න කැමති අය සමඟ සම්බන්ධ වෙන්නත්
+      මම බලාපොරොත්තු වෙනවා.
+    </p>
 
-      <!-- Heart -->
+    <p>
+      තව බොහෝ දේ ඉගෙන ගන්නත් නිර්මාණය කරන්නත්
+      තියෙනවා. මේ ගමනේ ආරම්භය විතරයි.
+    </p>
 
-      <div class="heart">
-        💗
-      </div>
+    <h2>04. ගමන ආරම්භ වන්නේ මෙතැනින්</h2>
 
+    <p>
+      මේ ගමන මාව කොතැනට ගෙන යයිද කියලා මම හරියටම
+      දන්නේ නැහැ. නමුත් හැම අලුත් ආරම්භයක්ම අලුත්
+      අවස්ථා ගෙන එන බව මම දන්නවා.
+    </p>
 
-      <!-- Poem -->
+    <p>
+      දිගටම නිර්මාණය කිරීම, ඉගෙනීම සහ අදහස් අර්ථවත්
+      දෙයක් බවට පත් කිරීම මගේ අරමුණයි.
+    </p>
 
-      <div class="poem">
+    <div class="closing">
+      <p>
+        මගේ වෙබ් අඩවියට පැමිණ මේ ආරම්භයේ කොටසක්
+        වීම ගැන ඔයාලා හැමෝටම ස්තුතියි.
+      </p>
 
-        <p>
-          මාසයකුත් නොමැති වූවද...<br>
-          දැනුනා ඔහු/ඇය මාගේ ම බව...<br>
-          නොදුටුවද දුර හදන්දා අප...<br>
-          කෙසේ ඇති වූවද පෙම...<br>
-          දැකිය යුතුම ද ඇති වන්නට පෙම<br>
-          සිත් නොවෙද ආදරෙන් වැලද ගත්ත යුතු...<br>
-          දැනීම නොවෙද...<br>
-          නොදත් දේ ඇත නුබ ගැන තව<br>
-          මහ සයුරක් ලෙසට නමුත්...<br>
-          පෙම ඇත නිමක් නොමැති වූ<br>
-          අහසක් ලෙසට
-        </p>
+      <p>
+        මේ මගේ ගමනයි. මේ මගේ කතාවයි.
+        ඒ වගේම මේ ආරම්භය පමණයි.
+      </p>
+    </div>
 
-        <div class="signature">
-          ~ SiLu 🖋️ ~
-        </div>
+    <p class="signature">
+      — PASAN | සාමාන්‍ය සීමාවෙන් ඔබ්බට සිතන්න.
+    </p>
+  </div>
 
-      </div>
+</main>
 
+<footer>
+  © <span>PASAN</span> · My Journey, My Dreams
+</footer>
 
-      <!-- Back -->
+<script>
+function setLanguage(language) {
+  const english = document.getElementById("englishArticle");
+  const sinhala = document.getElementById("sinhalaArticle");
+  const englishBtn = document.getElementById("englishBtn");
+  const sinhalaBtn = document.getElementById("sinhalaBtn");
+  const subtitle = document.getElementById("subtitle");
 
-      <div class="back-section">
+  const showEnglish = language === "en";
 
-        <a href="index.html#blog" class="back-btn">
-          ← Back to My Blog
-        </a>
+  english.classList.toggle("hidden", !showEnglish);
+  sinhala.classList.toggle("hidden", showEnglish);
 
-      </div>
+  englishBtn.classList.toggle("active", showEnglish);
+  sinhalaBtn.classList.toggle("active", !showEnglish);
 
+  subtitle.textContent = showEnglish
+    ? "A story about dreams, creativity, learning and new beginnings."
+    : "සිහින, නිර්මාණශීලීත්වය, ඉගෙනීම සහ අලුත් ආරම්භයන් ගැන කතාවක්.";
 
-    </article>
-
-  </main>
-
-
-  <!-- ================= FOOTER ================= -->
-
-  <footer>
-
-    © 2026 Pasan Aroosha.
-    All rights reserved.
-
-  </footer>
-
+  document.documentElement.lang = showEnglish ? "en" : "si";
+}
+</script>
 
 </body>
-  </html>
+</html>
