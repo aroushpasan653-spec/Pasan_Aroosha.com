@@ -1,0 +1,389 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#050711">
+<meta name="description" content="PAZZAN.COM Neon Gaming Dashboard">
+<title>Dashboard | PAZZAN.COM</title>
+
+<style>
+:root {
+  --bg:#050711;
+  --panel:#0d1222;
+  --panel2:#111a2d;
+  --purple:#a855f7;
+  --cyan:#00e5ff;
+  --text:#f4f7ff;
+  --muted:#9ba9c1;
+  --border:rgba(168,85,247,.3);
+}
+* {box-sizing:border-box;margin:0;padding:0}
+body {
+  min-height:100vh;
+  background:
+    radial-gradient(ellipse at 15% 0%,rgba(104,45,180,.17),transparent 40%),
+    radial-gradient(ellipse at 100% 70%,rgba(0,229,255,.07),transparent 35%),
+    var(--bg);
+  color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;
+}
+a {text-decoration:none;color:inherit}
+button {font:inherit;cursor:pointer}
+.topbar {
+  min-height:70px;
+  padding:12px 5%;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:14px;position:sticky;top:0;z-index:20;
+  background:rgba(5,7,17,.88);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--border);
+}
+.logo {font-size:22px;font-weight:900;letter-spacing:1px}
+.logo span {color:var(--cyan);text-shadow:0 0 12px rgba(0,229,255,.4)}
+.top-actions {display:flex;align-items:center;gap:12px}
+.user-email {
+  color:var(--muted);font-size:12px;
+  max-width:190px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.small-btn {
+  border:1px solid var(--cyan);color:var(--cyan);
+  background:transparent;border-radius:9px;padding:9px 13px;
+  transition:.2s;
+}
+.small-btn:hover {background:rgba(0,229,255,.1)}
+.layout {display:grid;grid-template-columns:235px minmax(0,1fr);min-height:calc(100vh - 70px)}
+.sidebar {
+  padding:28px 16px;border-right:1px solid var(--border);
+  background:rgba(8,12,25,.68);
+}
+.side-label {
+  color:#75819a;font-size:11px;font-weight:bold;
+  letter-spacing:2px;margin:5px 12px 15px;
+}
+.side-link {
+  display:flex;align-items:center;gap:12px;
+  padding:13px 14px;margin-bottom:7px;border-radius:10px;
+  color:#c4cce0;font-size:14px;border:1px solid transparent;
+  transition:.2s;
+}
+.side-link:hover,.side-link.active {
+  color:var(--cyan);
+  border-color:var(--border);
+  background:linear-gradient(90deg,rgba(168,85,247,.14),rgba(0,229,255,.04));
+}
+.side-icon {font-size:19px;width:25px;text-align:center}
+.main {padding:34px;min-width:0}
+.welcome {
+  display:flex;align-items:center;justify-content:space-between;
+  gap:20px;margin-bottom:30px;
+}
+.eyebrow {
+  color:var(--cyan);font-size:11px;font-weight:bold;
+  letter-spacing:2.5px;margin-bottom:10px;
+}
+h1 {font-size:clamp(27px,4vw,40px);line-height:1.2;margin-bottom:10px}
+.gradient-text {
+  background:linear-gradient(90deg,var(--cyan),#c084fc);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.subtitle {color:var(--muted);font-size:14px;line-height:1.7}
+.status {
+  display:inline-flex;align-items:center;gap:8px;
+  color:#a7f3d0;font-size:12px;padding:9px 12px;
+  border:1px solid rgba(52,211,153,.25);border-radius:30px;
+  background:rgba(52,211,153,.06);white-space:nowrap;
+}
+.dot {width:7px;height:7px;background:#34d399;border-radius:50%;box-shadow:0 0 10px #34d399}
+.section-heading {
+  display:flex;align-items:center;justify-content:space-between;
+  gap:12px;margin:32px 0 17px;
+}
+.section-heading h2 {font-size:19px}
+.section-heading p {font-size:12px;color:var(--muted)}
+.cards {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px}
+.card {
+  position:relative;overflow:hidden;min-width:0;
+  padding:23px;border-radius:15px;
+  border:1px solid var(--border);
+  background:linear-gradient(145deg,rgba(17,26,45,.96),rgba(9,13,26,.98));
+  transition:transform .22s,border-color .22s,box-shadow .22s;
+}
+.card:before {
+  content:"";position:absolute;width:100px;height:100px;
+  top:-60px;right:-50px;border-radius:50%;
+  background:var(--glow,rgba(168,85,247,.25));filter:blur(25px);
+}
+.card:hover {
+  transform:translateY(-5px);border-color:var(--cyan);
+  box-shadow:0 10px 28px rgba(0,229,255,.08);
+}
+.card-icon {
+  width:49px;height:49px;display:grid;place-items:center;
+  border-radius:13px;font-size:24px;margin-bottom:22px;
+  background:rgba(168,85,247,.12);border:1px solid rgba(168,85,247,.24);
+}
+.card h3 {font-size:17px;margin-bottom:8px}
+.card p {font-size:13px;line-height:1.65;color:var(--muted);min-height:42px}
+.card-bottom {
+  display:flex;align-items:center;justify-content:space-between;
+  gap:8px;margin-top:21px;color:var(--cyan);font-size:12px;font-weight:bold;
+}
+.arrow {font-size:20px;transition:transform .2s}
+.card:hover .arrow {transform:translateX(4px)}
+.quick-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.quick-link {
+  display:flex;align-items:center;gap:14px;
+  padding:17px;border:1px solid rgba(255,255,255,.08);
+  background:rgba(13,18,34,.7);border-radius:13px;transition:.2s;
+}
+.quick-link:hover {border-color:var(--cyan);background:rgba(0,229,255,.04)}
+.quick-icon {font-size:24px}
+.quick-link strong {display:block;font-size:14px}
+.quick-link small {display:block;color:var(--muted);font-size:12px;margin-top:4px}
+.footer {padding:28px 0 5px;text-align:center;color:#738099;font-size:12px}
+.footer span {color:var(--cyan)}
+#loading {
+  min-height:100vh;display:grid;place-items:center;text-align:center;padding:24px;
+}
+.loader {
+  width:42px;height:42px;border:3px solid #27243f;
+  border-top-color:var(--cyan);border-radius:50%;
+  animation:spin .8s linear infinite;margin:0 auto 18px;
+}
+@keyframes spin {to{transform:rotate(360deg)}}
+#dashboardApp[hidden],#loading[hidden] {display:none!important}
+@media(max-width:1000px) {
+  .layout {grid-template-columns:190px minmax(0,1fr)}
+  .main {padding:25px}
+  .cards {grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:700px) {
+  .topbar {padding:12px 4%}
+  .layout {grid-template-columns:1fr}
+  .sidebar {
+    display:flex;gap:6px;overflow-x:auto;padding:11px 4%;
+    border-right:0;border-bottom:1px solid var(--border);
+  }
+  .side-label {display:none}
+  .side-link {flex:0 0 auto;margin:0;padding:10px 12px;font-size:12px}
+  .side-icon {font-size:16px;width:auto}
+  .main {padding:25px 4%}
+  .welcome {align-items:flex-start;flex-direction:column}
+  .cards {grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .card {padding:17px}
+  .card-icon {width:42px;height:42px;margin-bottom:17px}
+  .card h3 {font-size:15px}
+  .card p {font-size:12px}
+  .user-email {max-width:105px}
+}
+@media(max-width:390px) {
+  .cards,.quick-grid {grid-template-columns:1fr}
+  .logo {font-size:18px}
+  .small-btn {padding:8px;font-size:12px}
+}
+</style>
+</head>
+
+<body>
+
+<div id="loading">
+  <div>
+    <div class="loader"></div>
+    <h2>Checking your login...</h2>
+    <p class="subtitle">PAZZAN.COM secure dashboard</p>
+  </div>
+</div>
+
+<div id="dashboardApp" hidden>
+  <header class="topbar">
+    <a href="index.html" class="logo">PAZZAN<span>.COM</span></a>
+    <div class="top-actions">
+      <span id="userEmail" class="user-email"></span>
+      <button id="logoutBtn" class="small-btn">Logout ↗</button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="side-label">MAIN MENU</div>
+      <a class="side-link active" href="#overview">
+        <span class="side-icon">⌂</span> Dashboard
+      </a>
+      <a class="side-link" href="index.html#services">
+        <span class="side-icon">⚡</span> Services
+      </a>
+      <a class="side-link" href="index.html#games">
+        <span class="side-icon">🎮</span> Games
+      </a>
+      <a class="side-link" href="index.html#blog">
+        <span class="side-icon">📰</span> Blog
+      </a>
+      <a class="side-link" href="gallery.html">
+        <span class="side-icon">🖼️</span> Gallery
+      </a>
+      <a class="side-link" href="index.html#contact">
+        <span class="side-icon">✉️</span> Contact
+      </a>
+      <a class="side-link" href="index.html">
+        <span class="side-icon">🌐</span> Home Website
+      </a>
+    </aside>
+
+    <main class="main" id="overview">
+      <div class="welcome">
+        <div>
+          <div class="eyebrow">NEON CONTROL CENTER</div>
+          <h1>Welcome back,<br><span class="gradient-text">Player!</span></h1>
+          <p class="subtitle">Your PAZZAN.COM digital world, all in one place.</p>
+        </div>
+        <div class="status"><span class="dot"></span> Authentication verified</div>
+      </div>
+
+      <div class="section-heading">
+        <h2>⚡ Quick Access</h2>
+        <p>Your digital space</p>
+      </div>
+
+      <div class="cards">
+        <a class="card" href="index.html#services" style="--glow:rgba(0,229,255,.3)">
+          <div class="card-icon">🛠️</div>
+          <h3>Media Services</h3>
+          <p>Explore available audio, video, image and file tools.</p>
+          <div class="card-bottom"><span>OPEN SERVICES</span><span class="arrow">→</span></div>
+        </a>
+
+        <a class="card" href="index.html#games" style="--glow:rgba(168,85,247,.3)">
+          <div class="card-icon">🎮</div>
+          <h3>Gaming Zone</h3>
+          <p>Jump into Tetris, Snake and other available games.</p>
+          <div class="card-bottom"><span>PLAY GAMES</span><span class="arrow">→</span></div>
+        </a>
+
+        <a class="card" href="index.html#blog">
+          <div class="card-icon">📰</div>
+          <h3>My Blog</h3>
+          <p>Read updates, ideas and posts on the main website.</p>
+          <div class="card-bottom"><span>READ BLOG</span><span class="arrow">→</span></div>
+        </a>
+
+        <a class="card" href="gallery.html" style="--glow:rgba(236,72,153,.25)">
+          <div class="card-icon">🖼️</div>
+          <h3>Photo Gallery</h3>
+          <p>Open the gallery page and explore photo albums.</p>
+          <div class="card-bottom"><span>OPEN GALLERY</span><span class="arrow">→</span></div>
+        </a>
+
+        <a class="card" href="index.html#contact" style="--glow:rgba(52,211,153,.25)">
+          <div class="card-icon">✉️</div>
+          <h3>Contact</h3>
+          <p>Visit the contact section to get in touch.</p>
+          <div class="card-bottom"><span>CONTACT ME</span><span class="arrow">→</span></div>
+        </a>
+
+        <a class="card" href="index.html" style="--glow:rgba(250,204,21,.2)">
+          <div class="card-icon">🌐</div>
+          <h3>Main Website</h3>
+          <p>Return to the PAZZAN.COM home page.</p>
+          <div class="card-bottom"><span>GO HOME</span><span class="arrow">→</span></div>
+        </a>
+      </div>
+
+      <div class="section-heading">
+        <h2>🚀 More Shortcuts</h2>
+      </div>
+
+      <div class="quick-grid">
+        <a class="quick-link" href="mp3-converter.html">
+          <span class="quick-icon">🎵</span>
+          <span><strong>MP3 Converter</strong><small>Open audio tools</small></span>
+        </a>
+        <a class="quick-link" href="video-converter.html">
+          <span class="quick-icon">🎬</span>
+          <span><strong>Video Converter</strong><small>Open video tools</small></span>
+        </a>
+        <a class="quick-link" href="tetris.html">
+          <span class="quick-icon">🧱</span>
+          <span><strong>Tetris</strong><small>Play the block game</small></span>
+        </a>
+        <a class="quick-link" href="snake.html">
+          <span class="quick-icon">🐍</span>
+          <span><strong>Snake Game</strong><small>Play the classic game</small></span>
+        </a>
+      </div>
+
+      <footer class="footer">
+        © <span id="year"></span> <span>PAZZAN.COM</span> · Neon Gaming Dashboard
+      </footer>
+    </main>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from
+  "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+
+import {
+  getAuth,
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyB3G98XBTZH6NFiZx6NQmyEKR8g6vnSYNQ",
+  authDomain: "pasan-fc8e2.firebaseapp.com",
+  projectId: "pasan-fc8e2",
+  storageBucket: "pasan-fc8e2.firebasestorage.app",
+  messagingSenderId: "330282693990",
+  appId: "1:330282693990:web:f754a4a09efaa73ab5c4a7",
+  measurementId: "G-B12LL33EQ3"
+};
+
+document.getElementById("year").textContent = new Date().getFullYear();
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+const loading = document.getElementById("loading");
+const dashboard = document.getElementById("dashboardApp");
+const userEmail = document.getElementById("userEmail");
+const logoutBtn = document.getElementById("logoutBtn");
+
+onAuthStateChanged(auth, user => {
+  if (user) {
+    userEmail.textContent = user.email || "Logged in";
+    loading.hidden = true;
+    dashboard.hidden = false;
+  } else {
+    dashboard.hidden = true;
+    loading.hidden = false;
+    loading.innerHTML = `
+      <div>
+        <h2>Login required</h2>
+        <p class="subtitle" style="margin:12px 0 20px">
+          Please log in to access your dashboard.
+        </p>
+        <a href="login.html?redirect=dashboard.html"
+           style="display:inline-block;padding:12px 20px;border-radius:10px;
+           background:#8b5cf6;color:white;font-weight:bold">
+           Go to Login
+        </a>
+      </div>`;
+  }
+});
+
+logoutBtn.addEventListener("click", async () => {
+  logoutBtn.disabled = true;
+  try {
+    await signOut(auth);
+    window.location.replace("login.html");
+  } catch (error) {
+    alert("Logout failed. Please try again.");
+    logoutBtn.disabled = false;
+    console.error(error);
+  }
+});
+</script>
+</body>
+</html>
