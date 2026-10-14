@@ -1,319 +1,400 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#0b0f19">
-  <title>TikTok to MP3 | PAZZAN.COM</title>
-  <style>
-    :root {
-      --bg: #0b0f19;
-      --panel: #111827;
-      --panel2: #151d2d;
-      --text: #f8fafc;
-      --muted: #a7b0c0;
-      --purple: #8b5cf6;
-      --purple2: #a78bfa;
-      --border: rgba(255,255,255,.10);
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body {
-      min-height: 100vh;
-      background:
-        radial-gradient(ellipse at 15% 0%, rgba(139,92,246,.16), transparent 38%),
-        radial-gradient(ellipse at 95% 25%, rgba(99,102,241,.10), transparent 32%),
-        var(--bg);
-      color: var(--text);
-      font-family: Arial, Helvetica, sans-serif;
-      line-height: 1.6;
-    }
-    a { color: inherit; text-decoration: none; }
-    .navbar {
-      position: sticky; top: 0; z-index: 20;
-      background: rgba(11,15,25,.72);
-      border-bottom: 1px solid var(--border);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-    }
-    .nav-inner {
-      max-width: 1120px; margin: auto; padding: 0 22px;
-      height: 70px; display: flex; align-items: center; justify-content: space-between;
-    }
-    .logo { font-size: 1.25rem; font-weight: 800; letter-spacing: .5px; }
-    .logo span { color: var(--purple2); }
-    .back-link {
-      color: #e5ddff; border: 1px solid rgba(167,139,250,.35);
-      padding: 8px 14px; border-radius: 999px; font-size: .9rem;
-      transition: .2s;
-    }
-    .back-link:hover { background: rgba(139,92,246,.16); }
-    main { width: min(760px, calc(100% - 32px)); margin: 58px auto 48px; }
-    .eyebrow {
-      display: inline-flex; gap: 8px; align-items: center;
-      padding: 6px 12px; border: 1px solid rgba(167,139,250,.3);
-      background: rgba(139,92,246,.10); border-radius: 999px;
-      color: #d8ccff; font-size: .82rem; margin-bottom: 17px;
-    }
-    h1 { font-size: clamp(2rem, 6vw, 3.25rem); line-height: 1.12; letter-spacing: -1px; }
-    h1 span { color: var(--purple2); }
-    .intro { color: var(--muted); max-width: 590px; margin: 17px auto 0; }
-    .hero { text-align: center; margin-bottom: 30px; }
-    .converter {
-      background: rgba(17,24,39,.88); border: 1px solid var(--border);
-      border-radius: 22px; padding: clamp(20px, 5vw, 34px);
-      box-shadow: 0 22px 65px rgba(0,0,0,.28);
-    }
-    label { display: block; font-weight: 700; margin-bottom: 10px; }
-    .input-wrap { position: relative; }
-    input[type="url"] {
-      width: 100%; min-height: 56px; padding: 15px 16px;
-      border: 1px solid rgba(255,255,255,.15); border-radius: 12px;
-      background: #0b1220; color: var(--text); outline: none;
-      font: inherit; transition: border-color .2s, box-shadow .2s;
-    }
-    input[type="url"]:focus {
-      border-color: var(--purple2);
-      box-shadow: 0 0 0 3px rgba(139,92,246,.18);
-    }
-    input::placeholder { color: #778196; }
-    .hint { color: var(--muted); font-size: .84rem; margin-top: 9px; }
-    .actions { display: flex; gap: 11px; margin-top: 20px; }
-    button {
-      border: 0; cursor: pointer; font: inherit; font-weight: 700;
-      border-radius: 12px; min-height: 50px; padding: 12px 18px;
-      transition: transform .15s, opacity .15s, background .15s;
-    }
-    button:active { transform: scale(.985); }
-    button:disabled { cursor: not-allowed; opacity: .55; }
-    .primary {
-      flex: 1; color: white;
-      background: linear-gradient(135deg, #8b5cf6, #6d28d9);
-      box-shadow: 0 8px 22px rgba(109,40,217,.22);
-    }
-    .primary:hover:not(:disabled) { background: linear-gradient(135deg, #9b70ff, #7c3aed); }
-    .secondary { color: #e6e0ff; background: #20283a; border: 1px solid var(--border); }
-    .status {
-      display: none; margin-top: 18px; padding: 12px 14px; border-radius: 12px;
-      font-size: .92rem; overflow-wrap: anywhere;
-    }
-    .status.show { display: block; }
-    .status.info { background: rgba(59,130,246,.12); border: 1px solid rgba(96,165,250,.28); color: #dbeafe; }
-    .status.error { background: rgba(239,68,68,.10); border: 1px solid rgba(248,113,113,.28); color: #fecaca; }
-    .status.success { background: rgba(34,197,94,.10); border: 1px solid rgba(74,222,128,.25); color: #bbf7d0; }
-    .download-link {
-      display: none; width: 100%; text-align: center; margin-top: 12px;
-      padding: 13px 16px; border-radius: 12px; background: #16a34a; color: white;
-      font-weight: 800;
-    }
-    .download-link.show { display: block; }
-    .note {
-      margin-top: 20px; color: var(--muted); font-size: .85rem;
-      border-top: 1px solid var(--border); padding-top: 17px;
-    }
-    .how { margin-top: 28px; }
-    .how h2 { font-size: 1.15rem; margin-bottom: 13px; }
-    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-    .step {
-      background: rgba(17,24,39,.66); border: 1px solid var(--border);
-      border-radius: 14px; padding: 16px;
-    }
-    .step-number {
-      display: grid; place-items: center; width: 30px; height: 30px;
-      border-radius: 9px; background: rgba(139,92,246,.18);
-      color: #d8ccff; font-weight: 800; margin-bottom: 10px;
-    }
-    .step strong { display: block; margin-bottom: 4px; font-size: .93rem; }
-    .step p { color: var(--muted); font-size: .82rem; }
-    footer { text-align: center; color: #7f899b; font-size: .82rem; padding: 22px 16px 30px; }
-    @media (max-width: 600px) {
-      .nav-inner { height: 64px; padding: 0 16px; }
-      main { margin-top: 38px; }
-      .actions { flex-direction: column; }
-      .steps { grid-template-columns: 1fr; }
-      .step { display: flex; gap: 12px; align-items: flex-start; }
-      .step-number { flex: 0 0 30px; margin-bottom: 0; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b0f19">
+<title>Media Tools | PAZZAN.COM</title>
+
+<style>
+:root {
+  --bg:#0b0f19;
+  --panel:#111827;
+  --text:#f8fafc;
+  --muted:#a7b0c0;
+  --purple:#8b5cf6;
+  --cyan:#22d3ee;
+  --border:rgba(255,255,255,.1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  min-height:100vh;background:
+  radial-gradient(ellipse at 15% 0%,#8b5cf626,transparent 40%),
+  radial-gradient(ellipse at 95% 25%,#22d3ee12,transparent 35%),
+  var(--bg);color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;line-height:1.6
+}
+a{color:inherit;text-decoration:none}
+.navbar{
+  position:sticky;top:0;z-index:20;
+  background:rgba(11,15,25,.72);
+  border-bottom:1px solid var(--border);
+  backdrop-filter:blur(18px)
+}
+.nav-inner{
+  max-width:1120px;margin:auto;padding:0 20px;height:68px;
+  display:flex;align-items:center;justify-content:space-between
+}
+.logo{font-size:1.25rem;font-weight:900}
+.logo span{color:var(--cyan)}
+.back{
+  border:1px solid #8b5cf655;border-radius:30px;
+  padding:8px 14px;color:#ddd6fe
+}
+main{width:min(1000px,calc(100% - 30px));margin:42px auto}
+.hero{text-align:center;margin-bottom:30px}
+.hero h1{font-size:clamp(2.2rem,7vw,3.6rem);line-height:1.15}
+.gradient{
+  background:linear-gradient(90deg,#a855f7,#22d3ee);
+  background-clip:text;color:transparent
+}
+p{color:var(--muted);margin-top:8px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.card,.panel{
+  background:rgba(17,24,39,.88);
+  border:1px solid var(--border);border-radius:18px;padding:22px;
+  box-shadow:0 12px 35px #0002
+}
+.card{transition:.2s}
+.card:hover{border-color:#22d3ee99;transform:translateY(-3px)}
+.icon{font-size:30px}
+h2{font-size:1.2rem;margin-bottom:12px}
+h3{margin-top:8px}
+button,.btn{
+  border:0;border-radius:10px;padding:12px 16px;
+  background:linear-gradient(120deg,#9333ea,#6d28d9);
+  color:white;font-weight:700;cursor:pointer;display:inline-block;
+  text-align:center;font-size:.95rem
+}
+button:disabled{opacity:.5;cursor:not-allowed}
+button:hover:not(:disabled),.btn:hover{filter:brightness(1.15)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:15px}
+.secondary{background:#20283a;border:1px solid var(--border)}
+label{display:block;font-weight:700;margin:12px 0 7px}
+input[type=url],input[type=file],select{
+  display:block;width:100%;padding:13px;
+  background:#080d1b;border:1px solid #414767;
+  border-radius:10px;color:white;font:inherit
+}
+.status{
+  margin-top:14px;padding:12px;border-radius:10px;
+  background:#080d1b;color:#a5f3fc;overflow-wrap:anywhere;
+  white-space:pre-wrap;font-size:.92rem
+}
+.small{font-size:.82rem}
+.panel{margin-top:20px}
+.download{display:inline-block;margin-top:14px;color:#86efac;font-weight:bold}
+footer{text-align:center;color:#7f899b;padding:24px}
+[hidden]{display:none!important}
+@media(max-width:600px){
+  .grid{grid-template-columns:1fr}
+  main{margin-top:28px}
+  .nav-inner{padding:0 14px}
+  .card,.panel{padding:18px}
+}
+</style>
 </head>
+
 <body>
-  <header class="navbar">
-    <nav class="nav-inner" aria-label="Main navigation">
-      <a class="logo" href="index.html">PAZZAN<span>.COM</span></a>
-      <a class="back-link" href="index.html">← Back to Home</a>
-    </nav>
-  </header>
+<header class="navbar">
+  <nav class="nav-inner">
+    <a class="logo" href="index.html">PAZZAN<span>.COM</span></a>
+    <a class="back" href="index.html">← Home</a>
+  </nav>
+</header>
 
-  <main>
-    <section class="hero">
-      <div class="eyebrow">♫ &nbsp; AUDIO CONVERTER</div>
-      <h1>TikTok to <span>MP3</span></h1>
-      <p class="intro">Paste a video link below to get started. Use only content you own or have permission to download.</p>
-    </section>
+<main>
+  <section class="hero">
+    <h1>MEDIA <span class="gradient">TOOLS</span></h1>
+    <p>Convert your own media with our neon-powered toolkit.</p>
+    <p class="small">YouTube · TikTok · Facebook · Instagram</p>
+  </section>
 
-    <section class="converter" aria-labelledby="converter-title">
-      <h2 id="converter-title" style="font-size:1.1rem; margin-bottom:18px;">Convert video to audio</h2>
-      <form id="converterForm">
-        <label for="videoUrl">TikTok video URL</label>
-        <div class="input-wrap">
-          <input
-            id="videoUrl"
-            name="videoUrl"
-            type="url"
-            placeholder="https://www.tiktok.com/@username/video/..."
-            autocomplete="url"
-            inputmode="url"
-            required
-            aria-describedby="urlHint"
-          >
-        </div>
-        <p class="hint" id="urlHint">Paste the full public video URL.</p>
-        <div class="actions">
-          <button class="primary" id="convertBtn" type="submit">Convert to MP3</button>
-          <button class="secondary" id="clearBtn" type="button">Clear</button>
-        </div>
-      </form>
-
-      <div id="status" class="status" role="status" aria-live="polite"></div>
-      <a id="downloadLink" class="download-link" href="#" download>Download MP3</a>
-
-      <p class="note">
-        <strong>Setup note:</strong> This page needs a trusted conversion backend/API before conversion and download can work. Do not place secret API keys in this HTML file. Never paste private or account-only links.
-      </p>
-    </section>
-
-    <section class="how">
-      <h2>How it works</h2>
-      <div class="steps">
-        <article class="step">
-          <div class="step-number">1</div>
-          <div><strong>Paste a link</strong><p>Enter the video URL in the box above.</p></div>
-        </article>
-        <article class="step">
-          <div class="step-number">2</div>
-          <div><strong>Convert</strong><p>The connected backend processes permitted media.</p></div>
-        </article>
-        <article class="step">
-          <div class="step-number">3</div>
-          <div><strong>Download</strong><p>Use the download link when the backend returns an MP3 file.</p></div>
-        </article>
+  <section class="grid">
+    <article class="card">
+      <div class="icon">▶️</div>
+      <h3>YouTube Tool</h3>
+      <p>Open YouTube and check your video link. Convert an authorized file below.</p>
+      <div class="actions">
+        <a class="btn" href="https://www.youtube.com/" target="_blank" rel="noopener">Open YouTube ↗</a>
+        <button class="secondary" onclick="checkPlatform('YouTube')">Check Link</button>
       </div>
-    </section>
-  </main>
+    </article>
 
-  <footer>© <span id="year"></span> PAZZAN.COM. All rights reserved.</footer>
+    <article class="card">
+      <div class="icon">🎵</div>
+      <h3>TikTok Tool</h3>
+      <p>Open TikTok and check a post URL. Convert your own media files below.</p>
+      <div class="actions">
+        <a class="btn" href="https://www.tiktok.com/" target="_blank" rel="noopener">Open TikTok ↗</a>
+        <button class="secondary" onclick="checkPlatform('TikTok')">Check Link</button>
+      </div>
+    </article>
 
-  <script>
-    /*
-      BACKEND SETUP:
-      1. Deploy a trusted backend/API that accepts { url: "..." }.
-      2. Configure it to return JSON like:
-         { "downloadUrl": "https://your-service.example/file.mp3" }
-         or { "downloadUrl": "...", "filename": "audio.mp3" }.
-      3. Put the backend endpoint URL below.
-      Keep API secrets on the server, never in this public HTML file.
-    */
-    const API_ENDPOINT = ""; // Example: "https://your-backend.example/api/convert"
+    <article class="card">
+      <div class="icon">📘</div>
+      <h3>Facebook Tool</h3>
+      <p>Open Facebook and check your link. Use media you own or have permission to use.</p>
+      <div class="actions">
+        <a class="btn" href="https://www.facebook.com/" target="_blank" rel="noopener">Open Facebook ↗</a>
+        <button class="secondary" onclick="checkPlatform('Facebook')">Check Link</button>
+      </div>
+    </article>
 
-    const form = document.getElementById("converterForm");
-    const urlInput = document.getElementById("videoUrl");
-    const convertBtn = document.getElementById("convertBtn");
-    const clearBtn = document.getElementById("clearBtn");
-    const statusBox = document.getElementById("status");
-    const downloadLink = document.getElementById("downloadLink");
+    <article class="card">
+      <div class="icon">📸</div>
+      <h3>Instagram Tool</h3>
+      <p>Open Instagram and check a post URL. Convert your own media files below.</p>
+      <div class="actions">
+        <a class="btn" href="https://www.instagram.com/" target="_blank" rel="noopener">Open Instagram ↗</a>
+        <button class="secondary" onclick="checkPlatform('Instagram')">Check Link</button>
+      </div>
+    </article>
+  </section>
 
-    document.getElementById("year").textContent = new Date().getFullYear();
+  <section class="panel" id="linkChecker">
+    <h2>🔗 Social Media Link Checker</h2>
+    <label for="socialUrl">Paste a public video or post URL</label>
+    <input id="socialUrl" type="url"
+      placeholder="https://www.tiktok.com/@user/video/...">
+    <div class="actions">
+      <button id="checkBtn">Check Link</button>
+      <button id="clearLink" class="secondary">Clear</button>
+    </div>
+    <div class="status" id="linkStatus" role="status" aria-live="polite">
+      Paste a link to check its platform.
+    </div>
+    <p class="small">This checks the URL format only. It does not download media or confirm that a post exists.</p>
+  </section>
 
-    function showStatus(message, type) {
-      statusBox.textContent = message;
-      statusBox.className = "status show " + type;
+  <section class="panel" id="converter">
+    <h2>⚡ Media Converter</h2>
+    <p>Choose a file on your device to convert it into MP3 audio or MP4 video.</p>
+
+    <label for="mediaFile">Choose an audio or video file</label>
+    <input id="mediaFile" type="file"
+      accept="audio/*,video/*,.mp3,.mp4,.wav,.m4a,.webm,.mov,.ogg,.flac,.aac">
+
+    <label for="format">Output format</label>
+    <select id="format">
+      <option value="mp3">MP3 Audio</option>
+      <option value="mp4">MP4 Video</option>
+    </select>
+
+    <div class="actions">
+      <button id="loadEngine">Load Converter</button>
+      <button id="convertBtn" disabled>Convert File</button>
+    </div>
+
+    <div id="convertStatus" class="status" role="status" aria-live="polite">
+      Choose a file and load the converter.
+    </div>
+
+    <a id="download" class="download" href="#" hidden>Download Converted File</a>
+
+    <p class="small">
+      The conversion engine is downloaded from a public CDN. A large file may be slow
+      or exceed your phone's memory. Only convert media you have permission to use.
+    </p>
+  </section>
+</main>
+
+<footer>© <span id="year"></span> PAZZAN.COM. All rights reserved.</footer>
+
+<script>
+document.getElementById("year").textContent = new Date().getFullYear();
+
+const platformHosts = {
+  "YouTube": ["youtube.com", "www.youtube.com", "m.youtube.com", "youtu.be", "www.youtu.be"],
+  "TikTok": ["tiktok.com", "www.tiktok.com", "m.tiktok.com", "vm.tiktok.com", "vt.tiktok.com"],
+  "Facebook": ["facebook.com", "www.facebook.com", "m.facebook.com", "fb.watch"],
+  "Instagram": ["instagram.com", "www.instagram.com"]
+};
+
+const socialUrl = document.getElementById("socialUrl");
+const linkStatus = document.getElementById("linkStatus");
+
+function checkPlatform(name) {
+  document.getElementById("linkChecker").scrollIntoView({behavior:"smooth"});
+  socialUrl.focus();
+  socialUrl.placeholder = "Paste a " + name + " URL here";
+}
+
+function checkLink() {
+  const value = socialUrl.value.trim();
+
+  if (!value) {
+    linkStatus.textContent = "Please paste a URL first.";
+    return;
+  }
+
+  try {
+    const url = new URL(value);
+    if (url.protocol !== "https:" && url.protocol !== "http:") {
+      throw new Error("Invalid protocol");
     }
 
-    function isTikTokUrl(value) {
-      try {
-        const parsed = new URL(value);
-        const host = parsed.hostname.toLowerCase();
-        return parsed.protocol === "https:" &&
-          (host === "tiktok.com" || host.endsWith(".tiktok.com") ||
-           host === "vm.tiktok.com" || host === "vt.tiktok.com");
-      } catch {
-        return false;
-      }
-    }
+    const host = url.hostname.toLowerCase();
+    const platform = Object.keys(platformHosts).find(name =>
+      platformHosts[name].includes(host)
+    );
 
-    clearBtn.addEventListener("click", () => {
-      urlInput.value = "";
-      statusBox.textContent = "";
-      statusBox.className = "status";
-      downloadLink.classList.remove("show");
-      downloadLink.removeAttribute("href");
-      urlInput.focus();
+    linkStatus.textContent = platform
+      ? "Recognized " + platform + " URL.\nThis tool checks the URL only. A platform-specific backend is needed for authorized URL-based conversion."
+      : "This URL is not from one of the four supported platforms.";
+  } catch {
+    linkStatus.textContent = "Invalid URL. Paste a complete link beginning with https://";
+  }
+}
+
+document.getElementById("checkBtn").addEventListener("click", checkLink);
+document.getElementById("clearLink").addEventListener("click", () => {
+  socialUrl.value = "";
+  linkStatus.textContent = "Paste a link to check its platform.";
+});
+
+let ffmpeg;
+let fetchFile;
+let toBlobURL;
+let ready = false;
+let busy = false;
+let outputURL = null;
+
+const fileInput = document.getElementById("mediaFile");
+const convertBtn = document.getElementById("convertBtn");
+const loadBtn = document.getElementById("loadEngine");
+const convertStatus = document.getElementById("convertStatus");
+const download = document.getElementById("download");
+
+function setConvertStatus(message) {
+  convertStatus.textContent = message;
+}
+
+fileInput.addEventListener("change", () => {
+  download.hidden = true;
+
+  if (outputURL) {
+    URL.revokeObjectURL(outputURL);
+    outputURL = null;
+  }
+
+  const file = fileInput.files[0];
+  if (file) {
+    setConvertStatus("Selected: " + file.name +
+      "\nSize: " + (file.size / 1024 / 1024).toFixed(2) + " MB");
+  }
+});
+
+loadBtn.addEventListener("click", async () => {
+  if (ready || busy) return;
+
+  busy = true;
+  loadBtn.disabled = true;
+  setConvertStatus("Loading converter engine. Please wait...");
+
+  try {
+    const mod = await import(
+      "https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/esm/index.js"
+    );
+    const util = await import(
+      "https://cdn.jsdelivr.net/npm/@ffmpeg/util@0.12.1/dist/esm/index.js"
+    );
+
+    fetchFile = util.fetchFile;
+    toBlobURL = util.toBlobURL;
+    ffmpeg = new mod.FFmpeg();
+
+    const base =
+      "https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.10/dist/umd";
+
+    ffmpeg.on("log", ({message}) => {
+      setConvertStatus("Processing...\n" + message);
     });
 
-    form.addEventListener("submit", async (event) => {
-      event.preventDefault();
-      downloadLink.classList.remove("show");
-      downloadLink.removeAttribute("href");
-
-      const url = urlInput.value.trim();
-      if (!isTikTokUrl(url)) {
-        showStatus("Please enter a valid HTTPS TikTok video URL.", "error");
-        return;
-      }
-
-      if (!API_ENDPOINT) {
-        showStatus(
-          "The page is ready, but the conversion backend has not been connected yet. Add your backend API endpoint in the code to enable conversion.",
-          "info"
-        );
-        return;
-      }
-
-      convertBtn.disabled = true;
-      convertBtn.textContent = "Processing…";
-      showStatus("Sending the link to the conversion service…", "info");
-
-      try {
-        const response = await fetch(API_ENDPOINT, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ url })
-        });
-
-        if (!response.ok) {
-          throw new Error("The conversion service returned an error (" + response.status + ").");
-        }
-
-        const result = await response.json();
-        if (!result || typeof result.downloadUrl !== "string") {
-          throw new Error("The service did not return a download URL.");
-        }
-
-        const downloadUrl = new URL(result.downloadUrl);
-        if (downloadUrl.protocol !== "https:" && downloadUrl.protocol !== "http:") {
-          throw new Error("The service returned an invalid download URL.");
-        }
-
-        downloadLink.href = downloadUrl.href;
-        if (typeof result.filename === "string" && result.filename.trim()) {
-          downloadLink.download = result.filename.trim();
-        } else {
-          downloadLink.download = "audio.mp3";
-        }
-        downloadLink.classList.add("show");
-        showStatus("Conversion service responded. Use the download button below.", "success");
-      } catch (error) {
-        showStatus(
-          error && error.message
-            ? error.message + " Check that the backend is online and allows requests from this website."
-            : "Could not connect to the conversion service. Please try again later.",
-          "error"
-        );
-      } finally {
-        convertBtn.disabled = false;
-        convertBtn.textContent = "Convert to MP3";
-      }
+    await ffmpeg.load({
+      coreURL: await toBlobURL(base + "/ffmpeg-core.js", "text/javascript"),
+      wasmURL: await toBlobURL(base + "/ffmpeg-core.wasm", "application/wasm")
     });
-  </script>
+
+    ready = true;
+    convertBtn.disabled = false;
+    setConvertStatus("Converter ready! Select a file and press Convert File.");
+  } catch (error) {
+    console.error(error);
+    setConvertStatus(
+      "Could not load the converter.\nCheck your internet connection and try again. If it continues, the browser may not support the required worker setup."
+    );
+  } finally {
+    busy = false;
+    loadBtn.disabled = false;
+  }
+});
+
+convertBtn.addEventListener("click", async () => {
+  if (!ready || busy) return;
+
+  const file = fileInput.files[0];
+
+  if (!file) {
+    setConvertStatus("Please select a file first.");
+    return;
+  }
+
+  if (!file.size) {
+    setConvertStatus("The selected file is empty.");
+    return;
+  }
+
+  const format = document.getElementById("format").value;
+  const ext = (file.name.split(".").pop() || "bin")
+    .toLowerCase().replace(/[^a-z0-9]/g, "") || "bin";
+  const inputName = "input." + ext;
+  const outputName = format === "mp3" ? "output.mp3" : "output.mp4";
+
+  busy = true;
+  convertBtn.disabled = true;
+  loadBtn.disabled = true;
+  download.hidden = true;
+
+  try {
+    setConvertStatus("Preparing your file...");
+    await ffmpeg.writeFile(inputName, await fetchFile(file));
+
+    const args = format === "mp3"
+      ? ["-i", inputName, "-vn", "-codec:a", "libmp3lame", "-q:a", "2", outputName]
+      : ["-i", inputName, "-c:v", "libx264", "-c:a", "aac",
+         "-movflags", "+faststart", outputName];
+
+    setConvertStatus("Converting... Keep this page open.");
+    await ffmpeg.exec(args);
+
+    const data = await ffmpeg.readFile(outputName);
+    if (!data || !data.length) throw new Error("No output file was produced.");
+
+    outputURL = URL.createObjectURL(new Blob([data], {
+      type: format === "mp3" ? "audio/mpeg" : "video/mp4"
+    }));
+
+    download.href = outputURL;
+    download.download = file.name.replace(/\.[^.]+$/, "") + "." + format;
+    download.textContent = "⬇ Download " + format.toUpperCase();
+    download.hidden = false;
+
+    setConvertStatus("Conversion complete! Your file is ready.");
+  } catch (error) {
+    console.error(error);
+    setConvertStatus(
+      "Conversion failed. Try a smaller file or a different input format.\n" +
+      (error && error.message ? error.message : "")
+    );
+  } finally {
+    busy = false;
+    convertBtn.disabled = !ready;
+    loadBtn.disabled = false;
+  }
+});
+</script>
 </body>
 </html>
