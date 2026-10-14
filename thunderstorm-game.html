@@ -3,219 +3,405 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Thunderstorm Survival | PAZZAN.COM</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#170d2b">
+<title>Pazzan: A Story of Love</title>
 
 <style>
-*{box-sizing:border-box}
-body{
-  margin:0;background:#05080d;color:#f3fff9;
-  font-family:Arial,sans-serif;text-align:center;
+:root {
+  --pink: #ff72b6;
+  --purple: #a889ff;
+  --bg: #170d2b;
+  --glass: rgba(25, 12, 44, .86);
+  --white: #fff7ff;
 }
-header{padding:18px;background:#09131d;border-bottom:1px solid #39ff88}
-h1{color:#39ff88;text-shadow:0 0 15px #39ff88}
-p{color:#b4bfd0}
-#game{
-  display:block;width:min(94vw,600px);
-  height:auto;margin:18px auto;
-  background:#071421;border:2px solid #00e5ff;
-  border-radius:12px;touch-action:manipulation;
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--white);
+  font-family: Arial, sans-serif;
+  background: linear-gradient(160deg,#251542,#804c86,#ffad91,#352043);
 }
-button{
-  background:#39ff88;color:#05080d;border:0;
-  border-radius:10px;padding:12px 22px;
-  margin:6px;font-weight:bold;font-size:16px;
-  cursor:pointer;
+button { font: inherit; cursor: pointer; }
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 18px;
+  background: #170d2b66;
 }
-.hint{padding:0 16px 20px}
+.logo { font-size: 27px; font-weight: 900; color: #ffb6d8; }
+.small-buttons { display: flex; flex-wrap: wrap; gap: 7px; }
+.small, .choice {
+  color: white;
+  border: 1px solid #ff9cc788;
+  border-radius: 12px;
+  background: #4a285eaa;
+  padding: 10px 13px;
+}
+.hud {
+  width: 190px;
+  border: 1px solid #ffc4e477;
+  padding: 10px;
+  border-radius: 15px;
+  background: #1b103c99;
+}
+.bar { height: 8px; background: #ffffff30; border-radius: 20px; margin-top: 7px; }
+.fill {
+  width: 0;
+  height: 100%;
+  background: linear-gradient(90deg,#ff4c9d,#ffd2e6);
+  border-radius: 20px;
+  transition: width .3s;
+}
+main {
+  width: min(1000px, 100%);
+  min-height: 75vh;
+  margin: auto;
+  padding: 22px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
+  align-items: center;
+}
+.character {
+  text-align: center;
+  font-size: clamp(130px,25vw,230px);
+  filter: drop-shadow(0 10px 25px #ff8ac866);
+  animation: float 3s ease-in-out infinite;
+}
+@keyframes float {
+  50% { transform: translateY(-9px); }
+}
+.dialog {
+  padding: 25px;
+  border: 1px solid #ffc0e688;
+  border-radius: 24px;
+  background: var(--glass);
+  box-shadow: 0 15px 50px #16051f44;
+}
+.name {
+  display: inline-block;
+  padding: 8px 15px;
+  border-radius: 30px;
+  background: linear-gradient(90deg,#ff5aa6,#a45bdf);
+  font-weight: bold;
+}
+h1 { font-size: clamp(24px,4vw,36px); }
+p { color: #ffeaf6; line-height: 1.7; }
+.choices { display: grid; gap: 10px; }
+.choice { text-align: left; width: 100%; }
+.choice:hover, .small:hover {
+  background: #a34d93;
+  border-color: #ffd5ed;
+}
+.primary {
+  width: 100%;
+  border: 0;
+  border-radius: 12px;
+  padding: 13px;
+  color: white;
+  font-weight: bold;
+  background: linear-gradient(90deg,#ff4f9d,#9365ff);
+}
+footer { text-align: center; padding: 20px; color: #ffe7f5; font-size: 12px; }
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  background: #10071ddd;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.overlay.show { display: flex; }
+.modal {
+  width: min(400px,100%);
+  padding: 24px;
+  border-radius: 20px;
+  background: #211239;
+  border: 1px solid #ff9cc7;
+}
+.modal button { margin: 5px 3px 0 0; }
+#toast {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 12px 18px;
+  background: #211239;
+  border: 1px solid #ff9cc7;
+  border-radius: 20px;
+}
+@media(max-width:700px) {
+  header { padding: 13px; }
+  .hud { width: 155px; }
+  main { grid-template-columns: 1fr; gap: 5px; padding: 12px; }
+  .character { font-size: 145px; }
+  .dialog { padding: 20px; }
+}
 </style>
 </head>
 
 <body>
 <header>
-  <h1>⚡ THUNDERSTORM SURVIVAL</h1>
-  <p>PAZZAN.COM Gaming</p>
+  <div class="logo">Pazzan ♡<div style="font-size:11px;letter-spacing:2px">A STORY OF LOVE</div></div>
+
+  <div class="hud">
+    <div>💗 Affection <strong id="level">Level 1</strong></div>
+    <div class="bar"><div class="fill" id="fill"></div></div>
+  </div>
+
+  <div class="small-buttons">
+    <button class="small" id="save">♡ Save</button>
+    <button class="small" id="load">↻ Load</button>
+    <button class="small" id="settings">⚙ Settings</button>
+    <button class="small" id="pause">Ⅱ Pause</button>
+  </div>
 </header>
 
-<h3>Score: <span id="score">0</span>
-&nbsp; | &nbsp; Best: <span id="best">0</span></h3>
+<main>
+  <div class="character" id="character">👩🏻‍🎤</div>
 
-<canvas id="game" width="600" height="420"></canvas>
+  <section class="dialog">
+    <div class="name">♥ Sakura</div>
+    <h1 id="title">A Chance Meeting</h1>
+    <p id="story"></p>
+    <div class="choices" id="choices"></div>
+  </section>
+</main>
 
-<button id="start">▶ START / RESTART</button>
-<button id="left">⬅ LEFT</button>
-<button id="right">RIGHT ➡</button>
+<footer>A fictional romantic adventure · Your choices shape the story ✨</footer>
 
-<p class="hint">
-  Move left and right to avoid the lightning!<br>
-  Computer: use arrow keys. Phone: use the buttons.
-</p>
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <h2 id="modalTitle">Paused</h2>
+    <p id="modalText">Your story is waiting for you.</p>
+    <div id="modalButtons"></div>
+  </div>
+</div>
+<div id="toast"></div>
 
 <script>
-const canvas=document.getElementById("game");
-const ctx=canvas.getContext("2d");
-const scoreText=document.getElementById("score");
-const bestText=document.getElementById("best");
+const $ = id => document.getElementById(id);
 
-let player,bolts,score,playing,keys,lastTime,spawnTimer;
-let best=0;
+const scenes = [
+ {
+  title:"A Chance Meeting",
+  story:"The sky glows pink above the lake. Sakura smiles shyly. “I'm glad you came. Would you like to walk with me?”",
+  choices:[
+   ["💕 I'd love to. This evening is beautiful.",12,"Sakura smiles warmly. “I'm happy we can enjoy it together.”"],
+   ["🌸 Tell me about your favourite place.",10,"“There's a little garden nearby,” she says. “It's peaceful at sunset.”"],
+   ["✨ Let's find a place to see the stars.",9,"Her eyes brighten. “The hill above the lake is perfect.”"]
+  ]
+ },
+ {
+  title:"Little Things",
+  story:"Tiny lights shimmer on the lake. Sakura says, “Sometimes the smallest moments become the best memories.”",
+  choices:[
+   ["💗 Memories are special because of who we share them with.",14,"“That's a lovely way to see it,” Sakura replies."],
+   ["🌷 Let's take a picture of this view.",10,"You save the glowing sunset as a memory of your adventure."],
+   ["🌠 Tell me more about your dreams.",12,"Sakura shares the dreams she hopes to follow."]
+  ]
+ },
+ {
+  title:"A Small Surprise",
+  story:"Under a cherry-blossom tree, you find a little paper star. Sakura asks, “What should we do with it?”",
+  choices:[
+   ["🎀 Let's leave a kind note for someone.",14,"Together you write a note to brighten a stranger's day."],
+   ["🌸 Let's make another paper star.",12,"You fold a star together, laughing at your first attempt."],
+   ["💫 Let's keep exploring.",9,"The path winds toward a quiet bridge lit by lanterns."]
+  ]
+ },
+ {
+  title:"Under the Lanterns",
+  story:"Warm lanterns glow along the bridge. Sakura asks, “What is one wish you have for the future?”",
+  choices:[
+   ["💖 To make more good memories.",14,"“I hope you get to do all of that,” Sakura says."],
+   ["🌈 To be brave and follow my dreams.",13,"“I believe you can,” she says. “One step at a time.”"],
+   ["🌟 More peaceful evenings like this.",11,"You watch the lanterns shimmer on the water."]
+  ]
+ },
+ {
+  title:"A Memory to Keep",
+  story:"The first stars appear. Sakura gives you a tiny glowing charm. “Which memory should we keep from today?”",
+  choices:[
+   ["💝 The moment we first met.",15,"The charm glows softly, holding the memory of your first meeting."],
+   ["🌌 The lanterns and the starry sky.",13,"The charm sparkles like a tiny constellation."],
+   ["🌷 All the little moments along the way.",15,"“Maybe the little moments are the ones we remember most.”"]
+  ]
+ }
+];
 
-try{
-  best=Number(localStorage.getItem("pazzanStormBest")||0);
-}catch(e){best=0}
+let index = 0;
+let affection = 0;
+let paused = false;
+let soundOn = false;
+let audioContext;
 
-bestText.textContent=best;
+function render() {
+  const s = scenes[index];
+  $("title").textContent = s.title;
+  $("story").textContent = s.story;
+  $("character").textContent = index === 4 ? "👩🏻‍🎤💫" : "👩🏻‍🎤";
+  $("level").textContent = "Level " + (index + 1);
+  $("fill").style.width = Math.min(100, affection) + "%";
+  $("choices").innerHTML = "";
 
-function reset(){
-  player={x:280,y:365,w:40,h:28,speed:290};
-  bolts=[];
-  score=0;
-  playing=true;
-  keys={left:false,right:false};
-  lastTime=0;
-  spawnTimer=0;
-  scoreText.textContent=score;
-  requestAnimationFrame(loop);
-}
-
-function spawnBolt(){
-  bolts.push({
-    x:20+Math.random()*560,
-    y:-35,
-    speed:150+Math.random()*130,
-    size:14+Math.random()*10
+  s.choices.forEach((choice, i) => {
+    const button = document.createElement("button");
+    button.className = "choice";
+    button.textContent = choice[0];
+    button.onclick = () => choose(i);
+    $("choices").appendChild(button);
   });
 }
 
-function drawPlayer(){
-  ctx.fillStyle="#39ff88";
-  ctx.shadowColor="#39ff88";
-  ctx.shadowBlur=15;
-  ctx.beginPath();
-  ctx.moveTo(player.x+player.w/2,player.y);
-  ctx.lineTo(player.x+player.w,player.y+player.h);
-  ctx.lineTo(player.x,player.y+player.h);
-  ctx.closePath();
-  ctx.fill();
-  ctx.shadowBlur=0;
-}
+function choose(i) {
+  if (paused) return;
+  const choice = scenes[index].choices[i];
+  affection = Math.min(100, affection + choice[1]);
+  $("story").textContent = choice[2];
+  $("fill").style.width = Math.min(100, affection) + "%";
+  sound();
+  $("choices").innerHTML = "";
 
-function drawBolt(b){
-  ctx.strokeStyle="#00e5ff";
-  ctx.lineWidth=4;
-  ctx.shadowColor="#00e5ff";
-  ctx.shadowBlur=14;
-  ctx.beginPath();
-  ctx.moveTo(b.x,b.y);
-  ctx.lineTo(b.x-8,b.y+b.size);
-  ctx.lineTo(b.x+7,b.y+b.size*1.6);
-  ctx.lineTo(b.x-5,b.y+b.size*2.2);
-  ctx.stroke();
-  ctx.shadowBlur=0;
-}
-
-function loop(time){
-  if(!playing)return;
-
-  const dt=Math.min((time-lastTime)/1000||0,0.04);
-  lastTime=time;
-
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-
-  // Stars
-  for(let i=0;i<35;i++){
-    const x=(i*83)%600;
-    const y=(i*47+time*0.025)%420;
-    ctx.fillStyle="#36556c";
-    ctx.fillRect(x,y,2,2);
-  }
-
-  if(keys.left)player.x-=player.speed*dt;
-  if(keys.right)player.x+=player.speed*dt;
-  player.x=Math.max(0,Math.min(600-player.w,player.x));
-
-  spawnTimer+=dt;
-  if(spawnTimer>0.55){
-    spawnBolt();
-    spawnTimer=0;
-  }
-
-  for(let i=bolts.length-1;i>=0;i--){
-    const b=bolts[i];
-    b.y+=b.speed*dt;
-    drawBolt(b);
-
-    if(
-      b.x>player.x-8 &&
-      b.x<player.x+player.w+8 &&
-      b.y+b.size*2>player.y &&
-      b.y<player.y+player.h
-    ){
-      playing=false;
-      if(score>best){
-        best=score;
-        bestText.textContent=best;
-        try{localStorage.setItem("pazzanStormBest",best)}catch(e){}
-      }
-      drawEnd();
-      return;
+  const next = document.createElement("button");
+  next.className = "primary";
+  next.textContent = index === scenes.length - 1 ? "💖 See the ending" : "✨ Continue story";
+  next.onclick = () => {
+    if (index < scenes.length - 1) {
+      index++;
+      render();
+    } else {
+      ending();
     }
+  };
+  $("choices").appendChild(next);
+}
 
-    if(b.y>440){
-      bolts.splice(i,1);
-      score++;
-      scoreText.textContent=score;
-    }
+function ending() {
+  $("title").textContent = affection >= 60 ? "A Beautiful Memory 💖" : "A Lovely Evening 🌙";
+  $("story").textContent = affection >= 60
+    ? "The lanterns glow beside the lake. You and Sakura share a warm smile, remembering the thoughtful choices you made. This evening becomes a memory to treasure."
+    : "The evening settles into a peaceful quiet. You and Sakura say goodbye, carrying a lovely memory of the sunset. More stories await.";
+  $("choices").innerHTML = "";
+
+  addButton("🔁 Play again", reset, true);
+  addButton("♡ Save progress", saveGame);
+}
+
+function addButton(text, action, primary=false) {
+  const b = document.createElement("button");
+  b.className = primary ? "primary" : "choice";
+  b.textContent = text;
+  b.onclick = action;
+  $("choices").appendChild(b);
+}
+
+function reset() {
+  index = 0;
+  affection = 0;
+  paused = false;
+  render();
+  toast("A new story begins ✨");
+}
+
+function saveGame() {
+  try {
+    localStorage.setItem("pazzanLoveStory", JSON.stringify({index, affection}));
+    toast("Story saved on this device 💗");
+  } catch (e) {
+    toast("Save is not available in this browser.");
   }
-
-  drawPlayer();
-  requestAnimationFrame(loop);
 }
 
-function drawEnd(){
-  ctx.fillStyle="rgba(5,8,13,0.86)";
-  ctx.fillRect(0,0,600,420);
-  ctx.textAlign="center";
-  ctx.fillStyle="#ff2bd6";
-  ctx.font="bold 34px Arial";
-  ctx.fillText("STORM OVER!",300,175);
-  ctx.fillStyle="#ffffff";
-  ctx.font="22px Arial";
-  ctx.fillText("Your score: "+score,300,220);
-  ctx.font="18px Arial";
-  ctx.fillText("Press START to play again",300,260);
+function loadGame() {
+  try {
+    const data = JSON.parse(localStorage.getItem("pazzanLoveStory") || "null");
+    if (!data) return toast("No saved story found yet.");
+    index = Math.max(0, Math.min(scenes.length - 1, Number(data.index) || 0));
+    affection = Math.max(0, Math.min(100, Number(data.affection) || 0));
+    paused = false;
+    render();
+    toast("Saved story loaded 💕");
+  } catch (e) {
+    toast("Could not load saved story.");
+  }
 }
 
-document.getElementById("start").addEventListener("click",reset);
+function modal(title, text, buttons) {
+  $("modalTitle").textContent = title;
+  $("modalText").textContent = text;
+  $("modalButtons").innerHTML = "";
+  buttons.forEach(item => {
+    const b = document.createElement("button");
+    b.className = item.primary ? "primary" : "small";
+    b.textContent = item.text;
+    b.onclick = item.action;
+    $("modalButtons").appendChild(b);
+  });
+  $("overlay").classList.add("show");
+}
+function closeModal() { $("overlay").classList.remove("show"); }
 
-function holdButton(id,direction){
-  const button=document.getElementById(id);
-  const down=e=>{
-    e.preventDefault();
-    keys[direction]=true;
-  };
-  const up=()=>{
-    keys[direction]=false;
-  };
-  button.addEventListener("pointerdown",down);
-  button.addEventListener("pointerup",up);
-  button.addEventListener("pointerleave",up);
-  button.addEventListener("pointercancel",up);
+function pauseGame() {
+  paused = true;
+  modal("Story Paused", "Take your time. Your story will be here when you're ready.", [
+    {text:"▶ Resume",primary:true,action:()=>{paused=false;closeModal();}},
+    {text:"↻ Restart",action:()=>{closeModal();reset();}},
+    {text:"Close",action:()=>{paused=false;closeModal();}}
+  ]);
 }
 
-holdButton("left","left");
-holdButton("right","right");
+function openSettings() {
+  modal("Settings", "Sound effects are currently " + (soundOn ? "ON" : "OFF") + ".", [
+    {text:soundOn ? "🔇 Sound off" : "🔊 Sound on",primary:true,action:()=>{
+      soundOn = !soundOn;
+      closeModal();
+      toast("Sound " + (soundOn ? "enabled" : "disabled"));
+    }},
+    {text:"Restart story",action:()=>{closeModal();reset();}},
+    {text:"Close",action:closeModal}
+  ]);
+}
 
-document.addEventListener("keydown",e=>{
-  if(e.key==="ArrowLeft")keys.left=true;
-  if(e.key==="ArrowRight")keys.right=true;
-});
-document.addEventListener("keyup",e=>{
-  if(e.key==="ArrowLeft")keys.left=false;
-  if(e.key==="ArrowRight")keys.right=false;
-});
+function sound() {
+  if (!soundOn) return;
+  try {
+    audioContext = audioContext || new (window.AudioContext || window.webkitAudioContext)();
+    const oscillator = audioContext.createOscillator();
+    const gain = audioContext.createGain();
+    oscillator.type = "sine";
+    oscillator.frequency.value = 660;
+    gain.gain.value = 0.04;
+    oscillator.connect(gain);
+    gain.connect(audioContext.destination);
+    oscillator.start();
+    oscillator.stop(audioContext.currentTime + 0.12);
+  } catch (e) {}
+}
 
-reset();
+function toast(message) {
+  $("toast").textContent = message;
+  $("toast").style.display = "block";
+  clearTimeout(toast.timer);
+  toast.timer = setTimeout(() => $("toast").style.display = "none", 2400);
+}
+
+$("save").onclick = saveGame;
+$("load").onclick = loadGame;
+$("settings").onclick = openSettings;
+$("pause").onclick = () => { if (!paused) pauseGame(); };
+$("overlay").onclick = e => { if (e.target === $("overlay")) closeModal(); };
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
+
+render();
 </script>
 </body>
 </html>
