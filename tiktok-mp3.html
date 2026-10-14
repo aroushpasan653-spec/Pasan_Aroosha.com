@@ -1,0 +1,106 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TikTok MP3 Converter | PAZZAN.COM</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 24px;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background: #080b14;
+      color: white;
+      font-family: Arial, sans-serif;
+    }
+    .box {
+      width: 100%;
+      max-width: 480px;
+      padding: 28px;
+      border: 1px solid #a855f7;
+      border-radius: 18px;
+      background: #111827;
+      text-align: center;
+      box-shadow: 0 0 25px #7c3aed33;
+    }
+    h1 { color: #d8b4fe; }
+    input, button {
+      width: 100%;
+      padding: 13px;
+      margin-top: 12px;
+      border-radius: 9px;
+      font-size: 16px;
+    }
+    input {
+      border: 1px solid #64748b;
+      background: #080b14;
+      color: white;
+    }
+    button {
+      border: 0;
+      background: #9333ea;
+      color: white;
+      font-weight: bold;
+    }
+    a { color: #d8b4fe; }
+    #status { overflow-wrap: anywhere; }
+  </style>
+</head>
+<body>
+  <main class="box">
+    <h1>🎵 TikTok MP3 Converter</h1>
+    <p>PAZZAN.COM</p>
+    <p>
+      Convert a media file you own or have permission
+      to use into MP3.
+    </p>
+
+    <input id="mediaFile" type="file"
+      accept="audio/*,video/*">
+
+    <button id="convertBtn">Convert to MP3</button>
+    <p id="status" role="status">
+      Select an audio or video file to begin.
+    </p>
+    <p><a href="index.html">← Back to Home</a></p>
+  </main>
+
+  <script type="module">
+    const fileInput = document.getElementById("mediaFile");
+    const button = document.getElementById("convertBtn");
+    const status = document.getElementById("status");
+
+    button.addEventListener("click", async () => {
+      const file = fileInput.files[0];
+
+      if (!file) {
+        status.textContent = "Please select a media file first.";
+        return;
+      }
+
+      if (file.type.startsWith("audio/") &&
+          (file.type === "audio/mpeg" ||
+           file.name.toLowerCase().endsWith(".mp3"))) {
+        const url = URL.createObjectURL(file);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = file.name;
+        link.textContent = "Download your MP3 file";
+        status.replaceChildren(
+          document.createTextNode("This file is already MP3. "),
+          link
+        );
+        return;
+      }
+
+      status.textContent =
+        "This page is ready, but audio conversion needs a conversion engine. " +
+        "Use the Media Converter page for supported conversions.";
+    });
+  </script>
+</body>
+</html>
