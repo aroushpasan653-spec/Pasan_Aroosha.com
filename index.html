@@ -129,8 +129,158 @@
     /* FOOTER */
     footer { border-top: 1px solid #1d2433; padding: 30px 20px; text-align: center; color: #737b8f; font-size: 14px; }
 
-    /* SERVICES */
-    #services .blog-grid { grid-template-columns: minmax(0, 520px); justify-content: center; }
+    /* NEON SERVICES DESIGN */
+    #services {
+      max-width: 1320px;
+      padding-top: 85px;
+      padding-bottom: 95px;
+    }
+    #services .section-title { margin-bottom: 42px; }
+    #services .section-title .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 18px;
+      color: #a78bfa;
+      letter-spacing: 5px;
+      font-size: 14px;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+    #services .section-title .eyebrow::before,
+    #services .section-title .eyebrow::after {
+      content: "";
+      display: inline-block;
+      width: 36px;
+      height: 3px;
+      border-radius: 99px;
+      background: linear-gradient(90deg, #8b5cf6, #22d3ee);
+      box-shadow: 0 0 12px rgba(139,92,246,.6);
+    }
+    #services .section-title h2 {
+      font-size: clamp(30px, 4.2vw, 52px);
+      line-height: 1.15;
+      margin-bottom: 14px;
+    }
+    #services .section-title h2 span {
+      background: linear-gradient(90deg, #d946ef, #8b5cf6, #22d3ee);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    #services .section-title p { color: #aab6d4; font-size: 17px; }
+    #services .services-grid {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 22px;
+      max-width: 1240px;
+      margin: 0 auto;
+    }
+    #services .service-card {
+      --glow: #8b5cf6;
+      grid-column: span 2;
+      position: relative;
+      display: grid;
+      grid-template-columns: 112px minmax(0, 1fr);
+      grid-template-rows: 1fr auto;
+      align-items: start;
+      gap: 12px 22px;
+      min-width: 0;
+      min-height: 265px;
+      padding: 30px;
+      overflow: hidden;
+      isolation: isolate;
+      color: #fff;
+      text-decoration: none;
+      border: 1px solid color-mix(in srgb, var(--glow) 70%, #293247);
+      border-radius: 25px;
+      background:
+        radial-gradient(ellipse at 15% 15%, color-mix(in srgb, var(--glow) 13%, transparent), transparent 55%),
+        linear-gradient(135deg, rgba(10,16,35,.97), rgba(8,12,28,.96));
+      box-shadow: inset 0 0 28px color-mix(in srgb, var(--glow) 5%, transparent), 0 0 20px color-mix(in srgb, var(--glow) 8%, transparent);
+      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    }
+    #services .service-card:nth-child(4),
+    #services .service-card:nth-child(5) { grid-column: span 3; }
+    #services .service-card:nth-child(1) { --glow: #a855f7; }
+    #services .service-card:nth-child(2) { --glow: #ff1744; }
+    #services .service-card:nth-child(3) { --glow: #00d9f5; }
+    #services .service-card:nth-child(4) { --glow: #087cff; }
+    #services .service-card:nth-child(5) { --glow: #ed26d7; }
+    #services .service-card::before {
+      content: "";
+      position: absolute;
+      width: 190px;
+      height: 190px;
+      left: -80px;
+      top: -100px;
+      border-radius: 50%;
+      background: var(--glow);
+      filter: blur(85px);
+      opacity: .22;
+      z-index: -1;
+    }
+    #services .service-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--glow);
+      box-shadow: inset 0 0 32px color-mix(in srgb, var(--glow) 8%, transparent), 0 12px 35px color-mix(in srgb, var(--glow) 15%, transparent);
+    }
+    #services .service-icon {
+      grid-column: 1;
+      grid-row: 1;
+      width: 104px;
+      height: 104px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      align-self: start;
+      border: 2px solid var(--glow);
+      border-radius: 50%;
+      background: rgba(3,8,22,.85);
+      color: #fff;
+      box-shadow: 0 0 20px color-mix(in srgb, var(--glow) 25%, transparent), inset 0 0 20px rgba(255,255,255,.03);
+    }
+    #services .service-icon svg { display: block; width: 58px; height: 58px; }
+    #services .service-card h3 {
+      grid-column: 2;
+      grid-row: 1;
+      align-self: start;
+      margin: 5px 0 12px;
+      color: #f8faff;
+      font-size: clamp(18px, 1.65vw, 24px);
+      line-height: 1.3;
+      text-decoration: none;
+    }
+    #services .service-card p {
+      grid-column: 2;
+      grid-row: 1;
+      align-self: start;
+      margin: 48px 0 0;
+      color: #b6c2df;
+      font-size: 15px;
+      line-height: 1.65;
+      text-decoration: none;
+    }
+    #services .service-action {
+      grid-column: 1 / -1;
+      grid-row: 2;
+      justify-self: start;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 8px;
+      padding: 11px 20px;
+      color: var(--glow);
+      border: 1.5px solid var(--glow);
+      border-radius: 999px;
+      font-size: 16px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background .2s ease, color .2s ease;
+    }
+    #services .service-card:hover .service-action {
+      background: var(--glow);
+      color: #070b18;
+    }
 
     /* MOBILE */
     @media (max-width: 850px) {
@@ -153,6 +303,23 @@
       .hero-image img { width: 240px; height: 240px; }
       .hero-text h1 { font-size: 42px; }
       .blog-grid { grid-template-columns: 1fr; }
+      #services { padding-left: 18px; padding-right: 18px; }
+      #services .services-grid { grid-template-columns: 1fr; gap: 17px; }
+      #services .service-card,
+      #services .service-card:nth-child(4),
+      #services .service-card:nth-child(5) {
+        grid-column: 1;
+        grid-template-columns: 76px minmax(0, 1fr);
+        min-height: 0;
+        gap: 10px 16px;
+        padding: 22px 18px;
+        border-radius: 20px;
+      }
+      #services .service-icon { width: 72px; height: 72px; }
+      #services .service-icon svg { width: 42px; height: 42px; }
+      #services .service-card h3 { font-size: 18px; margin: 2px 0 8px; }
+      #services .service-card p { margin-top: 36px; font-size: 14px; }
+      #services .service-action { font-size: 14px; padding: 9px 16px; }
     }
     @media (max-width: 500px) {
       .nav-container { padding: 15px 18px; }
@@ -164,6 +331,13 @@
       .about-box { padding: 25px; }
       .contact-box { padding: 35px 20px; }
       .section-title h2 { font-size: 31px; }
+      #services .section-title .eyebrow { letter-spacing: 3px; font-size: 12px; }
+      #services .section-title p { font-size: 15px; }
+      #services .service-card { grid-template-columns: 62px minmax(0, 1fr); padding: 18px 14px; gap: 8px 13px; }
+      #services .service-icon { width: 60px; height: 60px; }
+      #services .service-icon svg { width: 36px; height: 36px; }
+      #services .service-card h3 { font-size: 16px; }
+      #services .service-card p { margin-top: 32px; font-size: 13px; }
     }
   </style>
 </head>
@@ -227,41 +401,52 @@
     <!-- ================= SERVICES ================= -->
     <section id="services">
       <div class="section-title">
-        <h2>Our Services</h2>
-        <p>Useful video and audio tools</p>
+        <div class="eyebrow">OUR SERVICES</div>
+        <h2>Useful <span>Video &amp; Audio Tools</span></h2>
+        <p>Download videos, convert audio and more — all in one place.</p>
       </div>
 
       <div class="services-grid">
         <a class="service-card" href="tools.html#tiktok-mp3">
-          <div class="service-icon">🎵</div>
+          <div class="service-icon brand-tiktok" aria-label="TikTok logo">
+            <svg viewBox="0 0 40 40" role="img" aria-hidden="true"><path d="M23 5h6c.5 4.1 2.7 6.6 7 7.2v6.1c-3.1-.1-5.7-1.1-7.8-2.8v11.1c0 6-4.8 10.5-10.7 10.5C11.6 37.1 7 32.8 7 27c0-6 4.8-10.7 10.8-10.7.8 0 1.6.1 2.3.3v6.3a5.1 5.1 0 1 0 3 4.7V5z" fill="#25F4EE" transform="translate(-1 1)"/><path d="M25 4h6c.5 4.1 2.7 6.6 7 7.2v6.1c-3.1-.1-5.7-1.1-7.8-2.8v11.1c0 6-4.8 10.5-10.7 10.5C13.6 36.1 9 31.8 9 26c0-6 4.8-10.7 10.8-10.7.8 0 1.6.1 2.3.3v6.3a5.1 5.1 0 1 0 3 4.7V4z" fill="#FE2C55" transform="translate(-2 1)"/><path d="M24 5h5c.5 4.1 2.7 6.6 7 7.2v5.2c-3-.4-5.5-1.5-7.5-3.1v12.1c0 5.2-4.2 9.4-9.4 9.4S9.7 31.6 9.7 26.4s4.2-9.4 9.4-9.4c.7 0 1.3.1 1.9.2v5.4a4.1 4.1 0 1 0 3 3.9V5z" fill="#fff"/></svg>
+          </div>
           <h3>1. TikTok MP3 Convert</h3>
           <p>Convert audio from videos you own or have permission to use.</p>
           <span class="service-action">Open Tool →</span>
         </a>
 
         <a class="service-card" href="tools.html#youtube-download">
-          <div class="service-icon">▶️</div>
+          <div class="service-icon brand-youtube" aria-label="YouTube logo">
+            <svg viewBox="0 0 48 36" role="img" aria-hidden="true"><rect x="2" y="3" width="44" height="30" rx="9" fill="#FF0033"/><path d="M20 11l13 7-13 7z" fill="#fff"/></svg>
+          </div>
           <h3>2. YouTube Video Download</h3>
           <p>Tools for videos you own or are authorized to download.</p>
           <span class="service-action">Open Tool →</span>
         </a>
 
         <a class="service-card" href="tools.html#tiktok-download">
-          <div class="service-icon">📱</div>
+          <div class="service-icon brand-tiktok" aria-label="TikTok logo">
+            <svg viewBox="0 0 40 40" role="img" aria-hidden="true"><path d="M23 5h6c.5 4.1 2.7 6.6 7 7.2v6.1c-3.1-.1-5.7-1.1-7.8-2.8v11.1c0 6-4.8 10.5-10.7 10.5C11.6 37.1 7 32.8 7 27c0-6 4.8-10.7 10.8-10.7.8 0 1.6.1 2.3.3v6.3a5.1 5.1 0 1 0 3 4.7V5z" fill="#25F4EE"/><path d="M24 4h5c.5 4.1 2.7 6.6 7 7.2v5.2c-3-.4-5.5-1.5-7.5-3.1v12.1c0 5.2-4.2 9.4-9.4 9.4S9.7 31.6 9.7 26.4s4.2-9.4 9.4-9.4c.7 0 1.3.1 1.9.2v5.4a4.1 4.1 0 1 0 3 3.9V4z" fill="#FE2C55"/><path d="M24 5h5c.5 4.1 2.7 6.6 7 7.2v5.2c-3-.4-5.5-1.5-7.5-3.1v12.1c0 5.2-4.2 9.4-9.4 9.4S9.7 31.6 9.7 26.4s4.2-9.4 9.4-9.4c.7 0 1.3.1 1.9.2v5.4a4.1 4.1 0 1 0 3 3.9V5z" fill="#fff"/></svg>
+          </div>
           <h3>3. TikTok Video Download</h3>
           <p>For your own videos or content you have permission to save.</p>
           <span class="service-action">Open Tool →</span>
         </a>
 
         <a class="service-card" href="tools.html#facebook-download">
-          <div class="service-icon">f</div>
+          <div class="service-icon brand-facebook" aria-label="Facebook logo">
+            <svg viewBox="0 0 40 40" role="img" aria-hidden="true"><circle cx="20" cy="20" r="19" fill="#1877F2"/><path d="M23 34V22h4l.6-4.7H23v-3c0-1.4.4-2.3 2.4-2.3h2.5V7.8c-.4-.1-1.9-.2-3.6-.2-3.6 0-6.1 2.2-6.1 6.3v3.4h-4.1V22h4.1v12z" fill="#fff"/></svg>
+          </div>
           <h3>4. Facebook Video Download</h3>
           <p>Save videos you own or have permission to download.</p>
           <span class="service-action">Open Tool →</span>
         </a>
 
         <a class="service-card" href="tools.html#instagram-download">
-          <div class="service-icon">📸</div>
+          <div class="service-icon brand-instagram" aria-label="Instagram logo">
+            <svg viewBox="0 0 40 40" role="img" aria-hidden="true"><defs><linearGradient id="igGrad" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#FFDC80"/><stop offset=".35" stop-color="#F77737"/><stop offset=".65" stop-color="#E1306C"/><stop offset="1" stop-color="#833AB4"/></linearGradient></defs><rect x="3" y="3" width="34" height="34" rx="10" fill="url(#igGrad)"/><rect x="10" y="10" width="20" height="20" rx="6" fill="none" stroke="#fff" stroke-width="2.8"/><circle cx="20" cy="20" r="5" fill="none" stroke="#fff" stroke-width="2.8"/><circle cx="27" cy="13" r="1.8" fill="#fff"/></svg>
+          </div>
           <h3>5. Instagram Video Download</h3>
           <p>For your own videos or content you have permission to save.</p>
           <span class="service-action">Open Tool →</span>
