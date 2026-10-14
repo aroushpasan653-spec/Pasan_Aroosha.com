@@ -822,6 +822,51 @@
         transition: none !important;
       }
     }
+    
+.professional-dashboard {
+  width: min(100%, 650px);
+  margin: 45px auto 20px;
+  padding: 28px 20px;
+  text-align: center;
+  border: 1px solid rgba(54, 245, 160, 0.55);
+  border-radius: 20px;
+  background: rgba(10, 25, 25, 0.72);
+  box-shadow: 0 0 25px rgba(54, 245, 160, 0.08);
+}
+
+.dashboard-icon {
+  font-size: 36px;
+  margin-bottom: 8px;
+}
+
+.professional-dashboard h2 {
+  color: #36f5a0;
+  font-size: clamp(22px, 5vw, 30px);
+  margin-bottom: 8px;
+}
+
+.professional-dashboard p {
+  color: #aebdca;
+  margin-bottom: 20px;
+}
+
+.dashboard-button {
+  display: inline-block;
+  padding: 13px 24px;
+  color: #03130b;
+  background: #36f5a0;
+  border: 1px solid #36f5a0;
+  border-radius: 10px;
+  font-weight: bold;
+  transition: 0.25s;
+}
+
+.dashboard-button:hover {
+  color: #36f5a0;
+  background: transparent;
+  box-shadow: 0 0 20px rgba(54, 245, 160, 0.3);
+}
+
   </style>
 </head>
 
@@ -875,6 +920,15 @@
         <img src="profile.jpg" alt="Pasan Aroosha">
       </div>
     </div>
+    
+<div class="professional-dashboard">
+  <div class="dashboard-icon">⚡</div>
+  <h2>Professional Dashboard</h2>
+  <p>Access your personal control center.</p>
+  <a href="dashboard.html" class="dashboard-button">
+    Open Dashboard ↗
+  </a>
+</div>
 
     <!-- ABOUT -->
     <section id="about">
