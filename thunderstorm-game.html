@@ -1,0 +1,221 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thunderstorm Survival | PAZZAN.COM</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;background:#05080d;color:#f3fff9;
+  font-family:Arial,sans-serif;text-align:center;
+}
+header{padding:18px;background:#09131d;border-bottom:1px solid #39ff88}
+h1{color:#39ff88;text-shadow:0 0 15px #39ff88}
+p{color:#b4bfd0}
+#game{
+  display:block;width:min(94vw,600px);
+  height:auto;margin:18px auto;
+  background:#071421;border:2px solid #00e5ff;
+  border-radius:12px;touch-action:manipulation;
+}
+button{
+  background:#39ff88;color:#05080d;border:0;
+  border-radius:10px;padding:12px 22px;
+  margin:6px;font-weight:bold;font-size:16px;
+  cursor:pointer;
+}
+.hint{padding:0 16px 20px}
+</style>
+</head>
+
+<body>
+<header>
+  <h1>⚡ THUNDERSTORM SURVIVAL</h1>
+  <p>PAZZAN.COM Gaming</p>
+</header>
+
+<h3>Score: <span id="score">0</span>
+&nbsp; | &nbsp; Best: <span id="best">0</span></h3>
+
+<canvas id="game" width="600" height="420"></canvas>
+
+<button id="start">▶ START / RESTART</button>
+<button id="left">⬅ LEFT</button>
+<button id="right">RIGHT ➡</button>
+
+<p class="hint">
+  Move left and right to avoid the lightning!<br>
+  Computer: use arrow keys. Phone: use the buttons.
+</p>
+
+<script>
+const canvas=document.getElementById("game");
+const ctx=canvas.getContext("2d");
+const scoreText=document.getElementById("score");
+const bestText=document.getElementById("best");
+
+let player,bolts,score,playing,keys,lastTime,spawnTimer;
+let best=0;
+
+try{
+  best=Number(localStorage.getItem("pazzanStormBest")||0);
+}catch(e){best=0}
+
+bestText.textContent=best;
+
+function reset(){
+  player={x:280,y:365,w:40,h:28,speed:290};
+  bolts=[];
+  score=0;
+  playing=true;
+  keys={left:false,right:false};
+  lastTime=0;
+  spawnTimer=0;
+  scoreText.textContent=score;
+  requestAnimationFrame(loop);
+}
+
+function spawnBolt(){
+  bolts.push({
+    x:20+Math.random()*560,
+    y:-35,
+    speed:150+Math.random()*130,
+    size:14+Math.random()*10
+  });
+}
+
+function drawPlayer(){
+  ctx.fillStyle="#39ff88";
+  ctx.shadowColor="#39ff88";
+  ctx.shadowBlur=15;
+  ctx.beginPath();
+  ctx.moveTo(player.x+player.w/2,player.y);
+  ctx.lineTo(player.x+player.w,player.y+player.h);
+  ctx.lineTo(player.x,player.y+player.h);
+  ctx.closePath();
+  ctx.fill();
+  ctx.shadowBlur=0;
+}
+
+function drawBolt(b){
+  ctx.strokeStyle="#00e5ff";
+  ctx.lineWidth=4;
+  ctx.shadowColor="#00e5ff";
+  ctx.shadowBlur=14;
+  ctx.beginPath();
+  ctx.moveTo(b.x,b.y);
+  ctx.lineTo(b.x-8,b.y+b.size);
+  ctx.lineTo(b.x+7,b.y+b.size*1.6);
+  ctx.lineTo(b.x-5,b.y+b.size*2.2);
+  ctx.stroke();
+  ctx.shadowBlur=0;
+}
+
+function loop(time){
+  if(!playing)return;
+
+  const dt=Math.min((time-lastTime)/1000||0,0.04);
+  lastTime=time;
+
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  // Stars
+  for(let i=0;i<35;i++){
+    const x=(i*83)%600;
+    const y=(i*47+time*0.025)%420;
+    ctx.fillStyle="#36556c";
+    ctx.fillRect(x,y,2,2);
+  }
+
+  if(keys.left)player.x-=player.speed*dt;
+  if(keys.right)player.x+=player.speed*dt;
+  player.x=Math.max(0,Math.min(600-player.w,player.x));
+
+  spawnTimer+=dt;
+  if(spawnTimer>0.55){
+    spawnBolt();
+    spawnTimer=0;
+  }
+
+  for(let i=bolts.length-1;i>=0;i--){
+    const b=bolts[i];
+    b.y+=b.speed*dt;
+    drawBolt(b);
+
+    if(
+      b.x>player.x-8 &&
+      b.x<player.x+player.w+8 &&
+      b.y+b.size*2>player.y &&
+      b.y<player.y+player.h
+    ){
+      playing=false;
+      if(score>best){
+        best=score;
+        bestText.textContent=best;
+        try{localStorage.setItem("pazzanStormBest",best)}catch(e){}
+      }
+      drawEnd();
+      return;
+    }
+
+    if(b.y>440){
+      bolts.splice(i,1);
+      score++;
+      scoreText.textContent=score;
+    }
+  }
+
+  drawPlayer();
+  requestAnimationFrame(loop);
+}
+
+function drawEnd(){
+  ctx.fillStyle="rgba(5,8,13,0.86)";
+  ctx.fillRect(0,0,600,420);
+  ctx.textAlign="center";
+  ctx.fillStyle="#ff2bd6";
+  ctx.font="bold 34px Arial";
+  ctx.fillText("STORM OVER!",300,175);
+  ctx.fillStyle="#ffffff";
+  ctx.font="22px Arial";
+  ctx.fillText("Your score: "+score,300,220);
+  ctx.font="18px Arial";
+  ctx.fillText("Press START to play again",300,260);
+}
+
+document.getElementById("start").addEventListener("click",reset);
+
+function holdButton(id,direction){
+  const button=document.getElementById(id);
+  const down=e=>{
+    e.preventDefault();
+    keys[direction]=true;
+  };
+  const up=()=>{
+    keys[direction]=false;
+  };
+  button.addEventListener("pointerdown",down);
+  button.addEventListener("pointerup",up);
+  button.addEventListener("pointerleave",up);
+  button.addEventListener("pointercancel",up);
+}
+
+holdButton("left","left");
+holdButton("right","right");
+
+document.addEventListener("keydown",e=>{
+  if(e.key==="ArrowLeft")keys.left=true;
+  if(e.key==="ArrowRight")keys.right=true;
+});
+document.addEventListener("keyup",e=>{
+  if(e.key==="ArrowLeft")keys.left=false;
+  if(e.key==="ArrowRight")keys.right=false;
+});
+
+reset();
+</script>
+</body>
+</html>
