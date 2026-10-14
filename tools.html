@@ -1,0 +1,157 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TikTok to MP3 | PAZZAN.COM</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #0b0f19;
+      color: white;
+      min-height: 100vh;
+    }
+
+    nav {
+      padding: 20px;
+      background: rgba(255,255,255,0.04);
+      border-bottom: 1px solid #252b3a;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    nav span {
+      color: #8b5cf6;
+    }
+
+    main {
+      max-width: 650px;
+      margin: 90px auto;
+      padding: 25px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 36px;
+      margin-bottom: 15px;
+    }
+
+    h1 span {
+      color: #a78bfa;
+    }
+
+    p {
+      color: #a7adbd;
+      margin-bottom: 28px;
+      line-height: 1.7;
+    }
+
+    .tool-box {
+      background: #111827;
+      border: 1px solid #292d40;
+      border-radius: 18px;
+      padding: 25px;
+    }
+
+    input {
+      width: 100%;
+      padding: 15px;
+      border-radius: 9px;
+      border: 1px solid #39334e;
+      background: #0b0f19;
+      color: white;
+      margin-bottom: 15px;
+      font-size: 15px;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 9px;
+      background: #8b5cf6;
+      color: white;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #7c3aed;
+    }
+
+    .note {
+      font-size: 13px;
+      margin-top: 20px;
+      margin-bottom: 0;
+    }
+
+    .back {
+      display: inline-block;
+      margin-top: 25px;
+      color: #c4b5fd;
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+  <nav>
+    <a href="index.html">PAZZAN<span>.COM</span></a>
+  </nav>
+
+  <main>
+    <h1>TikTok to <span>MP3</span></h1>
+
+    <p>
+      Welcome to PAZZAN.COM audio tools.
+      Convert video files you own or have permission
+      to use into MP3 audio.
+    </p>
+
+    <div class="tool-box">
+      <input
+        type="file"
+        id="videoFile"
+        accept="video/*,audio/*"
+      >
+
+      <button id="convertBtn">Convert to MP3</button>
+
+      <p class="note" id="status">
+        Select a video or audio file to begin.
+      </p>
+    </div>
+
+    <a class="back" href="index.html">← Back to Home</a>
+  </main>
+
+  <script>
+    const fileInput = document.getElementById("videoFile");
+    const button = document.getElementById("convertBtn");
+    const status = document.getElementById("status");
+
+    button.addEventListener("click", () => {
+      if (!fileInput.files.length) {
+        status.textContent = "Please select a file first.";
+        return;
+      }
+
+      status.textContent =
+        "The conversion engine has not been connected yet. This page is the design only.";
+    });
+  </script>
+</body>
+</html>
