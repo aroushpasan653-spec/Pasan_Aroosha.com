@@ -3,193 +3,1005 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#170d2b">
-<title>Pazzan — A Story of Love</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PAZZAN Neon Tetris</title>
+
 <style>
-:root{--pink:#ff72b6;--purple:#a889ff;--bg:#170d2b;--glass:rgba(25,12,44,.9);--white:#fff7ff}
-*{box-sizing:border-box}
-body{margin:0;min-height:100vh;color:var(--white);font-family:Arial,sans-serif;background:radial-gradient(ellipse at 15% 10%,#ff72b633,transparent 35%),radial-gradient(ellipse at 85% 25%,#a889ff33,transparent 35%),linear-gradient(145deg,#170d2b,#36204d,#170d2b)}
-button{font:inherit;cursor:pointer}
-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;padding:16px 20px;background:#170d2bcc;border-bottom:1px solid #ff72b655;position:sticky;top:0;z-index:2;backdrop-filter:blur(16px)}
-.logo{font-size:25px;font-weight:900;color:#ffb5d8}.logo small{display:block;font-size:10px;letter-spacing:3px;color:#e8c8ff}
-.hud{width:180px;border:1px solid #ffb5d866;border-radius:13px;padding:10px;background:#29183e}
-.bar{height:7px;background:#ffffff25;border-radius:9px;margin-top:7px;overflow:hidden}.fill{height:100%;width:0;background:linear-gradient(90deg,#ff4c9d,#cba5ff);transition:width .3s}
-.tools{display:flex;gap:6px;flex-wrap:wrap}
-.small,.choice{padding:11px 13px;border:1px solid #ff9cc777;border-radius:12px;background:#452956;color:white}
-.small:hover,.choice:hover{background:#784477}
-main{max-width:1050px;min-height:75vh;margin:auto;padding:24px;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:25px}
-.character{text-align:center;font-size:clamp(140px,24vw,230px);filter:drop-shadow(0 10px 24px #ff8ac866);animation:float 3s ease-in-out infinite}
-@keyframes float{50%{transform:translateY(-10px)}}
-.dialog{padding:26px;border:1px solid #ffc0e677;border-radius:24px;background:var(--glass);box-shadow:0 15px 50px #0003}
-.name{display:inline-block;padding:8px 14px;border-radius:30px;background:linear-gradient(90deg,#ff5aa6,#a45bdf);font-weight:bold}
-h1{font-size:clamp(25px,4vw,36px);line-height:1.2}
-p{color:#ffeaf6;line-height:1.8}
-.choices{display:grid;gap:10px}
-.choice{text-align:left;width:100%}
-.primary{width:100%;padding:13px;border:0;border-radius:12px;background:linear-gradient(90deg,#ff4f9d,#9365ff);color:white;font-weight:bold}
-footer{text-align:center;padding:20px;color:#ffe7f5;font-size:12px}
-.overlay{display:none;position:fixed;inset:0;z-index:10;background:#10071ddd;align-items:center;justify-content:center;padding:20px}
-.overlay.show{display:flex}
-.modal{width:min(400px,100%);padding:24px;border-radius:20px;background:#211239;border:1px solid #ff9cc7}
-.modal button{margin:5px 3px 0 0}
-#toast{display:none;position:fixed;bottom:20px;left:50%;transform:translateX(-50%);padding:12px 18px;background:#211239;border:1px solid #ff9cc7;border-radius:20px;z-index:20}
-@media(max-width:700px){header{padding:12px}.hud{width:145px}main{grid-template-columns:1fr;padding:12px;gap:5px}.character{font-size:145px}.dialog{padding:20px}}
+:root {
+  --blue: #00c8ff;
+  --orange: #ff642e;
+  --bg: #03091d;
+  --panel: #050817;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background:
+    radial-gradient(ellipse at top, #101b42 0%, #03091d 60%, #080313 100%);
+  color: white;
+  font-family: Arial, sans-serif;
+  min-height: 100vh;
+  padding: 12px;
+  overflow-x: hidden;
+}
+
+header {
+  text-align: center;
+  padding: 8px 0 18px;
+}
+
+header h1 {
+  font-size: clamp(34px, 6vw, 56px);
+  font-weight: 900;
+  letter-spacing: 4px;
+  background: linear-gradient(90deg, #00eaff, white, #ff4c24);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 12px #00aaff55);
+}
+
+header p {
+  color: #8fa8d7;
+  font-size: 10px;
+  letter-spacing: 4px;
+  margin-top: 5px;
+}
+
+.game {
+  max-width: 900px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: minmax(72px, 0.75fr) minmax(0, 1.5fr) minmax(80px, 0.75fr);
+  gap: 10px;
+  align-items: start;
+}
+
+.side {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.panel {
+  background: rgba(2, 5, 19, 0.88);
+  border: 2px solid #168bff;
+  border-radius: 12px;
+  padding: 12px 5px;
+  text-align: center;
+  box-shadow: 0 0 10px #0088ff44, inset 0 0 12px #07152d;
+}
+
+.panel.orange {
+  border-color: var(--orange);
+  box-shadow: 0 0 10px #ff512b44, inset 0 0 12px #28100c;
+}
+
+.panel h3 {
+  font-size: clamp(10px, 2vw, 14px);
+  letter-spacing: 2px;
+  color: #c4eaff;
+  margin-bottom: 12px;
+}
+
+.panel.orange h3 {
+  color: #ffc08b;
+}
+
+.number {
+  font-size: clamp(23px, 4vw, 34px);
+  font-weight: 900;
+  color: #fff;
+  text-shadow: 0 0 12px var(--blue);
+  overflow-wrap: anywhere;
+}
+
+.orange .number {
+  color: #ffbd35;
+  text-shadow: 0 0 12px #ff7500;
+}
+
+.preview {
+  width: 100%;
+  display: block;
+  height: auto;
+}
+
+.board-wrap {
+  border: 3px solid #168bff;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #05071b;
+  box-shadow: 0 0 12px #008cff88, 0 0 30px #008cff22;
+  position: relative;
+}
+
+#board {
+  width: 100%;
+  height: auto;
+  display: block;
+  touch-action: none;
+}
+
+#overlay {
+  position: absolute;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background: #020617dd;
+  text-align: center;
+  gap: 12px;
+  padding: 10px;
+}
+
+#overlay.show {
+  display: flex;
+}
+
+#overlay h2 {
+  color: var(--blue);
+  font-size: clamp(20px, 4vw, 32px);
+  text-shadow: 0 0 15px var(--blue);
+}
+
+#overlay p {
+  color: #d3e7ff;
+  font-size: 13px;
+}
+
+button {
+  color: white;
+  background: #09152b;
+  border: 1px solid var(--blue);
+  border-radius: 8px;
+  padding: 11px 8px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 0 8px #008cff22;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:active {
+  background: #075080;
+  transform: scale(.96);
+}
+
+.orange-btn {
+  border-color: var(--orange);
+}
+
+.controls-info {
+  text-align: left;
+  font-size: clamp(9px, 1.8vw, 12px);
+  line-height: 2;
+  color: #d4deef;
+  overflow-wrap: anywhere;
+}
+
+.controls-info b {
+  color: #fff;
+}
+
+.action-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px;
+  max-width: 900px;
+  margin: 14px auto 0;
+}
+
+.action-buttons button {
+  font-size: 12px;
+}
+
+.touch-controls {
+  max-width: 440px;
+  margin: 18px auto 0;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  user-select: none;
+}
+
+.touch-controls button {
+  min-height: 53px;
+  font-size: 22px;
+  touch-action: manipulation;
+}
+
+.touch-controls .small-label {
+  display: block;
+  font-size: 9px;
+  margin-top: 3px;
+  color: #8bdcff;
+}
+
+footer {
+  text-align: center;
+  color: #647ba7;
+  font-size: 10px;
+  letter-spacing: 2px;
+  padding: 24px 0 12px;
+}
+
+@media (max-width: 520px) {
+  body {
+    padding: 7px;
+  }
+
+  header {
+    padding-bottom: 12px;
+  }
+
+  header h1 {
+    letter-spacing: 2px;
+  }
+
+  .game {
+    gap: 6px;
+    grid-template-columns: minmax(57px, .72fr) minmax(0, 2fr) minmax(65px, .8fr);
+  }
+
+  .side {
+    gap: 7px;
+  }
+
+  .panel {
+    padding: 9px 3px;
+    border-radius: 8px;
+    border-width: 1px;
+  }
+
+  .panel h3 {
+    font-size: 9px;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+
+  .number {
+    font-size: 21px;
+  }
+
+  .controls-info {
+    font-size: 9px;
+    line-height: 1.8;
+  }
+
+  .touch-controls {
+    gap: 5px;
+  }
+
+  .touch-controls button {
+    padding: 6px 2px;
+    min-height: 48px;
+    font-size: 19px;
+  }
+
+  .touch-controls .small-label {
+    font-size: 8px;
+  }
+}
 </style>
 </head>
+
 <body>
+
 <header>
-  <div class="logo">Pazzan ♡<small>A STORY OF LOVE</small></div>
-  <div class="hud">💗 Affection <strong id="level">Level 1</strong><div class="bar"><div class="fill" id="fill"></div></div></div>
-  <div class="tools">
-    <button class="small" id="save">♡ Save</button>
-    <button class="small" id="load">↻ Load</button>
-    <button class="small" id="settings">⚙ Settings</button>
-    <button class="small" id="pause">Ⅱ Pause</button>
-  </div>
+  <h1>Tetris</h1>
+  <p>NEON ARCADE EDITION</p>
 </header>
 
-<main>
-  <div class="character" id="character">👩🏻‍🎤</div>
-  <section class="dialog">
-    <div class="name">♥ Sakura</div>
-    <h1 id="title"></h1>
-    <p id="story"></p>
-    <div class="choices" id="choices"></div>
-  </section>
-</main>
-<footer>A fictional romantic adventure · Every choice shapes your story ✨</footer>
+<main class="game">
 
-<div class="overlay" id="overlay">
-  <div class="modal">
-    <h2 id="modalTitle">Paused</h2>
-    <p id="modalText">Your story is waiting.</p>
-    <div id="modalButtons"></div>
-  </div>
+  <aside class="side">
+    <section class="panel">
+      <h3>HOLD</h3>
+      <canvas id="hold" class="preview" width="120" height="100"></canvas>
+    </section>
+
+    <section class="panel orange">
+      <h3>SCORE</h3>
+      <div class="number" id="score">0</div>
+    </section>
+
+    <section class="panel">
+      <h3>LEVEL</h3>
+      <div class="number" id="level">1</div>
+    </section>
+
+    <section class="panel orange">
+      <h3>LINES</h3>
+      <div class="number" id="lines">0</div>
+    </section>
+  </aside>
+
+  <section class="board-wrap">
+    <canvas id="board" width="300" height="600"></canvas>
+    <div id="overlay">
+      <h2 id="overlay-title">PAUSED</h2>
+      <p id="overlay-text">Take a break!</p>
+      <button id="overlay-btn" onclick="togglePause()">RESUME</button>
+    </div>
+  </section>
+
+  <aside class="side">
+    <section class="panel">
+      <h3>NEXT</h3>
+      <canvas id="next" class="preview" width="120" height="300"></canvas>
+    </section>
+
+    <section class="panel orange">
+      <div class="controls-info">
+        <b>← →</b> Move<br>
+        <b>↑</b> Rotate<br>
+        <b>↓</b> Soft Drop<br>
+        <b>SPACE</b> Hard Drop<br>
+        <b>C</b> Hold<br>
+        <b>P</b> Pause<br>
+        <b>R</b> Restart
+      </div>
+    </section>
+  </aside>
+
+</main>
+
+<div class="action-buttons">
+  <button onclick="togglePause()" id="pauseBtn">⏸ PAUSE</button>
+  <button class="orange-btn" onclick="restartGame()">↻ RESTART</button>
 </div>
-<div id="toast"></div>
+
+<div class="touch-controls">
+  <button data-action="left">◀<span class="small-label">LEFT</span></button>
+  <button data-action="rotate">↻<span class="small-label">ROTATE</span></button>
+  <button data-action="down">▼<span class="small-label">DOWN</span></button>
+  <button data-action="right">▶<span class="small-label">RIGHT</span></button>
+  <button data-action="drop">⬇<span class="small-label">DROP</span></button>
+</div>
+
+<div class="action-buttons" style="max-width:440px">
+  <button onclick="holdPiece()">📦 HOLD</button>
+  <button onclick="togglePause()">⏯ PAUSE / PLAY</button>
+</div>
+
+<footer>PAZZAN GAMING • NEON TETRIS</footer>
 
 <script>
-const $=id=>document.getElementById(id);
-const scenes=[
-{title:"A Chance Meeting",story:"The sky glows pink above the lake. Sakura smiles shyly. “I'm glad you came. Would you like to walk with me?”",choices:[
-["💕 I'd love to. This evening is beautiful.",12,"Sakura smiles warmly. “I'm happy we can enjoy it together.”"],
-["🌸 Tell me about your favourite place.",10,"“There's a little garden nearby,” she says. “It's peaceful at sunset.”"],
-["✨ Let's find a place to see the stars.",9,"Her eyes brighten. “The hill above the lake is perfect.”"]]},
-{title:"Little Things",story:"Tiny lights shimmer on the lake. Sakura says, “Sometimes the smallest moments become the best memories.”",choices:[
-["💗 Memories are special because of who we share them with.",14,"“That's a lovely way to see it,” Sakura replies."],
-["🌷 Let's take a picture of this view.",10,"You save the glowing sunset as a memory of your adventure."],
-["🌠 Tell me more about your dreams.",12,"Sakura shares the dreams she hopes to follow."]]},
-{title:"A Small Surprise",story:"Under a cherry-blossom tree, you find a little paper star. Sakura asks, “What should we do with it?”",choices:[
-["🎀 Let's leave a kind note for someone.",14,"Together you write a note to brighten a stranger's day."],
-["🌸 Let's make another paper star.",12,"You fold a star together, laughing at your first attempt."],
-["💫 Let's keep exploring.",9,"The path winds toward a quiet bridge lit by lanterns."]]},
-{title:"Under the Lanterns",story:"Warm lanterns glow along the bridge. Sakura asks, “What is one wish you have for the future?”",choices:[
-["💖 To make more good memories.",14,"“I hope you get to do all of that,” Sakura says."],
-["🌈 To be brave and follow my dreams.",13,"“I believe you can,” she says. “One step at a time.”"],
-["🌟 More peaceful evenings like this.",11,"You watch the lanterns shimmer on the water."]]},
-{title:"A Memory to Keep",story:"The first stars appear. Sakura gives you a tiny glowing charm. “Which memory should we keep from today?”",choices:[
-["💝 The moment we first met.",15,"The charm glows softly, holding the memory of your first meeting."],
-["🌌 The lanterns and the starry sky.",13,"The charm sparkles like a tiny constellation."],
-["🌷 All the little moments along the way.",15,"“Maybe the little moments are the ones we remember most.”"]]}
-];
-let index=0,affection=0,paused=false,soundOn=false,audioContext;
+"use strict";
 
-function render(){
- const s=scenes[index];
- $("title").textContent=s.title;
- $("story").textContent=s.story;
- $("character").textContent=index===4?"👩🏻‍🎤💫":"👩🏻‍🎤";
- $("level").textContent="Level "+(index+1);
- $("fill").style.width=Math.min(100,affection)+"%";
- $("choices").innerHTML="";
- s.choices.forEach((c,i)=>{
-  const b=document.createElement("button");
-  b.className="choice";b.textContent=c[0];b.onclick=()=>choose(i);
-  $("choices").appendChild(b);
- });
+const COLS = 10;
+const ROWS = 20;
+
+const COLORS = {
+  I: "#00eaff",
+  O: "#ffbd22",
+  T: "#b65cff",
+  S: "#00edb5",
+  Z: "#ff3c48",
+  J: "#438cff",
+  L: "#ff5428"
+};
+
+const SHAPES = {
+  I: [[1,1,1,1]],
+  O: [[1,1],[1,1]],
+  T: [[0,1,0],[1,1,1]],
+  S: [[0,1,1],[1,1,0]],
+  Z: [[1,1,0],[0,1,1]],
+  J: [[1,0,0],[1,1,1]],
+  L: [[0,0,1],[1,1,1]]
+};
+
+const boardCanvas = document.getElementById("board");
+const ctx = boardCanvas.getContext("2d");
+const holdCanvas = document.getElementById("hold");
+const holdCtx = holdCanvas.getContext("2d");
+const nextCanvas = document.getElementById("next");
+const nextCtx = nextCanvas.getContext("2d");
+
+let board;
+let current;
+let queue;
+let held;
+let canHold;
+let score;
+let lines;
+let level;
+let paused;
+let gameOver;
+let lastTime;
+let dropCounter;
+let animationId;
+
+function createBoard() {
+  return Array.from({length: ROWS}, () => Array(COLS).fill(null));
 }
-function choose(i){
- if(paused)return;
- const c=scenes[index].choices[i];
- affection=Math.min(100,affection+c[1]);
- $("story").textContent=c[2];
- $("fill").style.width=Math.min(100,affection)+"%";
- sound();$("choices").innerHTML="";
- addButton(index===scenes.length-1?"💖 See the ending":"✨ Continue story",()=>{
-  if(index<scenes.length-1){index++;render()}else ending()
- },true);
+
+function randomPiece() {
+  const keys = Object.keys(SHAPES);
+  const type = keys[Math.floor(Math.random() * keys.length)];
+
+  return {
+    type,
+    shape: SHAPES[type].map(row => row.slice()),
+    x: 0,
+    y: 0
+  };
 }
-function ending(){
- $("title").textContent=affection>=60?"A Beautiful Memory 💖":"A Lovely Evening 🌙";
- $("character").textContent="🌸💫";
- $("story").textContent=affection>=60
- ?"The lanterns glow beside the lake. You and Sakura share a warm smile, remembering the thoughtful choices you made. This evening becomes a memory to treasure."
- :"The evening settles into a peaceful quiet. You and Sakura say goodbye, carrying a lovely memory of the sunset. More stories await.";
- $("choices").innerHTML="";
- addButton("🔁 Play again",reset,true);
- addButton("♡ Save progress",saveGame);
+
+function refillQueue() {
+  while (queue.length < 5) {
+    const bag = Object.keys(SHAPES);
+
+    for (let i = bag.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [bag[i], bag[j]] = [bag[j], bag[i]];
+    }
+
+    queue.push(...bag.map(type => ({
+      type,
+      shape: SHAPES[type].map(row => row.slice())
+    })));
+  }
 }
-function addButton(text,action,primary=false){
- const b=document.createElement("button");
- b.className=primary?"primary":"choice";b.textContent=text;b.onclick=action;
- $("choices").appendChild(b);
+
+function spawnPiece() {
+  refillQueue();
+
+  const item = queue.shift();
+
+  current = {
+    type: item.type,
+    shape: item.shape.map(row => row.slice()),
+    x: Math.floor((COLS - item.shape[0].length) / 2),
+    y: 0
+  };
+
+  canHold = true;
+
+  if (collides(current, 0, 0, current.shape)) {
+    endGame();
+  }
+
+  drawPreviews();
 }
-function reset(){index=0;affection=0;paused=false;render();toast("A new story begins ✨")}
-function saveGame(){
- try{localStorage.setItem("pazzanLoveStory",JSON.stringify({index,affection}));toast("Story saved on this device 💗")}
- catch(e){toast("Save is unavailable in this browser.")}
+
+function collides(piece, dx, dy, shape) {
+  for (let y = 0; y < shape.length; y++) {
+    for (let x = 0; x < shape[y].length; x++) {
+      if (!shape[y][x]) continue;
+
+      const bx = piece.x + x + dx;
+      const by = piece.y + y + dy;
+
+      if (bx < 0 || bx >= COLS || by >= ROWS) {
+        return true;
+      }
+
+      if (by >= 0 && board[by][bx]) {
+        return true;
+      }
+    }
+  }
+
+  return false;
 }
-function loadGame(){
- try{
-  const d=JSON.parse(localStorage.getItem("pazzanLoveStory")||"null");
-  if(!d)return toast("No saved story found yet.");
-  index=Math.max(0,Math.min(scenes.length-1,Number(d.index)||0));
-  affection=Math.max(0,Math.min(100,Number(d.affection)||0));
-  paused=false;render();toast("Saved story loaded 💕");
- }catch(e){toast("Could not load saved story.")}
+
+function rotateMatrix(matrix) {
+  return matrix[0].map((_, i) =>
+    matrix.map(row => row[i]).reverse()
+  );
 }
-function modal(title,text,buttons){
- $("modalTitle").textContent=title;$("modalText").textContent=text;$("modalButtons").innerHTML="";
- buttons.forEach(x=>{const b=document.createElement("button");b.className=x.primary?"primary":"small";b.textContent=x.text;b.onclick=x.action;$("modalButtons").appendChild(b)});
- $("overlay").classList.add("show");
+
+function rotatePiece() {
+  if (paused || gameOver) return;
+
+  const rotated = rotateMatrix(current.shape);
+
+  // Small wall kicks make rotation easier near the edges.
+  for (const kick of [0, -1, 1, -2, 2]) {
+    if (!collides(current, kick, 0, rotated)) {
+      current.x += kick;
+      current.shape = rotated;
+      draw();
+      return;
+    }
+  }
 }
-function closeModal(){$("overlay").classList.remove("show")}
-function pauseGame(){
- paused=true;
- modal("Story Paused","Take your time. Your story will be here when you're ready.",[
- {text:"▶ Resume",primary:true,action:()=>{paused=false;closeModal()}},
- {text:"↻ Restart",action:()=>{closeModal();reset()}},
- {text:"Close",action:()=>{paused=false;closeModal()}}
- ]);
+
+function movePiece(dx, dy) {
+  if (paused || gameOver) return false;
+
+  if (!collides(current, dx, dy, current.shape)) {
+    current.x += dx;
+    current.y += dy;
+    return true;
+  }
+
+  if (dy > 0) lockPiece();
+
+  return false;
 }
-function openSettings(){
- modal("Settings","Sound effects are currently "+(soundOn?"ON":"OFF")+".",[
- {text:soundOn?"🔇 Sound off":"🔊 Sound on",primary:true,action:()=>{soundOn=!soundOn;closeModal();toast("Sound "+(soundOn?"enabled":"disabled"))}},
- {text:"Restart story",action:()=>{closeModal();reset()}},
- {text:"Close",action:closeModal}
- ]);
+
+function hardDrop() {
+  if (paused || gameOver) return;
+
+  let distance = 0;
+
+  while (!collides(current, 0, 1, current.shape)) {
+    current.y++;
+    distance++;
+  }
+
+  score += distance * 2;
+  updateStats();
+  lockPiece();
 }
-function sound(){
- if(!soundOn)return;
- try{
-  audioContext=audioContext||new(window.AudioContext||window.webkitAudioContext)();
-  const o=audioContext.createOscillator(),g=audioContext.createGain();
-  o.type="sine";o.frequency.value=660;g.gain.value=.04;
-  o.connect(g);g.connect(audioContext.destination);o.start();o.stop(audioContext.currentTime+.12);
- }catch(e){}
+
+function holdPiece() {
+  if (paused || gameOver || !canHold) return;
+
+  const oldType = held;
+  held = current.type;
+
+  if (oldType === null) {
+    spawnPiece();
+  } else {
+    current = {
+      type: oldType,
+      shape: SHAPES[oldType].map(row => row.slice()),
+      x: Math.floor((COLS - SHAPES[oldType][0].length) / 2),
+      y: 0
+    };
+
+    if (collides(current, 0, 0, current.shape)) {
+      endGame();
+    }
+  }
+
+  canHold = false;
+  drawPreviews();
+  draw();
 }
-function toast(m){
- $("toast").textContent=m;$("toast").style.display="block";
- clearTimeout(toast.timer);toast.timer=setTimeout(()=>$("toast").style.display="none",2400);
+
+function lockPiece() {
+  for (let y = 0; y < current.shape.length; y++) {
+    for (let x = 0; x < current.shape[y].length; x++) {
+      if (!current.shape[y][x]) continue;
+
+      const by = current.y + y;
+      const bx = current.x + x;
+
+      if (by < 0) {
+        endGame();
+        return;
+      }
+
+      board[by][bx] = current.type;
+    }
+  }
+
+  clearLines();
+  spawnPiece();
+  draw();
 }
-$("save").onclick=saveGame;
-$("load").onclick=loadGame;
-$("settings").onclick=openSettings;
-$("pause").onclick=()=>{if(!paused)pauseGame()};
-$("overlay").onclick=e=>{if(e.target===$("overlay"))closeModal()};
-document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModal()});
-render();
+
+function clearLines() {
+  let cleared = 0;
+
+  for (let y = ROWS - 1; y >= 0; y--) {
+    if (board[y].every(cell => cell !== null)) {
+      board.splice(y, 1);
+      board.unshift(Array(COLS).fill(null));
+      cleared++;
+      y++;
+    }
+  }
+
+  if (cleared > 0) {
+    const points = [0, 100, 300, 500, 800];
+
+    score += (points[cleared] || 800) * level;
+    lines += cleared;
+    level = Math.floor(lines / 10) + 1;
+    updateStats();
+  }
+}
+
+function updateStats() {
+  document.getElementById("score").textContent = score;
+  document.getElementById("lines").textContent = lines;
+  document.getElementById("level").textContent = level;
+}
+
+function drawCell(context, x, y, size, type, alpha = 1) {
+  const color = COLORS[type];
+
+  context.save();
+  context.globalAlpha = alpha;
+
+  context.fillStyle = color;
+  context.shadowColor = color;
+  context.shadowBlur = 7;
+
+  context.fillRect(
+    x * size + 1,
+    y * size + 1,
+    size - 2,
+    size - 2
+  );
+
+  context.shadowBlur = 0;
+
+  context.fillStyle = "#ffffff55";
+  context.fillRect(
+    x * size + 3,
+    y * size + 3,
+    Math.max(2, size * 0.23),
+    Math.max(2, size * 0.23)
+  );
+
+  context.strokeStyle = "#07112a88";
+  context.lineWidth = 1;
+  context.strokeRect(
+    x * size + 0.5,
+    y * size + 0.5,
+    size - 1,
+    size - 1
+  );
+
+  context.restore();
+}
+
+function drawBackground() {
+  ctx.fillStyle = "#05071b";
+  ctx.fillRect(0, 0, boardCanvas.width, boardCanvas.height);
+
+  const size = boardCanvas.width / COLS;
+
+  ctx.strokeStyle = "#26335a45";
+  ctx.lineWidth = 1;
+
+  for (let x = 0; x <= COLS; x++) {
+    ctx.beginPath();
+    ctx.moveTo(x * size, 0);
+    ctx.lineTo(x * size, boardCanvas.height);
+    ctx.stroke();
+  }
+
+  for (let y = 0; y <= ROWS; y++) {
+    ctx.beginPath();
+    ctx.moveTo(0, y * size);
+    ctx.lineTo(boardCanvas.width, y * size);
+    ctx.stroke();
+  }
+}
+
+function drawPiece(piece, alpha = 1, offsetY = 0) {
+  const size = boardCanvas.width / COLS;
+
+  for (let y = 0; y < piece.shape.length; y++) {
+    for (let x = 0; x < piece.shape[y].length; x++) {
+      if (piece.shape[y][x]) {
+        drawCell(
+          ctx,
+          piece.x + x,
+          piece.y + y + offsetY,
+          size,
+          piece.type,
+          alpha
+        );
+      }
+    }
+  }
+}
+
+function draw() {
+  drawBackground();
+
+  const size = boardCanvas.width / COLS;
+
+  for (let y = 0; y < ROWS; y++) {
+    for (let x = 0; x < COLS; x++) {
+      if (board[y][x]) {
+        drawCell(ctx, x, y, size, board[y][x]);
+      }
+    }
+  }
+
+  if (!gameOver && current) {
+    // Ghost piece shows where the block will land.
+    let ghostY = 0;
+
+    while (!collides(current, 0, ghostY + 1, current.shape)) {
+      ghostY++;
+    }
+
+    drawPiece(current, 0.2, ghostY);
+
+    // Draw the active piece normally.
+    drawPiece(current);
+  }
+}
+
+function drawMini(context, canvas, pieces, single = false) {
+  context.clearRect(0, 0, canvas.width, canvas.height);
+  context.fillStyle = "#030615";
+  context.fillRect(0, 0, canvas.width, canvas.height);
+
+  const size = single ? 19 : 17;
+
+  pieces.forEach((piece, index) => {
+    if (!piece) return;
+
+    const shape = piece.shape;
+    const width = shape[0].length * size;
+    const height = shape.length * size;
+
+    const baseX = (canvas.width - width) / 2;
+    const baseY = single
+      ? (canvas.height - height) / 2
+      : index * 60 + 10;
+
+    shape.forEach((row, y) => {
+      row.forEach((cell, x) => {
+        if (!cell) return;
+
+        context.fillStyle = COLORS[piece.type];
+        context.shadowColor = COLORS[piece.type];
+        context.shadowBlur = 5;
+
+        context.fillRect(
+          baseX + x * size + 1,
+          baseY + y * size + 1,
+          size - 2,
+          size - 2
+        );
+
+        context.shadowBlur = 0;
+        context.fillStyle = "#ffffff55";
+        context.fillRect(
+          baseX + x * size + 3,
+          baseY + y * size + 3,
+          4,
+          4
+        );
+      });
+    });
+  });
+}
+
+function drawPreviews() {
+  const heldPiece = held ? [{
+    type: held,
+    shape: SHAPES[held]
+  }] : [];
+
+  drawMini(holdCtx, holdCanvas, heldPiece, true);
+
+  refillQueue();
+
+  const nextPieces = queue.slice(0, 3).map(item => ({
+    type: item.type,
+    shape: item.shape
+  }));
+
+  drawMini(nextCtx, nextCanvas, nextPieces);
+}
+
+function endGame() {
+  gameOver = true;
+
+  document.getElementById("overlay-title").textContent = "GAME OVER";
+  document.getElementById("overlay-text").textContent =
+    "Final score: " + score;
+  document.getElementById("overlay-btn").textContent = "PLAY AGAIN";
+  document.getElementById("overlay-btn").onclick = restartGame;
+  document.getElementById("overlay").classList.add("show");
+  document.getElementById("pauseBtn").textContent = "▶ PLAY";
+}
+
+function togglePause() {
+  if (gameOver) {
+    restartGame();
+    return;
+  }
+
+  paused = !paused;
+
+  const overlay = document.getElementById("overlay");
+
+  if (paused) {
+    document.getElementById("overlay-title").textContent = "PAUSED";
+    document.getElementById("overlay-text").textContent =
+      "Ready when you are!";
+    document.getElementById("overlay-btn").textContent = "RESUME";
+    document.getElementById("overlay-btn").onclick = togglePause;
+    overlay.classList.add("show");
+    document.getElementById("pauseBtn").textContent = "▶ RESUME";
+  } else {
+    overlay.classList.remove("show");
+    document.getElementById("pauseBtn").textContent = "⏸ PAUSE";
+    lastTime = performance.now();
+  }
+
+  draw();
+}
+
+function restartGame() {
+  if (animationId) cancelAnimationFrame(animationId);
+
+  board = createBoard();
+  queue = [];
+  held = null;
+  canHold = true;
+  score = 0;
+  lines = 0;
+  level = 1;
+  paused = false;
+  gameOver = false;
+  dropCounter = 0;
+  lastTime = 0;
+
+  document.getElementById("overlay").classList.remove("show");
+  document.getElementById("pauseBtn").textContent = "⏸ PAUSE";
+
+  updateStats();
+  spawnPiece();
+  drawPreviews();
+  draw();
+
+  animationId = requestAnimationFrame(update);
+}
+
+function update(time = 0) {
+  if (gameOver) return;
+
+  const delta = lastTime ? Math.min(time - lastTime, 100) : 0;
+  lastTime = time;
+
+  if (!paused) {
+    dropCounter += delta;
+
+    const interval = Math.max(90, 800 - (level - 1) * 65);
+
+    if (dropCounter > interval) {
+      movePiece(0, 1);
+      dropCounter = 0;
+    }
+
+    draw();
+  }
+
+  animationId = requestAnimationFrame(update);
+}
+
+function handleAction(action) {
+  if (action === "pause") {
+    togglePause();
+    return;
+  }
+
+  if (action === "restart") {
+    restartGame();
+    return;
+  }
+
+  if (action === "hold") {
+    holdPiece();
+    return;
+  }
+
+  if (paused || gameOver) return;
+
+  switch (action) {
+    case "left":
+      movePiece(-1, 0);
+      break;
+    case "right":
+      movePiece(1, 0);
+      break;
+    case "down":
+      if (movePiece(0, 1)) {
+        score++;
+        updateStats();
+      }
+      dropCounter = 0;
+      break;
+    case "rotate":
+      rotatePiece();
+      break;
+    case "drop":
+      hardDrop();
+      break;
+  }
+
+  draw();
+}
+
+document.addEventListener("keydown", event => {
+  const keys = [
+    "ArrowLeft", "ArrowRight", "ArrowDown", "ArrowUp", "Space"
+  ];
+
+  if (keys.includes(event.code)) event.preventDefault();
+
+  if (event.repeat && ["Space", "ArrowUp"].includes(event.code)) return;
+
+  switch (event.code) {
+    case "ArrowLeft":
+      handleAction("left");
+      break;
+    case "ArrowRight":
+      handleAction("right");
+      break;
+    case "ArrowDown":
+      handleAction("down");
+      break;
+    case "ArrowUp":
+      handleAction("rotate");
+      break;
+    case "Space":
+      handleAction("drop");
+      break;
+    case "KeyC":
+    case "ShiftLeft":
+    case "ShiftRight":
+      handleAction("hold");
+      break;
+    case "KeyP":
+    case "Escape":
+      handleAction("pause");
+      break;
+    case "KeyR":
+      restartGame();
+      break;
+  }
+});
+
+// Phone touch controls.
+document.querySelectorAll("[data-action]").forEach(button => {
+  const action = button.dataset.action;
+  let repeatTimer = null;
+  let repeatInterval = null;
+
+  function stopRepeat() {
+    clearTimeout(repeatTimer);
+    clearInterval(repeatInterval);
+    repeatTimer = null;
+    repeatInterval = null;
+  }
+
+  button.addEventListener("pointerdown", event => {
+    event.preventDefault();
+
+    if (action === "left" || action === "right" || action === "down") {
+      handleAction(action);
+
+      repeatTimer = setTimeout(() => {
+        repeatInterval = setInterval(() => {
+          handleAction(action);
+        }, action === "down" ? 70 : 110);
+      }, 220);
+    } else {
+      handleAction(action);
+    }
+  });
+
+  ["pointerup", "pointercancel", "pointerleave"].forEach(name => {
+    button.addEventListener(name, stopRepeat);
+  });
+});
+
+// Start the game.
+restartGame();
 </script>
+
 </body>
 </html>
