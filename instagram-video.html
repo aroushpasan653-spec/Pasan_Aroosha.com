@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Instagram Video Tool | PAZZAN.COM</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      padding: 25px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial, sans-serif;
+      color: white;
+      background: #070b16;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 600px;
+      padding: 35px;
+      background: #10172a;
+      border: 1px solid #ff4fc8;
+      border-radius: 20px;
+      box-shadow: 0 0 25px #ff4fc830;
+    }
+
+    h1 {
+      color: #ff4fc8;
+      margin-bottom: 15px;
+      text-shadow: 0 0 12px #ff4fc880;
+    }
+
+    p {
+      color: #cbd5e1;
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      margin-bottom: 15px;
+      border-radius: 10px;
+      border: 1px solid #ff4fc880;
+      background: #070b16;
+      color: white;
+      font-size: 15px;
+    }
+
+    button, .link {
+      display: inline-block;
+      padding: 12px 18px;
+      margin: 4px 4px 4px 0;
+      border: none;
+      border-radius: 10px;
+      background: #ff4fc8;
+      color: #160719;
+      font-weight: bold;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .secondary {
+      background: transparent;
+      border: 1px solid #ff4fc8;
+      color: #ff4fc8;
+    }
+
+    #message {
+      margin-top: 15px;
+      overflow-wrap: anywhere;
+    }
+
+    small {
+      display: block;
+      margin-top: 18px;
+      color: #94a3b8;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+
+<body>
+  <main class="card">
+    <h1>◎ Instagram Video Tool</h1>
+
+    <p>
+      Paste an Instagram post or Reel link to check its format
+      and open it on Instagram.
+    </p>
+
+    <input
+      type="url"
+      id="videoUrl"
+      placeholder="Paste Instagram post or Reel URL"
+    >
+
+    <button onclick="checkUrl()">Check Link</button>
+
+    <p id="message" role="status"></p>
+
+    <a
+      class="link"
+      href="https://www.instagram.com/"
+      target="_blank"
+      rel="noopener noreferrer"
+    >Open Instagram ↗</a>
+
+    <a class="link secondary" href="index.html">
+      ← Back to PAZZAN.COM
+    </a>
+
+    <small>
+      This tool checks the URL format; it does not download videos.
+      Respect creators' rights and platform rules.
+    </small>
+  </main>
+
+  <script>
+    function checkUrl() {
+      const input = document.getElementById("videoUrl").value.trim();
+      const message = document.getElementById("message");
+
+      try {
+        const url = new URL(input);
+        const host = url.hostname.toLowerCase().replace(/^www\./, "");
+
+        const validHosts = [
+          "instagram.com",
+          "m.instagram.com"
+        ];
+
+        if (
+          ["http:", "https:"].includes(url.protocol) &&
+          validHosts.includes(host)
+        ) {
+          message.textContent = "Instagram link format looks valid.";
+        } else {
+          message.textContent = "Please enter a valid Instagram URL.";
+        }
+      } catch {
+        message.textContent = "Please paste a valid URL first.";
+      }
+    }
+  </script>
+</body>
+</html>
