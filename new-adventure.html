@@ -1,0 +1,463 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080914">
+<title>New Adventure | PASAN</title>
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #080914;
+  --panel: #121529;
+  --purple: #bd5cff;
+  --cyan: #36efff;
+  --text: #f6f4ff;
+  --muted: #b7bfd3;
+}
+
+body {
+  background:
+    radial-gradient(ellipse at 10% 10%, #52167a55, transparent 40%),
+    radial-gradient(ellipse at 90% 70%, #004a5850, transparent 40%),
+    var(--bg);
+  color: var(--text);
+  font-family: Arial, "Noto Sans Sinhala", sans-serif;
+  line-height: 1.8;
+  min-height: 100vh;
+}
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  padding: 14px 6%;
+  background: #080914df;
+  backdrop-filter: blur(15px);
+  border-bottom: 1px solid #ffffff18;
+}
+
+nav {
+  max-width: 1000px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  color: white;
+  text-decoration: none;
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+.logo span { color: var(--purple); }
+
+button, .btn {
+  cursor: pointer;
+  border: 1px solid #bd5cff88;
+  border-radius: 10px;
+  padding: 10px 15px;
+  background: #bd5cff18;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 13px;
+}
+
+.hero {
+  text-align: center;
+  max-width: 900px;
+  padding: 90px 22px 60px;
+  margin: auto;
+}
+
+.tag {
+  color: var(--cyan);
+  border: 1px solid #36efff77;
+  padding: 6px 15px;
+  border-radius: 30px;
+  font-size: 11px;
+  letter-spacing: 3px;
+}
+
+h1 {
+  margin: 25px 0 15px;
+  font-size: clamp(42px, 8vw, 76px);
+  line-height: 1.15;
+  font-weight: 900;
+}
+
+.gradient {
+  color: var(--purple);
+  text-shadow: 0 0 28px #bd5cff55;
+}
+
+.hero p {
+  max-width: 620px;
+  margin: auto;
+  color: var(--muted);
+}
+
+.hero .btn {
+  display: inline-block;
+  margin-top: 25px;
+  background: linear-gradient(100deg, #8f3dff, #d34cff);
+  border: 0;
+  padding: 13px 22px;
+}
+
+.container {
+  max-width: 1000px;
+  width: calc(100% - 32px);
+  margin: 0 auto 65px;
+}
+
+.heading {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.heading small {
+  color: var(--cyan);
+  letter-spacing: 3px;
+}
+
+.heading h2 { font-size: 30px; }
+
+.mission-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.mission {
+  display: flex;
+  flex-direction: column;
+  padding: 24px 20px;
+  background: linear-gradient(145deg, #171a31, #0d1020);
+  border: 1px solid #bd5cff44;
+  border-radius: 18px;
+  transition: transform .25s, border-color .25s;
+}
+
+.mission:hover {
+  transform: translateY(-6px);
+  border-color: var(--cyan);
+}
+
+.icon {
+  font-size: 38px;
+  margin-bottom: 12px;
+}
+
+.mission small {
+  color: var(--cyan);
+  font-size: 11px;
+  letter-spacing: 2px;
+}
+
+.mission h3 {
+  font-size: 19px;
+  margin: 7px 0 10px;
+  color: var(--purple);
+}
+
+.mission p {
+  color: var(--muted);
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.mission button {
+  margin-top: auto;
+  width: 100%;
+}
+
+.progress-box {
+  padding: 25px;
+  border: 1px solid #36efff44;
+  border-radius: 18px;
+  background: #111529dd;
+}
+
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.track {
+  height: 10px;
+  background: #ffffff12;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.track div {
+  height: 100%;
+  width: 0%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--purple), var(--cyan));
+  transition: width .3s;
+}
+
+.note {
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: 15px;
+}
+
+.final-box {
+  padding: 35px 22px;
+  text-align: center;
+  border: 1px solid #bd5cff55;
+  border-radius: 20px;
+  background: #151027bb;
+}
+
+.final-box h2 {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.final-box p { color: var(--muted); }
+
+footer {
+  text-align: center;
+  padding: 25px 12px;
+  border-top: 1px solid #ffffff18;
+  color: #929bb4;
+  font-size: 13px;
+}
+
+footer span { color: var(--purple); }
+
+@media (max-width: 760px) {
+  .mission-grid { grid-template-columns: 1fr; }
+  .hero { padding-top: 65px; }
+  .heading h2 { font-size: 26px; }
+}
+
+[hidden] { display: none !important; }
+</style>
+</head>
+
+<body>
+
+<header>
+  <nav>
+    <a href="index.html" class="logo">PASAN<span>.</span></a>
+    <div style="display:flex;gap:10px;align-items:center">
+      <a href="index.html" class="btn"
+         data-en="← Home" data-si="← මුල් පිටුව">← Home</a>
+      <button id="langBtn" type="button">🇱🇰 සිංහල</button>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <section class="hero">
+    <span class="tag"
+      data-en="YOUR NEXT CHAPTER STARTS HERE"
+      data-si="ඔබේ ඊළඟ පරිච්ඡේදය මෙතැනින්">
+      YOUR NEXT CHAPTER STARTS HERE
+    </span>
+
+    <h1>
+      <span data-en="NEW" data-si="අලුත්">NEW</span>
+      <span class="gradient"
+        data-en="ADVENTURE"
+        data-si="ගමනක්">ADVENTURE</span>
+    </h1>
+
+    <p data-en="Every great adventure starts with curiosity. Choose a mission, explore new ideas, and take the next step in your journey."
+       data-si="සෑම අපූරු ගමනක්ම ආරම්භ වන්නේ කුතුහලයෙන්. මෙහෙයුමක් තෝරන්න, අලුත් අදහස් ගවේෂණය කරන්න, ඔබේ ගමනේ ඊළඟ පියවර ගන්න.">
+      Every great adventure starts with curiosity. Choose a mission, explore new ideas, and take the next step in your journey.
+    </p>
+
+    <a href="#missions" class="btn"
+       data-en="EXPLORE MISSIONS ↓"
+       data-si="මෙහෙයුම් බලන්න ↓">
+      EXPLORE MISSIONS ↓
+    </a>
+  </section>
+
+  <section class="container" id="missions">
+    <div class="heading">
+      <small data-en="CHOOSE YOUR PATH" data-si="ඔබේ මාර්ගය තෝරන්න">CHOOSE YOUR PATH</small>
+      <h2 data-en="Adventure Missions" data-si="ගමනේ මෙහෙයුම්">Adventure Missions</h2>
+    </div>
+
+    <div class="mission-grid">
+      <article class="mission">
+        <div class="icon">💻</div>
+        <small>MISSION 01</small>
+        <h3 data-en="Code Explorer" data-si="කේත ගවේෂකයා">Code Explorer</h3>
+        <p data-en="Explore the world of coding. Learn a new concept and turn an idea into something real."
+           data-si="කේතකරණ ලෝකය ගවේෂණය කරන්න. අලුත් දෙයක් ඉගෙන ගෙන අදහසක් සැබෑ නිර්මාණයක් බවට පත් කරන්න.">
+          Explore the world of coding. Learn a new concept and turn an idea into something real.
+        </p>
+        <button type="button" onclick="completeMission(0)"
+          data-en="COMPLETE MISSION" data-si="මෙහෙයුම සම්පූර්ණයි">
+          COMPLETE MISSION
+        </button>
+      </article>
+
+      <article class="mission">
+        <div class="icon">🎮</div>
+        <small>MISSION 02</small>
+        <h3 data-en="Game Creator" data-si="Game නිර්මාණකරු">Game Creator</h3>
+        <p data-en="Think of a new game idea. Plan its rules, characters, and the fun players will discover."
+           data-si="අලුත් game අදහසක් සිතන්න. එහි නීති, චරිත සහ ක්‍රීඩකයන්ට ලැබෙන විනෝදය සැලසුම් කරන්න.">
+          Think of a new game idea. Plan its rules, characters, and the fun players will discover.
+        </p>
+        <button type="button" onclick="completeMission(1)"
+          data-en="COMPLETE MISSION" data-si="මෙහෙයුම සම්පූර්ණයි">
+          COMPLETE MISSION
+        </button>
+      </article>
+
+      <article class="mission">
+        <div class="icon">✨</div>
+        <small>MISSION 03</small>
+        <h3 data-en="Dream Builder" data-si="සිහින නිර්මාණකරු">Dream Builder</h3>
+        <p data-en="Choose one goal and write down one small step you can take toward it today."
+           data-si="එක් අරමුණක් තෝරාගෙන අද එය කරා යාමට ගත හැකි කුඩා පියවරක් ලියාගන්න.">
+          Choose one goal and write down one small step you can take toward it today.
+        </p>
+        <button type="button" onclick="completeMission(2)"
+          data-en="COMPLETE MISSION" data-si="මෙහෙයුම සම්පූර්ණයි">
+          COMPLETE MISSION
+        </button>
+      </article>
+    </div>
+  </section>
+
+  <section class="container">
+    <div class="heading">
+      <small data-en="YOUR PROGRESS" data-si="ඔබේ ප්‍රගතිය">YOUR PROGRESS</small>
+      <h2 data-en="Adventure Status" data-si="ගමනේ තත්ත්වය">Adventure Status</h2>
+    </div>
+
+    <div class="progress-box">
+      <div class="progress-label">
+        <span data-en="Missions completed" data-si="සම්පූර්ණ කළ මෙහෙයුම්">Missions completed</span>
+        <strong id="count">0 / 3</strong>
+      </div>
+      <div class="track"><div id="bar"></div></div>
+      <p class="note" id="status" aria-live="polite"
+         data-en="Choose a mission above to begin!"
+         data-si="ආරම්භ කිරීමට ඉහළින් මෙහෙයුමක් තෝරන්න!">
+        Choose a mission above to begin!
+      </p>
+    </div>
+  </section>
+
+  <section class="container">
+    <div class="final-box">
+      <h2 class="gradient"
+          data-en="YOUR STORY IS STILL UNWRITTEN"
+          data-si="ඔබේ කතාව තවමත් ලියවෙමින් පවතී">
+        YOUR STORY IS STILL UNWRITTEN
+      </h2>
+      <p data-en="Keep learning. Keep creating. Keep moving forward."
+         data-si="දිගටම ඉගෙන ගන්න. නිර්මාණය කරන්න. ඉදිරියට යන්න.">
+        Keep learning. Keep creating. Keep moving forward.
+      </p>
+      <br>
+      <a href="index.html" class="btn"
+         data-en="BACK TO PASAN HOME"
+         data-si="PASAN මුල් පිටුවට යන්න">
+        BACK TO PASAN HOME
+      </a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  © <span>PASAN</span> ·
+  <span data-en="Every step is an adventure."
+        data-si="සෑම පියවරක්ම අලුත් ගමනකි.">
+    Every step is an adventure.
+  </span>
+</footer>
+
+<script>
+let language = "en";
+const completed = [false, false, false];
+
+function completeMission(index) {
+  if (completed[index]) return;
+
+  completed[index] = true;
+
+  const cards = document.querySelectorAll(".mission");
+  const button = cards[index].querySelector("button");
+
+  button.disabled = true;
+  button.style.opacity = "0.6";
+  button.textContent = language === "en" ? "✓ COMPLETED" : "✓ සම්පූර්ණයි";
+
+  const total = completed.filter(Boolean).length;
+  document.getElementById("count").textContent = total + " / 3";
+  document.getElementById("bar").style.width = (total / 3 * 100) + "%";
+
+  const status = document.getElementById("status");
+
+  if (total === 3) {
+    status.textContent = language === "en"
+      ? "Amazing! All missions completed. Keep exploring!"
+      : "නියමයි! සියලුම මෙහෙයුම් සම්පූර්ණයි. දිගටම ගවේෂණය කරන්න!";
+  } else {
+    status.textContent = language === "en"
+      ? "Great progress! Keep going."
+      : "හොඳ ප්‍රගතියක්! දිගටම කරගෙන යන්න.";
+  }
+}
+
+function setLanguage(next) {
+  language = next;
+  document.documentElement.lang = next;
+
+  document.querySelectorAll("[data-en][data-si]").forEach(el => {
+    el.textContent = el.dataset[next];
+  });
+
+  document.getElementById("langBtn").textContent =
+    next === "en" ? "🇱🇰 සිංහල" : "🇬🇧 English";
+
+  document.querySelectorAll(".mission").forEach((card, index) => {
+    const button = card.querySelector("button");
+    if (completed[index]) {
+      button.textContent = next === "en" ? "✓ COMPLETED" : "✓ සම්පූර්ණයි";
+    }
+  });
+
+  const total = completed.filter(Boolean).length;
+  if (total === 3) {
+    document.getElementById("status").textContent = next === "en"
+      ? "Amazing! All missions completed. Keep exploring!"
+      : "නියමයි! සියලුම මෙහෙයුම් සම්පූර්ණයි. දිගටම ගවේෂණය කරන්න!";
+  } else if (total > 0) {
+    document.getElementById("status").textContent = next === "en"
+      ? "Great progress! Keep going."
+      : "හොඳ ප්‍රගතියක්! දිගටම කරගෙන යන්න.";
+  }
+}
+
+document.getElementById("langBtn").addEventListener("click", () => {
+  setLanguage(language === "en" ? "si" : "en");
+});
+</script>
+
+</body>
+</html>
