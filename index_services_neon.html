@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b0f19">
+  <title>Pasan Aroosh | Personal Blog</title>
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+    body { font-family: Arial, sans-serif; background: #0b0f19; color: #fff; line-height: 1.6; }
+
+    /* NAVBAR */
+    nav {
+      position: sticky; top: 0; z-index: 9999;
+      background: rgba(11, 15, 25, 0.18);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      box-shadow: 0 4px 20px rgba(0,0,0,.10);
+    }
+    .nav-container {
+      max-width: 1200px; margin: auto; height: 70px; padding: 0 25px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo { color: #fff; text-decoration: none; font-size: 24px; font-weight: bold; }
+    .logo span { color: #8b5cf6; }
+    .nav-links { display: flex; align-items: center; gap: 25px; list-style: none; }
+    .nav-links a { color: #fff; text-decoration: none; font-size: 15px; font-weight: 500; transition: .3s; }
+    .nav-links a:hover { color: #8b5cf6; }
+    #userEmail { display: none; color: #c4b5fd; font-size: 14px; max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    #logoutBtn { display: none; border: none; background: #8b5cf6; color: white; padding: 9px 16px; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; transition: .3s; }
+    #logoutBtn:hover { background: #7c3aed; }
+    .menu-btn { display: none; background: none; border: none; color: white; font-size: 30px; cursor: pointer; }
+
+    /* HERO */
+    .hero {
+      min-height: 88vh; max-width: 1200px; margin: auto; padding: 80px 25px;
+      display: flex; align-items: center; justify-content: space-between; gap: 60px;
+    }
+    .hero-text { flex: 1; }
+    .small-title { color: #a78bfa; font-size: 16px; font-weight: 600; margin-bottom: 12px; }
+    .hero-text h1 { font-size: 58px; line-height: 1.1; margin-bottom: 20px; }
+    .hero-text h1 span { color: #8b5cf6; }
+    .hero-text p { color: #a7adbd; font-size: 18px; max-width: 600px; margin-bottom: 30px; }
+    .hero-buttons { display: flex; gap: 15px; flex-wrap: wrap; }
+    .btn { display: inline-block; text-decoration: none; padding: 13px 22px; border-radius: 9px; font-weight: 600; transition: .3s; }
+    .btn-primary { background: #8b5cf6; color: white; }
+    .btn-primary:hover { background: #7c3aed; transform: translateY(-2px); }
+    .btn-secondary { border: 1px solid #8b5cf6; color: #c4b5fd; }
+    .btn-secondary:hover { background: #8b5cf6; color: white; }
+    .hero-image { flex: 0 0 340px; display: flex; justify-content: center; }
+    .hero-image img { width: 310px; height: 310px; object-fit: cover; border-radius: 50%; border: 5px solid #8b5cf6; box-shadow: 0 0 40px rgba(139,92,246,.35); }
+
+    /* SECTIONS */
+    section { max-width: 1200px; margin: auto; padding: 90px 25px; }
+    .section-title { text-align: center; margin-bottom: 50px; }
+    .section-title h2 { font-size: 38px; margin-bottom: 10px; }
+    .section-title p { color: #8f96a8; }
+
+    /* ABOUT */
+    .about-box { background: #111827; border: 1px solid #20283a; border-radius: 18px; padding: 40px; max-width: 900px; margin: auto; }
+    .about-box p { color: #b7bdca; font-size: 17px; }
+
+    /* BLOG AND SERVICE CARDS */
+    .blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; }
+    .blog-card {
+      display: block; background: #111827; border: 1px solid #20283a;
+      border-radius: 16px; padding: 28px; transition: .3s; color: inherit; text-decoration: none;
+    }
+    .blog-card:hover { transform: translateY(-6px); border-color: #8b5cf6; box-shadow: 0 10px 30px rgba(0,0,0,.25); }
+    .blog-icon { width: 50px; height: 50px; background: rgba(139,92,246,.15); color: #a78bfa; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 20px; }
+    .blog-card h3 { font-size: 21px; margin-bottom: 12px; color: #fff; text-decoration: none; }
+    .blog-card p { color: #9299aa; font-size: 15px; text-decoration: none; }
+    .read-more { display: inline-block; margin-top: 15px; color: #a78bfa; font-size: 15px; font-weight: 600; text-decoration: none; }
+    .blog-card:hover .read-more { color: #c4b5fd; }
+
+    /* CONTACT */
+    .contact-box {
+      background: linear-gradient(135deg, #151126, #111827);
+      border: 1px solid #2c2250; border-radius: 20px; padding: 50px; text-align: center;
+    }
+    .contact-box h2 { font-size: 32px; margin-bottom: 15px; }
+    .contact-box p { color: #9ca3af; margin-bottom: 25px; }
+    .whatsapp-btn {
+      display: inline-block; background: #25d366; color: white; text-decoration: none;
+      padding: 13px 24px; border-radius: 9px; font-weight: bold; transition: .3s;
+    }
+    .whatsapp-btn:hover { transform: translateY(-2px); opacity: .9; }
+    .instagram-btn {
+      display: block; width: 100%; max-width: 520px; margin: 15px auto 0; padding: 18px 12px;
+      background: linear-gradient(45deg, #FEDA75, #FA7E1E, #D62976, #962FBF, #4F5BD5);
+      color: white; text-align: center; text-decoration: none; font-size: 18px; font-weight: bold; border-radius: 14px;
+    }
+
+    /* FLOATING TOOLS LINK (kept as in your original site) */
+    .floating-tools-btn {
+      position: fixed; right: 20px; bottom: 24px; z-index: 999;
+      width: 62px; height: 62px; display: flex; align-items: center; justify-content: center;
+      border: 0; border-radius: 50%; background: #8b5cf6; color: #fff;
+      font-size: 38px; line-height: 1; cursor: pointer;
+      box-shadow: 0 8px 24px rgba(139,92,246,.35);
+    }
+    .floating-tools-btn:hover { background: #7c3aed; }
+    .upload-modal {
+      display: none; position: fixed; inset: 0; z-index: 10000;
+      padding: 20px; align-items: center; justify-content: center;
+      background: rgba(0,0,0,.68); backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+    }
+    .upload-modal.open { display: flex; }
+    .upload-panel {
+      position: relative; width: min(440px, 100%); padding: 28px 22px;
+      background: #111827; border: 1px solid #30394d; border-radius: 18px;
+      text-align: center; box-shadow: 0 18px 55px rgba(0,0,0,.4);
+    }
+    .upload-panel h2 { margin-bottom: 8px; font-size: 25px; }
+    .upload-panel > p { color: #a7adbd; }
+    .upload-close {
+      position: absolute; top: 8px; right: 12px; border: 0; background: transparent;
+      color: white; font-size: 30px; cursor: pointer;
+    }
+    .upload-select-btn {
+      margin-top: 20px; padding: 13px 22px; border: 0; border-radius: 10px;
+      background: #8b5cf6; color: white; font-size: 16px; font-weight: bold; cursor: pointer;
+    }
+    .upload-file-name { margin-top: 14px; overflow-wrap: anywhere; }
+    .upload-note { margin-top: 18px; font-size: 12px; }
+
+    /* FOOTER */
+    footer { border-top: 1px solid #1d2433; padding: 30px 20px; text-align: center; color: #737b8f; font-size: 14px; }
+
+    /* NEON SERVICES DESIGN */
+    #services {
+      max-width: 1320px;
+      padding-top: 85px;
+      padding-bottom: 95px;
+    }
+    #services .section-title { margin-bottom: 42px; }
+    #services .section-title .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 18px;
+      color: #a78bfa;
+      letter-spacing: 5px;
+      font-size: 14px;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+    #services .section-title .eyebrow::before,
+    #services .section-title .eyebrow::after {
+      content: "";
+      display: inline-block;
+      width: 36px;
+      height: 3px;
+      border-radius: 99px;
+      background: linear-gradient(90deg, #8b5cf6, #22d3ee);
+      box-shadow: 0 0 12px rgba(139,92,246,.6);
+    }
+    #services .section-title h2 {
+      font-size: clamp(30px, 4.2vw, 52px);
+      line-height: 1.15;
+      margin-bottom: 14px;
+    }
+    #services .section-title h2 span {
+      background: linear-gradient(90deg, #d946ef, #8b5cf6, #22d3ee);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    #services .section-title p { color: #aab6d4; font-size: 17px; }
+    #services .services-grid {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 22px;
+      max-width: 1240px;
+      margin: 0 auto;
+    }
+    #services .service-card {
+      --glow: #8b5cf6;
+      grid-column: span 2;
+      position: relative;
+      display: grid;
+      grid-template-columns: 112px minmax(0, 1fr);
+      grid-template-rows: 1fr auto;
+      align-items: start;
+      gap: 12px 22px;
+      min-width: 0;
+      min-height: 265px;
+      padding: 30px;
+      overflow: hidden;
+      isolation: isolate;
+      color: #fff;
+      text-decoration: none;
+      border: 1px solid color-mix(in srgb, var(--glow) 70%, #293247);
+      border-radius: 25px;
+      background:
+        radial-gradient(ellipse at 15% 15%, color-mix(in srgb, var(--glow) 13%, transparent), transparent 55%),
+        linear-gradient(135deg, rgba(10,16,35,.97), rgba(8,12,28,.96));
+      box-shadow: inset 0 0 28px color-mix(in srgb, var(--glow) 5%, transparent), 0 0 20px color-mix(in srgb, var(--glow) 8%, transparent);
+      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    }
+    #services .service-card:nth-child(4),
+    #services .service-card:nth-child(5) { grid-column: span 3; }
+    #services .service-card:nth-child(1) { --glow: #a855f7; }
+    #services .service-card:nth-child(2) { --glow: #ff1744; }
+    #services .service-card:nth-child(3) { --glow: #00d9f5; }
+    #services .service-card:nth-child(4) { --glow: #087cff; }
+    #services .service-card:nth-child(5) { --glow: #ed26d7; }
+    #services .service-card::before {
+      content: "";
+      position: absolute;
+      width: 190px;
+      height: 190px;
+      left: -80px;
+      top: -100px;
+      border-radius: 50%;
+      background: var(--glow);
+      filter: blur(85px);
+      opacity: .22;
+      z-index: -1;
+    }
+    #services .service-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--glow);
+      box-shadow: inset 0 0 32px color-mix(in srgb, var(--glow) 8%, transparent), 0 12px 35px color-mix(in srgb, var(--glow) 15%, transparent);
+    }
+    #services .service-icon {
+      grid-column: 1;
+      grid-row: 1;
+      width: 104px;
+      height: 104px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      align-self: start;
+      border: 2px solid var(--glow);
+      border-radius: 50%;
+      background: rgba(3,8,22,.85);
+      color: #fff;
+      box-shadow: 0 0 20px color-mix(in srgb, var(--glow) 25%, transparent), inset 0 0 20px rgba(255,255,255,.03);
+    }
+    #services .service-icon svg { display: block; width: 58px; height: 58px; }
+    #services .service-card h3 {
+      grid-column: 2;
+      grid-row: 1;
+      align-self: start;
+      margin: 5px 0 12px;
+      color: #f8faff;
+      font-size: clamp(18px, 1.65vw, 24px);
+      line-height: 1.3;
+      text-decoration: none;
+    }
+    #services .service-card p {
+      grid-column: 2;
+      grid-row: 1;
+      align-self: start;
+      margin: 48px 0 0;
+      color: #b6c2df;
+      font-size: 15px;
+      line-height: 1.65;
+      text-decoration: none;
+    }
+    #services .service-action {
+      grid-column: 1 / -1;
+      grid-row: 2;
+      justify-self: start;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 8px;
+      padding: 11px 20px;
+      color: var(--glow);
+      border: 1.5px solid var(--glow);
+      border-radius: 999px;
+      font-size: 16px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background .2s ease, color .2s ease;
+    }
+    #services .service-card:hover .service-action {
+      background: var(--glow);
+      color: #070b18;
+    }
+
+    /* MOBILE */
+    @media (max-width: 850px) {
+      .menu-btn { display: block; }
+      .nav-links {
+        display: none !important; position: absolute; top: 70px; right: 15px; left: auto; width: 230px;
+        flex-direction: column; align-items: flex-start; gap: 0; list-style: none; margin: 0; padding: 10px 15px;
+        background: rgba(11,15,25,.35); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255,255,255,.10); border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,.25);
+      }
+      .nav-links.active { display: flex !important; }
+      .nav-links li { width: 100%; list-style: none; }
+      .nav-links a { display: block; width: 100%; padding: 12px; color: #fff; }
+      #userEmail { width: 100%; max-width: none; padding: 12px; }
+      #logoutBtn { margin: 8px 12px 12px; }
+      .hero { flex-direction: column-reverse; text-align: center; padding-top: 50px; }
+      .hero-text p { margin-left: auto; margin-right: auto; }
+      .hero-buttons { justify-content: center; }
+      .hero-image { flex: none; }
+      .hero-image img { width: 240px; height: 240px; }
+      .hero-text h1 { font-size: 42px; }
+      .blog-grid { grid-template-columns: 1fr; }
+      #services { padding-left: 18px; padding-right: 18px; }
+      #services .services-grid { grid-template-columns: 1fr; gap: 17px; }
+      #services .service-card,
+      #services .service-card:nth-child(4),
+      #services .service-card:nth-child(5) {
+        grid-column: 1;
+        grid-template-columns: 76px minmax(0, 1fr);
+        min-height: 0;
+        gap: 10px 16px;
+        padding: 22px 18px;
+        border-radius: 20px;
+      }
+      #services .service-icon { width: 72px; height: 72px; }
+      #services .service-icon svg { width: 42px; height: 42px; }
+      #services .service-card h3 { font-size: 18px; margin: 2px 0 8px; }
+      #services .service-card p { margin-top: 36px; font-size: 14px; }
+      #services .service-action { font-size: 14px; padding: 9px 16px; }
+    }
+    @media (max-width: 500px) {
+      .nav-container { padding: 15px 18px; }
+      .logo { font-size: 21px; }
+      section { padding: 70px 18px; }
+      .hero { padding: 40px 18px 70px; }
+      .hero-text h1 { font-size: 36px; }
+      .hero-text p { font-size: 16px; }
+      .about-box { padding: 25px; }
+      .contact-box { padding: 35px 20px; }
+      .section-title h2 { font-size: 31px; }
+      #services .section-title .eyebrow { letter-spacing: 3px; font-size: 12px; }
+      #services .section-title p { font-size: 15px; }
+      #services .service-card { grid-template-columns: 62px minmax(0, 1fr); padding: 18px 14px; gap: 8px 13px; }
+      #services .service-icon { width: 60px; height: 60px; }
+      #services .service-icon svg { width: 36px; height: 36px; }
+      #services .service-card h3 { font-size: 16px; }
+      #services .service-card p { margin-top: 32px; font-size: 13px; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- NAVBAR -->
+  <nav>
+    <div class="nav-container">
+      <a href="index.html" class="logo">PAZZAN<span>.COM</span></a>
+
+      <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">☰</button>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#services">Services</a></li><li><a href="#blog">Blog</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="login.html" id="loginLink">Login</a></li>
+        <li><span id="userEmail"></span></li>
+        <li><button id="logoutBtn">Logout</button></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero-text">
+        <div class="small-title">Welcome to my personal space</div>
+        <h1>Hi, I'm <span>Pasan Aroosha</span></h1>
+        <p>Welcome to my personal blog where I share my thoughts, experiences, memories and adventures.</p>
+        <div class="hero-buttons">
+          <a href="#blog" class="btn btn-primary">Explore My Blog</a>
+          <a href="#about" class="btn btn-secondary">About Me</a>
+        </div>
+      </div>
+      <div class="hero-image">
+        <img src="file_00000000024481fab62caedd87400316.png" alt="Pasan Aroosha">
+      </div>
+    </div>
+
+    <!-- ABOUT -->
+    <section id="about">
+      <div class="section-title">
+        <h2>About Me</h2>
+        <p>A little bit about myself</p>
+      </div>
+      <div class="about-box">
+        <p>
+          Hello! I'm Pasan Aroosha. This is my personal space on the internet where I share my journey, thoughts, experiences and the things I love.
+          <br><br>
+          This website is a place to keep my memories, write about my adventures and share my stories with others.
+          <br><br>
+          Thank you for visiting my website!
+        </p>
+      </div>
+    </section>
+
+
+    <!-- ================= SERVICES ================= -->
+    <section id="services">
+      <div class="section-title">
+        <div class="eyebrow">OUR SERVICES</div>
+        <h2>Useful <span>Video &amp; Audio Tools</span></h2>
+        <p>Download videos, convert audio and more — all in one place.</p>
+      </div>
+
+      <div class="services-grid">
+        <a class="service-card" href="tools.html#tiktok-mp3">
+          <div class="service-icon brand-tiktok" aria-label="TikTok logo">
+            <svg viewBox="0 0 40 40" role="img" aria-hidden="true"><path d="M23 5h6c.5 4.1 2.7 6.6 7 7.2v6.1c-3.1-.1-5.7-1.1-7.8-2.8v11.1c0 6-4.8 10.5-10.7 10.5C11.6 37.1 7 32.8 7 27c0-6 4.8-10.7 10.8-10.7.8 0 1.6.1 2.3.3v6.3a5.1 5.1 0 1 0 3 4.7V5z" fill="#25F4EE" transform="translate(-1 1)"/><path d="M25 4h6c.5 4.1 2.7 6.6 7 7.2v6.1c-3.1-.1-5.7-1.1-7.8-2.8v11.1c0 6-4.8 10.5-10.7 10.5C13.6 36.1 9 31.8 9 26c0-6 4.8-10.7 10.8-10.7.8 0 1.6.1 2.3.3v6.3a5.1 5.1 0 1 0 3 4.7V4z" fill="#FE2C55" transform="translate(-2 1)"/><path d="M24 5h5c.5 4.1 2.7 6.6 7 7.2v5.2c-3-.4-5.5-1.5-7.5-3.1v12.1c0 5.2-4.2 9.4-9.4 9.4S9.7 31.6 9.7 26.4s4.2-9.4 9.4-9.4c.7 0 1.3.1 1.9.2v5.4a4.1 4.1 0 1 0 3 3.9V5z" fill="#fff"/></svg>
+          </div>
+          <h3>1. TikTok MP3 Convert</h3>
+          <p>Convert audio from videos you own or have permission to use.</p>
+          <span class="service-action">Open Tool →</span>
+        </a>
+
+        <a class="service-card" href="tools.html#youtube-download">
+          <div class="service-icon brand-youtube" aria-label="YouTube logo">
+            <svg viewBox="0 0 48 36" role="img" aria-hidden="true"><rect x="2" y="3" width="44" height="30" rx="9" fill="#FF0033"/><path d="M20 11l13 7-13 7z" fill="#fff"/></svg>
+          </div>
+          <h3>2. YouTube Video Download</h3>
+          <p>Tools for videos you own or are authorized to download.</p>
+          <span class="service-action">Open Tool →</span>
+        </a>
+
+        <a class="service-card" href="tools.html#tiktok-download">
+          <div class="service-icon brand-tiktok" aria-label="TikTok logo">
+            <svg viewBox="0 0 40 40" role="img" aria-hidden="true"><path d="M23 5h6c.5 4.1 2.7 6.6 7 7.2v6.1c-3.1-.1-5.7-1.1-7.8-2.8v11.1c0 6-4.8 10.5-10.7 10.5C11.6 37.1 7 32.8 7 27c0-6 4.8-10.7 10.8-10.7.8 0 1.6.1 2.3.3v6.3a5.1 5.1 0 1 0 3 4.7V5z" fill="#25F4EE"/><path d="M24 4h5c.5 4.1 2.7 6.6 7 7.2v5.2c-3-.4-5.5-1.5-7.5-3.1v12.1c0 5.2-4.2 9.4-9.4 9.4S9.7 31.6 9.7 26.4s4.2-9.4 9.4-9.4c.7 0 1.3.1 1.9.2v5.4a4.1 4.1 0 1 0 3 3.9V4z" fill="#FE2C55"/><path d="M24 5h5c.5 4.1 2.7 6.6 7 7.2v5.2c-3-.4-5.5-1.5-7.5-3.1v12.1c0 5.2-4.2 9.4-9.4 9.4S9.7 31.6 9.7 26.4s4.2-9.4 9.4-9.4c.7 0 1.3.1 1.9.2v5.4a4.1 4.1 0 1 0 3 3.9V5z" fill="#fff"/></svg>
+          </div>
+          <h3>3. TikTok Video Download</h3>
+          <p>For your own videos or content you have permission to save.</p>
+          <span class="service-action">Open Tool →</span>
+        </a>
+
+        <a class="service-card" href="tools.html#facebook-download">
+          <div class="service-icon brand-facebook" aria-label="Facebook logo">
+            <svg viewBox="0 0 40 40" role="img" aria-hidden="true"><circle cx="20" cy="20" r="19" fill="#1877F2"/><path d="M23 34V22h4l.6-4.7H23v-3c0-1.4.4-2.3 2.4-2.3h2.5V7.8c-.4-.1-1.9-.2-3.6-.2-3.6 0-6.1 2.2-6.1 6.3v3.4h-4.1V22h4.1v12z" fill="#fff"/></svg>
+          </div>
+          <h3>4. Facebook Video Download</h3>
+          <p>Save videos you own or have permission to download.</p>
+          <span class="service-action">Open Tool →</span>
+        </a>
+
+        <a class="service-card" href="tools.html#instagram-download">
+          <div class="service-icon brand-instagram" aria-label="Instagram logo">
+            <svg viewBox="0 0 40 40" role="img" aria-hidden="true"><defs><linearGradient id="igGrad" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#FFDC80"/><stop offset=".35" stop-color="#F77737"/><stop offset=".65" stop-color="#E1306C"/><stop offset="1" stop-color="#833AB4"/></linearGradient></defs><rect x="3" y="3" width="34" height="34" rx="10" fill="url(#igGrad)"/><rect x="10" y="10" width="20" height="20" rx="6" fill="none" stroke="#fff" stroke-width="2.8"/><circle cx="20" cy="20" r="5" fill="none" stroke="#fff" stroke-width="2.8"/><circle cx="27" cy="13" r="1.8" fill="#fff"/></svg>
+          </div>
+          <h3>5. Instagram Video Download</h3>
+          <p>For your own videos or content you have permission to save.</p>
+          <span class="service-action">Open Tool →</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- BLOG -->
+    <section id="blog">
+      <div class="section-title">
+        <h2>My Blog</h2>
+        <p>Stories, thoughts and experiences</p>
+      </div>
+      <div class="blog-grid">
+        <a href="blog1.html" class="blog-card">
+          <div class="blog-icon">✍️</div>
+          <h3>My First Blog</h3>
+          <p>Welcome to my first blog post. Here I share how this journey started and why I created this website.</p>
+          <span class="read-more">Read Article →</span>
+        </a>
+        <div class="blog-card">
+          <div class="blog-icon">🌍</div>
+          <h3>My Journey</h3>
+          <p>Every journey has a story. This is a collection of my experiences, lessons and unforgettable moments.</p>
+        </div>
+        <div class="blog-card">
+          <div class="blog-icon">🚀</div>
+          <h3>New Adventures</h3>
+          <p>New places, new experiences and new dreams. Follow along as I continue my journey.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="contact-box">
+        <h2>Let's Connect</h2>
+        <p>Want to get in touch with me? Feel free to contact me through WhatsApp or Instagram.</p>
+        <a href="https://wa.me/message/XOOAFQKPPUQNP1" target="_blank" rel="noopener noreferrer" class="whatsapp-btn">💬 Contact Me on WhatsApp</a>
+        <a href="https://instagram.com/itz_pazzan?srtk=MTJwbDJyb3FqNGdrdA%3D%3D" target="_blank" rel="noopener noreferrer" class="instagram-btn">📷 Contact Me On Instagram</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Floating + button: opens the device file picker -->
+  <button type="button" class="floating-tools-btn" id="uploadOpenBtn" aria-label="Upload a file">+</button>
+  <input type="file" id="uploadFileInput" hidden>
+  <div class="upload-modal" id="uploadModal" aria-hidden="true">
+    <div class="upload-panel" role="dialog" aria-modal="true" aria-labelledby="uploadTitle">
+      <button type="button" class="upload-close" id="uploadCloseBtn" aria-label="Close">×</button>
+      <h2 id="uploadTitle">Upload a file</h2>
+      <p>Select a file from your phone or computer.</p>
+      <button type="button" class="upload-select-btn" id="chooseFileBtn">＋ Choose File</button>
+      <p class="upload-file-name" id="uploadFileName">No file selected</p>
+      <p class="upload-note">This selects a file on your device only. It is not uploaded or shared on the website yet.</p>
+    </div>
+  </div>
+
+  <footer>© 2026 Pasan Aroosha. All rights reserved.</footer>
+
+  <!-- FIREBASE AUTH -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyB3G98XBTZH6NFiZx6NQmyEKR8g6vnSYNQ",
+      authDomain: "pasan-fc8e2.firebaseapp.com",
+      projectId: "pasan-fc8e2",
+      storageBucket: "pasan-fc8e2.firebasestorage.app",
+      messagingSenderId: "330282693990",
+      appId: "1:330282693990:web:f754a4a09efaa73ab5c4a7",
+      measurementId: "G-B12LL33EQ3"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const loginLink = document.getElementById("loginLink");
+    const userEmail = document.getElementById("userEmail");
+    const logoutBtn = document.getElementById("logoutBtn");
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        loginLink.style.display = "none";
+        userEmail.style.display = "inline";
+        userEmail.textContent = user.email || "Signed in";
+        logoutBtn.style.display = "inline-block";
+      } else {
+        loginLink.style.display = "inline";
+        userEmail.style.display = "none";
+        userEmail.textContent = "";
+        logoutBtn.style.display = "none";
+      }
+    });
+
+    logoutBtn.addEventListener("click", async () => {
+      try {
+        await signOut(auth);
+        alert("You have been logged out.");
+        window.location.href = "index.html";
+      } catch (error) {
+        console.error(error);
+        alert("Logout failed: " + error.message);
+      }
+    });
+
+    const menuBtn = document.getElementById("menuBtn");
+    const navLinks = document.getElementById("navLinks");
+
+    menuBtn.addEventListener("click", () => {
+      const isOpen = navLinks.classList.toggle("active");
+      menuBtn.setAttribute("aria-expanded", String(isOpen));
+      menuBtn.textContent = isOpen ? "✕" : "☰";
+    });
+
+    document.querySelectorAll(".nav-links a").forEach((link) => {
+      link.addEventListener("click", () => {
+        navLinks.classList.remove("active");
+        menuBtn.setAttribute("aria-expanded", "false");
+        menuBtn.textContent = "☰";
+      });
+    });
+
+    // Select a local file. Uploading it to a shared website requires backend/storage.
+    const uploadOpenBtn = document.getElementById("uploadOpenBtn");
+    const uploadModal = document.getElementById("uploadModal");
+    const uploadCloseBtn = document.getElementById("uploadCloseBtn");
+    const chooseFileBtn = document.getElementById("chooseFileBtn");
+    const uploadFileInput = document.getElementById("uploadFileInput");
+    const uploadFileName = document.getElementById("uploadFileName");
+
+    uploadOpenBtn.addEventListener("click", () => {
+      uploadModal.classList.add("open");
+      uploadModal.setAttribute("aria-hidden", "false");
+    });
+
+    uploadCloseBtn.addEventListener("click", () => {
+      uploadModal.classList.remove("open");
+      uploadModal.setAttribute("aria-hidden", "true");
+    });
+
+    uploadModal.addEventListener("click", (event) => {
+      if (event.target === uploadModal) {
+        uploadModal.classList.remove("open");
+        uploadModal.setAttribute("aria-hidden", "true");
+      }
+    });
+
+    chooseFileBtn.addEventListener("click", () => uploadFileInput.click());
+
+    uploadFileInput.addEventListener("change", () => {
+      const file = uploadFileInput.files && uploadFileInput.files[0];
+      uploadFileName.textContent = file ? "Selected: " + file.name : "No file selected";
+    });
+  </script>
+</body>
+</html>
