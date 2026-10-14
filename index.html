@@ -824,48 +824,33 @@
     }
     
 .professional-dashboard {
-  width: min(100%, 650px);
-  margin: 45px auto 20px;
-  padding: 28px 20px;
-  text-align: center;
-  border: 1px solid rgba(54, 245, 160, 0.55);
-  border-radius: 20px;
-  background: rgba(10, 25, 25, 0.72);
-  box-shadow: 0 0 25px rgba(54, 245, 160, 0.08);
-}
 
-.dashboard-icon {
-  font-size: 36px;
-  margin-bottom: 8px;
-}
-
-.professional-dashboard h2 {
-  color: #36f5a0;
-  font-size: clamp(22px, 5vw, 30px);
-  margin-bottom: 8px;
-}
-
-.professional-dashboard p {
-  color: #aebdca;
-  margin-bottom: 20px;
-}
-
-.dashboard-button {
-  display: inline-block;
-  padding: 13px 24px;
-  color: #03130b;
-  background: #36f5a0;
+.professional-dashboard-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: min(88%, 500px);
+  min-height: 68px;
+  margin: 25px auto;
+  padding: 16px 20px;
+  border-radius: 12px;
+  background: #24d366;
   border: 1px solid #36f5a0;
-  border-radius: 10px;
-  font-weight: bold;
-  transition: 0.25s;
+  color: #04130b;
+  font-size: clamp(16px, 4vw, 21px);
+  font-weight: 800;
+  text-align: center;
+  text-decoration: none;
+  box-shadow: 0 0 20px rgba(36, 211, 102, .16);
+  transition: .25s ease;
 }
 
-.dashboard-button:hover {
-  color: #36f5a0;
-  background: transparent;
-  box-shadow: 0 0 20px rgba(54, 245, 160, 0.3);
+.professional-dashboard-btn:hover {
+  background: #36f5a0;
+  transform: translateY(-3px);
+  box-shadow: 0 0 28px rgba(54, 245, 160, .4);
 }
+
 
   </style>
 </head>
@@ -1135,6 +1120,13 @@
           rel="noopener noreferrer"
           class="contact-btn instagram-btn"
         >📷 Contact Me on Instagram</a>
+
+        
+<a href="dashboard.html" class="professional-dashboard-btn">
+  🎮 Professional Dashboard
+</a>
+
+        
       </div>
     </section>
   </main>
