@@ -5,159 +5,43 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#170d2b">
-<title>Pazzan: A Story of Love</title>
-
+<title>Pazzan — A Story of Love</title>
 <style>
-:root {
-  --pink: #ff72b6;
-  --purple: #a889ff;
-  --bg: #170d2b;
-  --glass: rgba(25, 12, 44, .86);
-  --white: #fff7ff;
-}
-* { box-sizing: border-box; }
-body {
-  margin: 0;
-  min-height: 100vh;
-  color: var(--white);
-  font-family: Arial, sans-serif;
-  background: linear-gradient(160deg,#251542,#804c86,#ffad91,#352043);
-}
-button { font: inherit; cursor: pointer; }
-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 12px;
-  padding: 18px;
-  background: #170d2b66;
-}
-.logo { font-size: 27px; font-weight: 900; color: #ffb6d8; }
-.small-buttons { display: flex; flex-wrap: wrap; gap: 7px; }
-.small, .choice {
-  color: white;
-  border: 1px solid #ff9cc788;
-  border-radius: 12px;
-  background: #4a285eaa;
-  padding: 10px 13px;
-}
-.hud {
-  width: 190px;
-  border: 1px solid #ffc4e477;
-  padding: 10px;
-  border-radius: 15px;
-  background: #1b103c99;
-}
-.bar { height: 8px; background: #ffffff30; border-radius: 20px; margin-top: 7px; }
-.fill {
-  width: 0;
-  height: 100%;
-  background: linear-gradient(90deg,#ff4c9d,#ffd2e6);
-  border-radius: 20px;
-  transition: width .3s;
-}
-main {
-  width: min(1000px, 100%);
-  min-height: 75vh;
-  margin: auto;
-  padding: 22px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 25px;
-  align-items: center;
-}
-.character {
-  text-align: center;
-  font-size: clamp(130px,25vw,230px);
-  filter: drop-shadow(0 10px 25px #ff8ac866);
-  animation: float 3s ease-in-out infinite;
-}
-@keyframes float {
-  50% { transform: translateY(-9px); }
-}
-.dialog {
-  padding: 25px;
-  border: 1px solid #ffc0e688;
-  border-radius: 24px;
-  background: var(--glass);
-  box-shadow: 0 15px 50px #16051f44;
-}
-.name {
-  display: inline-block;
-  padding: 8px 15px;
-  border-radius: 30px;
-  background: linear-gradient(90deg,#ff5aa6,#a45bdf);
-  font-weight: bold;
-}
-h1 { font-size: clamp(24px,4vw,36px); }
-p { color: #ffeaf6; line-height: 1.7; }
-.choices { display: grid; gap: 10px; }
-.choice { text-align: left; width: 100%; }
-.choice:hover, .small:hover {
-  background: #a34d93;
-  border-color: #ffd5ed;
-}
-.primary {
-  width: 100%;
-  border: 0;
-  border-radius: 12px;
-  padding: 13px;
-  color: white;
-  font-weight: bold;
-  background: linear-gradient(90deg,#ff4f9d,#9365ff);
-}
-footer { text-align: center; padding: 20px; color: #ffe7f5; font-size: 12px; }
-.overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 5;
-  background: #10071ddd;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-}
-.overlay.show { display: flex; }
-.modal {
-  width: min(400px,100%);
-  padding: 24px;
-  border-radius: 20px;
-  background: #211239;
-  border: 1px solid #ff9cc7;
-}
-.modal button { margin: 5px 3px 0 0; }
-#toast {
-  display: none;
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 12px 18px;
-  background: #211239;
-  border: 1px solid #ff9cc7;
-  border-radius: 20px;
-}
-@media(max-width:700px) {
-  header { padding: 13px; }
-  .hud { width: 155px; }
-  main { grid-template-columns: 1fr; gap: 5px; padding: 12px; }
-  .character { font-size: 145px; }
-  .dialog { padding: 20px; }
-}
+:root{--pink:#ff72b6;--purple:#a889ff;--bg:#170d2b;--glass:rgba(25,12,44,.9);--white:#fff7ff}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;color:var(--white);font-family:Arial,sans-serif;background:radial-gradient(ellipse at 15% 10%,#ff72b633,transparent 35%),radial-gradient(ellipse at 85% 25%,#a889ff33,transparent 35%),linear-gradient(145deg,#170d2b,#36204d,#170d2b)}
+button{font:inherit;cursor:pointer}
+header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;padding:16px 20px;background:#170d2bcc;border-bottom:1px solid #ff72b655;position:sticky;top:0;z-index:2;backdrop-filter:blur(16px)}
+.logo{font-size:25px;font-weight:900;color:#ffb5d8}.logo small{display:block;font-size:10px;letter-spacing:3px;color:#e8c8ff}
+.hud{width:180px;border:1px solid #ffb5d866;border-radius:13px;padding:10px;background:#29183e}
+.bar{height:7px;background:#ffffff25;border-radius:9px;margin-top:7px;overflow:hidden}.fill{height:100%;width:0;background:linear-gradient(90deg,#ff4c9d,#cba5ff);transition:width .3s}
+.tools{display:flex;gap:6px;flex-wrap:wrap}
+.small,.choice{padding:11px 13px;border:1px solid #ff9cc777;border-radius:12px;background:#452956;color:white}
+.small:hover,.choice:hover{background:#784477}
+main{max-width:1050px;min-height:75vh;margin:auto;padding:24px;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:25px}
+.character{text-align:center;font-size:clamp(140px,24vw,230px);filter:drop-shadow(0 10px 24px #ff8ac866);animation:float 3s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-10px)}}
+.dialog{padding:26px;border:1px solid #ffc0e677;border-radius:24px;background:var(--glass);box-shadow:0 15px 50px #0003}
+.name{display:inline-block;padding:8px 14px;border-radius:30px;background:linear-gradient(90deg,#ff5aa6,#a45bdf);font-weight:bold}
+h1{font-size:clamp(25px,4vw,36px);line-height:1.2}
+p{color:#ffeaf6;line-height:1.8}
+.choices{display:grid;gap:10px}
+.choice{text-align:left;width:100%}
+.primary{width:100%;padding:13px;border:0;border-radius:12px;background:linear-gradient(90deg,#ff4f9d,#9365ff);color:white;font-weight:bold}
+footer{text-align:center;padding:20px;color:#ffe7f5;font-size:12px}
+.overlay{display:none;position:fixed;inset:0;z-index:10;background:#10071ddd;align-items:center;justify-content:center;padding:20px}
+.overlay.show{display:flex}
+.modal{width:min(400px,100%);padding:24px;border-radius:20px;background:#211239;border:1px solid #ff9cc7}
+.modal button{margin:5px 3px 0 0}
+#toast{display:none;position:fixed;bottom:20px;left:50%;transform:translateX(-50%);padding:12px 18px;background:#211239;border:1px solid #ff9cc7;border-radius:20px;z-index:20}
+@media(max-width:700px){header{padding:12px}.hud{width:145px}main{grid-template-columns:1fr;padding:12px;gap:5px}.character{font-size:145px}.dialog{padding:20px}}
 </style>
 </head>
-
 <body>
 <header>
-  <div class="logo">Pazzan ♡<div style="font-size:11px;letter-spacing:2px">A STORY OF LOVE</div></div>
-
-  <div class="hud">
-    <div>💗 Affection <strong id="level">Level 1</strong></div>
-    <div class="bar"><div class="fill" id="fill"></div></div>
-  </div>
-
-  <div class="small-buttons">
+  <div class="logo">Pazzan ♡<small>A STORY OF LOVE</small></div>
+  <div class="hud">💗 Affection <strong id="level">Level 1</strong><div class="bar"><div class="fill" id="fill"></div></div></div>
+  <div class="tools">
     <button class="small" id="save">♡ Save</button>
     <button class="small" id="load">↻ Load</button>
     <button class="small" id="settings">⚙ Settings</button>
@@ -167,240 +51,144 @@ footer { text-align: center; padding: 20px; color: #ffe7f5; font-size: 12px; }
 
 <main>
   <div class="character" id="character">👩🏻‍🎤</div>
-
   <section class="dialog">
     <div class="name">♥ Sakura</div>
-    <h1 id="title">A Chance Meeting</h1>
+    <h1 id="title"></h1>
     <p id="story"></p>
     <div class="choices" id="choices"></div>
   </section>
 </main>
-
-<footer>A fictional romantic adventure · Your choices shape the story ✨</footer>
+<footer>A fictional romantic adventure · Every choice shapes your story ✨</footer>
 
 <div class="overlay" id="overlay">
   <div class="modal">
     <h2 id="modalTitle">Paused</h2>
-    <p id="modalText">Your story is waiting for you.</p>
+    <p id="modalText">Your story is waiting.</p>
     <div id="modalButtons"></div>
   </div>
 </div>
 <div id="toast"></div>
 
 <script>
-const $ = id => document.getElementById(id);
-
-const scenes = [
- {
-  title:"A Chance Meeting",
-  story:"The sky glows pink above the lake. Sakura smiles shyly. “I'm glad you came. Would you like to walk with me?”",
-  choices:[
-   ["💕 I'd love to. This evening is beautiful.",12,"Sakura smiles warmly. “I'm happy we can enjoy it together.”"],
-   ["🌸 Tell me about your favourite place.",10,"“There's a little garden nearby,” she says. “It's peaceful at sunset.”"],
-   ["✨ Let's find a place to see the stars.",9,"Her eyes brighten. “The hill above the lake is perfect.”"]
-  ]
- },
- {
-  title:"Little Things",
-  story:"Tiny lights shimmer on the lake. Sakura says, “Sometimes the smallest moments become the best memories.”",
-  choices:[
-   ["💗 Memories are special because of who we share them with.",14,"“That's a lovely way to see it,” Sakura replies."],
-   ["🌷 Let's take a picture of this view.",10,"You save the glowing sunset as a memory of your adventure."],
-   ["🌠 Tell me more about your dreams.",12,"Sakura shares the dreams she hopes to follow."]
-  ]
- },
- {
-  title:"A Small Surprise",
-  story:"Under a cherry-blossom tree, you find a little paper star. Sakura asks, “What should we do with it?”",
-  choices:[
-   ["🎀 Let's leave a kind note for someone.",14,"Together you write a note to brighten a stranger's day."],
-   ["🌸 Let's make another paper star.",12,"You fold a star together, laughing at your first attempt."],
-   ["💫 Let's keep exploring.",9,"The path winds toward a quiet bridge lit by lanterns."]
-  ]
- },
- {
-  title:"Under the Lanterns",
-  story:"Warm lanterns glow along the bridge. Sakura asks, “What is one wish you have for the future?”",
-  choices:[
-   ["💖 To make more good memories.",14,"“I hope you get to do all of that,” Sakura says."],
-   ["🌈 To be brave and follow my dreams.",13,"“I believe you can,” she says. “One step at a time.”"],
-   ["🌟 More peaceful evenings like this.",11,"You watch the lanterns shimmer on the water."]
-  ]
- },
- {
-  title:"A Memory to Keep",
-  story:"The first stars appear. Sakura gives you a tiny glowing charm. “Which memory should we keep from today?”",
-  choices:[
-   ["💝 The moment we first met.",15,"The charm glows softly, holding the memory of your first meeting."],
-   ["🌌 The lanterns and the starry sky.",13,"The charm sparkles like a tiny constellation."],
-   ["🌷 All the little moments along the way.",15,"“Maybe the little moments are the ones we remember most.”"]
-  ]
- }
+const $=id=>document.getElementById(id);
+const scenes=[
+{title:"A Chance Meeting",story:"The sky glows pink above the lake. Sakura smiles shyly. “I'm glad you came. Would you like to walk with me?”",choices:[
+["💕 I'd love to. This evening is beautiful.",12,"Sakura smiles warmly. “I'm happy we can enjoy it together.”"],
+["🌸 Tell me about your favourite place.",10,"“There's a little garden nearby,” she says. “It's peaceful at sunset.”"],
+["✨ Let's find a place to see the stars.",9,"Her eyes brighten. “The hill above the lake is perfect.”"]]},
+{title:"Little Things",story:"Tiny lights shimmer on the lake. Sakura says, “Sometimes the smallest moments become the best memories.”",choices:[
+["💗 Memories are special because of who we share them with.",14,"“That's a lovely way to see it,” Sakura replies."],
+["🌷 Let's take a picture of this view.",10,"You save the glowing sunset as a memory of your adventure."],
+["🌠 Tell me more about your dreams.",12,"Sakura shares the dreams she hopes to follow."]]},
+{title:"A Small Surprise",story:"Under a cherry-blossom tree, you find a little paper star. Sakura asks, “What should we do with it?”",choices:[
+["🎀 Let's leave a kind note for someone.",14,"Together you write a note to brighten a stranger's day."],
+["🌸 Let's make another paper star.",12,"You fold a star together, laughing at your first attempt."],
+["💫 Let's keep exploring.",9,"The path winds toward a quiet bridge lit by lanterns."]]},
+{title:"Under the Lanterns",story:"Warm lanterns glow along the bridge. Sakura asks, “What is one wish you have for the future?”",choices:[
+["💖 To make more good memories.",14,"“I hope you get to do all of that,” Sakura says."],
+["🌈 To be brave and follow my dreams.",13,"“I believe you can,” she says. “One step at a time.”"],
+["🌟 More peaceful evenings like this.",11,"You watch the lanterns shimmer on the water."]]},
+{title:"A Memory to Keep",story:"The first stars appear. Sakura gives you a tiny glowing charm. “Which memory should we keep from today?”",choices:[
+["💝 The moment we first met.",15,"The charm glows softly, holding the memory of your first meeting."],
+["🌌 The lanterns and the starry sky.",13,"The charm sparkles like a tiny constellation."],
+["🌷 All the little moments along the way.",15,"“Maybe the little moments are the ones we remember most.”"]]}
 ];
+let index=0,affection=0,paused=false,soundOn=false,audioContext;
 
-let index = 0;
-let affection = 0;
-let paused = false;
-let soundOn = false;
-let audioContext;
-
-function render() {
-  const s = scenes[index];
-  $("title").textContent = s.title;
-  $("story").textContent = s.story;
-  $("character").textContent = index === 4 ? "👩🏻‍🎤💫" : "👩🏻‍🎤";
-  $("level").textContent = "Level " + (index + 1);
-  $("fill").style.width = Math.min(100, affection) + "%";
-  $("choices").innerHTML = "";
-
-  s.choices.forEach((choice, i) => {
-    const button = document.createElement("button");
-    button.className = "choice";
-    button.textContent = choice[0];
-    button.onclick = () => choose(i);
-    $("choices").appendChild(button);
-  });
-}
-
-function choose(i) {
-  if (paused) return;
-  const choice = scenes[index].choices[i];
-  affection = Math.min(100, affection + choice[1]);
-  $("story").textContent = choice[2];
-  $("fill").style.width = Math.min(100, affection) + "%";
-  sound();
-  $("choices").innerHTML = "";
-
-  const next = document.createElement("button");
-  next.className = "primary";
-  next.textContent = index === scenes.length - 1 ? "💖 See the ending" : "✨ Continue story";
-  next.onclick = () => {
-    if (index < scenes.length - 1) {
-      index++;
-      render();
-    } else {
-      ending();
-    }
-  };
-  $("choices").appendChild(next);
-}
-
-function ending() {
-  $("title").textContent = affection >= 60 ? "A Beautiful Memory 💖" : "A Lovely Evening 🌙";
-  $("story").textContent = affection >= 60
-    ? "The lanterns glow beside the lake. You and Sakura share a warm smile, remembering the thoughtful choices you made. This evening becomes a memory to treasure."
-    : "The evening settles into a peaceful quiet. You and Sakura say goodbye, carrying a lovely memory of the sunset. More stories await.";
-  $("choices").innerHTML = "";
-
-  addButton("🔁 Play again", reset, true);
-  addButton("♡ Save progress", saveGame);
-}
-
-function addButton(text, action, primary=false) {
-  const b = document.createElement("button");
-  b.className = primary ? "primary" : "choice";
-  b.textContent = text;
-  b.onclick = action;
+function render(){
+ const s=scenes[index];
+ $("title").textContent=s.title;
+ $("story").textContent=s.story;
+ $("character").textContent=index===4?"👩🏻‍🎤💫":"👩🏻‍🎤";
+ $("level").textContent="Level "+(index+1);
+ $("fill").style.width=Math.min(100,affection)+"%";
+ $("choices").innerHTML="";
+ s.choices.forEach((c,i)=>{
+  const b=document.createElement("button");
+  b.className="choice";b.textContent=c[0];b.onclick=()=>choose(i);
   $("choices").appendChild(b);
+ });
 }
-
-function reset() {
-  index = 0;
-  affection = 0;
-  paused = false;
-  render();
-  toast("A new story begins ✨");
+function choose(i){
+ if(paused)return;
+ const c=scenes[index].choices[i];
+ affection=Math.min(100,affection+c[1]);
+ $("story").textContent=c[2];
+ $("fill").style.width=Math.min(100,affection)+"%";
+ sound();$("choices").innerHTML="";
+ addButton(index===scenes.length-1?"💖 See the ending":"✨ Continue story",()=>{
+  if(index<scenes.length-1){index++;render()}else ending()
+ },true);
 }
-
-function saveGame() {
-  try {
-    localStorage.setItem("pazzanLoveStory", JSON.stringify({index, affection}));
-    toast("Story saved on this device 💗");
-  } catch (e) {
-    toast("Save is not available in this browser.");
-  }
+function ending(){
+ $("title").textContent=affection>=60?"A Beautiful Memory 💖":"A Lovely Evening 🌙";
+ $("character").textContent="🌸💫";
+ $("story").textContent=affection>=60
+ ?"The lanterns glow beside the lake. You and Sakura share a warm smile, remembering the thoughtful choices you made. This evening becomes a memory to treasure."
+ :"The evening settles into a peaceful quiet. You and Sakura say goodbye, carrying a lovely memory of the sunset. More stories await.";
+ $("choices").innerHTML="";
+ addButton("🔁 Play again",reset,true);
+ addButton("♡ Save progress",saveGame);
 }
-
-function loadGame() {
-  try {
-    const data = JSON.parse(localStorage.getItem("pazzanLoveStory") || "null");
-    if (!data) return toast("No saved story found yet.");
-    index = Math.max(0, Math.min(scenes.length - 1, Number(data.index) || 0));
-    affection = Math.max(0, Math.min(100, Number(data.affection) || 0));
-    paused = false;
-    render();
-    toast("Saved story loaded 💕");
-  } catch (e) {
-    toast("Could not load saved story.");
-  }
+function addButton(text,action,primary=false){
+ const b=document.createElement("button");
+ b.className=primary?"primary":"choice";b.textContent=text;b.onclick=action;
+ $("choices").appendChild(b);
 }
-
-function modal(title, text, buttons) {
-  $("modalTitle").textContent = title;
-  $("modalText").textContent = text;
-  $("modalButtons").innerHTML = "";
-  buttons.forEach(item => {
-    const b = document.createElement("button");
-    b.className = item.primary ? "primary" : "small";
-    b.textContent = item.text;
-    b.onclick = item.action;
-    $("modalButtons").appendChild(b);
-  });
-  $("overlay").classList.add("show");
+function reset(){index=0;affection=0;paused=false;render();toast("A new story begins ✨")}
+function saveGame(){
+ try{localStorage.setItem("pazzanLoveStory",JSON.stringify({index,affection}));toast("Story saved on this device 💗")}
+ catch(e){toast("Save is unavailable in this browser.")}
 }
-function closeModal() { $("overlay").classList.remove("show"); }
-
-function pauseGame() {
-  paused = true;
-  modal("Story Paused", "Take your time. Your story will be here when you're ready.", [
-    {text:"▶ Resume",primary:true,action:()=>{paused=false;closeModal();}},
-    {text:"↻ Restart",action:()=>{closeModal();reset();}},
-    {text:"Close",action:()=>{paused=false;closeModal();}}
-  ]);
+function loadGame(){
+ try{
+  const d=JSON.parse(localStorage.getItem("pazzanLoveStory")||"null");
+  if(!d)return toast("No saved story found yet.");
+  index=Math.max(0,Math.min(scenes.length-1,Number(d.index)||0));
+  affection=Math.max(0,Math.min(100,Number(d.affection)||0));
+  paused=false;render();toast("Saved story loaded 💕");
+ }catch(e){toast("Could not load saved story.")}
 }
-
-function openSettings() {
-  modal("Settings", "Sound effects are currently " + (soundOn ? "ON" : "OFF") + ".", [
-    {text:soundOn ? "🔇 Sound off" : "🔊 Sound on",primary:true,action:()=>{
-      soundOn = !soundOn;
-      closeModal();
-      toast("Sound " + (soundOn ? "enabled" : "disabled"));
-    }},
-    {text:"Restart story",action:()=>{closeModal();reset();}},
-    {text:"Close",action:closeModal}
-  ]);
+function modal(title,text,buttons){
+ $("modalTitle").textContent=title;$("modalText").textContent=text;$("modalButtons").innerHTML="";
+ buttons.forEach(x=>{const b=document.createElement("button");b.className=x.primary?"primary":"small";b.textContent=x.text;b.onclick=x.action;$("modalButtons").appendChild(b)});
+ $("overlay").classList.add("show");
 }
-
-function sound() {
-  if (!soundOn) return;
-  try {
-    audioContext = audioContext || new (window.AudioContext || window.webkitAudioContext)();
-    const oscillator = audioContext.createOscillator();
-    const gain = audioContext.createGain();
-    oscillator.type = "sine";
-    oscillator.frequency.value = 660;
-    gain.gain.value = 0.04;
-    oscillator.connect(gain);
-    gain.connect(audioContext.destination);
-    oscillator.start();
-    oscillator.stop(audioContext.currentTime + 0.12);
-  } catch (e) {}
+function closeModal(){$("overlay").classList.remove("show")}
+function pauseGame(){
+ paused=true;
+ modal("Story Paused","Take your time. Your story will be here when you're ready.",[
+ {text:"▶ Resume",primary:true,action:()=>{paused=false;closeModal()}},
+ {text:"↻ Restart",action:()=>{closeModal();reset()}},
+ {text:"Close",action:()=>{paused=false;closeModal()}}
+ ]);
 }
-
-function toast(message) {
-  $("toast").textContent = message;
-  $("toast").style.display = "block";
-  clearTimeout(toast.timer);
-  toast.timer = setTimeout(() => $("toast").style.display = "none", 2400);
+function openSettings(){
+ modal("Settings","Sound effects are currently "+(soundOn?"ON":"OFF")+".",[
+ {text:soundOn?"🔇 Sound off":"🔊 Sound on",primary:true,action:()=>{soundOn=!soundOn;closeModal();toast("Sound "+(soundOn?"enabled":"disabled"))}},
+ {text:"Restart story",action:()=>{closeModal();reset()}},
+ {text:"Close",action:closeModal}
+ ]);
 }
-
-$("save").onclick = saveGame;
-$("load").onclick = loadGame;
-$("settings").onclick = openSettings;
-$("pause").onclick = () => { if (!paused) pauseGame(); };
-$("overlay").onclick = e => { if (e.target === $("overlay")) closeModal(); };
-document.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
-
+function sound(){
+ if(!soundOn)return;
+ try{
+  audioContext=audioContext||new(window.AudioContext||window.webkitAudioContext)();
+  const o=audioContext.createOscillator(),g=audioContext.createGain();
+  o.type="sine";o.frequency.value=660;g.gain.value=.04;
+  o.connect(g);g.connect(audioContext.destination);o.start();o.stop(audioContext.currentTime+.12);
+ }catch(e){}
+}
+function toast(m){
+ $("toast").textContent=m;$("toast").style.display="block";
+ clearTimeout(toast.timer);toast.timer=setTimeout(()=>$("toast").style.display="none",2400);
+}
+$("save").onclick=saveGame;
+$("load").onclick=loadGame;
+$("settings").onclick=openSettings;
+$("pause").onclick=()=>{if(!paused)pauseGame()};
+$("overlay").onclick=e=>{if(e.target===$("overlay"))closeModal()};
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModal()});
 render();
 </script>
 </body>
