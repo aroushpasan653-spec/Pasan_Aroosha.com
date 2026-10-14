@@ -1,0 +1,546 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>NEON RACING | PAZZAN.COM</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:#030617;color:white;font-family:Arial,sans-serif;
+  min-height:100vh;padding:12px;
+  background-image:radial-gradient(ellipse at top,#15204a,#030617 70%);
+}
+header{text-align:center;padding:8px 0 16px}
+h1{
+  font-size:clamp(30px,7vw,48px);letter-spacing:3px;
+  background:linear-gradient(90deg,#00eaff,#fff,#d34cff);
+  color:transparent;background-clip:text;
+  filter:drop-shadow(0 0 10px #00baff66);
+}
+header p{color:#90a8d8;font-size:10px;letter-spacing:4px;margin-top:5px}
+.game{width:100%;max-width:500px;margin:auto}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.panel{
+  text-align:center;background:#050a1d;border:1px solid #00baff;
+  border-radius:9px;padding:10px 4px;box-shadow:0 0 10px #008cff33;
+}
+.panel small{display:block;color:#9edcff;font-size:10px;letter-spacing:1px}
+.panel strong{display:block;color:#fff;font-size:22px;margin-top:5px;text-shadow:0 0 10px #00dfff}
+.gamebox{
+  position:relative;border:2px solid #008fff;border-radius:8px;
+  overflow:hidden;box-shadow:0 0 18px #008cff66;background:#030718;
+}
+canvas{display:block;width:100%;height:auto;touch-action:none}
+#overlay{
+  position:absolute;inset:0;background:#020616dc;
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;gap:14px;text-align:center;padding:18px;
+}
+#overlay.hidden{display:none}
+#overlay h2{font-size:30px;color:#00eaff;text-shadow:0 0 15px #00cfff}
+#overlay p{color:#d7e5ff;font-size:13px;line-height:1.7}
+button{
+  background:#091630;color:#fff;border:1px solid #00cfff;
+  border-radius:9px;padding:12px 15px;font-weight:bold;
+  cursor:pointer;touch-action:manipulation;
+}
+button:active{background:#114b72;transform:scale(.97)}
+.primary{background:#073451;box-shadow:0 0 14px #00cfff33}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.controls{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:12px}
+.controls button{font-size:24px;min-height:58px}
+.controls span{display:block;font-size:10px;color:#92dcff;margin-top:3px}
+.hint{text-align:center;font-size:11px;color:#8ea4ce;line-height:1.8;margin-top:13px}
+footer{text-align:center;color:#647ba7;font-size:10px;letter-spacing:2px;padding:22px 0 10px}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>NEON RACING</h1>
+  <p>CYBER HIGHWAY • ARCADE</p>
+</header>
+
+<main class="game">
+  <div class="stats">
+    <div class="panel"><small>SCORE</small><strong id="score">0</strong></div>
+    <div class="panel"><small>BEST</small><strong id="best">0</strong></div>
+    <div class="panel"><small>SPEED</small><strong id="speed">1</strong></div>
+  </div>
+
+  <div class="gamebox">
+    <canvas id="game" width="400" height="650"></canvas>
+    <div id="overlay">
+      <h2 id="title">NEON RACING</h2>
+      <p id="message">Drive through the cyber highway.<br>Avoid traffic and beat your best score!</p>
+      <button class="primary" id="startBtn">▶ START RACE</button>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button id="pauseBtn">Ⅱ PAUSE</button>
+    <button id="restartBtn">↻ RESTART</button>
+  </div>
+
+  <div class="controls">
+    <button id="leftBtn">◀<span>LEFT</span></button>
+    <button id="boostBtn">⚡<span>BOOST</span></button>
+    <button id="rightBtn">▶<span>RIGHT</span></button>
+  </div>
+
+  <p class="hint">
+    PC: ← → or A / D to steer<br>
+    SPACE: Start or restart &nbsp; • &nbsp; P: Pause<br>
+    Phone: Hold the arrow buttons to steer
+  </p>
+</main>
+
+<footer>PAZZAN.COM • NEON ARCADE</footer>
+
+<script>
+"use strict";
+
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
+const W = canvas.width, H = canvas.height;
+
+const $ = id => document.getElementById(id);
+
+let player, traffic, particles, score, best, speed;
+let running = false, paused = false, over = false;
+let lastTime = 0, spawnTimer = 0, roadOffset = 0;
+let steer = 0, boosting = false, animation = 0;
+let boostEnergy = 100, invulnerable = 0;
+
+try {
+  best = Number(localStorage.getItem("pazzanRacingBest")) || 0;
+} catch(e) { best = 0; }
+$("best").textContent = best;
+
+const road = {left: 45, right: 355};
+const lanes = [105, 200, 295];
+
+function resetState() {
+  player = {x:200, y:550, w:36, h:60};
+  traffic = [];
+  particles = [];
+  score = 0;
+  speed = 1;
+  spawnTimer = 0;
+  roadOffset = 0;
+  boostEnergy = 100;
+  invulnerable = 0;
+  steer = 0;
+  boosting = false;
+  updateStats();
+}
+
+function updateStats() {
+  $("score").textContent = Math.floor(score);
+  $("best").textContent = best;
+  $("speed").textContent = speed.toFixed(1) + "x";
+}
+
+function roundedRect(x,y,w,h,r) {
+  ctx.beginPath();
+  ctx.roundRect(x,y,w,h,r);
+}
+
+function drawCar(x,y,w,h,color,isPlayer=false) {
+  ctx.save();
+  ctx.translate(x,y);
+
+  // Neon glow
+  ctx.shadowColor = color;
+  ctx.shadowBlur = isPlayer ? 20 : 12;
+
+  // Wheels
+  ctx.fillStyle = "#080b17";
+  roundedRect(-w/2-3,8,7,17,3); ctx.fill();
+  roundedRect(w/2-4,8,7,17,3); ctx.fill();
+  roundedRect(-w/2-3,h-25,7,17,3); ctx.fill();
+  roundedRect(w/2-4,h-25,7,17,3); ctx.fill();
+
+  // Car body
+  ctx.fillStyle = color;
+  roundedRect(-w/2,0,w,h,9); ctx.fill();
+
+  // Hood
+  ctx.shadowBlur = 0;
+  ctx.fillStyle = "#ffffff38";
+  roundedRect(-w/2+5,8,w-10,13,4); ctx.fill();
+
+  // Windshield
+  ctx.fillStyle = "#07172e";
+  roundedRect(-w/2+5,20,w-10,17,4); ctx.fill();
+
+  // Rear/front glass
+  ctx.fillStyle = "#0c2741";
+  roundedRect(-w/2+6,40,w-12,8,3); ctx.fill();
+
+  // Lights
+  ctx.shadowColor = isPlayer ? "#00f6ff" : "#ff2f58";
+  ctx.shadowBlur = 12;
+  ctx.fillStyle = isPlayer ? "#aaffff" : "#ff4568";
+  ctx.fillRect(-w/2+4,h-7,8,4);
+  ctx.fillRect(w/2-12,h-7,8,4);
+
+  if(isPlayer) {
+    ctx.fillStyle = "#e7ffff";
+    ctx.fillRect(-3,5,6,5);
+  }
+
+  ctx.restore();
+}
+
+function drawBackground(dt) {
+  const sky = ctx.createLinearGradient(0,0,0,H);
+  sky.addColorStop(0,"#080923");
+  sky.addColorStop(.55,"#0b1031");
+  sky.addColorStop(1,"#030716");
+  ctx.fillStyle = sky;
+  ctx.fillRect(0,0,W,H);
+
+  // Distant neon skyline
+  for(let i=0;i<16;i++) {
+    const x=i*27;
+    const bh=30+(i*37%80);
+    ctx.fillStyle=i%2 ? "#12143b" : "#101c3d";
+    ctx.fillRect(x,175-bh,20,bh);
+
+    ctx.fillStyle="#00d9ff55";
+    for(let wy=185-bh;wy<175;wy+=12) {
+      ctx.fillRect(x+5,wy,3,4);
+      ctx.fillRect(x+12,wy,3,4);
+    }
+  }
+
+  // Road
+  ctx.fillStyle="#080b1c";
+  ctx.beginPath();
+  ctx.moveTo(road.left,150);
+  ctx.lineTo(road.right,150);
+  ctx.lineTo(W,H);
+  ctx.lineTo(0,H);
+  ctx.closePath();
+  ctx.fill();
+
+  // Road edge glow
+  ctx.save();
+  ctx.strokeStyle="#00cfff";
+  ctx.shadowColor="#00aaff";
+  ctx.shadowBlur=12;
+  ctx.lineWidth=3;
+  ctx.beginPath();
+  ctx.moveTo(road.left,150);
+  ctx.lineTo(0,H);
+  ctx.moveTo(road.right,150);
+  ctx.lineTo(W,H);
+  ctx.stroke();
+  ctx.restore();
+
+  // Perspective lane markers
+  roadOffset += dt * (running && !paused ? 240*speed : 0);
+  for(let i=0;i<14;i++) {
+    const t=((i*55+roadOffset)%770)/770;
+    const y=150+t*(H-150);
+    const spread=45+t*110;
+    const center=W/2;
+    const dashH=4+t*24;
+    ctx.fillStyle="#536b9a";
+    ctx.fillRect(center-spread/2-2,y,4,dashH);
+    ctx.fillRect(center+spread/2-2,y,4,dashH);
+  }
+
+  // Road speed streaks
+  if(boosting && running && !paused) {
+    ctx.strokeStyle="#00eaff88";
+    ctx.lineWidth=2;
+    for(let i=0;i<12;i++) {
+      const x=(i*43+17)%W;
+      const y=(i*71+roadOffset*2)%H;
+      ctx.beginPath();
+      ctx.moveTo(x,y);
+      ctx.lineTo(x,y+20);
+      ctx.stroke();
+    }
+  }
+}
+
+function spawnTraffic() {
+  const lane = Math.floor(Math.random()*3);
+  const colors = ["#ff3159","#a94dff","#ff7a24","#ffe33c","#27f0be"];
+  traffic.push({
+    x:lanes[lane],
+    y:-80,
+    w:34,
+    h:56,
+    color:colors[Math.floor(Math.random()*colors.length)],
+    passed:false
+  });
+}
+
+function addExplosion(x,y) {
+  for(let i=0;i<22;i++) {
+    const angle=Math.random()*Math.PI*2;
+    const velocity=50+Math.random()*190;
+    particles.push({
+      x,y,
+      vx:Math.cos(angle)*velocity,
+      vy:Math.sin(angle)*velocity,
+      life:.6+Math.random()*.6,
+      max:.8,
+      color:Math.random()>.5?"#00eaff":"#ff3e73"
+    });
+  }
+}
+
+function collision(a,b) {
+  return Math.abs(a.x-b.x)<(a.w+b.w)*.39 &&
+         Math.abs(a.y-b.y)<(a.h+b.h)*.39;
+}
+
+function finishRace() {
+  if(over) return;
+  running=false;
+  paused=false;
+  over=true;
+  addExplosion(player.x,player.y);
+
+  const finalScore=Math.floor(score);
+  if(finalScore>best) {
+    best=finalScore;
+    try { localStorage.setItem("pazzanRacingBest",String(best)); }
+    catch(e) {}
+  }
+
+  updateStats();
+  $("title").textContent="RACE OVER";
+  $("message").innerHTML=
+    "Final score: <b>"+finalScore+"</b><br>Best score: <b>"+best+"</b><br>Ready for another race?";
+  $("startBtn").textContent="↻ RACE AGAIN";
+  $("overlay").classList.remove("hidden");
+}
+
+function startRace() {
+  if(animation) cancelAnimationFrame(animation);
+  resetState();
+  running=true;
+  paused=false;
+  over=false;
+  lastTime=0;
+  $("overlay").classList.add("hidden");
+  $("pauseBtn").textContent="Ⅱ PAUSE";
+  animation=requestAnimationFrame(loop);
+}
+
+function togglePause() {
+  if(over) return;
+  if(!running && !paused) {
+    startRace();
+    return;
+  }
+
+  paused=!paused;
+  $("pauseBtn").textContent=paused?"▶ RESUME":"Ⅱ PAUSE";
+
+  if(paused) {
+    $("title").textContent="PAUSED";
+    $("message").textContent="Take a break, racer!";
+    $("startBtn").textContent="▶ RESUME";
+    $("startBtn").onclick=resumeRace;
+    $("overlay").classList.remove("hidden");
+  } else {
+    resumeRace();
+  }
+}
+
+function resumeRace() {
+  if(over) return;
+  paused=false;
+  running=true;
+  lastTime=0;
+  $("overlay").classList.add("hidden");
+  $("pauseBtn").textContent="Ⅱ PAUSE";
+  $("startBtn").onclick=startRace;
+  animation=requestAnimationFrame(loop);
+}
+
+function update(dt) {
+  score += dt * (boosting ? 24 : 12) * speed;
+  speed = Math.min(3.5,1+score/1800);
+
+  if(boosting && boostEnergy>0) {
+    boostEnergy=Math.max(0,boostEnergy-dt*30);
+  } else {
+    boostEnergy=Math.min(100,boostEnergy+dt*12);
+  }
+
+  if(invulnerable>0) invulnerable-=dt;
+
+  // Player steering
+  player.x += steer * dt * 280;
+  player.x = Math.max(road.left+23,Math.min(road.right-23,player.x));
+
+  spawnTimer+=dt;
+  const spawnInterval=Math.max(.42,1.15-speed*.17);
+
+  if(spawnTimer>spawnInterval) {
+    spawnTimer=0;
+    spawnTraffic();
+  }
+
+  for(let i=traffic.length-1;i>=0;i--) {
+    const car=traffic[i];
+    car.y+=dt*230*speed*(boosting?1.25:1);
+
+    if(!car.passed && car.y>player.y+player.h) {
+      car.passed=true;
+      score+=25;
+    }
+
+    if(collision(player,car) && invulnerable<=0) {
+      finishRace();
+      return;
+    }
+
+    if(car.y>H+100) traffic.splice(i,1);
+  }
+
+  for(let i=particles.length-1;i>=0;i--) {
+    const p=particles[i];
+    p.x+=p.vx*dt;
+    p.y+=p.vy*dt;
+    p.vx*=.96;
+    p.vy*=.96;
+    p.life-=dt;
+    if(p.life<=0) particles.splice(i,1);
+  }
+
+  updateStats();
+}
+
+function drawParticles() {
+  for(const p of particles) {
+    ctx.globalAlpha=Math.max(0,p.life/p.max);
+    ctx.fillStyle=p.color;
+    ctx.shadowColor=p.color;
+    ctx.shadowBlur=12;
+    ctx.fillRect(p.x,p.y,4,4);
+  }
+  ctx.globalAlpha=1;
+  ctx.shadowBlur=0;
+}
+
+function render(dt) {
+  drawBackground(dt);
+
+  // Distant horizon glow
+  const glow=ctx.createRadialGradient(200,180,2,200,180,130);
+  glow.addColorStop(0,"#1c2b65aa");
+  glow.addColorStop(1,"#070a2000");
+  ctx.fillStyle=glow;
+  ctx.fillRect(50,70,300,180);
+
+  for(const car of traffic) {
+    drawCar(car.x,car.y,car.w,car.h,car.color);
+  }
+
+  if(player) {
+    if(invulnerable<=0 || Math.floor(performance.now()/90)%2===0) {
+      drawCar(player.x,player.y,player.w,player.h,"#00dcff",true);
+    }
+  }
+
+  drawParticles();
+
+  if(boosting && running && !paused) {
+    ctx.fillStyle="#00eaff";
+    ctx.font="bold 15px Arial";
+    ctx.textAlign="center";
+    ctx.fillText("BOOST!",200,40);
+  }
+
+  // Boost meter
+  ctx.fillStyle="#10172e";
+  ctx.fillRect(100,18,200,7);
+  ctx.fillStyle=boostEnergy>25?"#00eaff":"#ff526e";
+  ctx.fillRect(100,18,200*boostEnergy/100,7);
+  ctx.strokeStyle="#7bdfff";
+  ctx.strokeRect(100,18,200,7);
+}
+
+function loop(time) {
+  if(!running || paused || over) return;
+
+  const dt=lastTime ? Math.min((time-lastTime)/1000,.04) : 0;
+  lastTime=time;
+
+  update(dt);
+  render(dt);
+
+  if(running && !paused && !over) {
+    animation=requestAnimationFrame(loop);
+  }
+}
+
+function drawIdle() {
+  if(!player) resetState();
+  render(0);
+}
+
+$("startBtn").onclick=startRace;
+$("restartBtn").onclick=startRace;
+$("pauseBtn").onclick=togglePause;
+
+$("leftBtn").addEventListener("pointerdown",e=>{
+  e.preventDefault(); steer=-1;
+});
+$("rightBtn").addEventListener("pointerdown",e=>{
+  e.preventDefault(); steer=1;
+});
+$("boostBtn").addEventListener("pointerdown",e=>{
+  e.preventDefault(); boosting=true;
+});
+
+function releaseControls() {
+  steer=0;
+  boosting=false;
+}
+
+["pointerup","pointercancel","pointerleave"].forEach(event=>{
+  document.querySelectorAll(".controls button").forEach(btn=>{
+    btn.addEventListener(event,releaseControls);
+  });
+});
+
+window.addEventListener("blur",releaseControls);
+
+document.addEventListener("keydown",e=>{
+  if(["ArrowLeft","ArrowRight","Space","ArrowUp","ArrowDown"].includes(e.code)) {
+    e.preventDefault();
+  }
+  if(e.repeat && ["Space","KeyP"].includes(e.code)) return;
+
+  if(e.code==="ArrowLeft"||e.code==="KeyA") steer=-1;
+  if(e.code==="ArrowRight"||e.code==="KeyD") steer=1;
+  if(e.code==="ArrowUp"||e.code==="ShiftLeft") boosting=true;
+
+  if(e.code==="Space") {
+    if(!running || over) startRace();
+  }
+  if(e.code==="KeyP"||e.code==="Escape") togglePause();
+});
+
+document.addEventListener("keyup",e=>{
+  if(["ArrowLeft","ArrowRight","KeyA","KeyD"].includes(e.code)) steer=0;
+  if(e.code==="ArrowUp"||e.code==="ShiftLeft") boosting=false;
+});
+
+resetState();
+drawIdle();
+</script>
+</body>
+</html>
