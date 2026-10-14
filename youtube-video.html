@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YouTube Video Tool | PAZZAN.COM</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      min-height: 100vh;
+      padding: 25px;
+      font-family: Arial, sans-serif;
+      color: #fff;
+      background: #070b16;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .card {
+      width: 100%;
+      max-width: 600px;
+      padding: 35px;
+      border: 1px solid #00f7ff;
+      border-radius: 20px;
+      background: #10172a;
+      box-shadow: 0 0 25px #00f7ff30;
+    }
+    h1 {
+      color: #00f7ff;
+      text-shadow: 0 0 12px #00f7ff80;
+      margin-bottom: 15px;
+    }
+    p { color: #cbd5e1; line-height: 1.7; margin-bottom: 20px; }
+    input {
+      width: 100%;
+      padding: 14px;
+      border-radius: 10px;
+      border: 1px solid #00f7ff70;
+      background: #070b16;
+      color: white;
+      margin-bottom: 15px;
+    }
+    button, .link {
+      display: inline-block;
+      padding: 12px 18px;
+      border: 0;
+      border-radius: 10px;
+      background: #00f7ff;
+      color: #07111c;
+      font-weight: bold;
+      text-decoration: none;
+      cursor: pointer;
+      margin: 4px 4px 4px 0;
+    }
+    .secondary {
+      background: transparent;
+      color: #00f7ff;
+      border: 1px solid #00f7ff;
+    }
+    #message { margin-top: 15px; overflow-wrap: anywhere; }
+    small { color: #94a3b8; line-height: 1.6; display: block; margin-top: 18px; }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>▶ YouTube Video Tool</h1>
+    <p>Check a YouTube video link and open it on YouTube. This free tool does not download videos.</p>
+
+    <input id="videoUrl" type="url"
+      placeholder="Paste a YouTube video URL">
+
+    <button onclick="checkUrl()">Check Link</button>
+
+    <p id="message" role="status"></p>
+
+    <a class="link" href="https://www.youtube.com/"
+       target="_blank" rel="noopener noreferrer">Open YouTube ↗</a>
+
+    <a class="link secondary" href="index.html">← Back to PAZZAN.COM</a>
+
+    <small>Only download or reuse videos when you have permission and use platform-approved options.</small>
+  </main>
+
+  <script>
+    function checkUrl() {
+      const input = document.getElementById("videoUrl").value.trim();
+      const message = document.getElementById("message");
+
+      try {
+        const url = new URL(input);
+        const host = url.hostname.toLowerCase().replace(/^www\./, "");
+
+        const validHost = [
+          "youtube.com",
+          "m.youtube.com",
+          "youtu.be"
+        ].includes(host);
+
+        if (validHost && (url.protocol === "https:" || url.protocol === "http:")) {
+          message.textContent = "YouTube link format looks valid.";
+        } else {
+          message.textContent = "Please enter a valid YouTube URL.";
+        }
+      } catch {
+        message.textContent = "Please paste a valid URL first.";
+      }
+    }
+  </script>
+</body>
+</html>
