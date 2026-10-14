@@ -1,0 +1,546 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080914">
+<title>My Journey | PASAN</title>
+
+<style>
+:root {
+  --bg: #080914;
+  --panel: #111426;
+  --purple: #c15cff;
+  --cyan: #30efff;
+  --text: #f5f3ff;
+  --muted: #b8bfd5;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background:
+    radial-gradient(ellipse at 10% 5%, #40136a55, transparent 35%),
+    radial-gradient(ellipse at 90% 50%, #003e5050, transparent 35%),
+    var(--bg);
+  color: var(--text);
+  font-family: Arial, "Noto Sans Sinhala", sans-serif;
+  line-height: 1.8;
+}
+
+a { color: inherit; }
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #080914dd;
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid #ffffff18;
+}
+
+nav {
+  max-width: 1100px;
+  margin: auto;
+  padding: 14px 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-decoration: none;
+}
+
+.logo span { color: var(--purple); }
+
+.nav-right {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.nav-right a {
+  color: var(--cyan);
+  font-size: 13px;
+  text-decoration: none;
+}
+
+.lang-btn, .action-btn {
+  cursor: pointer;
+  color: white;
+  border: 1px solid #c15cff88;
+  border-radius: 9px;
+  padding: 9px 13px;
+  background: #c15cff18;
+  font-weight: bold;
+}
+
+.hero {
+  max-width: 1000px;
+  margin: auto;
+  padding: 90px 22px 70px;
+  text-align: center;
+}
+
+.eyebrow {
+  display: inline-block;
+  color: var(--cyan);
+  border: 1px solid #30efff66;
+  border-radius: 30px;
+  padding: 5px 15px;
+  font-size: 11px;
+  letter-spacing: 3px;
+}
+
+.hero h1 {
+  margin: 22px 0 14px;
+  font-size: clamp(42px, 8vw, 76px);
+  line-height: 1.15;
+  font-weight: 900;
+}
+
+.gradient {
+  background: linear-gradient(90deg, var(--cyan), var(--purple));
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+
+.hero p {
+  max-width: 650px;
+  margin: auto;
+  color: var(--muted);
+}
+
+.hero-links {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 28px;
+}
+
+.action-btn {
+  display: inline-block;
+  text-decoration: none;
+  padding: 11px 18px;
+}
+
+.action-btn.primary {
+  background: linear-gradient(100deg, #963eff, #d14cff);
+  border-color: transparent;
+}
+
+.container {
+  width: min(1000px, calc(100% - 32px));
+  margin: 0 auto 70px;
+}
+
+.section-title {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.section-title small {
+  color: var(--cyan);
+  letter-spacing: 3px;
+  font-size: 11px;
+}
+
+.section-title h2 {
+  font-size: clamp(27px, 5vw, 38px);
+  margin-top: 5px;
+}
+
+.panel {
+  padding: 30px;
+  border: 1px solid #ffffff17;
+  border-radius: 20px;
+  background: linear-gradient(140deg, #15182c, #0c0e1b);
+  box-shadow: 0 15px 50px #0003;
+}
+
+.panel h3 {
+  color: var(--purple);
+  font-size: 22px;
+  margin-bottom: 12px;
+}
+
+.panel p {
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+
+.panel p:last-child { margin-bottom: 0; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.feature {
+  padding: 24px;
+  border: 1px solid #30efff38;
+  border-radius: 17px;
+  background: #101526;
+  transition: transform .25s, border-color .25s;
+}
+
+.feature:hover {
+  transform: translateY(-5px);
+  border-color: var(--cyan);
+}
+
+.feature .icon {
+  font-size: 32px;
+  margin-bottom: 9px;
+}
+
+.feature h3 {
+  color: var(--cyan);
+  margin-bottom: 8px;
+  font-size: 19px;
+}
+
+.feature p {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.feature a {
+  display: inline-block;
+  color: var(--purple);
+  margin-top: 12px;
+  font-size: 13px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.timeline {
+  border-left: 2px solid #c15cff77;
+  padding-left: 22px;
+  margin-left: 8px;
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 22px;
+}
+
+.timeline-item:last-child { margin-bottom: 0; }
+
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  left: -29px;
+  top: 9px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 14px var(--cyan);
+}
+
+.timeline-item h3 {
+  color: var(--purple);
+  margin-bottom: 5px;
+}
+
+.timeline-item p {
+  color: var(--muted);
+}
+
+.quote {
+  text-align: center;
+  border-color: #c15cff66;
+}
+
+.quote blockquote {
+  font-size: clamp(21px, 4vw, 30px);
+  font-weight: bold;
+  line-height: 1.5;
+}
+
+.quote p { margin-top: 14px; }
+
+footer {
+  text-align: center;
+  padding: 25px 15px;
+  border-top: 1px solid #ffffff18;
+  color: #939bb4;
+  font-size: 13px;
+}
+
+footer span { color: var(--purple); }
+
+[hidden] { display: none !important; }
+
+@media (max-width: 650px) {
+  nav { padding: 12px 15px; }
+  .logo { font-size: 20px; }
+  .nav-right { gap: 10px; }
+  .nav-right a { font-size: 12px; }
+  .lang-btn { padding: 8px 9px; font-size: 12px; }
+  .hero { padding: 65px 20px 50px; }
+  .grid { grid-template-columns: 1fr; }
+  .panel { padding: 23px 19px; }
+  .container { margin-bottom: 52px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition: none !important; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <nav>
+    <a class="logo" href="index.html">PASAN<span>.</span></a>
+
+    <div class="nav-right">
+      <a href="index.html" data-en="Home" data-si="මුල් පිටුව">Home</a>
+      <button class="lang-btn" id="languageBtn" type="button"
+        aria-label="Change language">🇱🇰 සිංහල</button>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="hero">
+    <span class="eyebrow"
+      data-en="MY WORLD · MY IDEAS · MY FUTURE"
+      data-si="මගේ ලෝකය · මගේ අදහස් · මගේ අනාගතය">
+      MY WORLD · MY IDEAS · MY FUTURE
+    </span>
+
+    <h1>
+      <span data-en="MY JOURNEY" data-si="මගේ ගමන">MY JOURNEY</span><br>
+      <span class="gradient"
+        data-en="Beyond the Ordinary"
+        data-si="සාමාන්‍ය සීමාවෙන් ඔබ්බට">
+        Beyond the Ordinary
+      </span>
+    </h1>
+
+    <p data-en="Every dream begins with an idea. This is my space to learn, create, explore technology, and turn ideas into reality."
+       data-si="සෑම සිහිනයක්ම ආරම්භ වන්නේ අදහසකින්. ඉගෙන ගන්න, නිර්මාණ කරන්න, තාක්ෂණය ගවේෂණය කරන්න සහ අදහස් සැබෑ කරගන්න මම වෙන් කළ අවකාශය මෙයයි.">
+      Every dream begins with an idea. This is my space to learn, create, explore technology, and turn ideas into reality.
+    </p>
+
+    <div class="hero-links">
+      <a class="action-btn primary" href="#story"
+        data-en="EXPLORE MY STORY ↓" data-si="මගේ කතාව බලන්න ↓">
+        EXPLORE MY STORY ↓
+      </a>
+      <a class="action-btn" href="#projects"
+        data-en="MY PROJECTS ↗" data-si="මගේ ව්‍යාපෘති ↗">
+        MY PROJECTS ↗
+      </a>
+    </div>
+  </section>
+
+  <!-- STORY -->
+  <section class="container" id="story">
+    <div class="section-title">
+      <small data-en="01 / ABOUT ME" data-si="01 / මා ගැන">01 / ABOUT ME</small>
+      <h2 data-en="My Story" data-si="මගේ කතාව">My Story</h2>
+    </div>
+
+    <div class="panel">
+      <h3 data-en="A Beginning Full of Possibilities"
+          data-si="අවස්ථා රැසක් ඇති ආරම්භයක්">
+        A Beginning Full of Possibilities
+      </h3>
+
+      <p data-en="I am on a journey of discovering new ideas, learning useful skills, and exploring the digital world. I believe that creativity grows when we stay curious and keep trying."
+         data-si="අලුත් අදහස් සොයාගැනීම, ප්‍රයෝජනවත් කුසලතා ඉගෙනීම සහ ඩිජිටල් ලෝකය ගවේෂණය කිරීමේ ගමනක මම නිරත වෙමින් සිටිනවා. උනන්දුවෙන් අලුත් දේවල් අත්හදා බලන විට නිර්මාණශීලීත්වය වර්ධනය වන බව මම විශ්වාස කරනවා.">
+        I am on a journey of discovering new ideas, learning useful skills, and exploring the digital world. I believe that creativity grows when we stay curious and keep trying.
+      </p>
+
+      <p data-en="This website is a place to share my interests, experiments, projects, and the lessons I discover along the way. There is always something new to learn, and every small step counts."
+         data-si="මගේ කැමැත්තන්, අත්හදා බැලීම්, ව්‍යාපෘති සහ මේ ගමනේදී ඉගෙන ගන්නා දේවල් බෙදාගන්න මේ වෙබ් අඩවිය මට අවකාශයක්. හැම විටම අලුත් දෙයක් ඉගෙන ගන්න තිබෙනවා. සෑම කුඩා පියවරක්ම වැදගත්.">
+        This website is a place to share my interests, experiments, projects, and the lessons I discover along the way. There is always something new to learn, and every small step counts.
+      </p>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section class="container">
+    <div class="section-title">
+      <small data-en="02 / WHAT I EXPLORE" data-si="02 / මම ගවේෂණය කරන දේ">02 / WHAT I EXPLORE</small>
+      <h2 data-en="My Interests" data-si="මගේ කැමැත්තන්">My Interests</h2>
+    </div>
+
+    <div class="grid">
+      <article class="feature">
+        <div class="icon">💻</div>
+        <h3 data-en="Coding & Web Design" data-si="කේතකරණය සහ වෙබ් නිර්මාණය">Coding & Web Design</h3>
+        <p data-en="Learning how websites work and creating useful, creative digital experiences."
+           data-si="වෙබ් අඩවි ක්‍රියා කරන ආකාරය ඉගෙන ගනිමින් ප්‍රයෝජනවත් සහ නිර්මාණශීලී ඩිජිටල් අත්දැකීම් සෑදීම.">
+          Learning how websites work and creating useful, creative digital experiences.
+        </p>
+      </article>
+
+      <article class="feature">
+        <div class="icon">🎮</div>
+        <h3 data-en="Game Development" data-si="Game නිර්මාණය">Game Development</h3>
+        <p data-en="Exploring game ideas, interactive features, and fun ways to play."
+           data-si="Game අදහස්, අන්තර්ක්‍රියාකාරී විශේෂාංග සහ විනෝදයෙන් ක්‍රීඩා කළ හැකි ක්‍රම ගවේෂණය කිරීම.">
+          Exploring game ideas, interactive features, and fun ways to play.
+        </p>
+      </article>
+
+      <article class="feature">
+        <div class="icon">🚀</div>
+        <h3 data-en="Creative Projects" data-si="නිර්මාණශීලී ව්‍යාපෘති">Creative Projects</h3>
+        <p data-en="Turning fresh ideas into small projects and improving them step by step."
+           data-si="අලුත් අදහස් කුඩා ව්‍යාපෘති බවට පත් කරමින් පියවරෙන් පියවර ඒවා වැඩිදියුණු කිරීම.">
+          Turning fresh ideas into small projects and improving them step by step.
+        </p>
+      </article>
+
+      <article class="feature">
+        <div class="icon">✍️</div>
+        <h3 data-en="Writing & Ideas" data-si="ලිවීම සහ අදහස්">Writing & Ideas</h3>
+        <p data-en="Sharing thoughts, stories, and creative ideas through my blog."
+           data-si="මගේ blog එක හරහා සිතුවිලි, කතා සහ නිර්මාණශීලී අදහස් බෙදාගැනීම.">
+          Sharing thoughts, stories, and creative ideas through my blog.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section class="container" id="projects">
+    <div class="section-title">
+      <small data-en="03 / WHAT I BUILD" data-si="03 / මම නිර්මාණය කරන දේ">03 / WHAT I BUILD</small>
+      <h2 data-en="My Projects" data-si="මගේ ව්‍යාපෘති">My Projects</h2>
+    </div>
+
+    <div class="grid">
+      <article class="feature">
+        <div class="icon">🌐</div>
+        <h3>PASAN Website</h3>
+        <p data-en="My personal corner of the web for articles, ideas, and creative experiments."
+           data-si="ලිපි, අදහස් සහ නිර්මාණශීලී අත්හදා බැලීම් සඳහා මගේම වෙබ් අවකාශය.">
+          My personal corner of the web for articles, ideas, and creative experiments.
+        </p>
+        <a href="index.html" data-en="VISIT WEBSITE →" data-si="වෙබ් අඩවියට යන්න →">VISIT WEBSITE →</a>
+      </article>
+
+      <article class="feature">
+        <div class="icon">🕹️</div>
+        <h3 data-en="Arcade Games" data-si="Arcade Games">Arcade Games</h3>
+        <p data-en="A collection of game experiments and interactive ideas."
+           data-si="Game අත්හදා බැලීම් සහ අන්තර්ක්‍රියාකාරී අදහස් එකතුවක්.">
+          A collection of game experiments and interactive ideas.
+        </p>
+        <a href="index.html#my-games" data-en="EXPLORE GAMES →" data-si="Games බලන්න →">EXPLORE GAMES →</a>
+      </article>
+    </div>
+  </section>
+
+  <!-- DREAMS -->
+  <section class="container">
+    <div class="section-title">
+      <small data-en="04 / WHERE I'M HEADED" data-si="04 / මගේ අනාගත අරමුණු">04 / WHERE I'M HEADED</small>
+      <h2 data-en="My Dreams & Goals" data-si="මගේ සිහින සහ අරමුණු">My Dreams & Goals</h2>
+    </div>
+
+    <div class="panel">
+      <div class="timeline">
+        <div class="timeline-item">
+          <h3 data-en="Learn Something New" data-si="අලුත් දෙයක් ඉගෙන ගන්න">Learn Something New</h3>
+          <p data-en="Keep improving my coding, design, and problem-solving skills."
+             data-si="කේතකරණය, නිර්මාණය සහ ගැටලු විසඳීමේ කුසලතා තවදුරටත් දියුණු කරගැනීම.">
+            Keep improving my coding, design, and problem-solving skills.
+          </p>
+        </div>
+
+        <div class="timeline-item">
+          <h3 data-en="Build Better Projects" data-si="වඩා හොඳ ව්‍යාපෘති හදන්න">Build Better Projects</h3>
+          <p data-en="Create projects that are useful, creative, and enjoyable to explore."
+             data-si="ප්‍රයෝජනවත්, නිර්මාණශීලී සහ භාවිතයට විනෝදජනක ව්‍යාපෘති නිර්මාණය කිරීම.">
+            Create projects that are useful, creative, and enjoyable to explore.
+          </p>
+        </div>
+
+        <div class="timeline-item">
+          <h3 data-en="Keep Growing" data-si="දිගටම දියුණු වෙන්න">Keep Growing</h3>
+          <p data-en="Learn from mistakes, stay curious, and turn new ideas into real projects."
+             data-si="වැරදිවලින් ඉගෙන ගෙන, උනන්දුවෙන් සිටිමින්, අලුත් අදහස් සැබෑ ව්‍යාපෘති බවට පත් කිරීම.">
+            Learn from mistakes, stay curious, and turn new ideas into real projects.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLOSING -->
+  <section class="container">
+    <div class="panel quote">
+      <blockquote class="gradient"
+        data-en="“The future belongs to those who keep learning and creating.”"
+        data-si="“දිගටම ඉගෙන ගනිමින් නිර්මාණය කරන අයට අනාගතය අයිතියි.”">
+        “The future belongs to those who keep learning and creating.”
+      </blockquote>
+
+      <p data-en="This is my journey. There is more to come."
+         data-si="මේ මගේ ගමනයි. ඉදිරියට තවත් බොහෝ දේ තියෙනවා.">
+        This is my journey. There is more to come.
+      </p>
+
+      <div class="hero-links">
+        <a class="action-btn primary" href="index.html"
+          data-en="BACK TO HOME" data-si="මුල් පිටුවට යන්න">
+          BACK TO HOME
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  © <span>PASAN</span> ·
+  <span data-en="My Journey, My Future" data-si="මගේ ගමන, මගේ අනාගතය">
+    My Journey, My Future
+  </span>
+</footer>
+
+<script>
+const languageBtn = document.getElementById("languageBtn");
+let currentLanguage = "en";
+
+function setLanguage(language) {
+  currentLanguage = language;
+
+  document.documentElement.lang = language;
+
+  document.querySelectorAll("[data-en][data-si]").forEach(element => {
+    element.textContent = element.dataset[language];
+  });
+
+  languageBtn.textContent =
+    language === "en" ? "🇱🇰 සිංහල" : "🇬🇧 English";
+}
+
+languageBtn.addEventListener("click", () => {
+  setLanguage(currentLanguage === "en" ? "si" : "en");
+});
+</script>
+
+</body>
+</html>
