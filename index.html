@@ -95,10 +95,36 @@
     /* FLOATING TOOLS LINK (kept as in your original site) */
     .floating-tools-btn {
       position: fixed; right: 20px; bottom: 24px; z-index: 999;
-      width: 54px; height: 54px; display: flex; align-items: center; justify-content: center;
-      border-radius: 50%; background: #8b5cf6; color: #fff; text-decoration: none;
-      font-size: 24px; box-shadow: 0 8px 24px rgba(139,92,246,.35);
+      width: 62px; height: 62px; display: flex; align-items: center; justify-content: center;
+      border: 0; border-radius: 50%; background: #8b5cf6; color: #fff;
+      font-size: 38px; line-height: 1; cursor: pointer;
+      box-shadow: 0 8px 24px rgba(139,92,246,.35);
     }
+    .floating-tools-btn:hover { background: #7c3aed; }
+    .upload-modal {
+      display: none; position: fixed; inset: 0; z-index: 10000;
+      padding: 20px; align-items: center; justify-content: center;
+      background: rgba(0,0,0,.68); backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+    }
+    .upload-modal.open { display: flex; }
+    .upload-panel {
+      position: relative; width: min(440px, 100%); padding: 28px 22px;
+      background: #111827; border: 1px solid #30394d; border-radius: 18px;
+      text-align: center; box-shadow: 0 18px 55px rgba(0,0,0,.4);
+    }
+    .upload-panel h2 { margin-bottom: 8px; font-size: 25px; }
+    .upload-panel > p { color: #a7adbd; }
+    .upload-close {
+      position: absolute; top: 8px; right: 12px; border: 0; background: transparent;
+      color: white; font-size: 30px; cursor: pointer;
+    }
+    .upload-select-btn {
+      margin-top: 20px; padding: 13px 22px; border: 0; border-radius: 10px;
+      background: #8b5cf6; color: white; font-size: 16px; font-weight: bold; cursor: pointer;
+    }
+    .upload-file-name { margin-top: 14px; overflow-wrap: anywhere; }
+    .upload-note { margin-top: 18px; font-size: 12px; }
 
     /* FOOTER */
     footer { border-top: 1px solid #1d2433; padding: 30px 20px; text-align: center; color: #737b8f; font-size: 14px; }
@@ -153,8 +179,7 @@
       <ul class="nav-links" id="navLinks">
         <li><a href="index.html">Home</a></li>
         <li><a href="#about">About</a></li>
-        <li><a href="#services">Services</a></li>
-        <li><a href="#blog">Blog</a></li>
+        <li><a href="#services">Services</a></li><li><a href="#blog">Blog</a></li>
         <li><a href="gallery.html">Gallery</a></li>
         <li><a href="#contact">Contact</a></li>
         <li><a href="login.html" id="loginLink">Login</a></li>
@@ -198,18 +223,48 @@
       </div>
     </section>
 
-    <!-- SERVICES: added between About Me and My Blog -->
+
+    <!-- ================= SERVICES ================= -->
     <section id="services">
       <div class="section-title">
-        <h2>Services</h2>
-        <p>Useful tools for you</p>
+        <h2>Our Services</h2>
+        <p>Useful video and audio tools</p>
       </div>
-      <div class="blog-grid">
-        <a href="tools.html" class="blog-card">
-          <div class="blog-icon">🎵</div>
-          <h3>TikTok MP3 Convert</h3>
-          <p>Open the audio converter tool and get started.</p>
-          <span class="read-more">Open Tool →</span>
+
+      <div class="services-grid">
+        <a class="service-card" href="tools.html#tiktok-mp3">
+          <div class="service-icon">🎵</div>
+          <h3>1. TikTok MP3 Convert</h3>
+          <p>Convert audio from videos you own or have permission to use.</p>
+          <span class="service-action">Open Tool →</span>
+        </a>
+
+        <a class="service-card" href="tools.html#youtube-download">
+          <div class="service-icon">▶️</div>
+          <h3>2. YouTube Video Download</h3>
+          <p>Tools for videos you own or are authorized to download.</p>
+          <span class="service-action">Open Tool →</span>
+        </a>
+
+        <a class="service-card" href="tools.html#tiktok-download">
+          <div class="service-icon">📱</div>
+          <h3>3. TikTok Video Download</h3>
+          <p>For your own videos or content you have permission to save.</p>
+          <span class="service-action">Open Tool →</span>
+        </a>
+
+        <a class="service-card" href="tools.html#facebook-download">
+          <div class="service-icon">f</div>
+          <h3>4. Facebook Video Download</h3>
+          <p>Save videos you own or have permission to download.</p>
+          <span class="service-action">Open Tool →</span>
+        </a>
+
+        <a class="service-card" href="tools.html#instagram-download">
+          <div class="service-icon">📸</div>
+          <h3>5. Instagram Video Download</h3>
+          <p>For your own videos or content you have permission to save.</p>
+          <span class="service-action">Open Tool →</span>
         </a>
       </div>
     </section>
@@ -251,8 +306,19 @@
     </section>
   </main>
 
-  <!-- Existing floating shortcut to tools page -->
-  <a href="tools.html" class="floating-tools-btn" aria-label="Open audio tools">🎵</a>
+  <!-- Floating + button: opens the device file picker -->
+  <button type="button" class="floating-tools-btn" id="uploadOpenBtn" aria-label="Upload a file">+</button>
+  <input type="file" id="uploadFileInput" hidden>
+  <div class="upload-modal" id="uploadModal" aria-hidden="true">
+    <div class="upload-panel" role="dialog" aria-modal="true" aria-labelledby="uploadTitle">
+      <button type="button" class="upload-close" id="uploadCloseBtn" aria-label="Close">×</button>
+      <h2 id="uploadTitle">Upload a file</h2>
+      <p>Select a file from your phone or computer.</p>
+      <button type="button" class="upload-select-btn" id="chooseFileBtn">＋ Choose File</button>
+      <p class="upload-file-name" id="uploadFileName">No file selected</p>
+      <p class="upload-note">This selects a file on your device only. It is not uploaded or shared on the website yet.</p>
+    </div>
+  </div>
 
   <footer>© 2026 Pasan Aroosha. All rights reserved.</footer>
 
@@ -317,6 +383,38 @@
         menuBtn.setAttribute("aria-expanded", "false");
         menuBtn.textContent = "☰";
       });
+    });
+
+    // Select a local file. Uploading it to a shared website requires backend/storage.
+    const uploadOpenBtn = document.getElementById("uploadOpenBtn");
+    const uploadModal = document.getElementById("uploadModal");
+    const uploadCloseBtn = document.getElementById("uploadCloseBtn");
+    const chooseFileBtn = document.getElementById("chooseFileBtn");
+    const uploadFileInput = document.getElementById("uploadFileInput");
+    const uploadFileName = document.getElementById("uploadFileName");
+
+    uploadOpenBtn.addEventListener("click", () => {
+      uploadModal.classList.add("open");
+      uploadModal.setAttribute("aria-hidden", "false");
+    });
+
+    uploadCloseBtn.addEventListener("click", () => {
+      uploadModal.classList.remove("open");
+      uploadModal.setAttribute("aria-hidden", "true");
+    });
+
+    uploadModal.addEventListener("click", (event) => {
+      if (event.target === uploadModal) {
+        uploadModal.classList.remove("open");
+        uploadModal.setAttribute("aria-hidden", "true");
+      }
+    });
+
+    chooseFileBtn.addEventListener("click", () => uploadFileInput.click());
+
+    uploadFileInput.addEventListener("change", () => {
+      const file = uploadFileInput.files && uploadFileInput.files[0];
+      uploadFileName.textContent = file ? "Selected: " + file.name : "No file selected";
     });
   </script>
 </body>
