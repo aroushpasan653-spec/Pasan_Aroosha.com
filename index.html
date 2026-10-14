@@ -1,1448 +1,495 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#05080d">
-  <meta name="description" content="PAZZAN.COM — Personal blog, useful media tools, memories and adventures.">
-  <title>PAZZAN.COM | Pasan Aroosha</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#05080d">
+<meta name="description" content="PAZZAN.COM — Personal blog, media tools, games and adventures.">
+<title>PAZZAN.COM | Pasan Aroosha</title>
 
-  <style>
-    :root {
-      --bg: #05080d;
-      --panel: rgba(9, 19, 29, .94);
-      --green: #39ff88;
-      --cyan: #00e5ff;
-      --purple: #9b5cff;
-      --pink: #ff2bd6;
-      --text: #f3fff9;
-      --muted: #b4bfd0;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-      scroll-padding-top: 90px;
-    }
-
-    body {
-      font-family: Arial, sans-serif;
-      color: var(--text);
-      line-height: 1.7;
-      background:
-        radial-gradient(ellipse at 10% 8%, rgba(0,229,255,.12), transparent 28%),
-        radial-gradient(ellipse at 90% 20%, rgba(57,255,136,.09), transparent 25%),
-        radial-gradient(ellipse at 55% 80%, rgba(155,92,255,.10), transparent 30%),
-        var(--bg);
-      background-attachment: fixed;
-    }
-
-    a { color: inherit; }
-    button { font: inherit; }
-
-    /* NAVIGATION */
-    nav {
-      position: sticky;
-      top: 0;
-      z-index: 9999;
-      background: rgba(4, 8, 14, .78);
-      backdrop-filter: blur(22px) saturate(150%);
-      -webkit-backdrop-filter: blur(22px) saturate(150%);
-      border-bottom: 1px solid rgba(57,255,136,.35);
-      box-shadow: 0 5px 28px rgba(0,0,0,.35);
-    }
-
-    .nav-container {
-      max-width: 1200px;
-      height: 72px;
-      padding: 0 25px;
-      margin: auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 15px;
-      position: relative;
-    }
-
-    .logo {
-      color: white;
-      text-decoration: none;
-      font-size: 24px;
-      font-weight: 900;
-      letter-spacing: 1px;
-      white-space: nowrap;
-      text-shadow: 0 0 15px rgba(57,255,136,.15);
-    }
-
-    .logo span { color: var(--green); }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 21px;
-      list-style: none;
-    }
-
-    .nav-links a {
-      color: #f3fff9;
-      text-decoration: none;
-      font-size: 14px;
-      transition: .2s;
-    }
-
-    .nav-links a:hover {
-      color: var(--green);
-      text-shadow: 0 0 12px rgba(57,255,136,.7);
-    }
-
-    #userEmail {
-      display: none;
-      color: var(--cyan);
-      font-size: 13px;
-      max-width: 170px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    #logoutBtn {
-      display: none;
-      border: 1px solid rgba(57,255,136,.6);
-      border-radius: 8px;
-      padding: 8px 13px;
-      color: var(--green);
-      background: rgba(57,255,136,.08);
-      cursor: pointer;
-    }
-
-    #logoutBtn:hover {
-      background: var(--green);
-      color: #04100a;
-    }
-
-    .menu-btn {
-      display: none;
-      background: transparent;
-      border: 1px solid rgba(57,255,136,.45);
-      border-radius: 9px;
-      color: var(--green);
-      font-size: 26px;
-      width: 44px;
-      height: 44px;
-      cursor: pointer;
-    }
-
-    /* HERO */
-    .hero {
-      max-width: 1200px;
-      min-height: 85vh;
-      margin: auto;
-      padding: 75px 25px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 55px;
-    }
-
-    .hero-text { flex: 1; }
-
-    .small-title {
-      color: var(--green);
-      font-size: 15px;
-      font-weight: bold;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      margin-bottom: 15px;
-    }
-
-    .hero h1 {
-      font-size: clamp(36px, 5vw, 62px);
-      line-height: 1.15;
-      margin-bottom: 22px;
-      text-shadow: 0 0 22px rgba(0,229,255,.15);
-    }
-
-    .hero h1 span {
-      color: var(--green);
-      text-shadow: 0 0 22px rgba(57,255,136,.3);
-    }
-
-    .hero-text p {
-      color: var(--muted);
-      font-size: 17px;
-      max-width: 620px;
-      margin-bottom: 28px;
-    }
-
-    .hero-buttons {
-      display: flex;
-      gap: 14px;
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      display: inline-block;
-      text-decoration: none;
-      padding: 12px 21px;
-      border-radius: 9px;
-      font-weight: bold;
-      transition: .2s;
-    }
-
-    .btn-primary {
-      color: #04100a;
-      background: var(--green);
-      border: 1px solid var(--green);
-      box-shadow: 0 0 18px rgba(57,255,136,.16);
-    }
-
-    .btn-secondary {
-      color: var(--cyan);
-      border: 1px solid var(--cyan);
-      background: rgba(0,229,255,.04);
-    }
-
-    .btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 0 23px rgba(57,255,136,.25);
-    }
-
-    .hero-image {
-      flex: 0 0 320px;
-      display: flex;
-      justify-content: center;
-    }
-
-    .hero-image img {
-      width: 290px;
-      height: 290px;
-      object-fit: cover;
-      border-radius: 50%;
-      border: 4px solid var(--green);
-      box-shadow: 0 0 35px rgba(57,255,136,.24);
-      background: #0c1720;
-    }
-
-    /* SECTIONS */
-    section {
-      max-width: 1200px;
-      margin: auto;
-      padding: 80px 25px;
-      scroll-margin-top: 85px;
-    }
-
-    .section-title {
-      text-align: center;
-      margin-bottom: 38px;
-    }
-
-    .section-title h2 {
-      font-size: clamp(29px, 4vw, 43px);
-      margin-bottom: 8px;
-    }
-
-    .section-title p {
-      color: var(--muted);
-    }
-
-    .section-title .eyebrow {
-      color: var(--green);
-      font-size: 13px;
-      font-weight: 800;
-      letter-spacing: 4px;
-      margin-bottom: 10px;
-    }
-
-    .gradient-text {
-      color: var(--cyan);
-      background: linear-gradient(90deg, var(--green), var(--cyan), var(--purple));
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    /* ABOUT */
-    .about-box {
-      max-width: 900px;
-      margin: auto;
-      padding: 35px;
-      border: 1px solid rgba(0,229,255,.28);
-      border-radius: 20px;
-      background: linear-gradient(140deg, rgba(9,22,27,.95), rgba(8,13,23,.96));
-      box-shadow: 0 0 24px rgba(0,229,255,.04);
-    }
-
-    .about-box p { color: var(--muted); }
-
-    /* SERVICES */
-    #services { max-width: 1320px; }
-
-    .services-grid {
-      max-width: 1240px;
-      margin: auto;
-      display: grid;
-      grid-template-columns: repeat(6, minmax(0, 1fr));
-      gap: 20px;
-    }
-
-    .service-card {
-      --glow: var(--green);
-      grid-column: span 2;
-      min-width: 0;
-      min-height: 330px;
-      position: relative;
-      isolation: isolate;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      padding: 25px;
-      border: 1px solid color-mix(in srgb, var(--glow) 60%, #182333);
-      border-radius: 22px;
-      background:
-        radial-gradient(ellipse at 15% 10%, color-mix(in srgb, var(--glow) 12%, transparent), transparent 60%),
-        linear-gradient(140deg, rgba(8,19,28,.98), rgba(5,10,18,.98));
-      box-shadow: 0 0 20px color-mix(in srgb, var(--glow) 7%, transparent);
-      color: white;
-      text-decoration: none;
-      transition: transform .25s, box-shadow .25s, border-color .25s;
-    }
-
-    .service-card:nth-child(4),
-    .service-card:nth-child(5),
-    .service-card:nth-child(6) {
-      grid-column: span 2;
-    }
-
-    .service-card:nth-child(1) { --glow: #b45cff; }
-    .service-card:nth-child(2) { --glow: #ff315d; }
-    .service-card:nth-child(3) { --glow: #00e5ff; }
-    .service-card:nth-child(4) { --glow: #318bff; }
-    .service-card:nth-child(5) { --glow: #ff2bd6; }
-    .service-card:nth-child(6) { --glow: #39ff88; }
-
-    .service-card::before {
-      content: "";
-      position: absolute;
-      z-index: -1;
-      top: -65px;
-      left: -65px;
-      width: 150px;
-      height: 150px;
-      border-radius: 50%;
-      background: var(--glow);
-      filter: blur(70px);
-      opacity: .23;
-    }
-
-    .service-card:hover {
-      transform: translateY(-6px);
-      border-color: var(--glow);
-      box-shadow: 0 0 28px color-mix(in srgb, var(--glow) 17%, transparent);
-    }
-
-    .service-icon {
-      width: 72px;
-      height: 72px;
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 20px;
-      border: 2px solid var(--glow);
-      border-radius: 20px;
-      color: var(--glow);
-      background: rgba(3,9,15,.95);
-      box-shadow: 0 0 18px color-mix(in srgb, var(--glow) 17%, transparent);
-    }
-
-    .service-icon svg {
-      width: 39px;
-      height: 39px;
-      display: block;
-    }
-
-    .service-card h3 {
-      font-size: 19px;
-      line-height: 1.4;
-      margin-bottom: 10px;
-      overflow-wrap: anywhere;
-    }
-
-    .service-card p {
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.7;
-      margin-bottom: 20px;
-    }
-
-    .service-action {
-      margin-top: auto;
-      display: inline-block;
-      padding: 9px 15px;
-      border: 1px solid var(--glow);
-      border-radius: 30px;
-      color: var(--glow);
-      font-size: 12px;
-      font-weight: 800;
-      letter-spacing: .6px;
-    }
-
-    .service-card:hover .service-action {
-      background: var(--glow);
-      color: #05080d;
-    }
-
-    /* BLOG */
-    .blog-grid {
-    
 <style>
-/* PASAN Blog Cards Update */
-.pasan-blog {
-  padding: 75px 18px;
-  background:
-    radial-gradient(ellipse at bottom, #42156a35, transparent 65%),
-    #080b12;
-  color: #f5f5ff;
-  font-family: Arial, sans-serif;
+:root {
+  --bg: #05080d;
+  --panel: #0c1220;
+  --purple: #a855f7;
+  --cyan: #00e5ff;
+  --text: #f5f7ff;
+  --muted: #aab3c5;
+  --border: rgba(168,85,247,.3);
 }
-
-.pasan-blog .blog-inner {
-  max-width: 1100px;
-  margin: auto;
+* { margin:0; padding:0; box-sizing:border-box; scroll-behavior:smooth; }
+body {
+  background:var(--bg); color:var(--text);
+  font-family:Arial,Helvetica,sans-serif; line-height:1.6;
 }
-
-.pasan-blog .blog-heading {
-  text-align: center;
-  margin-bottom: 35px;
+a { color:inherit; text-decoration:none; }
+button,input { font:inherit; }
+button,a { -webkit-tap-highlight-color:transparent; }
+.container { width:min(1150px,92%); margin:auto; }
+section { padding:85px 0; scroll-margin-top:85px; }
+.section-title {
+  text-align:center; font-size:clamp(28px,4vw,42px);
+  margin-bottom:12px;
 }
-
-.pasan-blog .blog-heading h2 {
-  font-size: clamp(30px, 5vw, 42px);
-  margin-bottom: 8px;
+.section-title span { color:var(--cyan); }
+.section-intro {
+  color:var(--muted); text-align:center;
+  max-width:650px; margin:0 auto 38px;
 }
+.neon { color:var(--cyan); text-shadow:0 0 16px rgba(0,229,255,.45); }
+.purple { color:var(--purple); }
 
-.pasan-blog .blog-heading h2 span {
-  color: #bd5cff;
-  text-shadow: 0 0 18px #bd5cff66;
+nav {
+  position:sticky; top:0; z-index:1000;
+  background:rgba(5,8,13,.78);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--border);
 }
-
-.pasan-blog .blog-heading p {
-  color: #aeb6c9;
-  font-size: 14px;
+.nav-container {
+  min-height:70px; display:flex; align-items:center;
+  justify-content:space-between; gap:15px;
 }
-
-.pasan-blog .blog-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 18px;
+.logo { font-size:23px; font-weight:900; letter-spacing:1px; }
+.logo span { color:var(--cyan); }
+.nav-links { display:flex; align-items:center; gap:22px; }
+.nav-links a {
+  color:#e5e7eb; font-size:14px; transition:.25s;
 }
-
-.pasan-blog .blog-card {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  padding: 23px 20px;
-  min-height: 225px;
-  border-radius: 16px;
-  background: linear-gradient(145deg, #0b1720, #0a1019);
-  border: 1px solid #36efff24;
-  box-shadow: 0 0 18px #36efff08;
-  text-decoration: none;
-  color: #f5f5ff;
-  transition: transform .25s, border-color .25s,
-              box-shadow .25s;
+.nav-links a:hover { color:var(--cyan); }
+.menu-btn {
+  display:none; background:transparent; color:white;
+  border:1px solid var(--border); border-radius:8px;
+  padding:7px 12px; font-size:23px; cursor:pointer;
 }
-
-.pasan-blog .blog-card:hover {
-  transform: translateY(-7px);
-  border-color: #bd5cff;
-  box-shadow: 0 0 25px #bd5cff20;
+.auth-area { display:flex; align-items:center; gap:10px; }
+.auth-area a,.auth-area button {
+  background:transparent; color:var(--cyan);
+  border:1px solid var(--cyan); padding:6px 10px;
+  border-radius:8px; cursor:pointer; font-size:13px;
 }
+#userEmail { color:var(--muted); font-size:12px; }
+#logoutBtn[hidden],#userEmail[hidden] { display:none; }
 
-.pasan-blog .blog-icon {
-  font-size: 27px;
-  margin-bottom: 14px;
+.hero {
+  min-height:78vh; display:grid;
+  grid-template-columns:1.3fr .7fr;
+  align-items:center; gap:45px; padding:65px 0;
 }
-
-.pasan-blog .blog-card h3 {
-  font-size: 17px;
-  margin-bottom: 10px;
+.hero-tag {
+  display:inline-block; padding:6px 12px; margin-bottom:20px;
+  color:var(--cyan); border:1px solid var(--border);
+  border-radius:30px; font-size:13px;
 }
-
-.pasan-blog .blog-card p {
-  color: #aeb6c9;
-  font-size: 13px;
-  line-height: 1.8;
-  margin-bottom: 18px;
+.hero h1 { font-size:clamp(38px,6vw,68px); line-height:1.12; margin-bottom:20px; }
+.hero p { color:var(--muted); max-width:620px; margin-bottom:25px; }
+.hero-buttons { display:flex; flex-wrap:wrap; gap:12px; }
+.btn {
+  display:inline-flex; justify-content:center; align-items:center;
+  padding:11px 20px; border-radius:10px; border:1px solid var(--purple);
+  background:linear-gradient(120deg,#7c3aed,#a855f7);
+  color:white; font-weight:bold; cursor:pointer; transition:.25s;
 }
+.btn:hover { transform:translateY(-3px); box-shadow:0 0 20px rgba(168,85,247,.35); }
+.btn-outline { background:transparent; border-color:var(--cyan); color:var(--cyan); }
+.hero-art {
+  width:min(290px,75vw); aspect-ratio:1; margin:auto;
+  display:grid; place-items:center; border-radius:50%;
+  border:2px solid var(--cyan);
+  background:radial-gradient(circle,rgba(168,85,247,.25),transparent 68%);
+  box-shadow:0 0 35px rgba(0,229,255,.16),inset 0 0 35px rgba(168,85,247,.12);
+  font-size:95px;
+}
+.hero-art span { filter:drop-shadow(0 0 18px var(--purple)); }
 
-.pasan-blog .blog-link {
-  color: #55f0b0;
-  font-size: 13px;
-  font-weight: bold;
+.about-box {
+  max-width:850px; margin:auto; padding:30px;
+  background:var(--panel); border:1px solid var(--border);
+  border-radius:18px; text-align:center;
+}
+.about-box p { color:var(--muted); margin-top:12px; }
 
+.grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:20px; }
+.card {
+  background:linear-gradient(145deg,#0d1422,#080c14);
+  border:1px solid var(--border); border-radius:16px;
+  padding:24px; transition:.25s; min-width:0;
+}
+.card:hover {
+  transform:translateY(-5px); border-color:var(--cyan);
+  box-shadow:0 8px 28px rgba(0,229,255,.08);
+}
+.card-icon { font-size:32px; margin-bottom:12px; }
+.card h3 { font-size:20px; margin-bottom:9px; }
+.card p { color:var(--muted); font-size:14px; margin-bottom:18px; }
+.card .btn { padding:8px 13px; font-size:13px; }
 
+.blog-card { overflow:hidden; padding:0; }
+.blog-banner {
+  min-height:135px; display:grid; place-items:center;
+  background:radial-gradient(circle at top right,#5b21b6,#101827 65%);
+  font-size:48px;
+}
+.blog-content { padding:22px; }
+.blog-content small { color:var(--cyan); }
+.blog-content h3 { margin:7px 0; }
 
-    /* CONTACT */
-    .contact-box {
-      padding: 45px 25px;
-      text-align: center;
-      border: 1px solid rgba(0,229,255,.3);
-      border-radius: 22px;
-      background: linear-gradient(140deg, rgba(9,22,27,.96), rgba(8,13,23,.96));
-    }
+.contact-box {
+  max-width:700px; margin:auto; text-align:center;
+  padding:30px; border:1px solid var(--border);
+  border-radius:18px; background:var(--panel);
+}
+.contact-box p { color:var(--muted); margin:12px 0 22px; }
+.contact-links { display:flex; flex-wrap:wrap; justify-content:center; gap:12px; }
 
-    .contact-box h2 {
-      font-size: 32px;
-      margin-bottom: 10px;
-    }
+#filePicker {
+  position:fixed; right:18px; bottom:18px; z-index:900;
+  width:54px; height:54px; border:1px solid var(--cyan);
+  border-radius:50%; background:#101827; color:var(--cyan);
+  font-size:23px; cursor:pointer;
+  box-shadow:0 0 18px rgba(0,229,255,.2);
+}
+#localFile { display:none; }
+footer {
+  text-align:center; padding:25px 15px;
+  border-top:1px solid var(--border); color:var(--muted); font-size:13px;
+}
+footer span { color:var(--cyan); }
 
-    .contact-box p {
-      color: var(--muted);
-      margin-bottom: 23px;
-    }
-
-    .contact-btn {
-      display: inline-block;
-      max-width: 100%;
-      margin: 6px;
-      padding: 12px 20px;
-      border-radius: 9px;
-      text-decoration: none;
-      font-weight: bold;
-      transition: .2s;
-    }
-
-    .whatsapp-btn {
-      background: #25d366;
-      color: #04100a;
-    }
-
-    .instagram-btn {
-      background: linear-gradient(45deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5);
-      color: white;
-    }
-
-    .contact-btn:hover { transform: translateY(-3px); }
-
-    /* FLOATING FILE PICKER */
-    .floating-tools-btn {
-      position: fixed;
-      right: 20px;
-      bottom: 22px;
-      z-index: 1000;
-      width: 58px;
-      height: 58px;
-      border: 1px solid var(--green);
-      border-radius: 50%;
-      background: #07130d;
-      color: var(--green);
-      font-size: 35px;
-      cursor: pointer;
-      box-shadow: 0 0 22px rgba(57,255,136,.2);
-    }
-
-    .upload-modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 10000;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      background: rgba(0,0,0,.72);
-      backdrop-filter: blur(6px);
-    }
-
-    .upload-modal.open { display: flex; }
-
-    .upload-panel {
-      position: relative;
-      width: min(440px, 100%);
-      padding: 30px 22px;
-      text-align: center;
-      border: 1px solid rgba(57,255,136,.4);
-      border-radius: 18px;
-      background: #09131d;
-    }
-
-    .upload-panel h2 { margin-bottom: 8px; }
-    .upload-panel p { color: var(--muted); }
-
-    .upload-close {
-      position: absolute;
-      top: 6px;
-      right: 13px;
-      border: 0;
-      background: none;
-      color: white;
-      font-size: 30px;
-      cursor: pointer;
-    }
-
-    .upload-select-btn {
-      margin: 20px 0 10px;
-      padding: 12px 20px;
-      border: 1px solid var(--green);
-      border-radius: 9px;
-      color: var(--green);
-      background: rgba(57,255,136,.08);
-      cursor: pointer;
-    }
-
-    .upload-file-name {
-      overflow-wrap: anywhere;
-      margin-top: 8px;
-    }
-
-    .upload-note { font-size: 12px; margin-top: 16px; }
-
-    /* FOOTER */
-    footer {
-      margin-top: 25px;
-      padding: 28px 15px;
-      text-align: center;
-      color: #8c9aab;
-      border-top: 1px solid rgba(57,255,136,.22);
-      background: rgba(3,7,12,.75);
-      font-size: 13px;
-    }
-
-    /* MOBILE */
-    @media (max-width: 900px) {
-      .menu-btn {
-        display: block;
-        flex-shrink: 0;
-      }
-
-      .nav-links {
-        display: none;
-        position: absolute;
-        top: 66px;
-        right: 12px;
-        width: min(280px, calc(100vw - 24px));
-        max-height: calc(100vh - 100px);
-        overflow-y: auto;
-        flex-direction: column;
-        align-items: stretch;
-        gap: 0;
-        padding: 10px;
-        list-style: none;
-        border: 1px solid rgba(57,255,136,.3);
-        border-radius: 15px;
-        background: rgba(5,10,17,.48);
-        backdrop-filter: blur(22px) saturate(150%);
-        -webkit-backdrop-filter: blur(22px) saturate(150%);
-        box-shadow: 0 12px 35px rgba(0,0,0,.3);
-      }
-
-      .nav-links.active { display: flex; }
-
-      .nav-links li { width: 100%; }
-
-      .nav-links a {
-        display: block;
-        width: 100%;
-        padding: 11px 12px;
-        border-radius: 8px;
-      }
-
-      .nav-links a:hover { background: rgba(57,255,136,.07); }
-
-      #userEmail {
-        max-width: 100%;
-        padding: 10px 12px;
-      }
-
-      #logoutBtn { margin: 8px 12px 10px; }
-
-      .hero {
-        min-height: auto;
-        flex-direction: column-reverse;
-        text-align: center;
-        padding-top: 55px;
-        gap: 35px;
-      }
-
-      .hero-image { flex: none; }
-
-      .hero-image img {
-        width: 225px;
-        height: 225px;
-      }
-
-      .hero-buttons { justify-content: center; }
-
-      .services-grid { grid-template-columns: 1fr 1fr; }
-
-      .service-card,
-      .service-card:nth-child(n) {
-        grid-column: auto;
-        min-height: 320px;
-      }
-
-      .blog-grid { grid-template-columns: 1fr; }
-    }
-
-    @media (max-width: 560px) {
-      .nav-container { height: 66px; padding: 0 15px; }
-      .logo { font-size: 20px; }
-      section { padding: 65px 17px; }
-      .hero { padding: 45px 18px 65px; }
-      .hero h1 { font-size: 36px; }
-      .hero-text p { font-size: 15px; }
-      .about-box { padding: 23px; }
-      .contact-box { padding: 35px 17px; }
-      .services-grid { grid-template-columns: 1fr; gap: 15px; }
-      .service-card,
-      .service-card:nth-child(n) {
-        grid-column: 1;
-        min-height: 0;
-        padding: 22px;
-      }
-      .service-card h3 { font-size: 19px; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        scroll-behavior: auto !important;
-        transition-duration: .01ms !important;
-      }
-    }
-  </style>
+@media(max-width:900px) {
+  .nav-links {
+    display:none; position:absolute; top:70px; right:4%;
+    width:min(270px,92vw); padding:18px;
+    flex-direction:column; align-items:stretch; gap:0;
+    background:rgba(5,8,13,.9); backdrop-filter:blur(20px);
+    border:1px solid var(--border); border-radius:14px;
+    box-shadow:0 12px 35px rgba(0,0,0,.35);
+  }
+  .nav-links.active { display:flex; }
+  .nav-links a { padding:11px 8px; border-bottom:1px solid rgba(255,255,255,.06); }
+  .menu-btn { display:block; margin-left:auto; }
+  .nav-container { flex-wrap:wrap; padding:10px 0; }
+  .auth-area { width:100%; justify-content:flex-end; padding-bottom:5px; }
+  .hero { grid-template-columns:1fr; text-align:center; gap:30px; }
+  .hero p { margin-left:auto; margin-right:auto; }
+  .hero-buttons { justify-content:center; }
+  .hero-art { grid-row:1; width:200px; font-size:75px; }
+  .grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+@media(max-width:560px) {
+  section { padding:65px 0; }
+  .grid { grid-template-columns:1fr; }
+  .hero { min-height:auto; padding:50px 0; }
+  .hero-art { width:165px; font-size:62px; }
+  .about-box,.contact-box { padding:22px 17px; }
+  .logo { font-size:20px; }
+  #userEmail { max-width:135px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+}
+</style>
 </head>
 
 <body>
-  <!-- NAVIGATION -->
-  <nav>
-    <div class="nav-container">
-      <a href="index.html" class="logo">PAZZAN<span>.COM</span></a>
+<nav>
+  <div class="container nav-container">
+    <a href="#home" class="logo">PAZZAN<span>.COM</span></a>
 
-      <button
-        class="menu-btn"
-        id="menuBtn"
-        type="button"
-        aria-label="Open menu"
-        aria-controls="navLinks"
-        aria-expanded="false"
-      >☰</button>
+    <button class="menu-btn" id="menuBtn" aria-label="Open navigation"
+      aria-expanded="false" aria-controls="navLinks">☰</button>
 
-      <ul class="nav-links" id="navLinks">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#services">Services</a></li>
-        <li><a href="#blog">Blog</a></li>
-        <li><a href="gallery.html">Gallery</a></li>
-        <li><a href="#contact">Contact</a></li>
-        <li><a href="login.html" id="loginLink">Login</a></li>
-        <li><span id="userEmail"></span></li>
-        <li><button type="button" id="logoutBtn">Logout</button></li>
-      </ul>
+    <div class="nav-links" id="navLinks">
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+      <a href="#blog">Blog</a>
+      <a href="#games">Games</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="#contact">Contact</a>
+      <a href="login.html" id="loginLink">Login</a>
     </div>
-  </nav>
 
-  <main>
-    <!-- HERO -->
-    <div class="hero">
-      <div class="hero-text">
-        <div class="small-title">Welcome to my personal space</div>
-        <h1>Hi, I'm <span>Pasan Aroosha</span></h1>
+    <div class="auth-area">
+      <span id="userEmail" hidden></span>
+      <button id="logoutBtn" hidden>Logout</button>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <section id="home">
+    <div class="container hero">
+      <div>
+        <span class="hero-tag">WELCOME TO MY DIGITAL WORLD</span>
+        <h1>I'm Pasan <span class="neon">Aroosha</span></h1>
         <p>
-          Welcome to my personal blog where I share my thoughts,
-          experiences, memories and adventures.
+          Welcome to PAZZAN.COM — a place for useful media tools,
+          gaming, personal blogs and creative projects.
         </p>
         <div class="hero-buttons">
-          <a href="#blog" class="btn btn-primary">Explore My Blog</a>
-          <a href="#about" class="btn btn-secondary">About Me</a>
+          <a class="btn" href="#services">Explore Services</a>
+          <a class="btn btn-outline" href="#about">About Me</a>
         </div>
       </div>
-
-      <div class="hero-image">
-        <img
-          src="profile.jpg"
-          alt="Pasan Aroosha"
-          onerror="this.style.display='none'"
-        >
+      <div class="hero-art" aria-label="Neon gaming symbol">
+        <span>⚡</span>
       </div>
     </div>
+  </section>
 
-    <!-- ABOUT -->
-    <section id="about">
-      <div class="section-title">
-        <h2>About Me</h2>
-        <p>A little bit about myself</p>
-      </div>
-
+  <section id="about">
+    <div class="container">
+      <h2 class="section-title">About <span>Me</span></h2>
+      <p class="section-intro">A little introduction to my website.</p>
       <div class="about-box">
+        <h3 class="neon">Welcome to PAZZAN.COM</h3>
         <p>
-          Hello! I'm Pasan Aroosha. This is my personal space on the
-          internet where I share my journey, thoughts, experiences
-          and the things I love.
-          <br><br>
-          This website is a place to keep my memories, write about
-          my adventures and share my stories with others.
-          <br><br>
-          Thank you for visiting my website!
+          This website is my personal digital space where I share projects,
+          useful tools, games and blog posts. Explore the services and
+          check back as I add more features.
         </p>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- SERVICES -->
-    <section id="services">
-      <div class="section-title">
-        <div class="eyebrow">OUR SERVICES</div>
-        <h2>Useful <span class="gradient-text">Video &amp; Audio Tools</span></h2>
-        <p>Explore the tools available on PAZZAN.COM.</p>
-      </div>
-
-      <div class="services-grid">
-
-        <!-- 1. TikTok MP3 -->
-        <a class="service-card" href="tiktok-mp3.html">
-          <div class="service-icon" aria-hidden="true">
-            <svg viewBox="0 0 40 40" fill="none">
-              <path d="M23 5h6c.5 4.1 2.7 6.6 7 7.2v6.1c-3.1-.1-5.7-1.1-7.8-2.8v11.1c0 6-4.8 10.5-10.7 10.5C11.6 37.1 7 32.8 7 27c0-6 4.8-10.7 10.8-10.7.8 0 1.6.1 2.3.3v6.3a5.1 5.1 0 1 0 3 4.7V5z" fill="#25F4EE"/>
-              <path d="M25 4h5c.5 4.1 2.7 6.6 7 7.2v5.2c-3-.4-5.5-1.5-7.5-3.1v12.1c0 5.2-4.2 9.4-9.4 9.4S9.7 31.6 9.7 26.4s4.2-9.4 9.4-9.4c.7 0 1.3.1 1.9.2v5.4a4.1 4.1 0 1 0 3 3.9V4z" fill="#FE2C55"/>
-            </svg>
-          </div>
-          <h3>1. TikTok MP3 Tool</h3>
-          <p>Open the audio tool for media files you own or have permission to use.</p>
-          <span class="service-action">OPEN TOOL →</span>
-        </a>
-
-        <!-- 2. YouTube -->
-        <a class="service-card" href="youtube-video.html">
-          <div class="service-icon" aria-hidden="true">
-            <svg viewBox="0 0 48 36">
-              <rect x="2" y="3" width="44" height="30" rx="9" fill="#FF0033"/>
-              <path d="M20 11l13 7-13 7z" fill="#fff"/>
-            </svg>
-          </div>
-          <h3>2. YouTube Video Tool</h3>
-          <p>Check a YouTube link and open the official platform. Follow the platform's download rules.</p>
-          <span class="service-action">OPEN TOOL →</span>
-        </a>
-
-        <!-- 3. TikTok -->
-        <a class="service-card" href="tiktok-video.html">
-          <div class="service-icon" aria-hidden="true">
-            <svg viewBox="0 0 40 40">
-              <path d="M23 5h6c.5 4.1 2.7 6.6 7 7.2v6.1c-3.1-.1-5.7-1.1-7.8-2.8v11.1c0 6-4.8 10.5-10.7 10.5C11.6 37.1 7 32.8 7 27c0-6 4.8-10.7 10.8-10.7.8 0 1.6.1 2.3.3v6.3a5.1 5.1 0 1 0 3 4.7V5z" fill="#00E5FF"/>
-              <path d="M25 4h5c.5 4.1 2.7 6.6 7 7.2v5.2c-3-.4-5.5-1.5-7.5-3.1v12.1c0 5.2-4.2 9.4-9.4 9.4S9.7 31.6 9.7 26.4s4.2-9.4 9.4-9.4c.7 0 1.3.1 1.9.2v5.4a4.1 4.1 0 1 0 3 3.9V4z" fill="#FE2C55"/>
-            </svg>
-          </div>
-          <h3>3. TikTok Video Tool</h3>
-          <p>Check a TikTok link and open TikTok to view the video.</p>
-          <span class="service-action">OPEN TOOL →</span>
-        </a>
-
-        <!-- 4. Facebook -->
-        <a class="service-card" href="facebook-video.html">
-          <div class="service-icon" aria-hidden="true">
-            <svg viewBox="0 0 40 40">
-              <circle cx="20" cy="20" r="19" fill="#1877F2"/>
-              <path d="M23 34V22h4l.6-4.7H23v-3c0-1.4.4-2.3 2.4-2.3h2.5V7.8c-.4-.1-1.9-.2-3.6-.2-3.6 0-6.1 2.2-6.1 6.3v3.4h-4.1V22h4.1v12z" fill="#fff"/>
-            </svg>
-          </div>
-          <h3>4. Facebook Video Tool</h3>
-          <p>Check a Facebook video link and open Facebook.</p>
-          <span class="service-action">OPEN TOOL →</span>
-        </a>
-
-        <!-- 5. Instagram -->
-        <a class="service-card" href="instagram-video.html">
-          <div class="service-icon" aria-hidden="true">
-            <svg viewBox="0 0 40 40">
-              <defs>
-                <linearGradient id="igGrad" x1="0" y1="1" x2="1" y2="0">
-                  <stop offset="0" stop-color="#FFDC80"/>
-                  <stop offset=".4" stop-color="#F77737"/>
-                  <stop offset=".7" stop-color="#E1306C"/>
-                  <stop offset="1" stop-color="#833AB4"/>
-                </linearGradient>
-              </defs>
-              <rect x="3" y="3" width="34" height="34" rx="10" fill="url(#igGrad)"/>
-              <rect x="10" y="10" width="20" height="20" rx="6" fill="none" stroke="#fff" stroke-width="2.8"/>
-              <circle cx="20" cy="20" r="5" fill="none" stroke="#fff" stroke-width="2.8"/>
-              <circle cx="27" cy="13" r="1.8" fill="#fff"/>
-            </svg>
-          </div>
-          <h3>5. Instagram Video Tool</h3>
-          <p>Check an Instagram link and open Instagram to view the post.</p>
-          <span class="service-action">OPEN TOOL →</span>
-        </a>
-
-        <!-- 6. Media Converter -->
-        <a class="service-card" href="media-converter.html">
-          <div class="service-icon" aria-hidden="true">
-            <svg viewBox="0 0 48 48" fill="none">
-              <path d="M27 4L10 27h12l-2 17 18-25H26l1-15Z"
-                stroke="#39ff88"
-                stroke-width="3"
-                stroke-linejoin="round"/>
-            </svg>
-          </div>
-          <h3>6. MP3 / MP4 Converter</h3>
-          <p>Convert supported media files from your device into MP3 audio or MP4 video.</p>
-          <span class="service-action">OPEN TOOL →</span>
-        </a>
-
-      </div>
-    </section>
-
-    <!-- BLOG -->
-    <section id="blog">
-      <div class="section-title">
-        <h2>My Blog</h2>
-        <p>Stories, thoughts and experiences</p>
-      </div>
-
-      <div class="blog-grid">
-        <a href="blog1.html" class="blog-card">
-          <div class="blog-icon">✍️</div>
-          <h3>My First Blog</h3>
-          <p>Welcome to my first blog post. Here I share how this journey started and why I created this website.</p>
-          <span class="read-more">Read Article →</span>
-        </a>
-
-        <article class="blog-card">
-          <div class="blog-icon">🌍</div>
-          <h3>My Journey</h3>
-          <p>Every journey has a story. This is a collection of my experiences, lessons and unforgettable moments.</p>
-        </article>
-
-        <article class="blog-card">
-          <div class="blog-icon">🚀</div>
-          <h3>New Adventures</h3>
-          <p>New places, new experiences and new dreams. Follow along as I continue my journey.</p>
-        </article>
-      </div>
-    </section>
-    
-
-<!-- ================= MY GAMES SECTION ================= -->
-
-<style>
-/* GAME SECTION */
-#my-games {
-  position: relative;
-  overflow: hidden;
-  padding: 85px 22px;
-  color: #fff;
-  background:
-    radial-gradient(ellipse at top left, #28104d 0%, transparent 42%),
-    radial-gradient(ellipse at bottom right, #082d40 0%, transparent 45%),
-    #080b14;
-  font-family: Arial, sans-serif;
-}
-
-#my-games * {
-  box-sizing: border-box;
-}
-
-#my-games .games-container {
-  max-width: 1200px;
-  margin: auto;
-}
-
-/* SECTION HEADING */
-#my-games .games-heading {
-  text-align: center;
-  margin-bottom: 45px;
-}
-
-#my-games .games-tag {
-  display: inline-block;
-  color: #00f7ff;
-  border: 1px solid #00f7ff80;
-  border-radius: 30px;
-  padding: 8px 16px;
-  font-size: 12px;
-  letter-spacing: 3px;
-  margin-bottom: 18px;
-  box-shadow: 0 0 18px #00f7ff20;
-}
-
-#my-games .games-heading h2 {
-  font-size: clamp(32px, 5vw, 52px);
-  font-weight: 900;
-  margin: 0 0 14px;
-  letter-spacing: 2px;
-}
-
-#my-games .games-heading h2 span {
-  color: #bc5cff;
-  text-shadow: 0 0 22px #a020f080;
-}
-
-#my-games .games-heading p {
-  color: #aeb9d0;
-  line-height: 1.7;
-  margin: 0 auto;
-  max-width: 550px;
-}
-
-/* THREE GAME CARDS */
-#my-games .games-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 22px;
-  align-items: stretch;
-}
-
-/* INDIVIDUAL CARD */
-#my-games .game-card {
-  --game-color: #00f7ff;
-
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  padding: 27px 22px;
-  border: 1px solid color-mix(in srgb, var(--game-color) 45%, transparent);
-  border-radius: 20px;
-  background: linear-gradient(
-    145deg,
-    #151c2d,
-    #0c101c 70%
-  );
-  box-shadow: 0 10px 35px #0005;
-  transition: transform .3s ease, box-shadow .3s ease;
-  isolation: isolate;
-}
-
-#my-games .game-card::before {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  inset: 0;
-  border-radius: inherit;
-  background: radial-gradient(
-    circle at top,
-    color-mix(in srgb, var(--game-color) 15%, transparent),
-    transparent 65%
-  );
-  opacity: .9;
-}
-
-#my-games .game-card:hover {
-  transform: translateY(-9px);
-  box-shadow:
-    0 15px 38px #0008,
-    0 0 25px color-mix(in srgb, var(--game-color) 20%, transparent);
-}
-
-/* CARD TOP LABEL */
-#my-games .game-number {
-  align-self: flex-start;
-  font-size: 11px;
-  letter-spacing: 2px;
-  color: var(--game-color);
-  border: 1px solid color-mix(in srgb, var(--game-color) 40%, transparent);
-  border-radius: 30px;
-  padding: 6px 10px;
-}
-
-/* GAME ICON */
-#my-games .game-icon {
-  display: grid;
-  place-items: center;
-  width: 88px;
-  height: 88px;
-  margin: 25px auto;
-  font-size: 46px;
-  border-radius: 22px;
-  background: color-mix(in srgb, var(--game-color) 10%, #101522);
-  border: 1px solid color-mix(in srgb, var(--game-color) 45%, transparent);
-  box-shadow: 0 0 28px color-mix(in srgb, var(--game-color) 20%, transparent);
-  animation: gameFloat 3s ease-in-out infinite;
-}
-
-#my-games .game-card:nth-child(2) .game-icon {
-  animation-delay: .4s;
-}
-
-#my-games .game-card:nth-child(3) .game-icon {
-  animation-delay: .8s;
-}
-
-@keyframes gameFloat {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
-}
-
-/* GAME TEXT */
-#my-games .game-card h3 {
-  color: #fff;
-  text-align: center;
-  font-size: 20px;
-  line-height: 1.4;
-  margin: 0 0 8px;
-  overflow-wrap: anywhere;
-}
-
-#my-games .game-subtitle {
-  text-align: center;
-  color: var(--game-color);
-  font-size: 12px;
-  letter-spacing: 2px;
-  margin-bottom: 17px;
-}
-
-#my-games .game-description {
-  color: #aeb9d0;
-  text-align: center;
-  font-size: 14px;
-  line-height: 1.8;
-  margin: 0 0 25px;
-}
-
-/* PLAY BUTTON */
-#my-games .play-btn {
-  display: block;
-  width: 100%;
-  margin-top: auto;
-  padding: 14px 10px;
-  border: 1px solid var(--game-color);
-  border-radius: 10px;
-  color: var(--game-color);
-  text-align: center;
-  text-decoration: none;
-  font-size: 13px;
-  font-weight: 800;
-  letter-spacing: 1px;
-  background: color-mix(in srgb, var(--game-color) 8%, transparent);
-  transition: .25s ease;
-}
-
-#my-games .play-btn:hover {
-  color: #080b14;
-  background: var(--game-color);
-  box-shadow: 0 0 24px color-mix(in srgb, var(--game-color) 40%, transparent);
-}
-
-/* BOTTOM TEXT */
-#my-games .games-footer {
-  margin-top: 35px;
-  text-align: center;
-  color: #7e8ba7;
-  font-size: 12px;
-  letter-spacing: 2px;
-}
-
-/* TABLET */
-@media (max-width: 850px) {
-  #my-games .games-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 16px;
-  }
-
-  #my-games .game-card {
-    padding: 22px 16px;
-  }
-}
-
-/* PHONE */
-@media (max-width: 520px) {
-  #my-games {
-    padding: 60px 16px;
-  }
-
-  #my-games .games-grid {
-    grid-template-columns: 1fr;
-  }
-
-  #my-games .game-card {
-    max-width: 420px;
-    width: 100%;
-    margin-inline: auto;
-  }
-
-  #my-games .games-heading {
-    margin-bottom: 30px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  #my-games .game-icon {
-    animation: none;
-  }
-
-  #my-games .game-card,
-  #my-games .play-btn {
-    transition: none;
-  }
-}
-</style>
-
-<section id="my-games">
-  <div class="games-container">
-
-    <div class="games-heading">
-      <div class="games-tag">✦ PAZZAN.COM ARCADE ✦</div>
-
-      <h2>MY <span>GAMES</span></h2>
-
-      <p>
-        Enter the neon universe. Choose your game,
-        test your skills, and beat your best score.
+  <section id="services">
+    <div class="container">
+      <h2 class="section-title">My <span>Services</span></h2>
+      <p class="section-intro">
+        Explore the available tools. Some services may need a separate
+        backend or API to work fully.
       </p>
-    </div>
 
-    <div class="games-grid">
+      <div class="grid">
+        <article class="card">
+          <div class="card-icon">🎵</div>
+          <h3>MP3 Converter</h3>
+          <p>Open the audio conversion page to work with supported audio files.</p>
+          <a class="btn" href="mp3-converter.html">Open Tool</a>
+        </article>
 
-      <!-- GAME 1: NEON BLOCKS -->
-      <article class="game-card" style="--game-color:#00f7ff">
-        <div class="game-number">GAME 01</div>
+        <article class="card">
+          <div class="card-icon">🎬</div>
+          <h3>Video Converter</h3>
+          <p>Visit the video conversion tool for supported video formats.</p>
+          <a class="btn" href="video-converter.html">Open Tool</a>
+        </article>
 
-        <div class="game-icon">🧩</div>
+        <article class="card">
+          <div class="card-icon">📱</div>
+          <h3>TikTok MP3</h3>
+          <p>Open the TikTok audio tool. Availability depends on its backend and source permissions.</p>
+          <a class="btn" href="tiktok-mp3.html">Open Tool</a>
+        </article>
 
-        <h3>NEON BLOCKS</h3>
-        <div class="game-subtitle">CYBER TETRIS</div>
+        <article class="card">
+          <div class="card-icon">🖼️</div>
+          <h3>Image Tools</h3>
+          <p>Open your image utility page for image-related tasks.</p>
+          <a class="btn" href="image-tools.html">Open Tool</a>
+        </article>
 
-        <p class="game-description">
-          Rotate and arrange glowing blocks,
-          clear the lines, and chase your highest score.
-        </p>
+        <article class="card">
+          <div class="card-icon">📄</div>
+          <h3>PDF Tools</h3>
+          <p>Visit the PDF utility page for supported document tasks.</p>
+          <a class="btn" href="pdf-tools.html">Open Tool</a>
+        </article>
 
-        <a href="thunderstorm-game.html" class="play-btn">
-          ▶ PLAY GAME
-        </a>
-      </article>
-
-      <!-- GAME 2: NEON RACING -->
-      <article class="game-card" style="--game-color:#ff3df2">
-        <div class="game-number">GAME 02</div>
-
-        <div class="game-icon">🏎️</div>
-
-        <h3>NEON RACING</h3>
-        <div class="game-subtitle">CYBER HIGHWAY</div>
-
-        <p class="game-description">
-          Race through a futuristic highway,
-          dodge obstacles, and survive the neon rush.
-        </p>
-
-        <a href="racing.html" class="play-btn">
-          ▶ PLAY GAME
-        </a>
-      </article>
-
-      <!-- GAME 3: MAGMA SEAHORSE -->
-      <article class="game-card" style="--game-color:#ff762e">
-        <div class="game-number">GAME 03</div>
-
-        <div class="game-icon">🔥</div>
-
-        <h3>MAGMA SEAHORSE</h3>
-        <div class="game-subtitle">INFERNO CLIMB</div>
-
-        <p class="game-description">
-          Leap across volcanic platforms, collect crystals,
-          and climb through the fiery world.
-        </p>
-
-        <a href="magma-seahorse.html" class="play-btn">
-          ▶ PLAY GAME
-        </a>
-      </article>
-
-    </div>
-
-    <div class="games-footer">
-      ✦ BUILT FOR FUN · POWERED BY PAZZAN.COM ✦
-    </div>
-
-  </div>
-</section>
-
-<!-- =============== END MY GAMES SECTION =============== -->
-
-
-    <!-- CONTACT -->
-    <section id="contact">
-      <div class="contact-box">
-        <h2>Let's Connect</h2>
-        <p>Want to get in touch with me? Feel free to contact me through WhatsApp or Instagram.</p>
-
-        <a
-          href="https://wa.me/message/XOOAFQKPPUQNP1"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="contact-btn whatsapp-btn"
-        >💬 Contact Me on WhatsApp</a>
-
-        <a
-          href="https://instagram.com/itz_pazzan"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="contact-btn instagram-btn"
-        >📷 Contact Me on Instagram</a>
+        <article class="card">
+          <div class="card-icon">🗂️</div>
+          <h3>File Tools</h3>
+          <p>Open the file utilities page for supported file operations.</p>
+          <a class="btn" href="file-tools.html">Open Tool</a>
+        </article>
       </div>
-    </section>
-  </main>
-
-  <!-- FLOATING FILE PICKER -->
-  <button
-    type="button"
-    class="floating-tools-btn"
-    id="uploadOpenBtn"
-    aria-label="Choose a local file"
-  >+</button>
-
-  <input type="file" id="uploadFileInput" hidden>
-
-  <div class="upload-modal" id="uploadModal" aria-hidden="true">
-    <div class="upload-panel" role="dialog" aria-modal="true" aria-labelledby="uploadTitle">
-      <button type="button" class="upload-close" id="uploadCloseBtn" aria-label="Close">×</button>
-      <h2 id="uploadTitle">Choose a file</h2>
-      <p>Select a file from your phone or computer.</p>
-      <button type="button" class="upload-select-btn" id="chooseFileBtn">＋ Choose File</button>
-      <p class="upload-file-name" id="uploadFileName">No file selected</p>
-      <p class="upload-note">This only selects a local file. It does not upload or share it on the website.</p>
     </div>
-  </div>
+  </section>
 
-  <footer>© 2026 PAZZAN.COM — Pasan Aroosha. All rights reserved.</footer>
+  <section id="blog">
+    <div class="container">
+      <h2 class="section-title">Latest <span>Blog</span></h2>
+      <p class="section-intro">Updates, ideas and things I'm working on.</p>
 
-  <!-- MENU AND FILE PICKER SCRIPT -->
-  <script>
-    const menuBtn = document.getElementById("menuBtn");
-    const navLinks = document.getElementById("navLinks");
+      <div class="grid">
+        <article class="card blog-card">
+          <div class="blog-banner">💻</div>
+          <div class="blog-content">
+            <small>WEBSITE</small>
+            <h3>Welcome to PAZZAN.COM</h3>
+            <p>Explore my personal website and discover the tools and projects available here.</p>
+          </div>
+        </article>
 
-    menuBtn.addEventListener("click", () => {
-      const isOpen = navLinks.classList.toggle("active");
-      menuBtn.setAttribute("aria-expanded", String(isOpen));
-      menuBtn.setAttribute("aria-label", isOpen ? "Close menu" : "Open menu");
-      menuBtn.textContent = isOpen ? "✕" : "☰";
-    });
+        <article class="card blog-card">
+          <div class="blog-banner">🎮</div>
+          <div class="blog-content">
+            <small>GAMING</small>
+            <h3>Gaming Corner</h3>
+            <p>Visit the games section to try the games linked on this website.</p>
+          </div>
+        </article>
 
-    document.querySelectorAll("#navLinks a").forEach((link) => {
-      link.addEventListener("click", () => {
-        navLinks.classList.remove("active");
-        menuBtn.setAttribute("aria-expanded", "false");
-        menuBtn.setAttribute("aria-label", "Open menu");
-        menuBtn.textContent = "☰";
-      });
-    });
+        <article class="card blog-card">
+          <div class="blog-banner">🚀</div>
+          <div class="blog-content">
+            <small>UPDATES</small>
+            <h3>More Features Coming</h3>
+            <p>I'll continue improving the website and adding new features over time.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
 
-    document.addEventListener("click", (event) => {
-      if (
-        window.innerWidth <= 900 &&
-        !navLinks.contains(event.target) &&
-        !menuBtn.contains(event.target)
-      ) {
-        navLinks.classList.remove("active");
-        menuBtn.setAttribute("aria-expanded", "false");
-        menuBtn.textContent = "☰";
-      }
-    });
+  <section id="games">
+    <div class="container">
+      <h2 class="section-title">Gaming <span>Zone</span></h2>
+      <p class="section-intro">Choose a game to open it.</p>
 
-    window.addEventListener("resize", () => {
-      if (window.innerWidth > 900) {
-        navLinks.classList.remove("active");
-        menuBtn.setAttribute("aria-expanded", "false");
-        menuBtn.textContent = "☰";
-      }
-    });
+      <div class="grid">
+        <article class="card">
+          <div class="card-icon">🧱</div>
+          <h3>Tetris</h3>
+          <p>Arrange the falling blocks and complete lines.</p>
+          <a class="btn" href="tetris.html">Play Game</a>
+        </article>
 
-    const uploadOpenBtn = document.getElementById("uploadOpenBtn");
-    const uploadModal = document.getElementById("uploadModal");
-    const uploadCloseBtn = document.getElementById("uploadCloseBtn");
-    const chooseFileBtn = document.getElementById("chooseFileBtn");
-    const uploadFileInput = document.getElementById("uploadFileInput");
-    const uploadFileName = document.getElementById("uploadFileName");
+        <article class="card">
+          <div class="card-icon">🐍</div>
+          <h3>Snake Game</h3>
+          <p>Guide the snake and collect points.</p>
+          <a class="btn" href="snake.html">Play Game</a>
+        </article>
 
-    uploadOpenBtn.addEventListener("click", () => {
-      uploadModal.classList.add("open");
-      uploadModal.setAttribute("aria-hidden", "false");
-    });
+        <article class="card">
+          <div class="card-icon">🎮</div>
+          <h3>More Games</h3>
+          <p>Explore another game in the collection.</p>
+          <a class="btn" href="games.html">Explore Games</a>
+        </article>
+      </div>
+    </div>
+  </section>
 
-    function closeUploadModal() {
-      uploadModal.classList.remove("open");
-      uploadModal.setAttribute("aria-hidden", "true");
-    }
+  <section id="contact">
+    <div class="container">
+      <h2 class="section-title">Contact <span>Me</span></h2>
+      <p class="section-intro">Have a question or suggestion? Get in touch.</p>
 
-    uploadCloseBtn.addEventListener("click", closeUploadModal);
+      <div class="contact-box">
+        <h3>Let's Connect</h3>
+        <p>Contact me through the available links below.</p>
+        <div class="contact-links">
+          <a class="btn" href="https://wa.me/message/XOOAFQKPPUQNP1"
+             target="_blank" rel="noopener noreferrer">WhatsApp</a>
+          <a class="btn btn-outline" href="https://www.instagram.com/"
+             target="_blank" rel="noopener noreferrer">Instagram</a>
+          <a class="btn btn-outline" href="mailto:">Email</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
 
-    uploadModal.addEventListener("click", (event) => {
-      if (event.target === uploadModal) closeUploadModal();
-    });
+<footer>
+  <p>© <span id="year"></span> <span>PAZZAN.COM</span> — Made with ⚡</p>
+</footer>
 
-    chooseFileBtn.addEventListener("click", () => uploadFileInput.click());
+<input type="file" id="localFile" accept="image/*,audio/*,video/*,.pdf">
+<button id="filePicker" title="Choose a file" aria-label="Choose a local file">＋</button>
 
-    uploadFileInput.addEventListener("change", () => {
-      const file = uploadFileInput.files && uploadFileInput.files[0];
-      uploadFileName.textContent = file ? "Selected: " + file.name : "No file selected";
-    });
+<script>
+document.getElementById("year").textContent = new Date().getFullYear();
 
-    document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape") {
-        closeUploadModal();
-        navLinks.classList.remove("active");
-        menuBtn.setAttribute("aria-expanded", "false");
-        menuBtn.textContent = "☰";
-      }
-    });
-  </script>
+/* Mobile navigation */
+const menuBtn = document.getElementById("menuBtn");
+const navLinks = document.getElementById("navLinks");
 
-  <!-- FIREBASE AUTH -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
-    import {
-      getAuth,
-      onAuthStateChanged,
-      signOut
-    } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+menuBtn.addEventListener("click", () => {
+  const isOpen = navLinks.classList.toggle("active");
+  menuBtn.setAttribute("aria-expanded", String(isOpen));
+  menuBtn.textContent = isOpen ? "✕" : "☰";
+});
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyB3G98XBTZH6NFiZx6NQmyEKR8g6vnSYNQ",
-      authDomain: "pasan-fc8e2.firebaseapp.com",
-      projectId: "pasan-fc8e2",
-      storageBucket: "pasan-fc8e2.firebasestorage.app",
-      messagingSenderId: "330282693990",
-      appId: "1:330282693990:web:f754a4a09efaa73ab5c4a7",
-      measurementId: "G-B12LL33EQ3"
-    };
+navLinks.querySelectorAll("a").forEach(link => {
+  link.addEventListener("click", () => {
+    navLinks.classList.remove("active");
+    menuBtn.setAttribute("aria-expanded", "false");
+    menuBtn.textContent = "☰";
+  });
+});
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
+document.addEventListener("click", event => {
+  if (!navLinks.contains(event.target) && !menuBtn.contains(event.target)) {
+    navLinks.classList.remove("active");
+    menuBtn.setAttribute("aria-expanded", "false");
+    menuBtn.textContent = "☰";
+  }
+});
 
-    const loginLink = document.getElementById("loginLink");
-    const userEmail = document.getElementById("userEmail");
-    const logoutBtn = document.getElementById("logoutBtn");
+/* Local file picker: selects a file on this device only */
+const filePicker = document.getElementById("filePicker");
+const localFile = document.getElementById("localFile");
 
-    onAuthStateChanged(auth, (user) => {
+filePicker.addEventListener("click", () => localFile.click());
+
+localFile.addEventListener("change", () => {
+  if (localFile.files && localFile.files.length) {
+    alert("Selected file: " + localFile.files[0].name +
+      "\nThis only selects the file. It does not upload or convert it.");
+  }
+});
+
+/* Firebase Authentication */
+const firebaseConfig = {
+  apiKey: "AIzaSyB3G98XBTZH6NFiZx6NQmyEKR8g6vnSYNQ",
+  authDomain: "pasan-fc8e2.firebaseapp.com",
+  projectId: "pasan-fc8e2",
+  storageBucket: "pasan-fc8e2.firebasestorage.app",
+  messagingSenderId: "330282693990",
+  appId: "1:330282693990:web:f754a4a09efaa73ab5c4a7",
+  measurementId: "G-B12LL33EQ3"
+};
+
+import("https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js")
+  .then(async appModule => {
+    const authModule = await import(
+      "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js"
+    );
+
+    const app = appModule.initializeApp(firebaseConfig);
+    const auth = authModule.getAuth(app);
+
+    authModule.onAuthStateChanged(auth, user => {
+      const loginLink = document.getElementById("loginLink");
+      const userEmail = document.getElementById("userEmail");
+      const logoutBtn = document.getElementById("logoutBtn");
+
       if (user) {
-        loginLink.style.display = "none";
-        userEmail.style.display = "inline-block";
-        userEmail.textContent = user.email || "Signed in";
-        logoutBtn.style.display = "inline-block";
+        loginLink.hidden = true;
+        userEmail.hidden = false;
+        logoutBtn.hidden = false;
+        userEmail.textContent = user.email || "Logged in";
       } else {
-        loginLink.style.display = "inline";
-        userEmail.style.display = "none";
+        loginLink.hidden = false;
+        userEmail.hidden = true;
+        logoutBtn.hidden = true;
         userEmail.textContent = "";
-        logoutBtn.style.display = "none";
       }
     });
 
-    logoutBtn.addEventListener("click", async () => {
+    document.getElementById("logoutBtn").addEventListener("click", async () => {
       try {
-        await signOut(auth);
+        await authModule.signOut(auth);
         alert("You have been logged out.");
-        window.location.href = "index.html";
       } catch (error) {
-        console.error(error);
-        alert("Logout failed. Please try again.");
+        alert("Logout failed: " + error.message);
       }
     });
-  </script>
+  })
+  .catch(error => {
+    console.error("Firebase initialization failed:", error);
+  });
+</script>
 </body>
 </html>
