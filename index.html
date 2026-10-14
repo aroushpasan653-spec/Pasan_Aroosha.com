@@ -400,49 +400,164 @@
 
     /* BLOG */
     .blog-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 22px;
-    }
+    
+<style>
+/* PASAN Blog Cards Update */
+.pasan-blog {
+  padding: 75px 18px;
+  background:
+    radial-gradient(ellipse at bottom, #42156a35, transparent 65%),
+    #080b12;
+  color: #f5f5ff;
+  font-family: Arial, sans-serif;
+}
 
-    .blog-card {
-      display: block;
-      padding: 27px;
-      color: white;
-      text-decoration: none;
-      border: 1px solid rgba(57,255,136,.25);
-      border-radius: 18px;
-      background: var(--panel);
-      transition: .25s;
-    }
+.pasan-blog .blog-inner {
+  max-width: 1100px;
+  margin: auto;
+}
 
-    .blog-card:hover {
-      transform: translateY(-5px);
-      border-color: var(--cyan);
-      box-shadow: 0 0 22px rgba(0,229,255,.09);
-    }
+.pasan-blog .blog-heading {
+  text-align: center;
+  margin-bottom: 35px;
+}
 
-    .blog-icon {
-      font-size: 29px;
-      margin-bottom: 12px;
-    }
+.pasan-blog .blog-heading h2 {
+  font-size: clamp(30px, 5vw, 42px);
+  margin-bottom: 8px;
+}
 
-    .blog-card h3 {
-      margin-bottom: 10px;
-      font-size: 20px;
-    }
+.pasan-blog .blog-heading h2 span {
+  color: #bd5cff;
+  text-shadow: 0 0 18px #bd5cff66;
+}
 
-    .blog-card p {
-      color: var(--muted);
-      font-size: 14px;
-    }
+.pasan-blog .blog-heading p {
+  color: #aeb6c9;
+  font-size: 14px;
+}
 
-    .read-more {
-      display: inline-block;
-      color: var(--green);
-      margin-top: 15px;
-      font-weight: bold;
-    }
+.pasan-blog .blog-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.pasan-blog .blog-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 23px 20px;
+  min-height: 225px;
+  border-radius: 16px;
+  background: linear-gradient(145deg, #0b1720, #0a1019);
+  border: 1px solid #36efff24;
+  box-shadow: 0 0 18px #36efff08;
+  text-decoration: none;
+  color: #f5f5ff;
+  transition: transform .25s, border-color .25s,
+              box-shadow .25s;
+}
+
+.pasan-blog .blog-card:hover {
+  transform: translateY(-7px);
+  border-color: #bd5cff;
+  box-shadow: 0 0 25px #bd5cff20;
+}
+
+.pasan-blog .blog-icon {
+  font-size: 27px;
+  margin-bottom: 14px;
+}
+
+.pasan-blog .blog-card h3 {
+  font-size: 17px;
+  margin-bottom: 10px;
+}
+
+.pasan-blog .blog-card p {
+  color: #aeb6c9;
+  font-size: 13px;
+  line-height: 1.8;
+  margin-bottom: 18px;
+}
+
+.pasan-blog .blog-link {
+  color: #55f0b0;
+  font-size: 13px;
+  font-weight: bold;
+  margin-top: auto;
+}
+
+.pasan-blog .blog-card:nth-child(2):hover {
+  border-color: #55f0b0;
+}
+
+.pasan-blog .blog-card:nth-child(3):hover {
+  border-color: #ff9d55;
+}
+
+@media (max-width: 700px) {
+  .pasan-blog .blog-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pasan-blog .blog-card {
+    min-height: 190px;
+  }
+}
+</style>
+
+<section class="pasan-blog" id="blog">
+  <div class="blog-inner">
+
+    <div class="blog-heading">
+      <h2>My <span>Blog</span></h2>
+      <p>Stories, thoughts and experiences</p>
+    </div>
+
+    <div class="blog-grid">
+
+      <!-- BLOG 1 -->
+      <a href="article.html" class="blog-card">
+        <div class="blog-icon">✍️</div>
+        <h3>My First Blog</h3>
+        <p>
+          Welcome to my blog! Discover my story,
+          my ideas, and the experiences that
+          inspire me to keep moving forward.
+        </p>
+        <span class="blog-link">Read Article →</span>
+      </a>
+
+      <!-- BLOG 2 -->
+      <a href="my-journey.html" class="blog-card">
+        <div class="blog-icon">🌍</div>
+        <h3>My Journey</h3>
+        <p>
+          Every journey has a story. Explore my
+          experiences, coding projects, lessons,
+          dreams, and unforgettable moments.
+        </p>
+        <span class="blog-link">Explore My Journey →</span>
+      </a>
+
+      <!-- BLOG 3 -->
+      <a href="new-adventure.html" class="blog-card">
+        <div class="blog-icon">🚀</div>
+        <h3>New Adventures</h3>
+        <p>
+          New places, new experiences, and new
+          dreams. Choose a mission and begin
+          your next adventure with PASAN.
+        </p>
+        <span class="blog-link">Start Adventure →</span>
+      </a>
+
+    </div>
+  </div>
+</section>
+
 
     /* CONTACT */
     .contact-box {
