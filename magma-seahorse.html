@@ -1,0 +1,511 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>MAGMA SEAHORSE | PAZZAN.COM</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--red:#ff321c;--orange:#ff7b20;--gold:#ffd36a}
+body{
+ background:#100303;color:#fff;font-family:Arial,sans-serif;
+ min-height:100vh;padding:12px;
+ background-image:radial-gradient(ellipse at top,#3d0805,#100303 70%);
+}
+header{text-align:center;padding:5px 0 14px}
+h1{
+ font-size:clamp(27px,6vw,43px);letter-spacing:2px;
+ color:#ff5636;text-shadow:0 0 8px #ff2700,0 0 25px #ff270066;
+}
+header p{font-size:10px;letter-spacing:4px;color:#ffa88a;margin-top:6px}
+.game{max-width:650px;margin:auto}
+.hud{
+ display:grid;grid-template-columns:minmax(0,1fr) auto auto;
+ gap:8px;align-items:center;padding:10px;
+ border:1px solid #ff583c;border-radius:10px 10px 0 0;
+ background:#180604;box-shadow:0 0 15px #ff250033;
+}
+.brand{font-size:clamp(11px,3vw,17px);font-weight:900;color:#ff5737}
+.status{font-size:10px;color:#ffd0a0;margin-top:5px}
+.meter{height:10px;margin-top:7px;border:1px solid #ff8b4d;border-radius:8px;overflow:hidden}
+#heat{height:100%;width:10%;background:linear-gradient(90deg,#ffca51,#ff681e,#ff1616);transition:width .15s}
+.counter{min-width:62px;text-align:center;border:1px solid #53201b;border-radius:7px;padding:7px 5px;background:#0d0303}
+.counter small{display:block;color:#ff9580;font-size:9px}
+.counter strong{display:block;font-size:19px;margin-top:4px}
+.counter.mult{border-color:#ffc34c;box-shadow:0 0 12px #ffb72b22}
+.counter.mult strong{color:#ffdc72}
+.arena{
+ position:relative;border:2px solid #ff4930;border-top:0;
+ border-radius:0 0 9px 9px;overflow:hidden;
+ box-shadow:0 0 20px #ff220044;
+ background:#240504;
+}
+canvas{display:block;width:100%;height:auto;touch-action:none}
+.overlay{
+ position:absolute;inset:0;background:#100202d9;
+ display:flex;align-items:center;justify-content:center;flex-direction:column;
+ text-align:center;padding:22px;gap:13px;
+}
+.overlay.hidden{display:none}
+.overlay h2{font-size:clamp(25px,6vw,38px);color:#ff5737;text-shadow:0 0 18px #ff2500}
+.overlay p{font-size:13px;color:#ffd0bd;line-height:1.8;max-width:300px}
+button{
+ color:#fff;background:#270805;border:1px solid #ff6542;border-radius:9px;
+ padding:12px 15px;font-weight:bold;cursor:pointer;
+ touch-action:none;-webkit-tap-highlight-color:transparent;
+}
+button:active{background:#7b1c0d;transform:scale(.96)}
+.primary{background:#8b200c;box-shadow:0 0 15px #ff351f55}
+.controls{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;margin-top:12px}
+.controls button{font-size:22px;min-height:57px}
+.controls span{display:block;font-size:9px;color:#ffb6a0;margin-top:3px}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:9px}
+.help{text-align:center;color:#b88778;font-size:11px;line-height:1.8;margin-top:12px}
+footer{text-align:center;color:#8b5144;font-size:10px;letter-spacing:2px;padding:20px 0 8px}
+</style>
+</head>
+<body>
+
+<header>
+ <h1>🔥 MAGMA SEAHORSE</h1>
+ <p>INFERNO CLIMB • ARCADE EDITION</p>
+</header>
+
+<main class="game">
+ <section class="hud">
+  <div>
+   <div class="brand">🔥 MAGMA SEAHORSE 🔥</div>
+   <div class="status" id="status">READY TO CLIMB</div>
+   <div class="meter"><div id="heat"></div></div>
+  </div>
+  <div class="counter"><small>SCORE</small><strong id="score">0</strong></div>
+  <div class="counter mult"><small>MULTIPLIER</small><strong id="mult">1x</strong></div>
+ </section>
+
+ <section class="arena">
+  <canvas id="world" width="420" height="700"></canvas>
+  <div class="overlay" id="overlay">
+   <h2 id="overlayTitle">MAGMA<br>SEAHORSE</h2>
+   <p id="overlayText">Leap between volcanic platforms, collect crystals and climb above the rising magma!</p>
+   <button class="primary" id="start">🔥 START CLIMBING</button>
+  </div>
+ </section>
+
+ <div class="controls">
+  <button id="left">◀<span>LEFT</span></button>
+  <button id="jump">🔥<span>JUMP</span></button>
+  <button id="right">▶<span>RIGHT</span></button>
+ </div>
+ <div class="actions">
+  <button id="pause">Ⅱ PAUSE</button>
+  <button id="restart">↻ RESTART</button>
+ </div>
+ <p class="help">PHONE: Hold LEFT / RIGHT to move<br>PC: ← → or A / D &nbsp; • &nbsp; SPACE: Start<br>Collect crystals, avoid hot zones and keep climbing!</p>
+</main>
+<footer>PAZZAN.COM • MAGMA ARCADE</footer>
+
+<script>
+"use strict";
+const canvas=document.getElementById("world");
+const ctx=canvas.getContext("2d");
+const W=420,H=700;
+const $=id=>document.getElementById(id);
+
+let player,platforms,crystals,particles;
+let score=0,best=0,heat=10,mult=1;
+let running=false,paused=false,over=false;
+let left=false,right=false;
+let camera=0,highest=0,elapsed=0,last=0,raf=0;
+let lavaY=0,spawnY=0,flash=0;
+let previousPlatform=0;
+
+try{best=Number(localStorage.getItem("magmaBest"))||0}catch(e){best=0}
+
+function rand(a,b){return a+Math.random()*(b-a)}
+function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
+
+function reset(){
+ score=0;heat=10;mult=1;camera=0;highest=0;
+ elapsed=0;last=0;lavaY=0;flash=0;
+ player={x:200,y:565,vx:0,vy:0,dir:1};
+ platforms=[];crystals=[];particles=[];
+ platforms.push({x:125,y:620,w:170,h:18,move:0,phase:0});
+ let y=550;
+ while(y> -100){
+  addPlatform(y);
+  y-=rand(83,111);
+ }
+ spawnY=y;
+ player.y=570;
+ updateHUD();
+}
+
+function addPlatform(y){
+ const w=rand(70,112);
+ const x=rand(12,W-w-12);
+ platforms.push({
+  x,y,w,h:12,
+  move:Math.random()<.36?rand(18,45):0,
+  phase:rand(0,Math.PI*2)
+ });
+ if(Math.random()<.45){
+  crystals.push({x:x+w/2,y:y-30,r:7,got:false,phase:rand(0,6)});
+ }
+}
+
+function updateHUD(){
+ $("score").textContent=Math.floor(score);
+ $("mult").textContent=mult+"x";
+ $("heat").style.width=heat+"%";
+ $("status").textContent=over?"CLIMB ENDED":paused?"PAUSED":heat>75?"OVERHEATING!":"CLIMBING • "+Math.floor(heat)+"% HEAT";
+}
+
+function startGame(){
+ if(raf)cancelAnimationFrame(raf);
+ reset();running=true;paused=false;over=false;
+ $("overlay").classList.add("hidden");
+ $("pause").textContent="Ⅱ PAUSE";
+ last=0;
+ raf=requestAnimationFrame(loop);
+}
+
+function endGame(){
+ if(over)return;
+ over=true;running=false;paused=false;
+ for(let i=0;i<35;i++)particle(player.x,player.y,"#ff5427");
+ if(score>best){
+  best=Math.floor(score);
+  try{localStorage.setItem("magmaBest",best)}catch(e){}
+ }
+ $("overlayTitle").textContent="CLIMB OVER";
+ $("overlayText").innerHTML="Score: <b>"+Math.floor(score)+"</b><br>Best: <b>"+best+"</b><br>Can you climb higher next time?";
+ $("start").textContent="↻ TRY AGAIN";
+ $("start").onclick=startGame;
+ $("overlay").classList.remove("hidden");
+ updateHUD();
+}
+
+function pauseGame(){
+ if(over)return;
+ if(!running&&!paused){startGame();return}
+ paused=!paused;
+ if(paused){
+  $("overlayTitle").textContent="PAUSED";
+  $("overlayText").textContent="The magma waits. Ready to continue?";
+  $("start").textContent="▶ RESUME";
+  $("start").onclick=resumeGame;
+  $("overlay").classList.remove("hidden");
+  $("pause").textContent="▶ RESUME";
+ }else resumeGame();
+ updateHUD();
+}
+
+function resumeGame(){
+ if(over)return;
+ paused=false;running=true;last=0;
+ $("overlay").classList.add("hidden");
+ $("pause").textContent="Ⅱ PAUSE";
+ $("start").onclick=startGame;
+ raf=requestAnimationFrame(loop);
+}
+
+function particle(x,y,color){
+ particles.push({x,y,vx:rand(-100,100),vy:rand(-160,20),life:rand(.35,.85),color,size:rand(2,5)});
+}
+
+function update(dt){
+ elapsed+=dt;
+ const oldY=player.y;
+ const gravity=830;
+
+ // Heat naturally rises; jumping in the hot zone increases it faster.
+ heat=clamp(heat+dt*(2.0+(player.y>H*.67?3.0:0)),0,100);
+
+ // Player movement with responsive acceleration.
+ if(left){player.vx-=900*dt;player.dir=-1}
+ if(right){player.vx+=900*dt;player.dir=1}
+ player.vx*=Math.pow(.08,dt);
+ player.vx=clamp(player.vx,-230,230);
+ player.x+=player.vx*dt;
+ if(player.x<14)player.x=W-14;
+ if(player.x>W-14)player.x=14;
+
+ // Gravity and automatic bounce.
+ player.vy+=gravity*dt;
+ player.y+=player.vy*dt;
+
+ // Moving platforms.
+ for(const p of platforms){
+  if(p.move){
+   p.phase+=dt*1.4;
+   p.x+=Math.sin(p.phase)*p.move*dt;
+   p.x=clamp(p.x,5,W-p.w-5);
+  }
+
+  if(player.vy>0&&
+     oldY+22<=p.y+3&&player.y+22>=p.y&&
+     player.x+10>p.x&&player.x-10<p.x+p.w){
+    player.y=p.y-23;
+    player.vy=-rand(390,445);
+    heat=clamp(heat-12,0,100);
+    mult=Math.min(5,1+Math.floor(score/500));
+    for(let i=0;i<5;i++)particle(player.x,p.y,"#ffb747");
+  }
+ }
+
+ // Collect crystals.
+ for(const c of crystals){
+  c.phase+=dt*4;
+  if(c.got)continue;
+  if(Math.hypot(player.x-c.x,player.y-c.y)<24){
+   c.got=true;score+=100*mult;heat=clamp(heat-9,0,100);
+   for(let i=0;i<12;i++)particle(c.x,c.y,"#ffe46b");
+  }
+ }
+
+ // Camera follows upward progress.
+ const target=H*.42;
+ if(player.y-camera<target)camera=player.y-target;
+
+ highest=Math.max(highest,-camera);
+ score=Math.max(score,Math.floor(highest*.22));
+
+ // Generate new platforms above the visible world.
+ while(spawnY>camera-150){
+  spawnY-=rand(82,116);
+  addPlatform(spawnY);
+ }
+
+ platforms=platforms.filter(p=>p.y-camera<H+80);
+ crystals=crystals.filter(c=>!c.got&&c.y-camera<H+50);
+
+ // Lava climbs slowly and becomes more dangerous over time.
+ lavaY+=dt*(8+Math.min(22,score/160));
+ if(player.y-camera>H-90+lavaY*.04)heat=clamp(heat+dt*9,0,100);
+
+ if(player.y-camera>H+45||heat>=100){
+  endGame();return;
+ }
+
+ // Particles
+ for(let i=particles.length-1;i>=0;i--){
+  const p=particles[i];
+  p.x+=p.vx*dt;p.y+=p.vy*dt;
+  p.vy+=180*dt;p.life-=dt;
+  if(p.life<=0)particles.splice(i,1);
+ }
+ updateHUD();
+}
+
+function drawBackground(){
+ const g=ctx.createLinearGradient(0,0,0,H);
+ g.addColorStop(0,"#170404");
+ g.addColorStop(.55,"#380704");
+ g.addColorStop(1,"#8f1307");
+ ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+
+ // Volcanic silhouettes.
+ ctx.fillStyle="#230403";
+ ctx.beginPath();ctx.moveTo(0,330);
+ for(let x=0;x<=W;x+=35)ctx.lineTo(x,300+Math.sin(x*.025)*70+Math.cos(x*.06)*35);
+ ctx.lineTo(W,H);ctx.lineTo(0,H);ctx.fill();
+
+ // Distant glowing embers.
+ for(let i=0;i<42;i++){
+  const x=(i*97+Math.sin(i*12)*25)%W;
+  const y=((i*137+elapsed*(12+i%4*4))%(H+50))-25;
+  ctx.globalAlpha=.25+Math.abs(Math.sin(elapsed+i))*.55;
+  ctx.fillStyle=i%3?"#ff6933":"#ffe4a0";
+  ctx.beginPath();ctx.arc(x,y,1+i%3*.45,0,Math.PI*2);ctx.fill();
+ }
+ ctx.globalAlpha=1;
+
+ // Subtle background grid.
+ ctx.strokeStyle="#ff542010";ctx.lineWidth=1;
+ for(let x=0;x<W;x+=35){
+  ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();
+ }
+}
+
+function drawPlatform(p){
+ const y=p.y-camera;
+ if(y< -40||y>H+30)return;
+ ctx.save();
+ ctx.shadowColor="#ff3519";ctx.shadowBlur=16;
+ const g=ctx.createLinearGradient(0,y,0,y+p.h+8);
+ g.addColorStop(0,"#ff7436");g.addColorStop(.35,"#b92311");g.addColorStop(1,"#4b0906");
+ ctx.fillStyle=g;
+ ctx.beginPath();
+ ctx.roundRect(p.x,y,p.w,p.h,4);ctx.fill();
+ ctx.shadowBlur=0;
+ ctx.fillStyle="#ffc16a";
+ ctx.fillRect(p.x+5,y+2,p.w-10,2);
+ ctx.fillStyle="#ff2b1b55";
+ ctx.fillRect(p.x+10,y+p.h,p.w-20,4);
+ ctx.restore();
+}
+
+function drawCrystal(c){
+ const y=c.y-camera;
+ if(y< -30||y>H+30)return;
+ const pulse=1+Math.sin(c.phase)*.12;
+ ctx.save();ctx.translate(c.x,y);ctx.scale(pulse,pulse);
+ ctx.shadowColor="#ffdf63";ctx.shadowBlur=18;
+ ctx.fillStyle="#ffe77b";
+ ctx.beginPath();ctx.moveTo(0,-10);ctx.lineTo(8,0);ctx.lineTo(0,10);ctx.lineTo(-8,0);ctx.closePath();ctx.fill();
+ ctx.shadowBlur=0;
+ ctx.strokeStyle="#fff5bc";ctx.stroke();
+ ctx.restore();
+}
+
+function drawSeahorse(){
+ const x=player.x,y=player.y-camera;
+ ctx.save();ctx.translate(x,y);
+ ctx.scale(player.dir,1);
+
+ // Tail curl
+ ctx.strokeStyle="#ff692c";ctx.lineWidth=7;ctx.lineCap="round";
+ ctx.shadowColor="#ff381c";ctx.shadowBlur=13;
+ ctx.beginPath();ctx.moveTo(-4,8);ctx.quadraticCurveTo(-22,20,-15,28);
+ ctx.quadraticCurveTo(-7,35,0,25);ctx.stroke();
+
+ // Body
+ const g=ctx.createLinearGradient(-14,-15,13,14);
+ g.addColorStop(0,"#ffd05b");g.addColorStop(.45,"#ff6b24");g.addColorStop(1,"#c51b10");
+ ctx.fillStyle=g;ctx.shadowColor="#ff3c15";ctx.shadowBlur=17;
+ ctx.beginPath();ctx.ellipse(0,2,12,19,-.15,0,Math.PI*2);ctx.fill();
+
+ // Neck
+ ctx.beginPath();ctx.moveTo(4,-8);ctx.quadraticCurveTo(14,-15,8,-27);
+ ctx.lineTo(1,-24);ctx.lineTo(-1,-9);ctx.fill();
+
+ // Head
+ ctx.beginPath();ctx.ellipse(7,-27,9,7,-.3,0,Math.PI*2);ctx.fill();
+ // Snout
+ ctx.beginPath();ctx.moveTo(12,-27);ctx.lineTo(23,-24);ctx.lineTo(13,-22);ctx.closePath();ctx.fill();
+
+ // Fin
+ ctx.fillStyle="#ffbd4b";
+ ctx.beginPath();ctx.moveTo(-6,-4);ctx.lineTo(-18,-13);ctx.lineTo(-13,2);ctx.lineTo(-6,5);ctx.fill();
+
+ // Spines
+ ctx.fillStyle="#ffe38b";
+ for(let i=0;i<4;i++){
+  ctx.beginPath();ctx.moveTo(-5+i*3,-11+i*6);
+  ctx.lineTo(-9+i*3,-16+i*6);
+  ctx.lineTo(-1+i*3,-10+i*6);ctx.fill();
+ }
+
+ // Eye
+ ctx.shadowBlur=0;ctx.fillStyle="#fff3c2";
+ ctx.beginPath();ctx.arc(9,-29,2.7,0,Math.PI*2);ctx.fill();
+ ctx.fillStyle="#240603";
+ ctx.beginPath();ctx.arc(10,-29,1.3,0,Math.PI*2);ctx.fill();
+
+ // Belly glow
+ ctx.fillStyle="#ffd96a";
+ ctx.globalAlpha=.65;
+ ctx.beginPath();ctx.ellipse(4,4,3,10,0,0,Math.PI*2);ctx.fill();
+ ctx.restore();
+}
+
+function drawLava(){
+ const top=H-75+Math.sin(elapsed*2)*8;
+ const g=ctx.createLinearGradient(0,top,0,H);
+ g.addColorStop(0,"#ff4a15");g.addColorStop(.18,"#fa260b");g.addColorStop(1,"#640500");
+ ctx.fillStyle=g;
+ ctx.beginPath();ctx.moveTo(0,top);
+ for(let x=0;x<=W;x+=20)ctx.lineTo(x,top+Math.sin(x*.03+elapsed*2)*9);
+ ctx.lineTo(W,H);ctx.lineTo(0,H);ctx.closePath();ctx.fill();
+ ctx.strokeStyle="#ffb23e";ctx.lineWidth=3;ctx.shadowColor="#ff3210";ctx.shadowBlur=20;
+ ctx.beginPath();
+ for(let x=0;x<=W;x+=10){
+  const y=top+Math.sin(x*.03+elapsed*2)*9;
+  if(x===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
+ }
+ ctx.stroke();ctx.shadowBlur=0;
+}
+
+function render(){
+ drawBackground();
+ for(const p of platforms)drawPlatform(p);
+ for(const c of crystals)drawCrystal(c);
+ drawLava();
+ drawSeahorse();
+
+ for(const p of particles){
+  ctx.globalAlpha=clamp(p.life/.8,0,1);
+  ctx.fillStyle=p.color;ctx.shadowColor=p.color;ctx.shadowBlur=8;
+  ctx.beginPath();ctx.arc(p.x,p.y-camera,p.size,0,Math.PI*2);ctx.fill();
+ }
+ ctx.globalAlpha=1;ctx.shadowBlur=0;
+
+ // Height indicator
+ ctx.fillStyle="#ffd1bc";
+ ctx.font="bold 12px Arial";ctx.textAlign="right";
+ ctx.fillText("HEIGHT "+Math.floor(highest)+"m",W-12,28);
+}
+
+function loop(time){
+ if(!running||paused||over)return;
+ const dt=last?Math.min((time-last)/1000,.035):0;
+ last=time;
+ update(dt);
+ render();
+ if(running&&!paused&&!over)raf=requestAnimationFrame(loop);
+}
+
+function paintIdle(){
+ if(!player)reset();
+ render();
+}
+$("start").onclick=startGame;
+$("restart").onclick=startGame;
+$("pause").onclick=pauseGame;
+
+// Touch controls: hold to steer.
+function bindHold(id,which){
+ const el=$(id);
+ el.addEventListener("pointerdown",e=>{
+  e.preventDefault();
+  if(which==="left")left=true;
+  if(which==="right")right=true;
+  if(which==="jump"&&running&&!paused&&!over){
+   if(player.vy>-100)player.vy=-430;
+   for(let i=0;i<5;i++)particle(player.x,player.y,"#ffb747");
+  }
+ });
+ ["pointerup","pointercancel","pointerleave"].forEach(ev=>{
+  el.addEventListener(ev,()=>{
+   if(which==="left")left=false;
+   if(which==="right")right=false;
+  });
+ });
+}
+bindHold("left","left");
+bindHold("right","right");
+bindHold("jump","jump");
+
+window.addEventListener("blur",()=>{left=false;right=false});
+
+document.addEventListener("keydown",e=>{
+ if(["ArrowLeft","ArrowRight","Space","ArrowUp"].includes(e.code))e.preventDefault();
+ if(e.code==="ArrowLeft"||e.code==="KeyA")left=true;
+ if(e.code==="ArrowRight"||e.code==="KeyD")right=true;
+ if(e.code==="Space"||e.code==="ArrowUp"){
+  if(!running||over)startGame();
+  else if(!paused&&player.vy>-100)player.vy=-430;
+ }
+ if(e.code==="KeyP"||e.code==="Escape")pauseGame();
+});
+document.addEventListener("keyup",e=>{
+ if(e.code==="ArrowLeft"||e.code==="KeyA")left=false;
+ if(e.code==="ArrowRight"||e.code==="KeyD")right=false;
+});
+
+reset();
+paintIdle();
+</script>
+</body>
+</html>
