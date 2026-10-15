@@ -1,405 +1,125 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#05080d">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Professional Dashboard | PAZZAN.COM</title>
-
   <style>
-    :root {
-      --bg: #05080d;
-      --panel: #0c141d;
-      --green: #36f5a0;
-      --muted: #9aafa5;
-      --border: #1b3c30;
-      --text: #f4fff9;
+    *{box-sizing:border-box}
+    body{
+      margin:0;background:radial-gradient(ellipse at top right,#073b2a,transparent 45%),#05080d;
+      color:#f3fff8;font-family:Arial,sans-serif;min-height:100vh
     }
-
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      color: var(--text);
-      background:
-        radial-gradient(ellipse at top right, #123c2c, transparent 40%),
-        var(--bg);
-      font-family: Arial, sans-serif;
+    header{
+      position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;
+      align-items:center;gap:12px;padding:18px 4%;
+      background:rgba(4,8,14,.85);backdrop-filter:blur(18px);
+      border-bottom:1px solid #244b3a
     }
-
-    a { color: inherit; text-decoration: none; }
-    button { font: inherit; cursor: pointer; }
-
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 16px 5%;
-      background: rgba(5, 8, 13, .92);
-      backdrop-filter: blur(15px);
-      border-bottom: 1px solid var(--border);
+    .logo{color:#39ff88;font-size:clamp(19px,4vw,28px);font-weight:bold}
+    a,button{cursor:pointer}
+    .btn{
+      display:inline-block;text-decoration:none;border:1px solid #39ff88;
+      border-radius:12px;padding:13px 17px;color:#39ff88;background:transparent;
+      font-size:15px
     }
-
-    .logo {
-      font-size: 21px;
-      font-weight: 900;
-      color: var(--green);
+    .primary{background:#39ff88;color:#06130b;font-weight:bold}
+    main{width:min(1200px,92%);margin:48px auto}
+    .eyebrow{color:#39ff88;letter-spacing:4px;font-weight:bold}
+    h1{font-size:clamp(32px,6vw,50px);margin:10px 0}
+    .muted{color:#b4bfd0;line-height:1.6}
+    .panel,.stat{
+      background:rgba(9,19,29,.88);border:1px solid #244b3a;
+      border-radius:17px;padding:22px;margin-top:20px
     }
-
-    .actions { display: flex; gap: 8px; }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 10px 13px;
-      border-radius: 9px;
-      border: 1px solid var(--green);
-      color: var(--green);
-      background: #0b2119;
-    }
-
-    .btn.primary {
-      background: var(--green);
-      color: #03120a;
-      font-weight: bold;
-    }
-
-    main {
-      width: min(1150px, 92%);
-      margin: 28px auto 60px;
-    }
-
-    .welcome {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 15px;
-      margin-bottom: 20px;
-    }
-
-    h1 { font-size: clamp(26px, 5vw, 38px); margin: 8px 0; }
-    h2 { font-size: 19px; margin: 0 0 18px; }
-    p { color: var(--muted); line-height: 1.6; }
-
-    .eyebrow {
-      color: var(--green);
-      letter-spacing: 2px;
-      font-size: 12px;
-      font-weight: bold;
-    }
-
-    .notice {
-      padding: 15px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      background: #0d1915;
-      color: #c7ded2;
-      font-size: 14px;
-      line-height: 1.6;
-      overflow-wrap: anywhere;
-      white-space: pre-wrap;
-    }
-
-    .notice.error {
-      border-color: #a94747;
-      background: #321818;
-      color: #ffd0d0;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 15px;
-      margin-top: 18px;
-    }
-
-    .panel {
-      min-width: 0;
-      padding: 20px;
-      margin-bottom: 18px;
-      background: rgba(12, 20, 29, .95);
-      border: 1px solid var(--border);
-      border-radius: 15px;
-    }
-
-    .metric-label { color: var(--muted); font-size: 13px; }
-    .metric-value {
-      font-size: clamp(25px, 4vw, 34px);
-      font-weight: 800;
-      margin: 12px 0;
-      overflow-wrap: anywhere;
-    }
-
-    .metric-note { color: var(--muted); font-size: 12px; }
-
-    .section-grid {
-      display: grid;
-      grid-template-columns: 1.2fr 1fr;
-      gap: 16px;
-      margin-top: 18px;
-    }
-
-    .tabs { display: flex; gap: 8px; margin: 15px 0; }
-
-    .tabs button {
-      padding: 9px 13px;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      background: #07100d;
-      color: white;
-    }
-
-    .tabs button.active {
-      background: var(--green);
-      color: #03120a;
-    }
-
-    .chart {
-      display: flex;
-      align-items: end;
-      gap: 6px;
-      height: 170px;
-      padding: 10px 0;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .bar-wrap {
-      flex: 1;
-      height: 100%;
-      display: flex;
-      align-items: end;
-      min-width: 0;
-    }
-
-    .bar {
-      width: 100%;
-      min-height: 2px;
-      background: linear-gradient(#36f5a0, #08784c);
-      border-radius: 5px 5px 0 0;
-    }
-
-    .chart-labels {
-      display: flex;
-      justify-content: space-between;
-      color: var(--muted);
-      font-size: 11px;
-      margin-top: 8px;
-    }
-
-    .table-wrap { overflow-x: auto; }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 13px;
-    }
-
-    th, td {
-      text-align: left;
-      padding: 12px 8px;
-      border-bottom: 1px solid var(--border);
-      overflow-wrap: anywhere;
-    }
-
-    th { color: var(--muted); font-weight: normal; }
-
-    .shortcuts {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 12px;
-    }
-
-    .shortcut {
-      display: block;
-      padding: 16px;
-      background: #09120f;
-      border: 1px solid var(--border);
-      border-radius: 11px;
-    }
-
-    .shortcut:hover { border-color: var(--green); }
-    .shortcut strong { display: block; margin-bottom: 8px; }
-    .shortcut span { color: var(--muted); font-size: 12px; }
-
-    footer {
-      text-align: center;
-      padding: 25px;
-      color: var(--muted);
-    }
-
-    [hidden] { display: none !important; }
-
-    @media (max-width: 800px) {
-      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .section-grid { grid-template-columns: 1fr; }
-      .shortcuts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    }
-
-    @media (max-width: 450px) {
-      header { padding: 13px 4%; }
-      .logo { font-size: 17px; }
-      .btn { padding: 9px; font-size: 12px; }
-      .panel { padding: 15px; }
-      .shortcuts { grid-template-columns: 1fr; }
+    .stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+    .stat h3{font-size:14px;color:#b4bfd0;font-weight:normal}
+    .number{font-size:32px;font-weight:bold;color:#39ff88;overflow-wrap:anywhere}
+    .error{color:#ffd4d4;background:#351919;border:1px solid #b94b4b}
+    .success{color:#caffdf}
+    .hidden{display:none}
+    .data-list{padding-left:20px;line-height:2;overflow-wrap:anywhere}
+    footer{text-align:center;padding:45px 10px;color:#9aada5}
+    @media(max-width:800px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media(max-width:430px){
+      header{padding:14px 4%}
+      .btn{padding:10px;font-size:13px}
+      .stats{grid-template-columns:1fr 1fr}
+      .stat{padding:15px}
+      .number{font-size:25px}
     }
   </style>
 </head>
-
 <body>
   <header>
-    <a href="index.html" class="logo">PAZZAN.COM</a>
-    <div class="actions">
+    <div class="logo">PAZZAN.COM</div>
+    <div style="display:flex;gap:10px;align-items:center">
       <a class="btn" href="index.html">Website</a>
-      <button id="logoutBtn" class="btn primary" type="button">
-        Logout
-      </button>
+      <button id="logoutBtn" class="btn primary">Logout</button>
     </div>
   </header>
 
   <main>
-    <section class="welcome">
-      <div>
-        <div class="eyebrow">PROFESSIONAL DASHBOARD</div>
-        <h1>Website Insights</h1>
-        <p id="welcomeText">Checking Firebase login…</p>
-      </div>
-      <button id="refreshBtn" class="btn" type="button">
-        ↻ Refresh
-      </button>
-    </section>
+    <div class="eyebrow">PROFESSIONAL DASHBOARD</div>
+    <h1>Website Insights</h1>
+    <p id="status" class="muted">Checking Firebase login...</p>
 
-    <div id="debugMessage" class="notice">
-      DEBUG: Starting Firebase authentication check…
-    </div>
+    <section id="debugBox" class="panel hidden" aria-live="polite"></section>
 
-    <section id="dashboardContent" hidden>
-      <div class="grid">
-        <article class="panel">
-          <div class="metric-label">Website views</div>
-          <div id="views" class="metric-value">—</div>
-          <div class="metric-note">Selected period</div>
-        </article>
-
-        <article class="panel">
-          <div class="metric-label">Visitors</div>
-          <div id="visitors" class="metric-value">—</div>
-          <div class="metric-note">Reported by Analytics</div>
-        </article>
-
-        <article class="panel">
-          <div class="metric-label">Registered users</div>
-          <div id="registered" class="metric-value">—</div>
-          <div class="metric-note">Firebase accounts</div>
-        </article>
-
-        <article class="panel">
-          <div class="metric-label">Login activity</div>
-          <div id="logins" class="metric-value">—</div>
-          <div class="metric-note">Recorded login events</div>
-        </article>
+    <section id="dashboardContent" class="hidden">
+      <div class="panel">
+        <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;align-items:center">
+          <div>
+            <strong>Account</strong>
+            <p id="userEmail" class="muted"></p>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn" data-days="7">7 Days</button>
+            <button class="btn" data-days="30">30 Days</button>
+            <button id="refreshBtn" class="btn">↻ Refresh</button>
+          </div>
+        </div>
       </div>
 
-      <div class="section-grid">
-        <section class="panel">
-          <h2>📈 Traffic insights</h2>
-          <div class="tabs">
-            <button class="period active" data-days="7" type="button">
-              7 days
-            </button>
-            <button class="period" data-days="30" type="button">
-              30 days
-            </button>
-          </div>
-          <div id="chart" class="chart"></div>
-          <div id="chartLabels" class="chart-labels"></div>
-          <p id="periodSummary">Loading report…</p>
-        </section>
-
-        <section class="panel">
-          <h2>🔥 Popular pages</h2>
-          <div class="table-wrap">
-            <table>
-              <thead><tr><th>Page</th><th>Views</th></tr></thead>
-              <tbody id="popularPages">
-                <tr><td colspan="2">Waiting for data…</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </section>
+      <div class="stats">
+        <article class="stat"><h3>Page Views</h3><div id="views" class="number">—</div></article>
+        <article class="stat"><h3>Visitors</h3><div id="visitors" class="number">—</div></article>
+        <article class="stat"><h3>Registered Users</h3><div id="registeredUsers" class="number">—</div></article>
+        <article class="stat"><h3>Login Events</h3><div id="loginCount" class="number">—</div></article>
       </div>
 
       <section class="panel">
-        <h2>🕒 Recent login activity</h2>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>Email</th><th>Time</th></tr></thead>
-            <tbody id="loginTable">
-              <tr><td colspan="2">Waiting for data…</td></tr>
-            </tbody>
-          </table>
-        </div>
+        <h2>Daily Website Activity</h2>
+        <p class="muted">Daily page views and visitors from Google Analytics.</p>
+        <div id="dailyList" class="muted">No data loaded.</div>
       </section>
 
       <section class="panel">
-        <h2>⚡ Quick access</h2>
-        <div class="shortcuts">
-          <a class="shortcut" href="index.html#services">
-            <strong>🧰 Services</strong>
-            <span>Website tools</span>
-          </a>
-          <a class="shortcut" href="index.html#games">
-            <strong>🎮 Games</strong>
-            <span>Gaming section</span>
-          </a>
-          <a class="shortcut" href="index.html#blog">
-            <strong>📝 Blog</strong>
-            <span>Blog section</span>
-          </a>
-          <a class="shortcut" href="gallery.html">
-            <strong>🖼️ Gallery</strong>
-            <span>Photo gallery</span>
-          </a>
-          <a class="shortcut" href="index.html#contact">
-            <strong>✉️ Contact</strong>
-            <span>Contact section</span>
-          </a>
-          <a class="shortcut" href="index.html">
-            <strong>🌐 Website</strong>
-            <span>Home page</span>
-          </a>
-        </div>
+        <h2>Popular Pages</h2>
+        <ol id="popularPages" class="data-list"><li>No data loaded.</li></ol>
+      </section>
+
+      <section class="panel">
+        <h2>Recent Login Activity</h2>
+        <p class="muted">Email and timestamps returned by the secure backend.</p>
+        <ol id="recentLogins" class="data-list"><li>No data loaded.</li></ol>
       </section>
     </section>
   </main>
 
-  <footer>
-    © <span id="year"></span> PAZZAN.COM
-  </footer>
+  <footer>© 2026 PAZZAN.COM</footer>
 
   <script type="module">
     import { initializeApp } from
       "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
 
     import {
-      getAuth,
-      onAuthStateChanged,
-      signOut
-    } from
-      "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+      getAuth, onAuthStateChanged, signOut
+    } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
 
     import {
-      getFunctions,
-      httpsCallable
-    } from
-      "https://www.gstatic.com/firebasejs/12.3.0/firebase-functions.js";
+      getFunctions, httpsCallable
+    } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-functions.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyB3G98XBTZH6NFiZx6NQmyEKR8g6vnSYNQ",
@@ -411,245 +131,152 @@
       measurementId: "G-B12LL33EQ3"
     };
 
-    const debugMessage = document.getElementById("debugMessage");
-    const dashboardContent = document.getElementById("dashboardContent");
-    const welcomeText = document.getElementById("welcomeText");
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const functions = getFunctions(app, "us-central1");
+    const debugBox = document.getElementById("debugBox");
+    const status = document.getElementById("status");
+    const content = document.getElementById("dashboardContent");
+    const userEmail = document.getElementById("userEmail");
+    const getDashboardStats = httpsCallable(functions, "getDashboardStats");
 
-    let auth;
-    let functions;
     let currentUser = null;
-    let selectedDays = 7;
-    let redirectStarted = false;
+    let currentDays = 7;
+    let authChecked = false;
 
-    document.getElementById("year").textContent =
-      new Date().getFullYear();
-
-    function showDebug(text, error = false) {
-      debugMessage.hidden = false;
-      debugMessage.className = error ? "notice error" : "notice";
-      debugMessage.textContent = text;
-      console.log(text);
+    function showDebug(text, isError = true) {
+      debugBox.classList.remove("hidden");
+      debugBox.className = "panel " + (isError ? "error" : "success");
+      debugBox.textContent = text;
     }
 
     function formatNumber(value) {
       return Number(value || 0).toLocaleString();
     }
 
-    function renderTable(id, rows, emptyMessage) {
-      const tbody = document.getElementById(id);
-      tbody.replaceChildren();
-
-      if (!rows || rows.length === 0) {
-        const tr = document.createElement("tr");
-        const td = document.createElement("td");
-        td.colSpan = 2;
-        td.textContent = emptyMessage;
-        tr.appendChild(td);
-        tbody.appendChild(tr);
-        return;
-      }
-
-      rows.forEach(row => {
-        const tr = document.createElement("tr");
-        const first = document.createElement("td");
-        const second = document.createElement("td");
-
-        first.textContent = String(row.page ?? row.email ?? "");
-        second.textContent = String(row.views ?? row.time ?? "");
-
-        tr.append(first, second);
-        tbody.appendChild(tr);
-      });
-    }
-
-    function renderChart(items) {
-      const chart = document.getElementById("chart");
-      const labels = document.getElementById("chartLabels");
-      chart.replaceChildren();
-      labels.replaceChildren();
+    function addListItems(elementId, items, formatter, emptyText) {
+      const list = document.getElementById(elementId);
+      list.replaceChildren();
 
       if (!items || items.length === 0) {
-        chart.textContent = "No analytics data available.";
+        const li = document.createElement("li");
+        li.textContent = emptyText;
+        list.appendChild(li);
         return;
       }
 
-      const max = Math.max(
-        1,
-        ...items.map(item => Number(item.views || 0))
-      );
-
       items.forEach(item => {
-        const wrap = document.createElement("div");
-        wrap.style.cssText =
-          "height:100%;flex:1;display:flex;align-items:end;min-width:0";
-
-        const bar = document.createElement("div");
-        bar.className = "bar";
-        bar.style.height =
-          Math.max(2, Number(item.views || 0) / max * 100) + "%";
-        bar.title = `${item.date}: ${formatNumber(item.views)} views`;
-
-        wrap.appendChild(bar);
-        chart.appendChild(wrap);
+        const li = document.createElement("li");
+        li.textContent = formatter(item);
+        list.appendChild(li);
       });
-
-      const start = document.createElement("span");
-      const end = document.createElement("span");
-      start.textContent = String(items[0].date || "");
-      end.textContent = String(items[items.length - 1].date || "");
-      labels.append(start, end);
     }
 
     async function loadDashboard() {
-      if (!currentUser || !functions) return;
+      if (!currentUser) return;
 
-      showDebug("DEBUG: Admin verified. Loading dashboard backend…");
-
+      status.textContent = "Loading dashboard data...";
       try {
-        const getStats = httpsCallable(functions, "getDashboardStats");
-        const result = await getStats({ days: selectedDays });
-        const data = result.data;
+        const result = await getDashboardStats({ days: currentDays });
+        const data = result.data || {};
 
-        document.getElementById("views").textContent =
-          formatNumber(data.views);
-        document.getElementById("visitors").textContent =
-          formatNumber(data.visitors);
-        document.getElementById("registered").textContent =
+        document.getElementById("views").textContent = formatNumber(data.views);
+        document.getElementById("visitors").textContent = formatNumber(data.visitors);
+        document.getElementById("registeredUsers").textContent =
           formatNumber(data.registeredUsers);
-        document.getElementById("logins").textContent =
+        document.getElementById("loginCount").textContent =
           formatNumber(data.loginCount);
 
-        renderChart(data.daily || []);
-        renderTable(
+        addListItems(
+          "dailyList",
+          data.daily,
+          row => `${row.date}: ${formatNumber(row.views)} views, ${formatNumber(row.visitors)} visitors`,
+          "No daily analytics data available."
+        );
+
+        addListItems(
           "popularPages",
-          data.popularPages || [],
-          "No page data available."
-        );
-        renderTable(
-          "loginTable",
-          data.recentLogins || [],
-          "No login events recorded."
+          data.popularPages,
+          row => `${row.page} — ${formatNumber(row.views)} views`,
+          "No popular page data available."
         );
 
-        document.getElementById("periodSummary").textContent =
-          `Showing the last ${selectedDays} days.`;
+        addListItems(
+          "recentLogins",
+          data.recentLogins,
+          row => `${row.email || "Unknown user"} — ${row.time || "Time unavailable"}`,
+          "No login activity recorded."
+        );
 
-        dashboardContent.hidden = false;
-        showDebug("DEBUG: Dashboard loaded successfully.");
+        status.textContent = `Dashboard loaded for the last ${currentDays} days.`;
+        showDebug("Admin check passed. Dashboard data loaded.", false);
       } catch (error) {
-        console.error("Dashboard backend error:", error);
-
+        status.textContent = "Could not load dashboard data.";
         showDebug(
-          "DEBUG: Login and admin checks passed, but dashboard data could not load.\n" +
+          "Firebase login detected, but dashboard data failed to load.\n" +
           "Error code: " + (error.code || "unknown") + "\n" +
-          "Message: " + (error.message || "Unknown error") + "\n\n" +
-          "Check that getDashboardStats is deployed and Google Analytics is configured.",
-          true
+          "Message: " + (error.message || "Unknown error") +
+          "\n\nCheck that the getDashboardStats Cloud Function is deployed and the Google Analytics backend is configured."
         );
       }
     }
 
-    async function start() {
-      try {
-        showDebug("DEBUG: Initializing Firebase…");
+    onAuthStateChanged(auth, async user => {
+      authChecked = true;
+      currentUser = user;
 
-        const app = initializeApp(firebaseConfig);
-        auth = getAuth(app);
-        functions = getFunctions(app, "us-central1");
-
-        onAuthStateChanged(auth, async user => {
-          if (redirectStarted) return;
-
-          if (!user) {
-            showDebug(
-              "DEBUG: Firebase reports no signed-in user. Redirecting to login…",
-              true
-            );
-
-            redirectStarted = true;
-            setTimeout(() => {
-              location.replace("login.html?redirect=dashboard.html");
-            }, 2500);
-            return;
-          }
-
-          currentUser = user;
-
-          showDebug(
-            "DEBUG: User found: " + (user.email || "(email unavailable)") +
-            "\nDEBUG: Checking administrator permission…"
-          );
-
-          try {
-            const token = await user.getIdTokenResult(true);
-
-            console.log("DEBUG: Token claims:", token.claims);
-
-            if (token.claims.admin !== true) {
-              showDebug(
-                "DEBUG: You are logged in, but this account does not have the admin claim.\n" +
-                "The dashboard is restricted to the administrator.\n" +
-                "Ask the project administrator to grant admin access securely.",
-                true
-              );
-
-              // Do not redirect immediately; leave the explanation visible.
-              return;
-            }
-
-            welcomeText.textContent =
-              "Signed in as " + (user.email || "Administrator");
-
-            await loadDashboard();
-
-          } catch (error) {
-            console.error("Admin check error:", error);
-
-            showDebug(
-              "DEBUG: Could not verify the Firebase token.\n" +
-              "Error: " + (error.message || "Unknown error"),
-              true
-            );
-          }
-        });
-
-      } catch (error) {
-        console.error("Firebase initialization error:", error);
-
+      if (!user) {
+        content.classList.add("hidden");
+        status.textContent = "No signed-in Firebase user detected.";
         showDebug(
-          "DEBUG: Firebase initialization failed.\n" +
-          "Error: " + (error.message || "Unknown error"),
-          true
+          "DEBUG: Firebase reports no signed-in user. Login session was not found on this page."
         );
+        return;
       }
-    }
+
+      userEmail.textContent = user.email || user.uid;
+      status.textContent = "Checking administrator permission...";
+
+      try {
+        const tokenResult = await user.getIdTokenResult(true);
+
+        if (tokenResult.claims.admin !== true) {
+          content.classList.add("hidden");
+          status.textContent = "Signed in, but administrator access is not enabled.";
+          showDebug(
+            "Firebase login is working for " + (user.email || user.uid) +
+            ", but this account does not have the admin claim.\n\n" +
+            "An authorized project owner must grant admin access securely using Firebase Admin SDK."
+          );
+          return;
+        }
+
+        debugBox.classList.add("hidden");
+        content.classList.remove("hidden");
+        await loadDashboard();
+      } catch (error) {
+        status.textContent = "Could not verify administrator permission.";
+        showDebug("Permission check failed: " + (error.message || error));
+      }
+    });
 
     document.getElementById("logoutBtn").addEventListener("click", async () => {
       try {
         await signOut(auth);
         location.replace("login.html");
       } catch (error) {
-        showDebug("Logout failed: " + error.message, true);
+        showDebug("Logout failed: " + error.message);
       }
     });
 
-    document.getElementById("refreshBtn").addEventListener("click", () => {
-      loadDashboard();
-    });
+    document.getElementById("refreshBtn").addEventListener("click", loadDashboard);
 
-    document.querySelectorAll(".period").forEach(button => {
+    document.querySelectorAll("[data-days]").forEach(button => {
       button.addEventListener("click", async () => {
-        selectedDays = Number(button.dataset.days);
-
-        document.querySelectorAll(".period").forEach(item => {
-          item.classList.toggle("active", item === button);
-        });
-
+        currentDays = Number(button.dataset.days);
         await loadDashboard();
       });
     });
-
-    start();
   </script>
 </body>
 </html>
