@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#05080d">
   <title>Professional Dashboard | PAZZAN.COM</title>
 
@@ -11,60 +11,58 @@
     :root {
       --bg: #05080d;
       --panel: #0c141d;
-      --border: #18382f;
       --green: #36f5a0;
-      --muted: #93a69f;
-      --text: #f3fff9;
+      --muted: #9aafa5;
+      --border: #1b3c30;
+      --text: #f4fff9;
     }
 
     * { box-sizing: border-box; }
 
     body {
       margin: 0;
-      background:
-        radial-gradient(ellipse at top right, #103b2b 0%, transparent 38%),
-        var(--bg);
+      min-height: 100vh;
       color: var(--text);
+      background:
+        radial-gradient(ellipse at top right, #123c2c, transparent 40%),
+        var(--bg);
       font-family: Arial, sans-serif;
     }
 
-    button, a { font: inherit; }
-
     a { color: inherit; text-decoration: none; }
+    button { font: inherit; cursor: pointer; }
 
-    .topbar {
+    header {
       position: sticky;
       top: 0;
-      z-index: 10;
+      z-index: 20;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 12px;
       padding: 16px 5%;
-      background: rgba(5, 8, 13, .85);
-      backdrop-filter: blur(16px);
+      background: rgba(5, 8, 13, .92);
+      backdrop-filter: blur(15px);
       border-bottom: 1px solid var(--border);
     }
 
     .logo {
-      color: var(--green);
       font-size: 21px;
       font-weight: 900;
-      letter-spacing: 1px;
+      color: var(--green);
     }
 
-    .top-actions { display: flex; gap: 9px; }
+    .actions { display: flex; gap: 8px; }
 
     .btn {
       display: inline-flex;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
+      padding: 10px 13px;
+      border-radius: 9px;
       border: 1px solid var(--green);
-      border-radius: 10px;
-      padding: 10px 14px;
       color: var(--green);
       background: #0b2119;
-      cursor: pointer;
     }
 
     .btn.primary {
@@ -74,61 +72,78 @@
     }
 
     main {
-      width: min(1200px, 92%);
+      width: min(1150px, 92%);
       margin: 28px auto 60px;
     }
 
     .welcome {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 20px;
       flex-wrap: wrap;
-      margin-bottom: 24px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      margin-bottom: 20px;
     }
 
-    h1 { margin: 0 0 8px; font-size: clamp(26px, 5vw, 38px); }
+    h1 { font-size: clamp(26px, 5vw, 38px); margin: 8px 0; }
     h2 { font-size: 19px; margin: 0 0 18px; }
     p { color: var(--muted); line-height: 1.6; }
 
     .eyebrow {
       color: var(--green);
-      text-transform: uppercase;
-      font-size: 12px;
       letter-spacing: 2px;
+      font-size: 12px;
       font-weight: bold;
+    }
+
+    .notice {
+      padding: 15px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #0d1915;
+      color: #c7ded2;
+      font-size: 14px;
+      line-height: 1.6;
+      overflow-wrap: anywhere;
+      white-space: pre-wrap;
+    }
+
+    .notice.error {
+      border-color: #a94747;
+      background: #321818;
+      color: #ffd0d0;
     }
 
     .grid {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 16px;
+      gap: 15px;
+      margin-top: 18px;
     }
 
     .panel {
       min-width: 0;
-      padding: 21px;
+      padding: 20px;
       margin-bottom: 18px;
-      background: rgba(12, 20, 29, .92);
+      background: rgba(12, 20, 29, .95);
       border: 1px solid var(--border);
-      border-radius: 16px;
-      box-shadow: 0 0 25px rgba(54, 245, 160, .035);
+      border-radius: 15px;
     }
 
     .metric-label { color: var(--muted); font-size: 13px; }
     .metric-value {
       font-size: clamp(25px, 4vw, 34px);
       font-weight: 800;
-      margin: 12px 0 8px;
+      margin: 12px 0;
       overflow-wrap: anywhere;
     }
 
-    .metric-note { font-size: 12px; color: var(--muted); }
+    .metric-note { color: var(--muted); font-size: 12px; }
 
     .section-grid {
       display: grid;
       grid-template-columns: 1.2fr 1fr;
-      gap: 18px;
+      gap: 16px;
       margin-top: 18px;
     }
 
@@ -136,26 +151,23 @@
 
     .tabs button {
       padding: 9px 13px;
-      border-radius: 9px;
       border: 1px solid var(--border);
+      border-radius: 8px;
       background: #07100d;
-      color: var(--text);
-      cursor: pointer;
+      color: white;
     }
 
     .tabs button.active {
       background: var(--green);
       color: #03120a;
-      border-color: var(--green);
-      font-weight: bold;
     }
 
     .chart {
-      height: 190px;
       display: flex;
       align-items: end;
-      gap: 5px;
-      padding: 12px 0 25px;
+      gap: 6px;
+      height: 170px;
+      padding: 10px 0;
       border-bottom: 1px solid var(--border);
     }
 
@@ -169,31 +181,16 @@
 
     .bar {
       width: 100%;
-      min-height: 3px;
+      min-height: 2px;
+      background: linear-gradient(#36f5a0, #08784c);
       border-radius: 5px 5px 0 0;
-      background: linear-gradient(180deg, #36f5a0, #08784c);
-      position: relative;
-    }
-
-    .bar:hover::after {
-      content: attr(data-value);
-      position: absolute;
-      bottom: calc(100% + 5px);
-      left: 50%;
-      transform: translateX(-50%);
-      padding: 4px 6px;
-      background: #13241c;
-      border-radius: 5px;
-      font-size: 11px;
-      white-space: nowrap;
     }
 
     .chart-labels {
       display: flex;
       justify-content: space-between;
-      gap: 4px;
-      font-size: 10px;
       color: var(--muted);
+      font-size: 11px;
       margin-top: 8px;
     }
 
@@ -207,19 +204,12 @@
 
     th, td {
       text-align: left;
-      padding: 13px 9px;
+      padding: 12px 8px;
       border-bottom: 1px solid var(--border);
       overflow-wrap: anywhere;
     }
 
     th { color: var(--muted); font-weight: normal; }
-    td { max-width: 260px; }
-
-    .status {
-      color: var(--green);
-      font-size: 12px;
-      overflow-wrap: anywhere;
-    }
 
     .shortcuts {
       display: grid;
@@ -229,44 +219,34 @@
 
     .shortcut {
       display: block;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 17px;
+      padding: 16px;
       background: #09120f;
-      transition: .2s;
+      border: 1px solid var(--border);
+      border-radius: 11px;
     }
 
-    .shortcut:hover {
-      border-color: var(--green);
-      transform: translateY(-2px);
-    }
-
+    .shortcut:hover { border-color: var(--green); }
     .shortcut strong { display: block; margin-bottom: 8px; }
     .shortcut span { color: var(--muted); font-size: 12px; }
 
-    .notice {
-      padding: 14px;
-      border-radius: 10px;
-      background: #101c18;
-      border: 1px solid var(--border);
+    footer {
+      text-align: center;
+      padding: 25px;
       color: var(--muted);
-      line-height: 1.6;
-      font-size: 13px;
     }
 
-    .error { color: #ff9c9c; }
-    footer { text-align: center; color: var(--muted); padding: 25px; }
+    [hidden] { display: none !important; }
 
-    @media (max-width: 850px) {
+    @media (max-width: 800px) {
       .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .section-grid { grid-template-columns: 1fr; }
       .shortcuts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
 
     @media (max-width: 450px) {
-      .topbar { padding: 13px 4%; }
+      header { padding: 13px 4%; }
       .logo { font-size: 17px; }
-      .btn { padding: 9px 10px; font-size: 12px; }
+      .btn { padding: 9px; font-size: 12px; }
       .panel { padding: 15px; }
       .shortcuts { grid-template-columns: 1fr; }
     }
@@ -274,47 +254,56 @@
 </head>
 
 <body>
-  <header class="topbar">
-    <a class="logo" href="index.html">PAZZAN.COM</a>
-    <div class="top-actions">
+  <header>
+    <a href="index.html" class="logo">PAZZAN.COM</a>
+    <div class="actions">
       <a class="btn" href="index.html">Website</a>
-      <button class="btn primary" id="logoutBtn" type="button">Logout</button>
+      <button id="logoutBtn" class="btn primary" type="button">
+        Logout
+      </button>
     </div>
   </header>
 
   <main>
     <section class="welcome">
       <div>
-        <div class="eyebrow">Professional Dashboard</div>
+        <div class="eyebrow">PROFESSIONAL DASHBOARD</div>
         <h1>Website Insights</h1>
-        <p id="welcomeText">Checking your administrator access…</p>
+        <p id="welcomeText">Checking Firebase login…</p>
       </div>
-      <button class="btn" id="refreshBtn" type="button">↻ Refresh data</button>
+      <button id="refreshBtn" class="btn" type="button">
+        ↻ Refresh
+      </button>
     </section>
 
-    <div id="pageMessage" class="notice">Connecting securely to Firebase…</div>
+    <div id="debugMessage" class="notice">
+      DEBUG: Starting Firebase authentication check…
+    </div>
 
     <section id="dashboardContent" hidden>
-      <div class="grid" style="margin-top:18px">
+      <div class="grid">
         <article class="panel">
           <div class="metric-label">Website views</div>
-          <div class="metric-value" id="views">—</div>
-          <div class="metric-note">Selected reporting period</div>
+          <div id="views" class="metric-value">—</div>
+          <div class="metric-note">Selected period</div>
         </article>
+
         <article class="panel">
           <div class="metric-label">Visitors</div>
-          <div class="metric-value" id="visitors">—</div>
-          <div class="metric-note">Unique users reported by Analytics</div>
+          <div id="visitors" class="metric-value">—</div>
+          <div class="metric-note">Reported by Analytics</div>
         </article>
+
         <article class="panel">
           <div class="metric-label">Registered users</div>
-          <div class="metric-value" id="registered">—</div>
-          <div class="metric-note">Firebase Authentication account count</div>
+          <div id="registered" class="metric-value">—</div>
+          <div class="metric-note">Firebase accounts</div>
         </article>
+
         <article class="panel">
           <div class="metric-label">Login activity</div>
-          <div class="metric-value" id="logins">—</div>
-          <div class="metric-note">Recorded sign-in events</div>
+          <div id="logins" class="metric-value">—</div>
+          <div class="metric-note">Recorded login events</div>
         </article>
       </div>
 
@@ -322,23 +311,25 @@
         <section class="panel">
           <h2>📈 Traffic insights</h2>
           <div class="tabs">
-            <button type="button" class="period active" data-days="7">7 days</button>
-            <button type="button" class="period" data-days="30">30 days</button>
+            <button class="period active" data-days="7" type="button">
+              7 days
+            </button>
+            <button class="period" data-days="30" type="button">
+              30 days
+            </button>
           </div>
-          <div class="chart" id="chart"></div>
-          <div class="chart-labels" id="chartLabels"></div>
-          <p id="periodSummary">Loading reporting data…</p>
+          <div id="chart" class="chart"></div>
+          <div id="chartLabels" class="chart-labels"></div>
+          <p id="periodSummary">Loading report…</p>
         </section>
 
         <section class="panel">
           <h2>🔥 Popular pages</h2>
           <div class="table-wrap">
             <table>
-              <thead>
-                <tr><th>Page</th><th>Views</th></tr>
-              </thead>
+              <thead><tr><th>Page</th><th>Views</th></tr></thead>
               <tbody id="popularPages">
-                <tr><td colspan="2">Waiting for Analytics data…</td></tr>
+                <tr><td colspan="2">Waiting for data…</td></tr>
               </tbody>
             </table>
           </div>
@@ -349,52 +340,49 @@
         <h2>🕒 Recent login activity</h2>
         <div class="table-wrap">
           <table>
-            <thead>
-              <tr><th>Email</th><th>Time (UTC)</th></tr>
-            </thead>
+            <thead><tr><th>Email</th><th>Time</th></tr></thead>
             <tbody id="loginTable">
-              <tr><td colspan="2">Loading login activity…</td></tr>
+              <tr><td colspan="2">Waiting for data…</td></tr>
             </tbody>
           </table>
         </div>
-        <p class="metric-note">
-          This table contains only events recorded by the connected backend.
-        </p>
       </section>
 
       <section class="panel">
         <h2>⚡ Quick access</h2>
         <div class="shortcuts">
           <a class="shortcut" href="index.html#services">
-            <strong>🧰 Services</strong><span>View your website tools</span>
+            <strong>🧰 Services</strong>
+            <span>Website tools</span>
           </a>
           <a class="shortcut" href="index.html#games">
-            <strong>🎮 Games</strong><span>Open gaming section</span>
+            <strong>🎮 Games</strong>
+            <span>Gaming section</span>
           </a>
           <a class="shortcut" href="index.html#blog">
-            <strong>📝 Blog</strong><span>Open blog section</span>
+            <strong>📝 Blog</strong>
+            <span>Blog section</span>
           </a>
           <a class="shortcut" href="gallery.html">
-            <strong>🖼️ Gallery</strong><span>Open photo gallery</span>
+            <strong>🖼️ Gallery</strong>
+            <span>Photo gallery</span>
           </a>
           <a class="shortcut" href="index.html#contact">
-            <strong>✉️ Contact</strong><span>Open contact section</span>
+            <strong>✉️ Contact</strong>
+            <span>Contact section</span>
           </a>
           <a class="shortcut" href="index.html">
-            <strong>🌐 View website</strong><span>Return to homepage</span>
+            <strong>🌐 Website</strong>
+            <span>Home page</span>
           </a>
         </div>
       </section>
-
-      <div class="notice">
-        Analytics figures come from Google Analytics 4. User counts and login
-        events come from the secured Firebase backend. If the backend has not
-        been configured, the dashboard will show an error instead of fake data.
-      </div>
     </section>
   </main>
 
-  <footer>© <span id="year"></span> PAZZAN.COM · Professional Dashboard</footer>
+  <footer>
+    © <span id="year"></span> PAZZAN.COM
+  </footer>
 
   <script type="module">
     import { initializeApp } from
@@ -404,12 +392,14 @@
       getAuth,
       onAuthStateChanged,
       signOut
-    } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+    } from
+      "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
 
     import {
       getFunctions,
       httpsCallable
-    } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-functions.js";
+    } from
+      "https://www.gstatic.com/firebasejs/12.3.0/firebase-functions.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyB3G98XBTZH6NFiZx6NQmyEKR8g6vnSYNQ",
@@ -421,31 +411,55 @@
       measurementId: "G-B12LL33EQ3"
     };
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const functions = getFunctions(app, "us-central1");
+    const debugMessage = document.getElementById("debugMessage");
+    const dashboardContent = document.getElementById("dashboardContent");
+    const welcomeText = document.getElementById("welcomeText");
 
-    const message = document.getElementById("pageMessage");
-    const content = document.getElementById("dashboardContent");
-    const welcome = document.getElementById("welcomeText");
-
+    let auth;
+    let functions;
     let currentUser = null;
     let selectedDays = 7;
+    let redirectStarted = false;
 
-    document.getElementById("year").textContent = new Date().getFullYear();
+    document.getElementById("year").textContent =
+      new Date().getFullYear();
 
-    function showMessage(text, isError = false) {
-      message.hidden = false;
-      message.textContent = text;
-      message.className = isError ? "notice error" : "notice";
+    function showDebug(text, error = false) {
+      debugMessage.hidden = false;
+      debugMessage.className = error ? "notice error" : "notice";
+      debugMessage.textContent = text;
+      console.log(text);
     }
 
-    function number(value) {
+    function formatNumber(value) {
       return Number(value || 0).toLocaleString();
     }
 
-    function safeText(value) {
-      return String(value ?? "");
+    function renderTable(id, rows, emptyMessage) {
+      const tbody = document.getElementById(id);
+      tbody.replaceChildren();
+
+      if (!rows || rows.length === 0) {
+        const tr = document.createElement("tr");
+        const td = document.createElement("td");
+        td.colSpan = 2;
+        td.textContent = emptyMessage;
+        tr.appendChild(td);
+        tbody.appendChild(tr);
+        return;
+      }
+
+      rows.forEach(row => {
+        const tr = document.createElement("tr");
+        const first = document.createElement("td");
+        const second = document.createElement("td");
+
+        first.textContent = String(row.page ?? row.email ?? "");
+        second.textContent = String(row.views ?? row.time ?? "");
+
+        tr.append(first, second);
+        tbody.appendChild(tr);
+      });
     }
 
     function renderChart(items) {
@@ -455,151 +469,187 @@
       labels.replaceChildren();
 
       if (!items || items.length === 0) {
-        chart.textContent = "No traffic data available yet.";
+        chart.textContent = "No analytics data available.";
         return;
       }
 
-      const values = items.map(item => Number(item.views || 0));
-      const max = Math.max(...values, 1);
+      const max = Math.max(
+        1,
+        ...items.map(item => Number(item.views || 0))
+      );
 
       items.forEach(item => {
         const wrap = document.createElement("div");
-        wrap.className = "bar-wrap";
+        wrap.style.cssText =
+          "height:100%;flex:1;display:flex;align-items:end;min-width:0";
 
         const bar = document.createElement("div");
         bar.className = "bar";
-        bar.style.height = `${Math.max(2, Number(item.views || 0) / max * 100)}%`;
-        bar.dataset.value = number(item.views);
+        bar.style.height =
+          Math.max(2, Number(item.views || 0) / max * 100) + "%";
+        bar.title = `${item.date}: ${formatNumber(item.views)} views`;
 
         wrap.appendChild(bar);
         chart.appendChild(wrap);
       });
 
-      const first = document.createElement("span");
-      first.textContent = safeText(items[0].date || "");
-      const last = document.createElement("span");
-      last.textContent = safeText(items[items.length - 1].date || "");
-      labels.append(first, last);
-    }
-
-    function renderRows(targetId, rows, columns, emptyMessage) {
-      const tbody = document.getElementById(targetId);
-      tbody.replaceChildren();
-
-      if (!rows || rows.length === 0) {
-        const tr = document.createElement("tr");
-        const td = document.createElement("td");
-        td.colSpan = columns.length;
-        td.textContent = emptyMessage;
-        tr.appendChild(td);
-        tbody.appendChild(tr);
-        return;
-      }
-
-      rows.forEach(row => {
-        const tr = document.createElement("tr");
-        columns.forEach(column => {
-          const td = document.createElement("td");
-          td.textContent = safeText(row[column.key]);
-          tr.appendChild(td);
-        });
-        tbody.appendChild(tr);
-      });
+      const start = document.createElement("span");
+      const end = document.createElement("span");
+      start.textContent = String(items[0].date || "");
+      end.textContent = String(items[items.length - 1].date || "");
+      labels.append(start, end);
     }
 
     async function loadDashboard() {
-      if (!currentUser) return;
+      if (!currentUser || !functions) return;
 
-      showMessage("Loading secure dashboard data…");
+      showDebug("DEBUG: Admin verified. Loading dashboard backend…");
 
       try {
-        const getDashboard = httpsCallable(functions, "getDashboardStats");
-        const result = await getDashboard({ days: selectedDays });
+        const getStats = httpsCallable(functions, "getDashboardStats");
+        const result = await getStats({ days: selectedDays });
         const data = result.data;
 
-        document.getElementById("views").textContent = number(data.views);
-        document.getElementById("visitors").textContent = number(data.visitors);
-        document.getElementById("registered").textContent = number(data.registeredUsers);
-        document.getElementById("logins").textContent = number(data.loginCount);
+        document.getElementById("views").textContent =
+          formatNumber(data.views);
+        document.getElementById("visitors").textContent =
+          formatNumber(data.visitors);
+        document.getElementById("registered").textContent =
+          formatNumber(data.registeredUsers);
+        document.getElementById("logins").textContent =
+          formatNumber(data.loginCount);
 
         renderChart(data.daily || []);
-        renderRows(
+        renderTable(
           "popularPages",
           data.popularPages || [],
-          [
-            { key: "page", label: "Page" },
-            { key: "views", label: "Views" }
-          ],
-          "No page data available yet."
+          "No page data available."
         );
-
-        renderRows(
+        renderTable(
           "loginTable",
           data.recentLogins || [],
-          [
-            { key: "email", label: "Email" },
-            { key: "time", label: "Time" }
-          ],
-          "No login events have been recorded."
+          "No login events recorded."
         );
 
         document.getElementById("periodSummary").textContent =
           `Showing the last ${selectedDays} days.`;
 
-        message.hidden = true;
-        content.hidden = false;
+        dashboardContent.hidden = false;
+        showDebug("DEBUG: Dashboard loaded successfully.");
       } catch (error) {
-        console.error(error);
-        showMessage(
-          "Dashboard backend is not ready or access was denied. Check Firebase Functions deployment, administrator access, and Google Analytics setup. Details: " +
-          (error?.message || "Unknown error"),
+        console.error("Dashboard backend error:", error);
+
+        showDebug(
+          "DEBUG: Login and admin checks passed, but dashboard data could not load.\n" +
+          "Error code: " + (error.code || "unknown") + "\n" +
+          "Message: " + (error.message || "Unknown error") + "\n\n" +
+          "Check that getDashboardStats is deployed and Google Analytics is configured.",
           true
         );
       }
     }
 
-    onAuthStateChanged(auth, async user => {
-      if (!user) {
-        location.replace("login.html?redirect=dashboard.html");
-        return;
-      }
-
-      currentUser = user;
-
+    async function start() {
       try {
-        const token = await user.getIdTokenResult(true);
+        showDebug("DEBUG: Initializing Firebase…");
 
-        if (token.claims.admin !== true) {
-          showMessage("Access denied. This page is available to the site administrator only.", true);
-          await signOut(auth);
-          setTimeout(() => location.replace("index.html"), 1200);
-          return;
-        }
+        const app = initializeApp(firebaseConfig);
+        auth = getAuth(app);
+        functions = getFunctions(app, "us-central1");
 
-        welcome.textContent = `Signed in as ${user.email || "Administrator"}`;
-        await loadDashboard();
+        onAuthStateChanged(auth, async user => {
+          if (redirectStarted) return;
+
+          if (!user) {
+            showDebug(
+              "DEBUG: Firebase reports no signed-in user. Redirecting to login…",
+              true
+            );
+
+            redirectStarted = true;
+            setTimeout(() => {
+              location.replace("login.html?redirect=dashboard.html");
+            }, 2500);
+            return;
+          }
+
+          currentUser = user;
+
+          showDebug(
+            "DEBUG: User found: " + (user.email || "(email unavailable)") +
+            "\nDEBUG: Checking administrator permission…"
+          );
+
+          try {
+            const token = await user.getIdTokenResult(true);
+
+            console.log("DEBUG: Token claims:", token.claims);
+
+            if (token.claims.admin !== true) {
+              showDebug(
+                "DEBUG: You are logged in, but this account does not have the admin claim.\n" +
+                "The dashboard is restricted to the administrator.\n" +
+                "Ask the project administrator to grant admin access securely.",
+                true
+              );
+
+              // Do not redirect immediately; leave the explanation visible.
+              return;
+            }
+
+            welcomeText.textContent =
+              "Signed in as " + (user.email || "Administrator");
+
+            await loadDashboard();
+
+          } catch (error) {
+            console.error("Admin check error:", error);
+
+            showDebug(
+              "DEBUG: Could not verify the Firebase token.\n" +
+              "Error: " + (error.message || "Unknown error"),
+              true
+            );
+          }
+        });
+
       } catch (error) {
-        console.error(error);
-        showMessage("Could not verify administrator access. Please try again.", true);
+        console.error("Firebase initialization error:", error);
+
+        showDebug(
+          "DEBUG: Firebase initialization failed.\n" +
+          "Error: " + (error.message || "Unknown error"),
+          true
+        );
       }
-    });
+    }
 
     document.getElementById("logoutBtn").addEventListener("click", async () => {
-      await signOut(auth);
-      location.replace("login.html");
+      try {
+        await signOut(auth);
+        location.replace("login.html");
+      } catch (error) {
+        showDebug("Logout failed: " + error.message, true);
+      }
     });
 
-    document.getElementById("refreshBtn").addEventListener("click", loadDashboard);
+    document.getElementById("refreshBtn").addEventListener("click", () => {
+      loadDashboard();
+    });
 
     document.querySelectorAll(".period").forEach(button => {
       button.addEventListener("click", async () => {
         selectedDays = Number(button.dataset.days);
+
         document.querySelectorAll(".period").forEach(item => {
           item.classList.toggle("active", item === button);
         });
+
         await loadDashboard();
       });
     });
+
+    start();
   </script>
 </body>
 </html>
