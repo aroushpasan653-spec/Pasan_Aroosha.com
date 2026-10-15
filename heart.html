@@ -57,72 +57,192 @@ button:active,.website:active{transform:scale(.97)}button:hover,.website:hover{b
   const ctx = canvas.getContext('2d');
   const replayBtn = document.getElementById('replay');
   const colorBtn = document.getElementById('changeColor');
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  let w=0,h=0,dpr=1,particles=[],raf=0,startTime=0,paused=false;
-  let palette=[185,315,45,115,265,15];
-  let paletteIndex=0;
-  const rand=(a,b)=>a+Math.random()*(b-a);
-  function heartPoint(t, scale){
-    const x=16*Math.pow(Math.sin(t),3);
-    const y=-(13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t));
-    return {x:x*scale,y:y*scale};
+
+  let w = 0, h = 0, dpr = 1, particles = [], stars = [];
+  let raf = 0, startTime = 0, paletteIndex = 0;
+  const palette = [185, 315, 45, 115, 265, 15];
+  const rand = (a, b) => a + Math.random() * (b - a);
+
+  function heartPoint(t, scale) {
+    return {
+      x: 16 * Math.pow(Math.sin(t), 3) * scale,
+      y: -(13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t)) * scale
+    };
   }
-  function resize(){
-    const rect=canvas.getBoundingClientRect(); dpr=Math.min(window.devicePixelRatio||1,2);
-    w=rect.width;h=rect.height;canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr);
-    ctx.setTransform(dpr,0,0,dpr,0,0);makeParticles();
+
+  function resize() {
+    const rect = canvas.getBoundingClientRect();
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    w = rect.width; h = rect.height;
+    canvas.width = Math.round(w * dpr);
+    canvas.height = Math.round(h * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    createParticles();
   }
-  function makeParticles(){
-    particles=[];
-    const scale=Math.min(w/38,h/34)*.91;
-    const count=Math.max(260,Math.min(650,Math.round(w*.85)));
-    for(let i=0;i<count;i++){
-      const t=Math.random()*Math.PI*2, p=heartPoint(t,scale);
-      const fill=Math.random()<.58;
-      let x,y;
-      if(fill){const k=Math.sqrt(Math.random());x=p.x*k+rand(-2,2);y=p.y*k+rand(-2,2)}
-      else{x=p.x*rand(.94,1.12);y=p.y*rand(.94,1.12)}
-      particles.push({x,y,baseX:x,baseY:y,size:rand(.8,2.5),hue:rand(-45,45),phase:rand(0,Math.PI*2),speed:rand(.5,1.5),orbit:rand(0,1),spark:Math.random()<.13});
+
+  function createParticles() {
+    particles = [];
+    stars = [];
+    const scale = Math.min(w / 38, h / 34) * 0.91;
+    const count = Math.max(380, Math.min(900, Math.round(w * 1.25)));
+    for (let i = 0; i < count; i++) {
+      const t = Math.random() * Math.PI * 2;
+      const edge = heartPoint(t, scale);
+      const inside = Math.random() < 0.67;
+      let tx, ty;
+      if (inside) {
+        const k = Math.sqrt(Math.random());
+        tx = edge.x * k;
+        ty = edge.y * k;
+      } else {
+        tx = edge.x * rand(0.96, 1.12);
+        ty = edge.y * rand(0.96, 1.12);
+      }
+      const angle = rand(0, Math.PI * 2);
+      const distance = rand(Math.max(w, h) * 0.35, Math.max(w, h) * 0.85);
+      particles.push({
+        tx, ty,
+        sx: Math.cos(angle) * distance,
+        sy: Math.sin(angle) * distance,
+        size: rand(0.7, 2.5),
+        hueOffset: rand(-55, 55),
+        phase: rand(0, Math.PI * 2),
+        speed: rand(0.7, 1.6),
+        sparkle: Math.random() < 0.17,
+        delay: rand(0, 0.9)
+      });
+    }
+    for (let i = 0; i < 70; i++) {
+      stars.push({ x: rand(0, w), y: rand(0, h), size: rand(0.5, 1.7), phase: rand(0, 7) });
     }
   }
-  function draw(now){
-    raf=requestAnimationFrame(draw);
-    if(!startTime)startTime=now;
-    const elapsed=(now-startTime)/1000;
-    ctx.clearRect(0,0,w,h);
-    const scale=Math.min(w/38,h/34)*.91;
-    const cx=w/2, cy=h*.48;
-    const hue=palette[paletteIndex];
-    // Faint glowing outline guides the particle shape.
-    ctx.save();ctx.translate(cx,cy);ctx.globalAlpha=.16;ctx.beginPath();
-    for(let i=0;i<=240;i++){const p=heartPoint(i/240*Math.PI*2,scale);if(i===0)ctx.moveTo(p.x,p.y);else ctx.lineTo(p.x,p.y)}
-    ctx.closePath();ctx.strokeStyle=`hsl(${hue},100%,65%)`;ctx.lineWidth=1.3;ctx.shadowBlur=16;ctx.shadowColor=`hsl(${hue},100%,60%)`;ctx.stroke();ctx.restore();
-    for(const p of particles){
-      const pulse=.6+.4*Math.sin(elapsed*p.speed*2+p.phase);
-      const drift=Math.sin(elapsed*.8+p.phase)*2.5;
-      const x=cx+p.baseX+drift*p.orbit;
-      const y=cy+p.baseY+Math.cos(elapsed*.7+p.phase)*2.5*p.orbit;
-      const ph=(hue+p.hue+360)%360;
-      const color=`hsl(${ph},100%,${58+35*pulse}%)`;
-      ctx.beginPath();ctx.arc(x,y,p.size*(.7+pulse*.6),0,Math.PI*2);
-      ctx.fillStyle=color;ctx.globalAlpha=.5+pulse*.5;ctx.shadowBlur=p.spark?17:8;ctx.shadowColor=color;ctx.fill();
-      if(p.spark&&pulse>.88){ctx.globalAlpha=.65;ctx.fillRect(x-3,y-.5,6,1);ctx.fillRect(x-.5,y-3,1,6)}
+
+  function draw(now) {
+    raf = requestAnimationFrame(draw);
+    if (!startTime) startTime = now;
+    const time = (now - startTime) / 1000;
+    const hue = palette[paletteIndex];
+    const scale = Math.min(w / 38, h / 34) * 0.91;
+    const cx = w / 2, cy = h * 0.48;
+
+    ctx.clearRect(0, 0, w, h);
+
+    // Soft coloured glow behind the heart.
+    const glow = ctx.createRadialGradient(cx, cy, 2, cx, cy, Math.min(w, h) * 0.49);
+    glow.addColorStop(0, `hsla(${hue},100%,55%,0.13)`);
+    glow.addColorStop(0.55, `hsla(${(hue + 80) % 360},100%,45%,0.045)`);
+    glow.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = glow;
+    ctx.fillRect(0, 0, w, h);
+
+    // Twinkling background stars.
+    for (const s of stars) {
+      const alpha = 0.12 + 0.38 * (0.5 + 0.5 * Math.sin(time * 1.6 + s.phase));
+      ctx.globalAlpha = alpha;
+      ctx.fillStyle = `hsl(${(hue + s.phase * 30) % 360},100%,75%)`;
+      ctx.fillRect(s.x, s.y, s.size, s.size);
     }
-    ctx.globalAlpha=1;ctx.shadowBlur=0;
-    // Small glitter around the heart.
-    for(let i=0;i<18;i++){
-      const x=(i*83+Math.sin(elapsed+i)*18)%Math.max(w,1);const y=(i*47+Math.cos(elapsed*.6+i)*25)%Math.max(h,1);
-      ctx.globalAlpha=.15+.3*(.5+.5*Math.sin(elapsed*1.5+i));ctx.fillStyle=`hsl(${(hue+i*23)%360},100%,70%)`;ctx.fillRect(x,y,1.5,1.5);
+    ctx.globalAlpha = 1;
+
+    // A travelling light traces the heart outline.
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.beginPath();
+    for (let i = 0; i <= 260; i++) {
+      const p = heartPoint(i / 260 * Math.PI * 2, scale);
+      if (i === 0) ctx.moveTo(p.x, p.y); else ctx.lineTo(p.x, p.y);
     }
-    ctx.globalAlpha=1;
+    ctx.closePath();
+    ctx.strokeStyle = `hsla(${hue},100%,65%,0.22)`;
+    ctx.lineWidth = 1.4;
+    ctx.shadowBlur = 16;
+    ctx.shadowColor = `hsl(${hue},100%,60%)`;
+    ctx.stroke();
+
+    const traceT = (time * 0.23) % 1;
+    const trace = heartPoint(traceT * Math.PI * 2, scale);
+    ctx.beginPath();
+    ctx.arc(trace.x, trace.y, 4 + 2 * Math.sin(time * 5), 0, Math.PI * 2);
+    ctx.fillStyle = `hsl(${(hue + 55) % 360},100%,80%)`;
+    ctx.shadowBlur = 26;
+    ctx.shadowColor = ctx.fillStyle;
+    ctx.fill();
+    ctx.restore();
+
+    // Heartbeat pulse + particles flying in to form the heart.
+    const beat = 1 + 0.055 * Math.pow(Math.max(0, Math.sin(time * 3.2)), 10)
+                   + 0.025 * Math.sin(time * 2.1);
+    const reveal = Math.min(1, time / 2.1);
+    for (const p of particles) {
+      const local = Math.max(0, Math.min(1, (time - p.delay) / 1.55));
+      const eased = 1 - Math.pow(1 - local, 3);
+      const drift = Math.sin(time * p.speed + p.phase) * 2.7;
+      const x = cx + p.sx * (1 - eased) + p.tx * eased * beat + drift;
+      const y = cy + p.sy * (1 - eased) + p.ty * eased * beat
+                  + Math.cos(time * 1.1 + p.phase) * 2.3;
+      const pulse = 0.58 + 0.42 * Math.sin(time * p.speed * 2.5 + p.phase);
+      const ph = (hue + p.hueOffset + 360) % 360;
+      const color = `hsl(${ph},100%,${62 + pulse * 28}%)`;
+      const radius = p.size * (0.65 + pulse * 0.75) * (0.6 + 0.4 * reveal);
+
+      ctx.beginPath();
+      ctx.arc(x, y, radius, 0, Math.PI * 2);
+      ctx.globalAlpha = 0.25 + 0.75 * eased;
+      ctx.fillStyle = color;
+      ctx.shadowBlur = p.sparkle ? 19 : 9;
+      ctx.shadowColor = color;
+      ctx.fill();
+
+      if (p.sparkle && pulse > 0.76 && eased > 0.25) {
+        ctx.globalAlpha = 0.75;
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 0.8;
+        ctx.beginPath();
+        ctx.moveTo(x - 4, y); ctx.lineTo(x + 4, y);
+        ctx.moveTo(x, y - 4); ctx.lineTo(x, y + 4);
+        ctx.stroke();
+      }
+    }
+    ctx.globalAlpha = 1;
+    ctx.shadowBlur = 0;
+
+    // Tiny orbiting comets circling the heart.
+    for (let i = 0; i < 5; i++) {
+      const a = time * (0.55 + i * 0.07) + i * Math.PI * 0.4;
+      const rx = Math.min(w * 0.43, scale * 19);
+      const ry = Math.min(h * 0.36, scale * 17);
+      const x = cx + Math.cos(a) * rx;
+      const y = cy + Math.sin(a) * ry;
+      const comet = ctx.createRadialGradient(x, y, 0, x, y, 13);
+      comet.addColorStop(0, `hsla(${(hue + i * 67) % 360},100%,90%,0.95)`);
+      comet.addColorStop(1, `hsla(${(hue + i * 67) % 360},100%,55%,0)`);
+      ctx.fillStyle = comet;
+      ctx.beginPath(); ctx.arc(x, y, 13, 0, Math.PI * 2); ctx.fill();
+    }
+
+    ctx.globalAlpha = 1;
+    ctx.shadowBlur = 0;
   }
-  function replay(){cancelAnimationFrame(raf);startTime=0;makeParticles();raf=requestAnimationFrame(draw)}
-  colorBtn.addEventListener('click',()=>{paletteIndex=(paletteIndex+1)%palette.length;document.documentElement.style.setProperty('--neon',`hsl(${palette[paletteIndex]},100%,58%)`);document.documentElement.style.setProperty('--neon2',`hsl(${(palette[paletteIndex]+105)%360},100%,62%)`)});
-  replayBtn.addEventListener('click',replay);
-  window.addEventListener('resize',resize);
+
+  function replay() {
+    cancelAnimationFrame(raf);
+    startTime = 0;
+    createParticles();
+    raf = requestAnimationFrame(draw);
+  }
+
+  colorBtn.addEventListener('click', () => {
+    paletteIndex = (paletteIndex + 1) % palette.length;
+    const hue = palette[paletteIndex];
+    document.documentElement.style.setProperty('--neon', `hsl(${hue},100%,58%)`);
+    document.documentElement.style.setProperty('--neon2', `hsl(${(hue + 105) % 360},100%,62%)`);
+    replay();
+  });
+
+  replayBtn.addEventListener('click', replay);
+  window.addEventListener('resize', resize);
   resize();
-  if(reduceMotion){draw(performance.now());}
-  else{raf=requestAnimationFrame(draw)}
+  raf = requestAnimationFrame(draw);
 })();
 </script>
 </body>
