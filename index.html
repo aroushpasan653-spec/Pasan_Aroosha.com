@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#05080d">
-<meta name="description" content="PAZZAN.COM — Personal blog, useful media tools, games, memories and adventures.">
-<title>PAZZAN.COM | Pasan Aroosha</title>
+<meta name="description" content="Pasan — Personal blog, useful media tools, games, memories and adventures.">
+<title>Pasan | Pasan Aroosha</title>
 <style>
 :root{--bg:#05080d;--panel:#09131d;--green:#39ff88;--cyan:#00e5ff;--purple:#9b5cff;--pink:#ff2bd6;--text:#f3fff9;--muted:#b4bfd0}
 *{margin:0;padding:0;box-sizing:border-box}
@@ -14,13 +14,44 @@ body{font-family:Arial,sans-serif;color:var(--text);line-height:1.7;background:r
 a{color:inherit}button{font:inherit}
 nav{position:sticky;top:0;z-index:9999;background:rgba(4,8,14,.65);backdrop-filter:blur(22px) saturate(150%);-webkit-backdrop-filter:blur(22px) saturate(150%);border-bottom:1px solid #39ff8850;box-shadow:0 5px 28px #0006}
 .nav-container{max-width:1200px;height:72px;padding:0 25px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:15px;position:relative}
-.logo{color:white;text-decoration:none;font-size:24px;font-weight:900;letter-spacing:1px;white-space:nowrap}.logo span{color:var(--green);text-shadow:0 0 15px #39ff8850}
+.logo{color:white;text-decoration:none;font-size:24px;font-weight:1000;letter-spacing:2px;white-space:nowrap}.logo-pazzan{display:flex;align-items:center;gap:5px;text-shadow:0 0 12px #00e5ff50,0 0 24px #39ff8825}.logo-pazzan .logo-dot{color:var(--green);text-shadow:0 0 8px #39ff88,0 0 18px #39ff8880}.logo-pazzan .logo-mark{font-size:12px;color:var(--cyan);text-shadow:0 0 12px var(--cyan)}
 .nav-links{display:flex;align-items:center;gap:21px;list-style:none}.nav-links a{color:var(--text);text-decoration:none;font-size:14px;transition:.2s}.nav-links a:hover{color:var(--green);text-shadow:0 0 12px #39ff88b3}
 #userEmail{display:none;color:var(--cyan);font-size:13px;max-width:170px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 #logoutBtn{display:none;border:1px solid #39ff8899;border-radius:8px;padding:8px 13px;color:var(--green);background:#39ff8814;cursor:pointer}
 #logoutBtn:hover{background:var(--green);color:#04100a}
 .menu-btn{display:none;background:transparent;border:1px solid #39ff8875;border-radius:9px;color:var(--green);font-size:25px;width:44px;height:44px;cursor:pointer}
-.hero{max-width:1200px;min-height:85vh;margin:auto;padding:75px 25px;display:flex;align-items:center;justify-content:space-between;gap:55px}
+/* Animated neon gaming cover */
+.gaming-cover{height:clamp(205px,34vw,330px);width:min(1200px,calc(100% - 28px));margin:22px auto 0;position:relative;isolation:isolate;overflow:hidden;border:1px solid #00e5ff75;border-radius:22px;background:radial-gradient(ellipse at 50% 45%,#143b4b 0%,#0a1727 38%,#05070e 78%);box-shadow:0 0 24px #00e5ff22,0 0 55px #9b5cff15,inset 0 0 35px #00e5ff0d}
+.cover-grid{position:absolute;inset:-65%;z-index:-2;opacity:.38;background-image:linear-gradient(#00e5ff45 1px,transparent 1px),linear-gradient(90deg,#00e5ff45 1px,transparent 1px);background-size:42px 42px;transform:perspective(280px) rotateX(58deg) scale(1.4);transform-origin:center 65%;animation:coverGridMove 7s linear infinite;mask-image:linear-gradient(transparent,#000 25%,#000 80%,transparent)}
+.cover-content{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px;z-index:2}
+.cover-kicker{font-size:clamp(9px,1.6vw,12px);font-weight:800;letter-spacing:clamp(1px,.5vw,4px);color:var(--cyan);text-shadow:0 0 12px #00e5ffb3;margin-bottom:13px;animation:coverFlicker 4s infinite}
+.cover-title{font-family:Impact,"Arial Black",sans-serif;font-weight:900;letter-spacing:clamp(1px,.8vw,6px);font-size:clamp(29px,7vw,68px);line-height:1.08;color:#efffff;text-shadow:0 0 8px #00e5ff,0 0 22px #00e5ff99,3px 3px 0 #9b5cff;animation:coverTitlePulse 3s ease-in-out infinite}
+.cover-title span{color:var(--green);text-shadow:0 0 8px #39ff88,0 0 25px #39ff88b3,3px 3px 0 #00a9a9}
+.cover-caption{margin-top:15px;font-size:clamp(9px,1.8vw,13px);font-weight:700;letter-spacing:clamp(2px,.7vw,5px);color:#d8e8f8;text-shadow:0 0 12px #00e5ff80}
+.cover-orbit{position:absolute;z-index:-1;width:clamp(170px,32vw,330px);height:clamp(170px,32vw,330px);border:1px solid #00e5ff55;border-radius:50%;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-25deg) scaleY(.42);box-shadow:0 0 18px #00e5ff15,inset 0 0 18px #9b5cff12;animation:orbitSpin 12s linear infinite}
+.orbit-two{width:clamp(230px,48vw,490px);height:clamp(230px,48vw,490px);border-color:#ff2bd650;transform:translate(-50%,-50%) rotate(35deg) scaleY(.32);animation:orbitSpin 18s linear infinite reverse}
+.cover-particles{position:absolute;inset:0;overflow:hidden;z-index:0}
+.cover-particles i{position:absolute;left:var(--x,10%);top:var(--y,20%);width:4px;height:4px;border-radius:50%;background:var(--green);box-shadow:0 0 9px 3px #39ff8877;animation:particleFloat 4s ease-in-out infinite alternate}
+.cover-particles i:nth-child(1){left:8%;top:30%;--x:8%;--y:30%;animation-delay:-1s}.cover-particles i:nth-child(2){left:18%;top:70%;background:var(--cyan);box-shadow:0 0 9px 3px #00e5ff77;animation-delay:-2s}.cover-particles i:nth-child(3){left:28%;top:18%;animation-delay:-3s}.cover-particles i:nth-child(4){left:37%;top:78%;background:var(--pink);box-shadow:0 0 9px 3px #ff2bd677;animation-delay:-.5s}.cover-particles i:nth-child(5){left:49%;top:13%;background:var(--cyan);box-shadow:0 0 9px 3px #00e5ff77;animation-delay:-2.5s}.cover-particles i:nth-child(6){left:60%;top:82%;animation-delay:-1.5s}.cover-particles i:nth-child(7){left:70%;top:23%;background:var(--pink);box-shadow:0 0 9px 3px #ff2bd677;animation-delay:-3.5s}.cover-particles i:nth-child(8){left:82%;top:67%;background:var(--cyan);box-shadow:0 0 9px 3px #00e5ff77;animation-delay:-2s}.cover-particles i:nth-child(9){left:91%;top:38%;animation-delay:-1s}.cover-particles i:nth-child(10){left:14%;top:48%;background:var(--pink);box-shadow:0 0 9px 3px #ff2bd677;animation-delay:-3s}.cover-particles i:nth-child(11){left:76%;top:48%;animation-delay:-.8s}.cover-particles i:nth-child(12){left:56%;top:66%;background:var(--cyan);box-shadow:0 0 9px 3px #00e5ff77;animation-delay:-2.8s}
+.cover-scanline{position:absolute;inset:0;pointer-events:none;background:linear-gradient(transparent 50%,#00e5ff08 51%);background-size:100% 5px;opacity:.4}
+.cover-scanline:after{content:"";position:absolute;left:0;right:0;top:-30%;height:24%;background:linear-gradient(180deg,transparent,#00e5ff18,#39ff8820,transparent);filter:blur(2px);animation:coverScan 4.8s linear infinite}
+.cover-beam{position:absolute;inset:-40%;z-index:1;pointer-events:none;background:conic-gradient(from 0deg at 50% 50%,transparent 0deg, #00e5ff0a 35deg,transparent 75deg,#9b5cff0d 120deg,transparent 180deg);animation:beamSpin 16s linear infinite}
+.cover-label{display:inline-block;margin-bottom:10px;padding:5px 12px;border:1px solid #39ff8860;border-radius:999px;background:#02081299;color:var(--green);font-size:clamp(8px,1.4vw,11px);font-weight:900;letter-spacing:3px;box-shadow:0 0 18px #39ff881a}
+.cover-title{position:relative;filter:drop-shadow(0 0 12px #00e5ff30)}
+.cover-title:after{content:"";position:absolute;left:-10%;top:0;width:28%;height:100%;background:linear-gradient(90deg,transparent,#ffffff70,transparent);transform:skewX(-22deg);animation:titleShine 4s ease-in-out infinite}
+@keyframes coverScan{0%{top:-30%}100%{top:115%}}
+@keyframes beamSpin{to{transform:rotate(360deg)}}
+@keyframes titleShine{0%,35%{left:-35%;opacity:0}45%{opacity:1}70%,100%{left:115%;opacity:0}}
+.hero-name{font-family:"Old English Text MT","UnifrakturCook",Georgia,serif;font-size:clamp(23px,5vw,48px)!important;letter-spacing:0;white-space:nowrap;line-height:1.25;text-shadow:0 0 14px #00e5ff38;max-width:100%}.hero-name span{color:var(--green);text-shadow:0 0 12px #39ff8890,0 0 25px #39ff8838}
+@keyframes coverGridMove{from{background-position:0 0,0 0}to{background-position:0 42px,42px 0}}
+@keyframes orbitSpin{from{rotate:0deg}to{rotate:360deg}}
+@keyframes particleFloat{from{transform:translate3d(0,8px,0) scale(.7);opacity:.35}to{transform:translate3d(0,-15px,0) scale(1.5);opacity:1}}
+@keyframes coverTitlePulse{0%,100%{filter:brightness(1);transform:scale(1)}50%{filter:brightness(1.25);transform:scale(1.025)}}
+@keyframes coverFlicker{0%,94%,100%{opacity:1}96%{opacity:.55}98%{opacity:.85}}
+@media(max-width:560px){.gaming-cover{width:calc(100% - 18px);margin-top:14px;border-radius:16px;height:210px}.cover-title{letter-spacing:1px}.cover-caption{letter-spacing:2px}.hero-name{font-size:clamp(20px,5.4vw,29px)!important;letter-spacing:-.5px}}
+@media(prefers-reduced-motion:reduce){.cover-grid,.cover-orbit,.cover-particles i,.cover-title,.cover-kicker,.cover-beam,.cover-scanline:after,.cover-title:after{animation:none!important}}
+
+.hero{max-width:1200px;min-height:65vh;margin:auto;padding:65px 25px 35px;display:flex;align-items:center;justify-content:space-between;gap:55px}
 .hero-text{flex:1}.small-title{color:var(--green);font-size:14px;font-weight:bold;letter-spacing:2px;text-transform:uppercase;margin-bottom:15px}
 .hero h1{font-size:clamp(36px,5vw,62px);line-height:1.15;margin-bottom:22px}.hero h1 span{color:var(--green);text-shadow:0 0 22px #39ff884d}
 .hero-text p{color:var(--muted);font-size:17px;max-width:620px;margin-bottom:28px}.hero-buttons{display:flex;gap:14px;flex-wrap:wrap}
@@ -28,6 +59,17 @@ nav{position:sticky;top:0;z-index:9999;background:rgba(4,8,14,.65);backdrop-filt
 .btn-primary{color:#04100a;background:var(--green);border:1px solid var(--green)}.btn-secondary{color:var(--cyan);border:1px solid var(--cyan);background:#00e5ff0a}
 .btn:hover{transform:translateY(-3px);box-shadow:0 0 23px #39ff8840}
 .hero-image{flex:0 0 320px;display:flex;justify-content:center}.hero-image img{width:290px;height:290px;object-fit:cover;border-radius:50%;border:4px solid var(--green);box-shadow:0 0 35px #39ff883d;background:#0c1720}
+.pasan-profile-hero{width:min(1120px,calc(100% - 28px));margin:25px auto 40px;position:relative;color:#f4fbff;border:1px solid #39ff883d;border-radius:24px;overflow:hidden;background:#070b11;box-shadow:0 0 28px #00e5ff14,0 18px 55px #0006}
+.pasan-cover-photo{position:relative;height:clamp(190px,34vw,340px);overflow:hidden;background:radial-gradient(ellipse at 70% 35%,#00e5ff3b,transparent 42%),linear-gradient(120deg,#10231f,#101827 52%,#24132e)}
+.pasan-cover-photo>img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 52%}
+.pasan-cover-shade{position:absolute;inset:0;background:linear-gradient(180deg,#0001,#0002 45%,#02050ab8);pointer-events:none}
+.pasan-cover-tag{position:absolute;right:16px;top:16px;padding:9px 13px;border:1px solid #39ff8880;border-radius:999px;background:#030a1688;backdrop-filter:blur(10px);color:var(--green);font:700 11px/1.2 Arial,sans-serif;letter-spacing:2px}
+.pasan-profile-content{position:relative;text-align:center;padding:0 18px 28px;background:linear-gradient(180deg,#080d13,#05080d)}
+.pasan-avatar-wrap{width:clamp(112px,22vw,168px);height:clamp(112px,22vw,168px);margin:calc(clamp(112px,22vw,168px)/-2) auto 14px;position:relative;z-index:2;border-radius:50%;padding:5px;background:linear-gradient(135deg,var(--green),var(--cyan),var(--purple));box-shadow:0 0 20px #00e5ff57,0 0 42px #39ff8824}
+.pasan-avatar{width:100%;height:100%;display:block;object-fit:cover;border-radius:50%;border:4px solid #070b11;background:#101722}
+.pasan-display-name{margin:8px 0 7px;color:#f6fbff;font-family:"Old English Text MT","UnifrakturCook",Georgia,serif;font-size:clamp(26px,5.2vw,43px);line-height:1.25;text-shadow:0 0 12px #00e5ff47,0 0 24px #39ff8820}
+.pasan-profile-subtitle{margin:0;color:#aab9c9;font:600 clamp(11px,2vw,14px)/1.5 Arial,sans-serif;letter-spacing:3px;text-transform:uppercase}
+.pasan-profile-glow{position:absolute;left:50%;bottom:-48px;transform:translateX(-50%);width:65%;height:70px;background:#00e5ff1f;filter:blur(35px);pointer-events:none}
 section{max-width:1200px;margin:auto;padding:80px 25px;scroll-margin-top:85px}
 .section-title{text-align:center;margin-bottom:38px}.section-title h2{font-size:clamp(29px,4vw,43px);margin-bottom:8px}.section-title p{color:var(--muted)}
 .eyebrow{color:var(--green);font-size:13px;font-weight:800;letter-spacing:4px;margin-bottom:10px}
@@ -65,28 +107,43 @@ section{max-width:1200px;margin:auto;padding:80px 25px;scroll-margin-top:85px}
 .upload-panel{position:relative;width:min(440px,100%);padding:30px 22px;text-align:center;border:1px solid #39ff8866;border-radius:18px;background:var(--panel)}.upload-panel h2{margin-bottom:8px}.upload-panel p{color:var(--muted)}
 .upload-close{position:absolute;top:6px;right:13px;border:0;background:none;color:white;font-size:30px;cursor:pointer}.upload-select-btn{margin:20px 0 10px;padding:12px 20px;border:1px solid var(--green);border-radius:9px;color:var(--green);background:#39ff8814;cursor:pointer}.upload-file-name{overflow-wrap:anywhere;margin-top:8px}.upload-note{font-size:12px;margin-top:16px}
 footer{margin-top:25px;padding:28px 15px;text-align:center;color:#8c9aab;border-top:1px solid #39ff8838;background:#03070cc9;font-size:13px}
-@media(max-width:900px){.menu-btn{display:block;flex-shrink:0}.nav-links{display:none;position:absolute;top:66px;right:12px;width:min(280px,calc(100vw - 24px));max-height:calc(100vh - 100px);overflow-y:auto;flex-direction:column;align-items:stretch;gap:0;padding:10px;list-style:none;border:1px solid #39ff8850;border-radius:15px;background:rgba(5,10,17,.48);backdrop-filter:blur(22px) saturate(150%);-webkit-backdrop-filter:blur(22px) saturate(150%);box-shadow:0 12px 35px #0006}.nav-links.active{display:flex}.nav-links li{width:100%}.nav-links a{display:block;width:100%;padding:11px 12px;border-radius:8px}.nav-links a:hover{background:#39ff8812}#userEmail{max-width:100%;padding:10px 12px}#logoutBtn{margin:8px 12px 10px}.hero{min-height:auto;flex-direction:column-reverse;text-align:center;padding-top:55px;gap:35px}.hero-image{flex:none}.hero-image img{width:225px;height:225px}.hero-buttons{justify-content:center}.services-grid,.games-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.blog-grid{grid-template-columns:1fr}}
-@media(max-width:560px){.nav-container{height:66px;padding:0 15px}.logo{font-size:20px}section{padding:65px 17px}.hero{padding:45px 18px 65px}.hero h1{font-size:36px}.hero-text p{font-size:15px}.about-box{padding:23px}.contact-box{padding:35px 17px}.services-grid,.games-grid{grid-template-columns:1fr;gap:15px}.service-card{min-height:0;padding:22px}#my-games{padding:60px 16px}.game-card{max-width:420px;width:100%;margin:auto}.games-heading{margin-bottom:30px}}
+@media(max-width:900px){.menu-btn{display:block;flex-shrink:0}.nav-links{display:none;position:absolute;top:66px;right:12px;width:min(280px,calc(100vw - 24px));max-height:calc(100vh - 100px);overflow-y:auto;flex-direction:column;align-items:stretch;gap:0;padding:10px;list-style:none;border:1px solid #39ff8850;border-radius:15px;background:rgba(5,10,17,.48);backdrop-filter:blur(22px) saturate(150%);-webkit-backdrop-filter:blur(22px) saturate(150%);box-shadow:0 12px 35px #0006}.nav-links.active{display:flex}.nav-links li{width:100%}.nav-links a{display:block;width:100%;padding:11px 12px;border-radius:8px}.nav-links a:hover{background:#39ff8812}#userEmail{max-width:100%;padding:10px 12px}#logoutBtn{margin:8px 12px 10px}.hero{min-height:auto;flex-direction:column-reverse;text-align:center;padding-top:45px;gap:30px}.hero-image{flex:none}.hero-image img{width:225px;height:225px}.hero-buttons{justify-content:center}.services-grid,.games-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.blog-grid{grid-template-columns:1fr}}
+@media(max-width:560px){.nav-container{height:66px;padding:0 15px}.logo{font-size:20px}section{padding:65px 17px}.hero{padding:35px 18px 35px}.hero h1{font-size:36px}.hero-text p{font-size:15px}.about-box{padding:23px}.contact-box{padding:35px 17px}.services-grid,.games-grid{grid-template-columns:1fr;gap:15px}.service-card{min-height:0;padding:22px}#my-games{padding:60px 16px}.game-card{max-width:420px;width:100%;margin:auto}.games-heading{margin-bottom:30px}.pasan-profile-hero{width:calc(100% - 18px);margin:16px auto 30px;border-radius:18px}.pasan-cover-photo{height:205px}.pasan-cover-tag{right:9px;top:9px;font-size:9px;letter-spacing:1.2px}.pasan-profile-content{padding-bottom:23px}.pasan-profile-subtitle{letter-spacing:1.8px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
 <nav><div class="nav-container">
-<a href="index.html" class="logo">PAZZAN<span>.COM</span></a>
+<a href="index.html" class="logo logo-pazzan"><span class="logo-mark">✦</span> PAZZAN<span class="logo-dot">.COM</span><span class="logo-mark">✦</span></a>
 <button class="menu-btn" id="menuBtn" type="button" aria-label="Open menu" aria-controls="navLinks" aria-expanded="false">☰</button>
 <ul class="nav-links" id="navLinks">
 <li><a href="index.html">Home</a></li><li><a href="#about">About</a></li><li><a href="#services">Services</a></li><li><a href="#blog">Blog</a></li><li><a href="gallery.html">Gallery</a></li><li><a href="#my-games">Games</a></li><li><a href="#contact">Contact</a></li><li><a href="login.html" id="loginLink">Login</a></li><li><span id="userEmail"></span></li><li><button type="button" id="logoutBtn">Logout</button></li>
 </ul></div></nav>
 <main>
-<div class="hero"><div class="hero-text"><div class="small-title">Welcome to my personal space</div><h1>Hi, I'm <span>Pasan Aroosha</span></h1><p>Welcome to my personal blog where I share my thoughts, experiences, memories, games and adventures.</p><div class="hero-buttons"><a href="#blog" class="btn btn-primary">Explore My Blog</a><a href="#about" class="btn btn-secondary">About Me</a><a href="heart.html" class="heart-button"><span>♥</span> Neon Heart</a></div></div><div class="hero-image"><img src="profile.jpg" alt="Pasan Aroosha"></div></div>
+<!-- Animated gaming cover banner: scrolls away naturally; no image folder required -->
+<div class="gaming-cover" aria-label="Animated neon gaming cover">
+  <div class="cover-grid" aria-hidden="true"></div>
+  <div class="cover-beam" aria-hidden="true"></div>
+  <div class="cover-orbit orbit-one" aria-hidden="true"></div>
+  <div class="cover-orbit orbit-two" aria-hidden="true"></div>
+  <div class="cover-particles" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="cover-content">
+    <span class="cover-label">▰ SYSTEM ONLINE · PLAYER 001</span>
+    <span class="cover-kicker">✦ PLAYER PROFILE · PAZZAN UNIVERSE ✦</span>
+    <div class="cover-title">WELCOME TO MY <span>WORLD</span></div>
+    <p class="cover-caption">GAMING • CREATIVITY • DREAMS</p>
+  </div>
+  <div class="cover-scanline" aria-hidden="true"></div>
+</div>
+<div class="hero"><div class="hero-text"><div class="small-title">PLAYER ONE · CREATOR MODE</div><h1 class="hero-name">༺ <span>Pasan Aroosha</span> ༻</h1><p>Welcome to my personal blog where I share my thoughts, experiences, memories, games and adventures.</p><div class="hero-buttons"><a href="#blog" class="btn btn-primary">Explore My Blog</a><a href="#about" class="btn btn-secondary">About Me</a><a href="heart.html" class="heart-button"><span>♥</span> Neon Heart</a></div></div><div class="hero-image"><img src="profile.jpg" alt="Pasan Aroosha"></div></div>
 <div class="professional-dashboard"><a href="dashboard.html" class="professional-dashboard-btn">⚙️ Professional Dashboard</a></div>
 <section id="about"><div class="section-title"><h2>About Me</h2><p>A little bit about myself</p></div><div class="about-box"><p>Hello! I'm Pasan Aroosha. This is my personal space on the internet where I share my journey, thoughts, experiences and the things I love.<br><br>This website is a place to keep my memories, write about my adventures and share my stories with others.<br><br>Thank you for visiting my website!</p></div></section>
-<section id="services"><div class="section-title"><div class="eyebrow">OUR SERVICES</div><h2>Useful <span class="gradient-text">Video &amp; Audio Tools</span></h2><p>Explore the tools available on PAZZAN.COM.</p></div><div class="services-grid">
+<section id="services"><div class="section-title"><div class="eyebrow">OUR SERVICES</div><h2>Useful <span class="gradient-text">Video &amp; Audio Tools</span></h2><p>Explore the tools available on Pasan.</p></div><div class="services-grid">
 <a class="service-card" href="tiktok-mp3.html"><div class="service-icon">♫</div><h3>1. TikTok MP3 Tool</h3><p>Open the audio tool for media files you own or have permission to use.</p><span class="service-action">OPEN TOOL →</span></a>
 <a class="service-card" href="youtube-video.html"><div class="service-icon">▶</div><h3>2. YouTube Video Tool</h3><p>Check a YouTube link and open the official platform. Follow its download rules.</p><span class="service-action">OPEN TOOL →</span></a>
 <a class="service-card" href="tiktok-video.html"><div class="service-icon">♪</div><h3>3. TikTok Video Tool</h3><p>Check a TikTok link and open TikTok to view the video.</p><span class="service-action">OPEN TOOL →</span></a>
 <a class="service-card" href="facebook-video.html"><div class="service-icon">f</div><h3>4. Facebook Video Tool</h3><p>Check a Facebook video link and open Facebook.</p><span class="service-action">OPEN TOOL →</span></a>
-<a class="service-card" href="instagram-video.html"><div class="service-icon">◎</div><h3>5. Instagram Video Tool</h3><p>Check an Instagram link and open Instagram to view the post.</p><span class="service-action">OPEN TOOL →</span></a>
+<a class="service-card" href="instagram-video.html"><div class="service-icon">◎</div><h3>5. Instagram Video Tool</h3><p>Check an Instagram link and open Instagram.</p><span class="service-action">OPEN TOOL →</span></a>
 <a class="service-card" href="media-converter.html"><div class="service-icon">ϟ</div><h3>6. MP3 / MP4 Converter</h3><p>Convert supported media files from your device into MP3 audio or MP4 video.</p><span class="service-action">OPEN TOOL →</span></a>
 </div></section>
 <section id="blog"><div class="section-title"><div class="eyebrow">MY STORIES</div><h2>My <span class="gradient-text">Blog</span></h2><p>Stories, thoughts and experiences.</p></div><div class="blog-grid">
@@ -94,17 +151,17 @@ footer{margin-top:25px;padding:28px 15px;text-align:center;color:#8c9aab;border-
 <a href="my-journey.html" class="blog-card"><div class="blog-icon">🌍</div><h3>My Journey</h3><p>Explore my experiences, coding projects, lessons, dreams and unforgettable moments.</p><span class="read-more">Explore My Journey →</span></a>
 <a href="new-adventure.html" class="blog-card"><div class="blog-icon">🚀</div><h3>New Adventures</h3><p>New places, new experiences and new dreams. Follow along as I continue my journey.</p><span class="read-more">Start Adventure →</span></a>
 </div></section>
-<section id="my-games"><div class="games-container"><div class="games-heading"><div class="games-tag">✦ PAZZAN.COM ARCADE ✦</div><h2>MY <span>GAMES</span></h2><p>Enter the neon universe. Choose your game, test your skills, and beat your best score.</p></div><div class="games-grid">
+<section id="my-games"><div class="games-container"><div class="games-heading"><div class="games-tag">✦ PASAN ARCADE ✦</div><h2>MY <span>GAMES</span></h2><p>Enter the neon universe. Choose your game, test your skills, and beat your best score.</p></div><div class="games-grid">
 <article class="game-card" style="--game-color:#00f7ff"><div class="game-number">GAME 01</div><div class="game-icon">🧩</div><h3>NEON BLOCKS</h3><div class="game-subtitle">CYBER TETRIS</div><p class="game-description">Rotate and arrange glowing blocks, clear the lines, and chase your highest score.</p><a href="thunderstorm-game.html" class="play-btn">▶ PLAY GAME</a></article>
 <article class="game-card" style="--game-color:#ff3df2"><div class="game-number">GAME 02</div><div class="game-icon">🏎️</div><h3>NEON RACING</h3><div class="game-subtitle">CYBER HIGHWAY</div><p class="game-description">Race through a futuristic highway, dodge obstacles, and survive the neon rush.</p><a href="racing.html" class="play-btn">▶ PLAY GAME</a></article>
 <article class="game-card" style="--game-color:#ff762e"><div class="game-number">GAME 03</div><div class="game-icon">🔥</div><h3>MAGMA SEAHORSE</h3><div class="game-subtitle">INFERNO CLIMB</div><p class="game-description">Leap across volcanic platforms, collect crystals, and climb through the fiery world.</p><a href="magma-seahorse.html" class="play-btn">▶ PLAY GAME</a></article>
-</div><div class="games-footer">✦ BUILT FOR FUN · POWERED BY PAZZAN.COM ✦</div></div></section>
+</div><div class="games-footer">✦ BUILT FOR FUN · POWERED BY PASAN ✦</div></div></section>
 <section id="contact"><div class="contact-box"><h2>Let's Connect</h2><p>Want to get in touch with me? Contact me through WhatsApp or Instagram.</p><a href="https://wa.me/message/XOOAFQKPPUQNP1" target="_blank" rel="noopener noreferrer" class="contact-btn whatsapp-btn">💬 Contact Me on WhatsApp</a><a href="https://instagram.com/itz_pazzan" target="_blank" rel="noopener noreferrer" class="contact-btn instagram-btn">📷 Contact Me on Instagram</a></div></section>
 </main>
 <button type="button" class="floating-tools-btn" id="uploadOpenBtn" aria-label="Choose a local file">+</button>
 <input type="file" id="uploadFileInput" hidden>
 <div class="upload-modal" id="uploadModal" aria-hidden="true"><div class="upload-panel" role="dialog" aria-modal="true" aria-labelledby="uploadTitle"><button type="button" class="upload-close" id="uploadCloseBtn" aria-label="Close">×</button><h2 id="uploadTitle">Choose a file</h2><p>Select a file from your phone or computer.</p><button type="button" class="upload-select-btn" id="chooseFileBtn">＋ Choose File</button><p class="upload-file-name" id="uploadFileName">No file selected</p><p class="upload-note">This selects a local file only. It does not upload or share it.</p></div></div>
-<footer>© 2026 PAZZAN.COM — Pasan Aroosha. All rights reserved.</footer>
+<footer>© 2026 Pasan — Pasan Aroosha. All rights reserved.</footer>
 <script>
 const menuBtn=document.getElementById("menuBtn"),navLinks=document.getElementById("navLinks");
 function closeMenu(){navLinks.classList.remove("active");menuBtn.setAttribute("aria-expanded","false");menuBtn.setAttribute("aria-label","Open menu");menuBtn.textContent="☰"}
