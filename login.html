@@ -1,169 +1,832 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login | PAZZAN.COM</title>
-  <style>
-    *{box-sizing:border-box}
-    body{
-      margin:0;min-height:100vh;display:grid;place-items:center;
-      padding:20px;font-family:Arial,sans-serif;color:#f4fff9;
-      background:radial-gradient(ellipse at top right,#073b2a,transparent 50%),#05080d
-    }
-    .box{
-      width:100%;max-width:400px;padding:30px;border:1px solid #39ff88;
-      border-radius:20px;background:rgba(9,19,29,.94);
-      box-shadow:0 0 30px #39ff8820
-    }
-    h1{text-align:center;color:#39ff88}
-    p{text-align:center;color:#b4bfd0}
-    input,button{
-      width:100%;padding:14px;margin-top:13px;border-radius:10px;
-      font-size:16px
-    }
-    input{background:#080e15;color:white;border:1px solid #385248}
-    button{cursor:pointer;border:0;font-weight:bold;background:#39ff88;color:#06130b}
-    button.secondary{background:transparent;color:#39ff88;border:1px solid #39ff88}
-    #message{overflow-wrap:anywhere;font-size:14px;line-height:1.5}
-    a{color:#39ff88}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PAZZAN.COM | Gaming Login</title>
+
+<style>
+:root {
+  --green: #39ff88;
+  --cyan: #00e5ff;
+  --blue: #1677ff;
+  --purple: #9b5cff;
+  --pink: #ff2bd6;
+  --bg: #030610;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: var(--bg);
+  color: #f4fff9;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* GAMING ROOM BACKGROUND */
+.gaming-room {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  z-index: -2;
+  background:
+    radial-gradient(ellipse at 15% 35%, #003d7470, transparent 40%),
+    radial-gradient(ellipse at 85% 25%, #6500a850, transparent 40%),
+    radial-gradient(ellipse at 50% 100%, #002c6260, transparent 50%),
+    #030610;
+}
+
+.neon-glow {
+  position: absolute;
+  width: 380px;
+  height: 380px;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: .45;
+  animation: glowMove 9s ease-in-out infinite alternate;
+}
+
+.glow-one {
+  background: var(--cyan);
+  left: -180px;
+  top: 10%;
+}
+
+.glow-two {
+  background: var(--purple);
+  right: -180px;
+  top: 25%;
+  animation-delay: -3s;
+}
+
+.glow-three {
+  background: var(--pink);
+  left: 35%;
+  bottom: -300px;
+  animation-delay: -5s;
+}
+
+@keyframes glowMove {
+  from { transform: translate(0, 0) scale(.85); }
+  to { transform: translate(90px, 50px) scale(1.2); }
+}
+
+/* ANIMATED NEON GRID */
+.grid-floor {
+  position: absolute;
+  left: -50%;
+  bottom: -25%;
+  width: 200%;
+  height: 65%;
+  opacity: .38;
+  background-image:
+    linear-gradient(#00e5ff60 1px, transparent 1px),
+    linear-gradient(90deg, #00e5ff60 1px, transparent 1px);
+  background-size: 55px 45px;
+  transform: perspective(280px) rotateX(58deg);
+  transform-origin: top;
+  animation: gridMove 4s linear infinite;
+  mask-image: linear-gradient(to bottom, transparent, black 35%);
+}
+
+@keyframes gridMove {
+  from { background-position: 0 0; }
+  to { background-position: 0 45px; }
+}
+
+/* FLOATING LIGHTS */
+.particles {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle, #39ff88 1.5px, transparent 2px),
+    radial-gradient(circle, #00e5ff 1px, transparent 2px),
+    radial-gradient(circle, #ff2bd6 1.5px, transparent 2px);
+  background-size: 130px 150px, 190px 210px, 230px 180px;
+  background-position: 0 0, 60px 70px, 100px 30px;
+  opacity: .35;
+  animation: particlesMove 18s linear infinite;
+}
+
+@keyframes particlesMove {
+  from { transform: translateY(0); }
+  to { transform: translateY(-180px); }
+}
+
+/* TOP NAVIGATION */
+header {
+  position: relative;
+  z-index: 5;
+  min-height: 76px;
+  padding: 15px 5%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  border-bottom: 1px solid #00e5ff50;
+  background: #030610b8;
+  backdrop-filter: blur(15px);
+}
+
+.logo {
+  color: var(--green);
+  font-size: clamp(20px, 4vw, 29px);
+  font-weight: 900;
+  text-decoration: none;
+  text-shadow: 0 0 15px #39ff8845;
+}
+
+.logo span {
+  color: var(--cyan);
+}
+
+.nav-link {
+  color: var(--cyan);
+  text-decoration: none;
+  font-size: 14px;
+}
+
+/* MAIN LAYOUT */
+main {
+  position: relative;
+  z-index: 1;
+  width: min(1080px, 92%);
+  margin: 45px auto 25px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 35px;
+  align-items: center;
+}
+
+/* GAMER ANIMATION SECTION */
+.gamer-scene {
+  position: relative;
+  min-height: 440px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 22px;
+  border: 1px solid #00e5ff45;
+  background:
+    linear-gradient(180deg, #08142acc, #030610dd),
+    radial-gradient(circle at 50% 40%, #123d7d, #030610);
+  box-shadow: inset 0 0 45px #006aff20;
+}
+
+.scene-light {
+  position: absolute;
+  width: 75%;
+  height: 3px;
+  top: 22%;
+  background: var(--cyan);
+  box-shadow: 0 0 10px var(--cyan), 0 0 25px var(--cyan);
+  animation: lightPulse 2s ease-in-out infinite alternate;
+}
+
+.scene-light.bottom {
+  top: auto;
+  bottom: 17%;
+  background: var(--pink);
+  box-shadow: 0 0 10px var(--pink), 0 0 25px var(--pink);
+  animation-delay: -1s;
+}
+
+@keyframes lightPulse {
+  from { opacity: .35; transform: scaleX(.55); }
+  to { opacity: 1; transform: scaleX(1); }
+}
+
+.scene-copy {
+  position: absolute;
+  top: 28px;
+  left: 22px;
+  z-index: 2;
+}
+
+.scene-copy small {
+  color: var(--cyan);
+  letter-spacing: 4px;
+  font-weight: bold;
+}
+
+.scene-copy h2 {
+  margin-top: 12px;
+  font-size: clamp(27px, 4vw, 40px);
+  line-height: 1.15;
+}
+
+.scene-copy h2 span {
+  color: var(--green);
+  text-shadow: 0 0 18px #39ff8850;
+}
+
+.scene-copy p {
+  color: #a6c9ec;
+  margin-top: 12px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* DESK AND MONITOR */
+.desk {
+  position: absolute;
+  bottom: 18%;
+  width: 78%;
+  height: 8px;
+  background: linear-gradient(90deg, var(--purple), var(--cyan), var(--green));
+  box-shadow: 0 0 18px #00e5ff90;
+}
+
+.monitor {
+  position: absolute;
+  bottom: calc(18% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 53%;
+  height: 26%;
+  border: 4px solid #152c50;
+  border-radius: 9px;
+  background:
+    radial-gradient(circle at 50% 40%, #0087ff, transparent 35%),
+    linear-gradient(135deg, #051329, #09224b 50%, #1a0645);
+  box-shadow: 0 0 20px #1677ff70, inset 0 0 20px #00e5ff20;
+  animation: monitorGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes monitorGlow {
+  from { box-shadow: 0 0 12px #1677ff60; }
+  to { box-shadow: 0 0 30px #00e5ff90; }
+}
+
+.monitor::before {
+  content: "PAZZAN.COM";
+  position: absolute;
+  top: 40%;
+  width: 100%;
+  text-align: center;
+  color: var(--green);
+  font-weight: 900;
+  font-size: clamp(10px, 1.7vw, 16px);
+  text-shadow: 0 0 10px var(--green);
+}
+
+.monitor::after {
+  content: "";
+  position: absolute;
+  left: 45%;
+  bottom: -23px;
+  height: 20px;
+  width: 10%;
+  background: #183252;
+  box-shadow: 0 18px 0 10px #183252;
+}
+
+/* GAMER CHARACTER */
+.gamer {
+  position: absolute;
+  bottom: 18%;
+  left: 5%;
+  z-index: 2;
+  font-size: 76px;
+  transform-origin: bottom center;
+  animation: gamerMove 4s ease-in-out infinite;
+  filter: drop-shadow(0 0 15px #00e5ff70);
+}
+
+@keyframes gamerMove {
+  0%, 100% { transform: translateX(0) rotate(-3deg); }
+  50% { transform: translateX(22px) rotate(3deg); }
+}
+
+.headphones {
+  position: absolute;
+  top: -8px;
+  right: 4px;
+  width: 37px;
+  height: 43px;
+  border: 5px solid var(--cyan);
+  border-bottom-color: transparent;
+  border-radius: 50% 50% 20% 20%;
+  filter: drop-shadow(0 0 6px var(--cyan));
+}
+
+/* LOGIN CARD */
+.login-card {
+  position: relative;
+  padding: 30px;
+  border: 1px solid transparent;
+  border-radius: 20px;
+  background:
+    linear-gradient(#050b19f5, #050b19f5) padding-box,
+    linear-gradient(135deg, var(--green), var(--cyan), var(--purple), var(--pink)) border-box;
+  box-shadow: 0 0 35px #00e5ff15, 0 0 65px #9b5cff12;
+  animation: cardAppear .8s ease-out both, cardGlow 6s linear infinite;
+}
+
+@keyframes cardAppear {
+  from { opacity: 0; transform: translateY(25px) scale(.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes cardGlow {
+  0%, 100% { box-shadow: 0 0 25px #00e5ff15; }
+  50% { box-shadow: 0 0 40px #9b5cff28; }
+}
+
+.card-brand {
+  text-align: center;
+  color: var(--green);
+  font-size: clamp(25px, 4vw, 35px);
+  font-weight: 900;
+  letter-spacing: -1px;
+}
+
+.card-brand span {
+  color: var(--cyan);
+}
+
+.tagline {
+  text-align: center;
+  color: #80dff2;
+  font-size: 10px;
+  letter-spacing: 3px;
+  margin: 10px 0 25px;
+}
+
+.welcome {
+  text-align: center;
+  color: var(--green);
+  letter-spacing: 3px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.login-card h1 {
+  margin-top: 10px;
+  text-align: center;
+  font-size: clamp(25px, 4vw, 32px);
+}
+
+.login-card h1 span {
+  color: var(--green);
+}
+
+.description {
+  margin: 12px 0 24px;
+  color: #8fb5d4;
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* INPUTS */
+.input-wrap {
+  position: relative;
+  margin-bottom: 13px;
+}
+
+.input-wrap .field-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 19px;
+  color: var(--cyan);
+  pointer-events: none;
+}
+
+.input-wrap input {
+  width: 100%;
+  min-height: 54px;
+  padding: 15px 43px;
+  border-radius: 10px;
+  outline: none;
+  border: 1px solid #205a79;
+  color: white;
+  background: #061426;
+  font-size: 15px;
+  transition: .25s;
+}
+
+.input-wrap input::placeholder {
+  color: #8bb6d2;
+}
+
+.input-wrap input:focus {
+  border-color: var(--cyan);
+  box-shadow: 0 0 15px #00e5ff28;
+}
+
+#togglePassword {
+  position: absolute;
+  right: 9px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 32px;
+  min-height: 32px;
+  padding: 4px;
+  color: var(--cyan);
+  background: transparent;
+  box-shadow: none;
+}
+
+/* BUTTONS */
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+.login-button, .create-button {
+  width: 100%;
+  min-height: 53px;
+  padding: 13px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 800;
+  transition: transform .2s, box-shadow .2s;
+}
+
+.login-button {
+  margin-top: 5px;
+  color: #00130b;
+  background: linear-gradient(100deg, var(--green), #00f5c8);
+  box-shadow: 0 0 22px #00ff9940;
+}
+
+.login-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 28px #00ff9970;
+}
+
+.create-button {
+  margin-top: 12px;
+  color: var(--cyan);
+  border: 1px solid var(--cyan);
+  background: #041426;
+}
+
+.create-button:hover {
+  background: #00e5ff13;
+  box-shadow: 0 0 15px #00e5ff25;
+}
+
+button:disabled {
+  opacity: .7;
+  cursor: wait;
+  transform: none;
+}
+
+.spinner {
+  display: inline-block;
+  width: 17px;
+  height: 17px;
+  margin-right: 8px;
+  vertical-align: middle;
+  border: 2px solid #064e34;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.or-divider {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  color: var(--cyan);
+  font-size: 12px;
+  margin: 22px 0;
+}
+
+.or-divider::before, .or-divider::after {
+  content: "";
+  height: 1px;
+  flex: 1;
+  background: #087c9a;
+}
+
+.back-link {
+  display: block;
+  text-align: center;
+  color: var(--green);
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.back-link:hover {
+  text-shadow: 0 0 12px var(--green);
+}
+
+.message {
+  margin-top: 14px;
+  text-align: center;
+  color: #b9f8d5;
+  font-size: 13px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.security {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 11px;
+  color: #6fb4d4;
+  letter-spacing: .5px;
+}
+
+footer {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 25px 10px 30px;
+  color: #79b4c9;
+  font-size: 12px;
+  letter-spacing: 2px;
+}
+
+/* MOBILE */
+@media (max-width: 760px) {
+  header { min-height: 65px; }
+  main {
+    grid-template-columns: 1fr;
+    width: min(460px, 92%);
+    margin-top: 25px;
+    gap: 22px;
+  }
+  .gamer-scene { min-height: 260px; }
+  .scene-copy h2 { font-size: 30px; }
+  .gamer { font-size: 58px; }
+  .login-card { padding: 25px 20px; }
+  .grid-floor { bottom: -20%; }
+}
+
+@media (max-width: 360px) {
+  .login-card { padding: 22px 15px; }
+  .logo { font-size: 19px; }
+  .nav-link { font-size: 12px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+</style>
 </head>
+
 <body>
-  <main class="box">
-    <h1>PAZZAN.COM</h1>
-    <p id="heading">Login to your account</p>
+
+<div class="gaming-room" aria-hidden="true">
+  <div class="neon-glow glow-one"></div>
+  <div class="neon-glow glow-two"></div>
+  <div class="neon-glow glow-three"></div>
+  <div class="grid-floor"></div>
+  <div class="particles"></div>
+</div>
+
+<header>
+  <a class="logo" href="index.html">PAZZAN<span>.COM</span></a>
+  <a class="nav-link" href="index.html">← Website</a>
+</header>
+
+<main>
+
+  <section class="gamer-scene" aria-label="Animated gaming scene">
+    <div class="scene-light"></div>
+    <div class="scene-light bottom"></div>
+
+    <div class="scene-copy">
+      <small>ENTER THE NEXT LEVEL</small>
+      <h2>DREAM.<br><span>CODE.</span><br>PLAY.</h2>
+      <p>Your world. Your tools.<br>Your story.</p>
+    </div>
+
+    <div class="monitor"></div>
+    <div class="desk"></div>
+
+    <div class="gamer" aria-hidden="true">
+      🧑🏻‍💻
+      <div class="headphones"></div>
+    </div>
+  </section>
+
+  <section class="login-card">
+    <div class="card-brand">PAZZAN<span>.COM</span></div>
+    <div class="tagline">YOUR WORLD • YOUR TOOLS • YOUR STORY</div>
+
+    <div class="welcome" id="welcomeText">WELCOME BACK</div>
+    <h1 id="heading">Login to Your <span>Account</span></h1>
+    <p class="description" id="description">
+      Access your dashboard, tools and more.
+    </p>
 
     <form id="authForm">
-      <input id="email" type="email" placeholder="Email address" required autocomplete="email">
-      <input id="password" type="password" placeholder="Password" required minlength="6" autocomplete="current-password">
-      <button id="submitBtn" type="submit">Login</button>
+      <div class="input-wrap">
+        <span class="field-icon">✉</span>
+        <input
+          id="email"
+          type="email"
+          placeholder="Email address"
+          autocomplete="email"
+          required
+        >
+      </div>
+
+      <div class="input-wrap">
+        <span class="field-icon">🔒</span>
+        <input
+          id="password"
+          type="password"
+          placeholder="Password"
+          autocomplete="current-password"
+          minlength="6"
+          required
+        >
+        <button id="togglePassword" type="button" aria-label="Show password">◉</button>
+      </div>
+
+      <button class="login-button" id="submitBtn" type="submit">
+        ⇥ &nbsp; Login
+      </button>
     </form>
 
-    <button id="toggleBtn" class="secondary" type="button">Create New Account</button>
-    <p id="message" role="status"></p>
-    <p><a href="index.html">Back to Website</a></p>
-  </main>
+    <button class="create-button" id="toggleMode" type="button">
+      ♙ &nbsp; Create New Account
+    </button>
 
-  <script type="module">
-    import { initializeApp } from
-      "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+    <div class="or-divider">OR</div>
 
-    import {
-      getAuth,
-      setPersistence,
-      browserLocalPersistence,
-      onAuthStateChanged,
-      signInWithEmailAndPassword,
-      createUserWithEmailAndPassword,
-      signOut
-    } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+    <a href="index.html" class="back-link">← &nbsp; Back to Website</a>
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyB3G98XBTZH6NFiZx6NQmyEKR8g6vnSYNQ",
-      authDomain: "pasan-fc8e2.firebaseapp.com",
-      projectId: "pasan-fc8e2",
-      storageBucket: "pasan-fc8e2.firebasestorage.app",
-      messagingSenderId: "330282693990",
-      appId: "1:330282693990:web:f754a4a09efaa73ab5c4a7",
-      measurementId: "G-B12LL33EQ3"
+    <p class="message" id="message" role="status" aria-live="polite"></p>
+
+    <div class="security">♢ Secure Login &nbsp; • &nbsp; Firebase Authentication</div>
+  </section>
+
+</main>
+
+<footer>© 2026 PAZZAN.COM</footer>
+
+<script type="module">
+import { initializeApp } from
+  "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+
+import {
+  getAuth,
+  setPersistence,
+  browserLocalPersistence,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyB3G98XBTZH6NFiZx6NQmyEKR8g6vnSYNQ",
+  authDomain: "pasan-fc8e2.firebaseapp.com",
+  projectId: "pasan-fc8e2",
+  storageBucket: "pasan-fc8e2.firebasestorage.app",
+  messagingSenderId: "330282693990",
+  appId: "1:330282693990:web:f754a4a09efaa73ab5c4a7",
+  measurementId: "G-B12LL33EQ3"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+const form = document.getElementById("authForm");
+const emailInput = document.getElementById("email");
+const passwordInput = document.getElementById("password");
+const submitBtn = document.getElementById("submitBtn");
+const toggleMode = document.getElementById("toggleMode");
+const message = document.getElementById("message");
+
+let createMode = false;
+let submitting = false;
+
+function redirectTarget() {
+  const target = new URLSearchParams(location.search).get("redirect");
+  return target === "dashboard.html" ? "dashboard.html" : "index.html";
+}
+
+function showMessage(text) {
+  message.textContent = text;
+}
+
+function updateMode() {
+  document.getElementById("welcomeText").textContent =
+    createMode ? "JOIN THE COMMUNITY" : "WELCOME BACK";
+
+  document.getElementById("heading").innerHTML = createMode
+    ? 'Create Your <span>Account</span>'
+    : 'Login to Your <span>Account</span>';
+
+  document.getElementById("description").textContent = createMode
+    ? "Create your PAZZAN account and enter the next level."
+    : "Access your dashboard, tools and more.";
+
+  submitBtn.textContent = createMode ? "♙  Create Account" : "⇥  Login";
+
+  toggleMode.textContent = createMode
+    ? "I Already Have an Account"
+    : "♙  Create New Account";
+
+  passwordInput.autocomplete = createMode ? "new-password" : "current-password";
+  showMessage("");
+}
+
+document.getElementById("togglePassword").addEventListener("click", () => {
+  const hidden = passwordInput.type === "password";
+  passwordInput.type = hidden ? "text" : "password";
+  document.getElementById("togglePassword").textContent = hidden ? "◎" : "◉";
+  document.getElementById("togglePassword").setAttribute(
+    "aria-label", hidden ? "Hide password" : "Show password"
+  );
+});
+
+toggleMode.addEventListener("click", () => {
+  createMode = !createMode;
+  updateMode();
+});
+
+form.addEventListener("submit", async event => {
+  event.preventDefault();
+
+  if (submitting) return;
+
+  submitting = true;
+  submitBtn.disabled = true;
+  toggleMode.disabled = true;
+  submitBtn.innerHTML = '<span class="spinner"></span>Connecting...';
+  showMessage("Connecting securely to Firebase...");
+
+  try {
+    await setPersistence(auth, browserLocalPersistence);
+
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
+
+    if (createMode) {
+      await createUserWithEmailAndPassword(auth, email, password);
+    } else {
+      await signInWithEmailAndPassword(auth, email, password);
+    }
+
+    showMessage("Login successful! Opening your page...");
+    submitBtn.innerHTML = '<span class="spinner"></span>Success...';
+
+    location.replace(redirectTarget());
+
+  } catch (error) {
+    const errors = {
+      "auth/email-already-in-use":
+        "This email already has an account. Please login.",
+      "auth/invalid-email":
+        "Please enter a valid email address.",
+      "auth/weak-password":
+        "Please use at least 6 characters for your password.",
+      "auth/invalid-credential":
+        "Incorrect email or password.",
+      "auth/network-request-failed":
+        "Network error. Please check your internet connection.",
+      "auth/operation-not-allowed":
+        "Enable Email/Password login in Firebase Console."
     };
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
+    showMessage(errors[error.code] || "Login error: " + error.message);
 
-    const form = document.getElementById("authForm");
-    const emailInput = document.getElementById("email");
-    const passwordInput = document.getElementById("password");
-    const submitBtn = document.getElementById("submitBtn");
-    const toggleBtn = document.getElementById("toggleBtn");
-    const heading = document.getElementById("heading");
-    const message = document.getElementById("message");
+    submitting = false;
+    submitBtn.disabled = false;
+    toggleMode.disabled = false;
+    updateMode();
+  }
+});
 
-    let createMode = false;
-    let submitting = false;
+async function initializeLogin() {
+  await setPersistence(auth, browserLocalPersistence);
 
-    function showMessage(text) {
-      message.textContent = text;
+  onAuthStateChanged(auth, user => {
+    if (user && !submitting) {
+      showMessage("You are already logged in. Opening your page...");
+      location.replace(redirectTarget());
     }
+  });
+}
 
-    function getRedirectTarget() {
-      const params = new URLSearchParams(location.search);
-      const target = params.get("redirect");
+initializeLogin().catch(error => {
+  showMessage("Firebase setup error: " + error.message);
+});
+</script>
 
-      // Only permit known pages on this same website.
-      if (target === "dashboard.html") return "dashboard.html";
-      if (target === "index.html") return "index.html";
-      return "index.html";
-    }
-
-    async function start() {
-      await setPersistence(auth, browserLocalPersistence);
-
-      onAuthStateChanged(auth, user => {
-        if (user && !submitting) {
-          showMessage("Already logged in. Opening website...");
-          location.replace(getRedirectTarget());
-        }
-      });
-    }
-
-    toggleBtn.addEventListener("click", () => {
-      createMode = !createMode;
-      heading.textContent = createMode
-        ? "Create a new account"
-        : "Login to your account";
-      submitBtn.textContent = createMode ? "Create Account" : "Login";
-      toggleBtn.textContent = createMode
-        ? "I Already Have an Account"
-        : "Create New Account";
-      passwordInput.autocomplete = createMode ? "new-password" : "current-password";
-      showMessage("");
-    });
-
-    form.addEventListener("submit", async event => {
-      event.preventDefault();
-      if (submitting) return;
-
-      submitting = true;
-      submitBtn.disabled = true;
-      showMessage("Please wait...");
-
-      try {
-        await setPersistence(auth, browserLocalPersistence);
-
-        const email = emailInput.value.trim();
-        const password = passwordInput.value;
-
-        if (createMode) {
-          await createUserWithEmailAndPassword(auth, email, password);
-          showMessage("Account created successfully. Opening website...");
-        } else {
-          await signInWithEmailAndPassword(auth, email, password);
-          showMessage("Login successful. Opening website...");
-        }
-
-        location.replace(getRedirectTarget());
-      } catch (error) {
-        const messages = {
-          "auth/email-already-in-use": "This email already has an account. Please login.",
-          "auth/invalid-email": "Please enter a valid email address.",
-          "auth/weak-password": "Use a password with at least 6 characters.",
-          "auth/invalid-credential": "Incorrect email or password.",
-          "auth/network-request-failed": "Network error. Check your internet connection.",
-          "auth/operation-not-allowed": "Enable Email/Password sign-in in Firebase Console."
-        };
-
-        showMessage(messages[error.code] || "Error: " + error.message);
-      } finally {
-        submitting = false;
-        submitBtn.disabled = false;
-      }
-    });
-
-    start().catch(error => {
-      showMessage("Firebase setup error: " + error.message);
-    });
-  </script>
 </body>
 </html>
