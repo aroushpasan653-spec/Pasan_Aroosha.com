@@ -4,67 +4,89 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TikTok MP3 Converter | PAZZAN.COM</title>
+  <meta name="theme-color" content="#05080d">
+  <title>TikTok Video Downloader | PAZZAN.COM</title>
 
   <style>
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
       min-height: 100vh;
-      padding: 24px;
+      padding: 20px;
       display: grid;
       place-items: center;
-      background: #070b16;
-      color: #fff;
+      background:
+        radial-gradient(ellipse at top, #14302a 0%, transparent 48%),
+        #05080d;
+      color: #f8fafc;
       font-family: Arial, sans-serif;
     }
 
     .converter {
       width: 100%;
-      max-width: 520px;
+      max-width: 540px;
       padding: 28px;
-      border: 1px solid #a855f7;
-      border-radius: 20px;
-      background: #101729;
-      box-shadow: 0 0 28px #9333ea30;
+      border: 1px solid #39ff88;
+      border-radius: 22px;
+      background: rgba(9, 19, 29, .97);
+      box-shadow: 0 0 30px #39ff8820;
     }
 
     .logo {
-      color: #c084fc;
-      font-weight: bold;
-      letter-spacing: 2px;
+      color: #39ff88;
+      font-weight: 800;
+      letter-spacing: 3px;
+      font-size: 14px;
     }
 
     h1 {
-      font-size: 28px;
-      margin-bottom: 8px;
+      font-size: clamp(25px, 6vw, 34px);
+      margin: 22px 0 12px;
     }
 
     .description {
-      color: #cbd5e1;
-      line-height: 1.6;
+      color: #b4bfd0;
+      line-height: 1.7;
+      font-size: 15px;
+    }
+
+    label {
+      display: block;
+      margin-top: 24px;
+      margin-bottom: 8px;
+      font-size: 14px;
+      color: #d1fae5;
     }
 
     input, button {
       width: 100%;
+      min-height: 50px;
       padding: 14px;
-      margin-top: 14px;
-      border-radius: 10px;
-      font-size: 16px;
+      border-radius: 11px;
+      font-size: 15px;
     }
 
     input {
-      border: 1px solid #475569;
+      border: 1px solid #36534b;
+      background: #050b11;
       color: #fff;
-      background: #080d19;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #39ff88;
+      box-shadow: 0 0 0 2px #39ff8820;
     }
 
     button {
+      margin-top: 14px;
       border: 0;
-      background: linear-gradient(90deg, #7c3aed, #c026d3);
-      color: white;
-      font-weight: bold;
+      background: linear-gradient(90deg, #39ff88, #00e5ff);
+      color: #04110b;
+      font-weight: 800;
       cursor: pointer;
     }
 
@@ -74,33 +96,40 @@
     }
 
     #status {
+      margin-top: 20px;
+      padding: 12px;
+      border-radius: 10px;
+      background: #050b11;
+      color: #cbd5e1;
       overflow-wrap: anywhere;
-      line-height: 1.6;
-      color: #ddd6fe;
+      line-height: 1.7;
+      font-size: 14px;
     }
 
     #downloadLink {
       display: none;
-      margin-top: 16px;
-      padding: 14px;
-      text-align: center;
+      margin-top: 14px;
+      padding: 15px;
       border-radius: 10px;
+      text-align: center;
       background: #14532d;
-      color: #fff;
-      text-decoration: none;
-    }
-
-    .back {
-      display: inline-block;
-      margin-top: 22px;
-      color: #c084fc;
+      color: white;
+      font-weight: bold;
       text-decoration: none;
     }
 
     .note {
       color: #94a3b8;
       font-size: 12px;
-      line-height: 1.5;
+      line-height: 1.7;
+      margin-top: 20px;
+    }
+
+    .back {
+      display: inline-block;
+      margin-top: 20px;
+      color: #39ff88;
+      text-decoration: none;
     }
   </style>
 </head>
@@ -108,56 +137,54 @@
 <body>
   <main class="converter">
     <div class="logo">PAZZAN.COM</div>
-    <h1>🎵 TikTok MP3 Converter</h1>
+
+    <h1>📥 TikTok Video Downloader</h1>
 
     <p class="description">
-      Paste a video URL below. Conversion requires a configured
-      backend and media you own or have permission to use.
+      Paste a TikTok video link below. When a compatible,
+      authorized media provider is connected, its download
+      options can be displayed here.
     </p>
 
     <form id="convertForm">
+      <label for="videoUrl">TikTok video URL</label>
+
       <input
         id="videoUrl"
         type="url"
-        placeholder="Paste video URL here..."
-        aria-label="Video URL"
+        placeholder="https://www.tiktok.com/..."
+        autocomplete="url"
         required
       >
 
       <button id="convertButton" type="submit">
-        Convert to MP3
+        Check Video Link
       </button>
     </form>
 
     <p id="status" role="status" aria-live="polite">
-      Ready. Paste a supported video URL to begin.
+      Ready. Paste a TikTok link to begin.
     </p>
 
-    <a id="downloadLink" href="#">Download MP3</a>
+    <a
+      id="downloadLink"
+      href="#"
+      target="_blank"
+      rel="noopener noreferrer"
+    >Open Download</a>
 
     <p class="note">
-      Only convert content you own or have permission to use.
-      A backend endpoint must be configured before conversion can work.
+      The backend must be connected to a permitted media provider
+      before actual video downloads can work. Only download videos
+      you own or are authorized to download.
     </p>
 
     <a class="back" href="index.html">← Back to Home</a>
   </main>
 
   <script>
-    /*
-      IMPORTANT:
-      Replace this placeholder with your own deployed backend URL.
-      Example format: https://your-service.example.com/convert
-
-      The backend must accept POST JSON:
-      { "url": "https://..." }
-
-      It should return JSON:
-      { "downloadUrl": "https://..." }
-
-      Do not put private API keys in this public HTML file.
-    */
-    const API_URL = "YOUR_BACKEND_CONVERT_ENDPOINT";
+    const API_URL =
+      "https://pazzan-media-api.aroushpasan653.workers.dev/";
 
     const form = document.getElementById("convertForm");
     const input = document.getElementById("videoUrl");
@@ -165,33 +192,44 @@
     const status = document.getElementById("status");
     const downloadLink = document.getElementById("downloadLink");
 
+    const allowedHosts = [
+      "tiktok.com",
+      "www.tiktok.com",
+      "m.tiktok.com",
+      "vm.tiktok.com",
+      "vt.tiktok.com"
+    ];
+
+    function isTikTokHost(hostname) {
+      return allowedHosts.includes(hostname.toLowerCase());
+    }
+
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
 
       downloadLink.style.display = "none";
 
-      let parsedUrl;
+      let videoUrl;
 
       try {
-        parsedUrl = new URL(input.value.trim());
+        videoUrl = new URL(input.value.trim());
       } catch {
         status.textContent = "Please enter a valid video URL.";
         return;
       }
 
-      if (!["https:", "http:"].includes(parsedUrl.protocol)) {
-        status.textContent = "Please enter an HTTP or HTTPS video URL.";
-        return;
-      }
-
-      if (API_URL === "YOUR_BACKEND_CONVERT_ENDPOINT") {
+      if (
+        videoUrl.protocol !== "https:" ||
+        !isTikTokHost(videoUrl.hostname)
+      ) {
         status.textContent =
-          "Backend is not connected yet. Deploy your conversion API and add its URL to this file.";
+          "Please enter a valid HTTPS TikTok link.";
         return;
       }
 
       button.disabled = true;
-      status.textContent = "Sending URL to the conversion service...";
+      button.textContent = "Checking...";
+      status.textContent = "Connecting to PAZZAN media service...";
 
       try {
         const response = await fetch(API_URL, {
@@ -200,36 +238,50 @@
             "Content-Type": "application/json"
           },
           body: JSON.stringify({
-            url: parsedUrl.href
+            url: videoUrl.href
           })
         });
 
-        if (!response.ok) {
-          throw new Error("The conversion service returned an error.");
+        const result = await response.json().catch(() => ({}));
+
+        if (response.status === 501) {
+          status.textContent =
+            "The backend is connected, but a compatible media provider " +
+            "has not been configured yet. Actual downloading is not " +
+            "available until that setup is complete.";
+          return;
         }
 
-        const result = await response.json();
+        if (!response.ok) {
+          throw new Error(
+            result.error || "The media service returned an error."
+          );
+        }
 
         if (!result.downloadUrl) {
-          throw new Error("The service did not return a download URL.");
+          status.textContent =
+            result.error ||
+            "The service did not provide a download URL.";
+          return;
         }
 
         const fileUrl = new URL(result.downloadUrl);
 
-        if (fileUrl.protocol !== "https:" &&
-            fileUrl.protocol !== "http:") {
-          throw new Error("The download URL is invalid.");
+        if (fileUrl.protocol !== "https:") {
+          throw new Error("The download URL must use HTTPS.");
         }
 
         downloadLink.href = fileUrl.href;
         downloadLink.style.display = "block";
-        downloadLink.textContent = "Download MP3";
-        status.textContent = "Your conversion is ready.";
+        status.textContent = "A download option is available.";
       } catch (error) {
         status.textContent =
-          error.message || "Conversion failed. Please try again.";
+          "Could not contact the media service. Check the Worker " +
+          "configuration and try again. " +
+          (error.message || "");
       } finally {
         button.disabled = false;
+        button.textContent = "Check Video Link";
       }
     });
   </script>
