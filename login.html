@@ -1,219 +1,48 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#05080d">
   <title>Login | PAZZAN.COM</title>
-
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    *{box-sizing:border-box}
+    body{
+      margin:0;min-height:100vh;display:grid;place-items:center;
+      padding:20px;font-family:Arial,sans-serif;color:#f4fff9;
+      background:radial-gradient(ellipse at top right,#073b2a,transparent 50%),#05080d
     }
-
-    body {
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-      color: #f3fff9;
-      font-family: Arial, sans-serif;
-      background:
-        radial-gradient(ellipse at top left, #103b2b, transparent 45%),
-        radial-gradient(ellipse at bottom right, #102b3b, transparent 40%),
-        #05080d;
+    .box{
+      width:100%;max-width:400px;padding:30px;border:1px solid #39ff88;
+      border-radius:20px;background:rgba(9,19,29,.94);
+      box-shadow:0 0 30px #39ff8820
     }
-
-    .login-card {
-      width: 100%;
-      max-width: 420px;
-      padding: 30px 25px;
-      background: rgba(10, 20, 28, .94);
-      border: 1px solid #36f5a0;
-      border-radius: 20px;
-      box-shadow: 0 0 30px rgba(54, 245, 160, .12);
+    h1{text-align:center;color:#39ff88}
+    p{text-align:center;color:#b4bfd0}
+    input,button{
+      width:100%;padding:14px;margin-top:13px;border-radius:10px;
+      font-size:16px
     }
-
-    .logo {
-      text-align: center;
-      font-size: 27px;
-      font-weight: 900;
-      color: #36f5a0;
-      letter-spacing: 1px;
-      margin-bottom: 12px;
-    }
-
-    h1 {
-      text-align: center;
-      font-size: 25px;
-      margin-bottom: 10px;
-    }
-
-    .subtitle {
-      color: #a6b8b0;
-      text-align: center;
-      font-size: 14px;
-      line-height: 1.6;
-      margin-bottom: 25px;
-    }
-
-    label {
-      display: block;
-      margin: 16px 0 8px;
-      font-size: 14px;
-      color: #dcece4;
-    }
-
-    input {
-      display: block;
-      width: 100%;
-      padding: 14px;
-      color: white;
-      background: #07100d;
-      border: 1px solid #254b3c;
-      border-radius: 10px;
-      outline: none;
-      font-size: 15px;
-    }
-
-    input:focus {
-      border-color: #36f5a0;
-      box-shadow: 0 0 10px rgba(54, 245, 160, .12);
-    }
-
-    .main-button {
-      width: 100%;
-      padding: 14px;
-      margin-top: 20px;
-      border: none;
-      border-radius: 10px;
-      background: #36f5a0;
-      color: #03120a;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .main-button:disabled {
-      opacity: .6;
-      cursor: wait;
-    }
-
-    .switch-text {
-      text-align: center;
-      margin-top: 20px;
-      color: #a6b8b0;
-      font-size: 14px;
-    }
-
-    .switch-button {
-      border: none;
-      background: none;
-      color: #36f5a0;
-      cursor: pointer;
-      font-weight: bold;
-      font-size: 14px;
-      padding: 5px;
-    }
-
-    .message {
-      display: none;
-      margin-top: 17px;
-      padding: 12px;
-      border-radius: 9px;
-      font-size: 13px;
-      line-height: 1.5;
-      overflow-wrap: anywhere;
-    }
-
-    .message.error {
-      display: block;
-      background: #321818;
-      border: 1px solid #a94747;
-      color: #ffc4c4;
-    }
-
-    .message.success {
-      display: block;
-      background: #10271c;
-      border: 1px solid #36f5a0;
-      color: #b8ffdc;
-    }
-
-    .back-link {
-      display: block;
-      text-align: center;
-      margin-top: 24px;
-      color: #36f5a0;
-      text-decoration: none;
-      font-size: 14px;
-    }
-
-    .hidden {
-      display: none;
-    }
+    input{background:#080e15;color:white;border:1px solid #385248}
+    button{cursor:pointer;border:0;font-weight:bold;background:#39ff88;color:#06130b}
+    button.secondary{background:transparent;color:#39ff88;border:1px solid #39ff88}
+    #message{overflow-wrap:anywhere;font-size:14px;line-height:1.5}
+    a{color:#39ff88}
   </style>
 </head>
-
 <body>
-  <main class="login-card">
-    <div class="logo">PAZZAN.COM</div>
-
-    <h1 id="heading">Welcome Back</h1>
-    <p class="subtitle" id="subtitle">
-      Sign in to your account to continue.
-    </p>
+  <main class="box">
+    <h1>PAZZAN.COM</h1>
+    <p id="heading">Login to your account</p>
 
     <form id="authForm">
-      <label for="email">Email address</label>
-      <input
-        id="email"
-        type="email"
-        autocomplete="email"
-        placeholder="Enter your email"
-        required
-      >
-
-      <label for="password">Password</label>
-      <input
-        id="password"
-        type="password"
-        autocomplete="current-password"
-        placeholder="Enter your password"
-        minlength="6"
-        required
-      >
-
-      <div id="confirmGroup" class="hidden">
-        <label for="confirmPassword">Confirm password</label>
-        <input
-          id="confirmPassword"
-          type="password"
-          autocomplete="new-password"
-          placeholder="Re-enter your password"
-          minlength="6"
-        >
-      </div>
-
-      <button class="main-button" id="submitBtn" type="submit">
-        Login
-      </button>
+      <input id="email" type="email" placeholder="Email address" required autocomplete="email">
+      <input id="password" type="password" placeholder="Password" required minlength="6" autocomplete="current-password">
+      <button id="submitBtn" type="submit">Login</button>
     </form>
 
-    <p class="switch-text">
-      <span id="switchLabel">Don't have an account?</span>
-      <button class="switch-button" id="switchBtn" type="button">
-        Create New Account
-      </button>
-    </p>
-
-    <div id="message" class="message" role="status" aria-live="polite"></div>
-
-    <a href="index.html" class="back-link">← Back to Website</a>
+    <button id="toggleBtn" class="secondary" type="button">Create New Account</button>
+    <p id="message" role="status"></p>
+    <p><a href="index.html">Back to Website</a></p>
   </main>
 
   <script type="module">
@@ -224,8 +53,10 @@
       getAuth,
       setPersistence,
       browserLocalPersistence,
+      onAuthStateChanged,
       signInWithEmailAndPassword,
-      createUserWithEmailAndPassword
+      createUserWithEmailAndPassword,
+      signOut
     } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
 
     const firebaseConfig = {
@@ -244,148 +75,94 @@
     const form = document.getElementById("authForm");
     const emailInput = document.getElementById("email");
     const passwordInput = document.getElementById("password");
-    const confirmInput = document.getElementById("confirmPassword");
-    const confirmGroup = document.getElementById("confirmGroup");
     const submitBtn = document.getElementById("submitBtn");
-    const switchBtn = document.getElementById("switchBtn");
-    const switchLabel = document.getElementById("switchLabel");
+    const toggleBtn = document.getElementById("toggleBtn");
     const heading = document.getElementById("heading");
-    const subtitle = document.getElementById("subtitle");
     const message = document.getElementById("message");
 
-    let createAccountMode = false;
+    let createMode = false;
+    let submitting = false;
 
-    // Only allow known pages as redirect destinations.
-    const requestedPage =
-      new URLSearchParams(window.location.search).get("redirect");
-
-    const allowedPages = [
-      "dashboard.html",
-      "index.html",
-      "gallery.html"
-    ];
-
-    const destination = allowedPages.includes(requestedPage)
-      ? requestedPage
-      : "dashboard.html";
-
-    function showMessage(text, type = "error") {
+    function showMessage(text) {
       message.textContent = text;
-      message.className = "message " + type;
     }
 
-    function setLoading(loading) {
-      submitBtn.disabled = loading;
-      switchBtn.disabled = loading;
+    function getRedirectTarget() {
+      const params = new URLSearchParams(location.search);
+      const target = params.get("redirect");
 
-      if (loading) {
-        submitBtn.textContent = "Please wait…";
-      } else {
-        submitBtn.textContent =
-          createAccountMode ? "Create Account" : "Login";
-      }
+      // Only permit known pages on this same website.
+      if (target === "dashboard.html") return "dashboard.html";
+      if (target === "index.html") return "index.html";
+      return "index.html";
     }
 
-    switchBtn.addEventListener("click", () => {
-      createAccountMode = !createAccountMode;
+    async function start() {
+      await setPersistence(auth, browserLocalPersistence);
 
-      confirmGroup.classList.toggle("hidden", !createAccountMode);
-      confirmInput.required = createAccountMode;
-      passwordInput.autocomplete = createAccountMode
-        ? "new-password"
-        : "current-password";
+      onAuthStateChanged(auth, user => {
+        if (user && !submitting) {
+          showMessage("Already logged in. Opening website...");
+          location.replace(getRedirectTarget());
+        }
+      });
+    }
 
-      heading.textContent = createAccountMode
-        ? "Create Account"
-        : "Welcome Back";
-
-      subtitle.textContent = createAccountMode
-        ? "Create your PAZZAN.COM account."
-        : "Sign in to your account to continue.";
-
-      switchLabel.textContent = createAccountMode
-        ? "Already have an account?"
-        : "Don't have an account?";
-
-      switchBtn.textContent = createAccountMode
-        ? "Login"
+    toggleBtn.addEventListener("click", () => {
+      createMode = !createMode;
+      heading.textContent = createMode
+        ? "Create a new account"
+        : "Login to your account";
+      submitBtn.textContent = createMode ? "Create Account" : "Login";
+      toggleBtn.textContent = createMode
+        ? "I Already Have an Account"
         : "Create New Account";
-
-      submitBtn.textContent = createAccountMode
-        ? "Create Account"
-        : "Login";
-
-      message.className = "message";
-      message.textContent = "";
+      passwordInput.autocomplete = createMode ? "new-password" : "current-password";
+      showMessage("");
     });
 
     form.addEventListener("submit", async event => {
       event.preventDefault();
+      if (submitting) return;
 
-      const email = emailInput.value.trim();
-      const password = passwordInput.value;
-
-      if (createAccountMode &&
-          password !== confirmInput.value) {
-        showMessage("Passwords do not match.");
-        return;
-      }
-
-      setLoading(true);
-      message.className = "message";
+      submitting = true;
+      submitBtn.disabled = true;
+      showMessage("Please wait...");
 
       try {
-        // Keep the login session in this browser.
         await setPersistence(auth, browserLocalPersistence);
 
-        if (createAccountMode) {
-          await createUserWithEmailAndPassword(
-            auth,
-            email,
-            password
-          );
+        const email = emailInput.value.trim();
+        const password = passwordInput.value;
 
-          showMessage(
-            "Account created successfully. Opening the dashboard…",
-            "success"
-          );
+        if (createMode) {
+          await createUserWithEmailAndPassword(auth, email, password);
+          showMessage("Account created successfully. Opening website...");
         } else {
-          await signInWithEmailAndPassword(
-            auth,
-            email,
-            password
-          );
-
-          showMessage(
-            "Login successful. Opening the dashboard…",
-            "success"
-          );
+          await signInWithEmailAndPassword(auth, email, password);
+          showMessage("Login successful. Opening website...");
         }
 
-        window.location.replace(destination);
-
+        location.replace(getRedirectTarget());
       } catch (error) {
-        console.error("Authentication error:", error);
-
-        const errors = {
+        const messages = {
+          "auth/email-already-in-use": "This email already has an account. Please login.",
           "auth/invalid-email": "Please enter a valid email address.",
-          "auth/user-not-found": "No account was found for this email.",
-          "auth/wrong-password": "Incorrect email or password.",
+          "auth/weak-password": "Use a password with at least 6 characters.",
           "auth/invalid-credential": "Incorrect email or password.",
-          "auth/email-already-in-use": "This email already has an account. Please log in.",
-          "auth/weak-password": "Please use a stronger password with at least 6 characters.",
           "auth/network-request-failed": "Network error. Check your internet connection.",
-          "auth/too-many-requests": "Too many attempts. Please wait and try again.",
           "auth/operation-not-allowed": "Enable Email/Password sign-in in Firebase Console."
         };
 
-        showMessage(
-          errors[error.code] ||
-          `Login failed: ${error.message || "Please try again."}`
-        );
+        showMessage(messages[error.code] || "Error: " + error.message);
       } finally {
-        setLoading(false);
+        submitting = false;
+        submitBtn.disabled = false;
       }
+    });
+
+    start().catch(error => {
+      showMessage("Firebase setup error: " + error.message);
     });
   </script>
 </body>
