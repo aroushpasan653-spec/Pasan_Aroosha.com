@@ -110,9 +110,37 @@ footer{margin-top:25px;padding:28px 15px;text-align:center;color:#8c9aab;border-
 @media(max-width:900px){.menu-btn{display:block;flex-shrink:0}.nav-links{display:none;position:absolute;top:66px;right:12px;width:min(280px,calc(100vw - 24px));max-height:calc(100vh - 100px);overflow-y:auto;flex-direction:column;align-items:stretch;gap:0;padding:10px;list-style:none;border:1px solid #39ff8850;border-radius:15px;background:rgba(5,10,17,.48);backdrop-filter:blur(22px) saturate(150%);-webkit-backdrop-filter:blur(22px) saturate(150%);box-shadow:0 12px 35px #0006}.nav-links.active{display:flex}.nav-links li{width:100%}.nav-links a{display:block;width:100%;padding:11px 12px;border-radius:8px}.nav-links a:hover{background:#39ff8812}#userEmail{max-width:100%;padding:10px 12px}#logoutBtn{margin:8px 12px 10px}.hero{min-height:auto;flex-direction:column-reverse;text-align:center;padding-top:45px;gap:30px}.hero-image{flex:none}.hero-image img{width:225px;height:225px}.hero-buttons{justify-content:center}.services-grid,.games-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.blog-grid{grid-template-columns:1fr}}
 @media(max-width:560px){.nav-container{height:66px;padding:0 15px}.logo{font-size:20px}section{padding:65px 17px}.hero{padding:35px 18px 35px}.hero h1{font-size:36px}.hero-text p{font-size:15px}.about-box{padding:23px}.contact-box{padding:35px 17px}.services-grid,.games-grid{grid-template-columns:1fr;gap:15px}.service-card{min-height:0;padding:22px}#my-games{padding:60px 16px}.game-card{max-width:420px;width:100%;margin:auto}.games-heading{margin-bottom:30px}.pasan-profile-hero{width:calc(100% - 18px);margin:16px auto 30px;border-radius:18px}.pasan-cover-photo{height:205px}.pasan-cover-tag{right:9px;top:9px;font-size:9px;letter-spacing:1.2px}.pasan-profile-content{padding-bottom:23px}.pasan-profile-subtitle{letter-spacing:1.8px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+/* PAZZAN.COM Gaming Video Background */
+#gaming-video-bg {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: -2;
+  pointer-events: none;
+}
+
+body {
+  position: relative;
+  background: #050510;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(3, 3, 18, 0.72);
+  z-index: -1;
+  pointer-events: none;
+  }
 </style>
 </head>
 <body>
+  <video id="gaming-video-bg" autoplay muted loop playsinline>
+  <source src="84043.mp4" type="video/mp4">
+  </video>
 <nav><div class="nav-container">
 <a href="index.html" class="logo logo-pazzan"><span class="logo-mark">✦</span> PAZZAN<span class="logo-dot">.COM</span><span class="logo-mark">✦</span></a>
 <button class="menu-btn" id="menuBtn" type="button" aria-label="Open menu" aria-controls="navLinks" aria-expanded="false">☰</button>
