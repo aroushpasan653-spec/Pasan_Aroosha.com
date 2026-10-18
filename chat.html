@@ -3,148 +3,615 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>PAZZAN Private Chat</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#05080d">
+<title>PAZZAN.COM | Private Chat</title>
+
 <style>
-*{box-sizing:border-box}
-body{margin:0;background:#05080d;color:#f3fff9;font-family:Arial,sans-serif}
-header{padding:18px;background:#09131d;border-bottom:1px solid #39ff88}
-h2{color:#39ff88}
-main{max-width:600px;margin:25px auto;padding:15px}
-.panel{background:#0b121c;border:1px solid #244536;border-radius:14px;padding:18px}
-input,button{padding:12px;border-radius:8px;font-size:16px}
-input{width:100%;margin:7px 0;background:#101a25;color:white;border:1px solid #314050}
-button{background:#39ff88;color:#06110b;border:0;font-weight:bold;cursor:pointer}
-#chat{display:none}
-#messages{height:300px;overflow:auto;padding:10px;background:#071019;margin:12px 0;border-radius:8px}
-.msg{padding:9px;margin:7px 0;background:#182431;border-radius:9px;overflow-wrap:anywhere}
-.mine{background:#075c43;text-align:right}
-.small{color:#b4bfd0;font-size:13px}
+:root {
+  --bg: #05080d;
+  --glass: rgba(12, 23, 32, .72);
+  --green: #39ff88;
+  --cyan: #00e5ff;
+  --text: #f3fff9;
+  --muted: #aebdca;
+  --border: rgba(57, 255, 136, .25);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(ellipse at 15% 15%, rgba(0,229,255,.12), transparent 40%),
+    radial-gradient(ellipse at 85% 75%, rgba(57,255,136,.13), transparent 40%),
+    var(--bg);
+}
+
+header {
+  padding: 24px 16px;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+  background: rgba(5, 8, 13, .65);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.logo {
+  margin: 0;
+  font-size: clamp(25px, 6vw, 36px);
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: var(--green);
+  text-shadow: 0 0 18px rgba(57,255,136,.35);
+}
+
+.subtitle {
+  margin: 9px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  letter-spacing: 2px;
+}
+
+main {
+  width: min(100% - 28px, 650px);
+  margin: 40px auto;
+}
+
+.panel {
+  padding: clamp(20px, 5vw, 32px);
+  border: 1px solid rgba(133, 255, 198, .23);
+  border-radius: 24px;
+  background: var(--glass);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  box-shadow: 0 18px 60px rgba(0,0,0,.35),
+              inset 0 1px 0 rgba(255,255,255,.05);
+}
+
+h2 {
+  color: var(--green);
+  font-size: 27px;
+  margin: 0 0 10px;
+}
+
+.description {
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.field-label {
+  display: block;
+  color: #d7e8e0;
+  font-size: 14px;
+  margin: 16px 0 7px;
+}
+
+input {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  padding: 15px;
+  margin: 0;
+  border-radius: 12px;
+  border: 1px solid #344451;
+  outline: none;
+  background: rgba(5, 12, 20, .8);
+  color: white;
+  font-size: 16px;
+}
+
+input:focus {
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px rgba(57,255,136,.09);
+}
+
+button, .back-link {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 47px;
+  padding: 13px 19px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  background: var(--green);
+  color: #04130a;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  text-decoration: none;
+  transition: .2s ease;
+}
+
+button:hover, .back-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 22px rgba(57,255,136,.2);
+}
+
+button:disabled {
+  opacity: .55;
+  cursor: wait;
+  transform: none;
+}
+
+.full-button {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.secondary {
+  color: var(--green);
+  background: rgba(57,255,136,.07);
+  border-color: var(--border);
+}
+
+#chat {
+  display: none;
+}
+
+.account-bar {
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+  font-size: 13px;
+  margin: 18px 0;
+}
+
+.status {
+  min-height: 22px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+#messages {
+  height: 330px;
+  overflow-y: auto;
+  padding: 12px;
+  margin: 16px 0;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,.07);
+  background: rgba(2,7,12,.65);
+}
+
+.msg {
+  max-width: 88%;
+  width: fit-content;
+  padding: 11px 13px;
+  margin: 9px 0;
+  border: 1px solid rgba(255,255,255,.06);
+  border-radius: 13px 13px 13px 3px;
+  background: #172633;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+  line-height: 1.45;
+}
+
+.msg.mine {
+  margin-left: auto;
+  background: rgba(5, 92, 65, .8);
+  border-color: rgba(57,255,136,.18);
+  border-radius: 13px 13px 3px 13px;
+}
+
+.msg-time {
+  display: block;
+  margin-top: 5px;
+  font-size: 10px;
+  color: #b8d5c8;
+}
+
+.send-row {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.send-row input {
+  flex: 1;
+  width: 0;
+}
+
+.send-row button {
+  flex-shrink: 0;
+}
+
+footer {
+  text-align: center;
+  padding: 15px;
+  color: #71818d;
+  font-size: 12px;
+}
+
+@media (max-width: 420px) {
+  main {
+    margin: 22px auto;
+  }
+
+  .send-row {
+    flex-wrap: wrap;
+  }
+
+  .send-row input {
+    width: 100%;
+    flex-basis: 100%;
+  }
+
+  .send-row button {
+    width: 100%;
+  }
+}
 </style>
 </head>
-<body>
-<header><h2>PAZZAN.COM CHAT</h2></header>
-<main>
-<section class="panel" id="login">
-<h2>Private Login</h2>
-<form id="loginForm">
-<input id="email" type="email" placeholder="Email" required>
-<input id="password" type="password" placeholder="Password" required>
-<button type="submit">Login</button>
-</form>
-<p id="status" class="small"></p>
-</section>
 
-<section class="panel" id="chat">
-<h2>My Private Chat</h2>
-<p id="account" class="small"></p>
-<input id="friendEmail" type="email" placeholder="Friend's approved email">
-<button id="openChat">Open Chat</button>
-<div id="messages"></div>
-<form id="sendForm">
-<input id="message" maxlength="2000" placeholder="Type message..." required>
-<button>Send</button>
-</form>
-<button id="logout">Logout</button>
-<p id="chatStatus" class="small"></p>
-</section>
+<body>
+<header>
+  <h1 class="logo">PAZZAN.COM</h1>
+  <p class="subtitle">PRIVATE CHAT SYSTEM</p>
+</header>
+
+<main>
+  <section class="panel" id="login">
+    <h2>Welcome Back 👋</h2>
+    <p class="description">
+      Sign in to connect with your approved friends.
+    </p>
+
+    <form id="loginForm">
+      <label class="field-label" for="email">Email address</label>
+      <input id="email" type="email" autocomplete="username"
+             placeholder="you@example.com" required>
+
+      <label class="field-label" for="password">Password</label>
+      <input id="password" type="password"
+             autocomplete="current-password"
+             placeholder="Enter your password" required>
+
+      <button class="full-button" id="loginButton" type="submit">
+        LOGIN SECURELY ↗
+      </button>
+    </form>
+
+    <p class="status" id="status" role="status"></p>
+    <p class="description" style="font-size:12px;margin-bottom:0">
+      🔒 Access is limited to approved accounts.
+    </p>
+  </section>
+
+  <section class="panel" id="chat">
+    <h2>Private Messages 💬</h2>
+    <p class="description">
+      Your personal space to chat with approved friends.
+    </p>
+
+    <div class="account-bar" id="account"></div>
+
+    <label class="field-label" for="friendEmail">
+      Friend's email address
+    </label>
+    <input id="friendEmail" type="email"
+           placeholder="friend@example.com">
+
+    <button class="full-button" id="openChat" type="button">
+      OPEN FRIEND CHAT
+    </button>
+
+    <p class="status" id="chatStatus" role="status"></p>
+
+    <div id="messages" aria-live="polite">
+      <p class="description">Choose an approved friend to start chatting.</p>
+    </div>
+
+    <form id="sendForm" class="send-row">
+      <input id="message" maxlength="2000"
+             placeholder="Write a message..."
+             aria-label="Write a message" required>
+      <button id="sendButton" type="submit">SEND ➤</button>
+    </form>
+
+    <button class="full-button secondary" id="logout" type="button">
+      LOG OUT
+    </button>
+  </section>
 </main>
 
+<footer>PAZZAN.COM · Private Friends Chat</footer>
+
 <script type="module">
-import {initializeApp}
-from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+import { initializeApp }
+  from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
 
 import {
-getAuth,onAuthStateChanged,signInWithEmailAndPassword,signOut
+  getAuth,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut
 } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
 
 import {
-getFirestore,collection,doc,getDoc,query,where,
-addDoc,onSnapshot,orderBy,serverTimestamp
+  getFirestore,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  where,
+  setDoc,
+  addDoc,
+  onSnapshot,
+  orderBy,
+  serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
 
-/* Replace with YOUR complete Firebase web config */
+/* Your Firebase web app configuration */
 const firebaseConfig = {
-  apiKey: "PASTE_YOUR_API_KEY",
+  apiKey: "AIzaSyB3G98XBTZH6NFiZx6NQmyEKR8g6vnSYNQ",
   authDomain: "pasan-fc8e2.firebaseapp.com",
   projectId: "pasan-fc8e2",
   storageBucket: "pasan-fc8e2.firebasestorage.app",
   messagingSenderId: "330282693990",
-  appId: "PASTE_YOUR_APP_ID"
+  appId: "1:330282693990:web:f754a4a09efaa73ab5c4a7",
+  measurementId: "G-B12LL33EQ3"
 };
 
-const app=initializeApp(firebaseConfig);
-const auth=getAuth(app);
-const db=getFirestore(app);
-const $=id=>document.getElementById(id);
-let friend=null,stopMessages=null;
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
 
-$("loginForm").addEventListener("submit",async e=>{
-e.preventDefault();
-$("status").textContent="Logging in...";
-try{
-await signInWithEmailAndPassword(auth,$("email").value.trim(),$("password").value);
-$("status").textContent="";
-}catch(err){$("status").textContent="Login failed: "+err.message}
-});
+const $ = id => document.getElementById(id);
 
-onAuthStateChanged(auth,user=>{
-$("login").style.display=user?"none":"block";
-$("chat").style.display=user?"block":"none";
-if(user)$("account").textContent="Signed in: "+user.email;
-if(!user){
-if(stopMessages)stopMessages();
-stopMessages=null;friend=null;
-$("messages").replaceChildren();
+let friendUid = null;
+let stopMessages = null;
+let openingChat = false;
+
+function showStatus(id, message) {
+  $(id).textContent = message;
 }
+
+function stopListening() {
+  if (stopMessages) stopMessages();
+  stopMessages = null;
+}
+
+function clearMessages(message = "") {
+  $("messages").replaceChildren();
+  if (message) {
+    const p = document.createElement("p");
+    p.className = "description";
+    p.textContent = message;
+    $("messages").appendChild(p);
+  }
+}
+
+$("loginForm").addEventListener("submit", async event => {
+  event.preventDefault();
+
+  const button = $("loginButton");
+  button.disabled = true;
+  showStatus("status", "Signing in...");
+
+  try {
+    await signInWithEmailAndPassword(
+      auth,
+      $("email").value.trim(),
+      $("password").value
+    );
+    showStatus("status", "");
+  } catch (error) {
+    console.error(error);
+    showStatus(
+      "status",
+      error.code === "auth/invalid-api-key"
+        ? "Firebase API key is invalid. Check the web app configuration."
+        : error.code === "auth/invalid-credential" ||
+          error.code === "auth/wrong-password" ||
+          error.code === "auth/user-not-found"
+        ? "Email or password is incorrect."
+        : error.message
+    );
+  } finally {
+    button.disabled = false;
+  }
 });
 
-$("openChat").addEventListener("click",async()=>{
-const email=$("friendEmail").value.trim().toLowerCase();
-if(!email||!auth.currentUser)return;
-$("chatStatus").textContent="Checking friend...";
-try{
-const q=query(collection(db,"friends"),where("email","==",email),where("enabled","==",true));
-const result=await import("https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js");
-const snap=await result.getDocs(q);
-const found=snap.docs.find(d=>d.id!==auth.currentUser.uid);
-if(!found)throw new Error("Friend not found in approved friends.");
-friend=found.id;
-const id=[auth.currentUser.uid,friend].sort().join("_");
-const chatRef=doc(db,"chats",id);
-const chatDoc=await getDoc(chatRef);
-if(!chatDoc.exists())throw new Error("Chat must be created using the approved chat setup first.");
-if(stopMessages)stopMessages();
-const mq=query(collection(db,"chats",id,"messages"),orderBy("createdAt","asc"));
-stopMessages=onSnapshot(mq,s=>{
-const box=$("messages");box.replaceChildren();
-s.forEach(d=>{
-const data=d.data(),el=document.createElement("div");
-el.className="msg"+(data.senderId===auth.currentUser.uid?" mine":"");
-el.textContent=data.text||"";
-box.appendChild(el);
-});
-box.scrollTop=box.scrollHeight;
-},err=>$("chatStatus").textContent=err.message);
-$("chatStatus").textContent="Chat connected.";
-}catch(err){$("chatStatus").textContent=err.message}
+onAuthStateChanged(auth, user => {
+  $("login").style.display = user ? "none" : "block";
+  $("chat").style.display = user ? "block" : "none";
+
+  stopListening();
+  friendUid = null;
+  openingChat = false;
+  clearMessages("Choose an approved friend to start chatting.");
+  showStatus("chatStatus", "");
+
+  if (user) {
+    $("account").textContent = "Signed in: " + (user.email || "Account");
+  } else {
+    $("account").textContent = "";
+  }
 });
 
-$("sendForm").addEventListener("submit",async e=>{
-e.preventDefault();
-if(!friend||!auth.currentUser)return;
-const text=$("message").value.trim();
-if(!text)return;
-const id=[auth.currentUser.uid,friend].sort().join("_");
-try{
-await addDoc(collection(db,"chats",id,"messages"),{
-text,senderId:auth.currentUser.uid,createdAt:serverTimestamp()
-});
-$("message").value="";
-}catch(err){$("chatStatus").textContent="Message failed: "+err.message}
+$("openChat").addEventListener("click", async () => {
+  if (openingChat) return;
+
+  const user = auth.currentUser;
+  const email = $("friendEmail").value.trim().toLowerCase();
+
+  if (!user) {
+    showStatus("chatStatus", "Please log in first.");
+    return;
+  }
+
+  if (!email) {
+    showStatus("chatStatus", "Enter your friend's email address.");
+    return;
+  }
+
+  openingChat = true;
+  $("openChat").disabled = true;
+  stopListening();
+  friendUid = null;
+  clearMessages("Connecting...");
+  showStatus("chatStatus", "Checking approved friends...");
+
+  try {
+    // Friend documents must be in the "friends" collection.
+    // Each document ID must be that friend's Firebase Auth UID.
+    const friendsQuery = query(
+      collection(db, "friends"),
+      where("email", "==", email),
+      where("enabled", "==", true)
+    );
+
+    const friendsSnapshot = await getDocs(friendsQuery);
+
+    const found = friendsSnapshot.docs.find(
+      item => item.id !== user.uid
+    );
+
+    if (!found) {
+      throw new Error(
+        "Friend not found. Check their approved friends record."
+      );
+    }
+
+    friendUid = found.id;
+
+    const chatId = [user.uid, friendUid].sort().join("_");
+    const chatRef = doc(db, "chats", chatId);
+
+    const chatSnapshot = await getDoc(chatRef);
+
+    if (!chatSnapshot.exists()) {
+      await setDoc(chatRef, {
+        participants: [user.uid, friendUid].sort(),
+        createdAt: serverTimestamp()
+      });
+    } else {
+      const participants = chatSnapshot.data().participants || [];
+
+      if (
+        !participants.includes(user.uid) ||
+        !participants.includes(friendUid)
+      ) {
+        throw new Error("This chat's participants do not match.");
+      }
+    }
+
+    const messagesQuery = query(
+      collection(db, "chats", chatId, "messages"),
+      orderBy("createdAt", "asc")
+    );
+
+    stopMessages = onSnapshot(
+      messagesQuery,
+      snapshot => {
+        const box = $("messages");
+        box.replaceChildren();
+
+        if (snapshot.empty) {
+          clearMessages("No messages yet. Send the first message!");
+          return;
+        }
+
+        snapshot.forEach(item => {
+          const data = item.data();
+          const bubble = document.createElement("div");
+
+          bubble.className =
+            "msg" + (data.senderId === user.uid ? " mine" : "");
+
+          const text = document.createElement("div");
+          text.textContent = data.text || "";
+          bubble.appendChild(text);
+
+          const time = document.createElement("span");
+          time.className = "msg-time";
+
+          if (data.createdAt?.toDate) {
+            time.textContent = data.createdAt.toDate().toLocaleString();
+          }
+
+          bubble.appendChild(time);
+          box.appendChild(bubble);
+        });
+
+        box.scrollTop = box.scrollHeight;
+      },
+      error => {
+        console.error(error);
+        showStatus("chatStatus", "Cannot load messages: " + error.message);
+      }
+    );
+
+    showStatus("chatStatus", "Chat connected.");
+  } catch (error) {
+    console.error(error);
+    friendUid = null;
+    clearMessages("No chat connection yet.");
+    showStatus("chatStatus", error.message);
+  } finally {
+    openingChat = false;
+    $("openChat").disabled = false;
+  }
 });
 
-$("logout").addEventListener("click",()=>signOut(auth));
+$("sendForm").addEventListener("submit", async event => {
+  event.preventDefault();
+
+  const user = auth.currentUser;
+  const text = $("message").value.trim();
+
+  if (!user || !friendUid) {
+    showStatus("chatStatus", "Open an approved friend's chat first.");
+    return;
+  }
+
+  if (!text) return;
+
+  const chatId = [user.uid, friendUid].sort().join("_");
+  $("sendButton").disabled = true;
+
+  try {
+    await addDoc(
+      collection(db, "chats", chatId, "messages"),
+      {
+        text,
+        senderId: user.uid,
+        createdAt: serverTimestamp()
+      }
+    );
+
+    $("message").value = "";
+    showStatus("chatStatus", "Message sent.");
+  } catch (error) {
+    console.error(error);
+    showStatus("chatStatus", "Message failed: " + error.message);
+  } finally {
+    $("sendButton").disabled = false;
+  }
+});
+
+$("logout").addEventListener("click", async () => {
+  stopListening();
+  friendUid = null;
+
+  try {
+    await signOut(auth);
+    showStatus("status", "You have been logged out.");
+  } catch (error) {
+    showStatus("chatStatus", error.message);
+  }
+});
 </script>
 </body>
 </html>
