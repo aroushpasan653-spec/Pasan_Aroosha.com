@@ -4,174 +4,429 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#05080d">
-<title>PAZZAN.COM | Private Chat</title>
+<meta name="theme-color" content="#07120f">
+<title>PAZZAN | Private Chat</title>
 
 <style>
 :root {
-  --bg:#05080d;
-  --glass:rgba(12,23,32,.72);
-  --green:#39ff88;
-  --cyan:#00e5ff;
-  --text:#f3fff9;
-  --muted:#aebdca;
-  --border:rgba(57,255,136,.25);
+  --green: #39ff9a;
+  --cyan: #53eaff;
+  --text: #effff7;
+  --muted: #b2c9bf;
+  --glass: rgba(13,35,29,.48);
+  --line: rgba(150,255,205,.2);
 }
-*{box-sizing:border-box}
-body{
-  margin:0;min-height:100vh;font-family:Arial,sans-serif;
-  color:var(--text);
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  padding: 16px;
+  color: var(--text);
+  font-family: Arial, sans-serif;
   background:
-    radial-gradient(ellipse at 15% 15%,rgba(0,229,255,.12),transparent 40%),
-    radial-gradient(ellipse at 85% 75%,rgba(57,255,136,.13),transparent 40%),
-    var(--bg)
+    radial-gradient(ellipse at 10% 10%, #174d3c, transparent 45%),
+    radial-gradient(ellipse at 90% 90%, #123d50, transparent 42%),
+    linear-gradient(135deg,#030807,#071511,#06101a);
+  background-attachment: fixed;
 }
-header{
-  padding:24px 16px;text-align:center;
-  border-bottom:1px solid var(--border);
-  background:rgba(5,8,13,.65);
-  backdrop-filter:blur(18px);
-  -webkit-backdrop-filter:blur(18px)
+
+button, input, textarea { font: inherit; }
+button { cursor: pointer; }
+
+.glass {
+  background: var(--glass);
+  border: 1px solid var(--line);
+  backdrop-filter: blur(22px) saturate(150%);
+  -webkit-backdrop-filter: blur(22px) saturate(150%);
+  box-shadow: 0 12px 45px #0004, inset 0 1px #ffffff0f;
 }
-.logo{
-  margin:0;font-size:clamp(25px,6vw,36px);
-  font-weight:900;letter-spacing:2px;color:var(--green);
-  text-shadow:0 0 18px rgba(57,255,136,.35)
+
+.topbar {
+  width: min(1000px,100%);
+  margin: 0 auto 24px;
+  padding: 18px;
+  border-radius: 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
 }
-.subtitle{margin:9px 0 0;color:var(--muted);font-size:13px;letter-spacing:2px}
-main{width:min(100% - 28px,650px);margin:30px auto}
-.panel{
-  padding:clamp(20px,5vw,32px);
-  border:1px solid rgba(133,255,198,.23);border-radius:24px;
-  background:var(--glass);backdrop-filter:blur(22px);
-  -webkit-backdrop-filter:blur(22px);
-  box-shadow:0 18px 60px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.05)
+
+.brand {
+  color: var(--green);
+  font-size: 23px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-shadow: 0 0 18px #39ff9a55;
 }
-h2{color:var(--green);font-size:27px;margin:0 0 10px}
-.description{color:var(--muted);line-height:1.6;margin-bottom:24px}
-.field-label{display:block;color:#d7e8e0;font-size:14px;margin:16px 0 7px}
-input{
-  display:block;width:100%;min-width:0;padding:15px;margin:0;
-  border-radius:12px;border:1px solid #344451;outline:none;
-  background:rgba(5,12,20,.8);color:white;font-size:16px
+
+.brand span {
+  color: white;
+  font-size: 11px;
 }
-input:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(57,255,136,.09)}
-button{
-  display:inline-flex;justify-content:center;align-items:center;
-  min-height:47px;padding:13px 19px;border:1px solid transparent;
-  border-radius:12px;background:var(--green);color:#04130a;
-  font-size:15px;font-weight:800;cursor:pointer;transition:.2s ease
+
+main {
+  width: min(1000px,100%);
+  margin: auto;
 }
-button:hover{transform:translateY(-2px);box-shadow:0 0 22px rgba(57,255,136,.2)}
-button:disabled{opacity:.55;cursor:wait;transform:none}
-.full-button{width:100%;margin-top:20px}
-.secondary{color:var(--green);background:rgba(57,255,136,.07);border-color:var(--border)}
-#chat{display:none}
-.account-bar{
-  padding:12px;border:1px solid var(--border);border-radius:12px;
-  color:var(--muted);overflow-wrap:anywhere;font-size:13px;margin:18px 0
+
+.hero {
+  text-align: center;
+  padding: 24px 8px;
 }
-.status{min-height:22px;color:var(--muted);font-size:13px;line-height:1.5;overflow-wrap:anywhere}
-#messages{
-  height:330px;overflow-y:auto;padding:12px;margin:16px 0;
-  border-radius:14px;border:1px solid rgba(255,255,255,.07);
-  background:rgba(2,7,12,.65)
+
+.hero h1 {
+  font-size: clamp(30px,6vw,48px);
+  margin-bottom: 12px;
 }
-.msg{
-  max-width:88%;width:fit-content;padding:11px 13px;margin:9px 0;
-  border:1px solid rgba(255,255,255,.06);border-radius:13px 13px 13px 3px;
-  background:#172633;overflow-wrap:anywhere;white-space:pre-wrap;line-height:1.45
+
+.hero h1 span { color: var(--green); }
+
+.hero p, .subtext {
+  color: var(--muted);
+  line-height: 1.7;
 }
-.msg.mine{
-  margin-left:auto;background:rgba(5,92,65,.8);
-  border-color:rgba(57,255,136,.18);border-radius:13px 13px 3px 13px
+
+.panel {
+  width: min(640px,100%);
+  margin: 0 auto 24px;
+  padding: clamp(20px,5vw,32px);
+  border-radius: 24px;
 }
-.msg-time{display:block;margin-top:5px;font-size:10px;color:#b8d5c8}
-.send-row{display:flex;align-items:center;gap:9px}
-.send-row input{flex:1;width:0}
-.send-row button{flex-shrink:0}
-footer{text-align:center;padding:15px;color:#71818d;font-size:12px}
-@media(max-width:420px){
-  main{margin:22px auto}
-  .send-row{flex-wrap:wrap}
-  .send-row input{width:100%;flex-basis:100%}
-  .send-row button{width:100%}
+
+.panel h2 { margin-bottom: 10px; }
+.subtext { font-size: 14px; margin-bottom: 22px; }
+
+.field { margin-bottom: 16px; }
+
+.field label {
+  display: block;
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+
+.field input {
+  width: 100%;
+  padding: 14px;
+  color: white;
+  background: #0004;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  outline: none;
+}
+
+.field input:focus, textarea:focus {
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px #39ff9a12;
+}
+
+.field input::placeholder, textarea::placeholder {
+  color: #8ba79a;
+}
+
+.primary-btn, .secondary-btn, .small-btn {
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-weight: bold;
+}
+
+.primary-btn {
+  color: #03150d;
+  border: none;
+  background: linear-gradient(110deg,var(--green),#9affd1);
+  transition: .2s;
+}
+
+.primary-btn:hover {
+  box-shadow: 0 0 22px #39ff9a35;
+  transform: translateY(-1px);
+}
+
+.secondary-btn, .small-btn {
+  color: var(--text);
+  border: 1px solid var(--line);
+  background: #ffffff0d;
+}
+
+.full { width: 100%; margin-top: 6px; }
+.button-row { display: flex; gap: 10px; margin-top: 12px; }
+.button-row button { flex: 1; }
+button:disabled { opacity: .6; cursor: not-allowed; }
+
+.status {
+  display: none;
+  padding: 13px;
+  margin-top: 16px;
+  border-radius: 12px;
+  font-size: 13px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.status.show { display: block; }
+.status.info { color: #b9f3ff; background: #2696be20; border: 1px solid #53eaff30; }
+.status.error { color: #ffd2d2; background: #ff415520; border: 1px solid #ff646430; }
+.status.success { color: #c5ffdc; background: #39ff9a15; border: 1px solid #39ff9a30; }
+
+.hidden { display: none !important; }
+
+.user-line {
+  margin-bottom: 22px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+}
+
+.user-email {
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+
+.online-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 12px var(--green);
+}
+
+.chat-window {
+  margin-top: 24px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  overflow: hidden;
+  background: #0003;
+}
+
+.chat-head {
+  padding: 16px;
+  border-bottom: 1px solid var(--line);
+}
+
+.chat-head p {
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+
+.messages {
+  height: min(48vh,430px);
+  min-height: 230px;
+  overflow-y: auto;
+  padding: 16px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.empty-chat {
+  color: var(--muted);
+  text-align: center;
+  margin: auto;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.message {
+  max-width: 82%;
+  padding: 11px 13px;
+  border-radius: 15px;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+  line-height: 1.5;
+  font-size: 14px;
+}
+
+.message.mine {
+  align-self: flex-end;
+  color: #03160d;
+  background: linear-gradient(135deg,#39ff9a,#a6ffd5);
+  border-bottom-right-radius: 4px;
+}
+
+.message.theirs {
+  align-self: flex-start;
+  background: #ffffff12;
+  border: 1px solid var(--line);
+  border-bottom-left-radius: 4px;
+}
+
+.message small {
+  display: block;
+  margin-top: 5px;
+  font-size: 10px;
+  opacity: .7;
+}
+
+.send-row {
+  display: flex;
+  gap: 9px;
+  padding: 12px;
+  border-top: 1px solid var(--line);
+}
+
+.send-row textarea {
+  flex: 1;
+  min-width: 0;
+  min-height: 46px;
+  max-height: 120px;
+  resize: vertical;
+  padding: 13px;
+  color: white;
+  background: #0004;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  outline: none;
+}
+
+.footer-note {
+  text-align: center;
+  color: #8fa99b;
+  font-size: 12px;
+  padding: 20px 5px;
+  line-height: 1.7;
+}
+
+@media(max-width:520px) {
+  body { padding: 10px; }
+  .topbar { padding: 13px; }
+  .brand { font-size: 18px; }
+  .brand span { font-size: 9px; }
+  .panel { border-radius: 19px; }
+  .message { max-width: 90%; }
+  .send-row { padding: 9px; gap: 7px; }
 }
 </style>
 </head>
+
 <body>
 
-<header>
-  <h1 class="logo">PAZZAN.COM</h1>
-  <p class="subtitle">PRIVATE CHAT SYSTEM</p>
+<header class="topbar glass">
+  <div class="brand">PAZZAN <span>PRIVATE CHAT</span></div>
+  <button id="logoutBtn" class="small-btn hidden" type="button">Log out</button>
 </header>
 
 <main>
-  <section class="panel" id="login">
-    <h2>Welcome Back 👋</h2>
-    <p class="description">Sign in to connect with your approved friends.</p>
-
-    <form id="loginForm">
-      <label class="field-label" for="email">Email address</label>
-      <input id="email" type="email" autocomplete="username"
-             placeholder="you@example.com" required>
-
-      <label class="field-label" for="password">Password</label>
-      <input id="password" type="password" autocomplete="current-password"
-             placeholder="Enter your password" required>
-
-      <button class="full-button" id="loginButton" type="submit">LOGIN SECURELY ↗</button>
-    </form>
-
-    <p class="status" id="status" role="status"></p>
-    <p class="description" style="font-size:12px;margin-bottom:0">
-      🔒 Access is limited to approved accounts.
-    </p>
+  <section class="hero">
+    <h1>Your Space. <span>Your Friends.</span></h1>
+    <p>A private place to chat with approved friends.</p>
   </section>
 
-  <section class="panel" id="chat">
-    <h2>Private Messages 💬</h2>
-    <p class="description">Your personal space to chat with approved friends.</p>
+  <section id="authPanel" class="panel glass">
+    <h2 id="authTitle">Welcome Back</h2>
+    <p id="authSubtitle" class="subtext">
+      Sign in to continue to your private chat.
+    </p>
 
-    <div class="account-bar" id="account"></div>
+    <form id="authForm">
+      <div class="field">
+        <label for="email">Email address</label>
+        <input id="email" type="email" placeholder="you@example.com"
+          autocomplete="email" required>
+      </div>
 
-    <label class="field-label" for="friendEmail">Friend's email address</label>
-    <input id="friendEmail" type="email" placeholder="friend@example.com">
+      <div class="field">
+        <label for="password">Password</label>
+        <input id="password" type="password" placeholder="Password"
+          minlength="6" autocomplete="current-password" required>
+      </div>
 
-    <button class="full-button" id="openChat" type="button">OPEN FRIEND CHAT</button>
-    <p class="status" id="chatStatus" role="status"></p>
+      <button id="loginBtn" class="primary-btn full" type="submit">Sign In</button>
+    </form>
 
-    <div id="messages" aria-live="polite">
-      <p class="description">Choose an approved friend to start chatting.</p>
+    <div class="button-row">
+      <button id="registerBtn" class="secondary-btn" type="button">Create Account</button>
     </div>
 
-    <form id="sendForm" class="send-row">
-      <input id="message" maxlength="2000" placeholder="Write a message..."
-             aria-label="Write a message" required>
-      <button id="sendButton" type="submit">SEND ➤</button>
+    <div id="authStatus" class="status" role="status"></div>
+  </section>
+
+  <section id="chatPanel" class="panel glass hidden">
+    <div class="user-line">
+      <strong><span class="online-dot"></span>Connected</strong>
+      <div id="signedInEmail" class="user-email"></div>
+    </div>
+
+    <h2>Open a Private Chat</h2>
+    <p class="subtext">Enter the email address of an approved friend.</p>
+
+    <form id="friendForm">
+      <div class="field">
+        <label for="friendEmail">Friend's email address</label>
+        <input id="friendEmail" type="email"
+          placeholder="friend@example.com" required>
+      </div>
+      <button id="openChatBtn" class="primary-btn full" type="submit">
+        Open Friend Chat
+      </button>
     </form>
 
-    <button class="full-button secondary" id="logout" type="button">LOG OUT</button>
+    <div id="chatStatus" class="status" role="status"></div>
+
+    <div id="chatWindow" class="chat-window hidden">
+      <div class="chat-head">
+        <h3><span class="online-dot"></span>Private Conversation</h3>
+        <p id="chatFriendLabel"></p>
+      </div>
+
+      <div id="messages" class="messages" aria-live="polite">
+        <div class="empty-chat">Your messages will appear here.</div>
+      </div>
+
+      <form id="sendForm" class="send-row">
+        <textarea id="messageInput" maxlength="2000"
+          placeholder="Write a message..." required></textarea>
+        <button id="sendBtn" class="primary-btn" type="submit">Send</button>
+      </form>
+    </div>
   </section>
+
+  <div class="footer-note">
+    PAZZAN Private Chat · Approved accounts only.
+    <br>Keep your password private.
+  </div>
 </main>
 
-<footer>PAZZAN.COM · Private Friends Chat</footer>
-
 <script type="module">
-import { initializeApp }
-  from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+import { initializeApp } from
+  "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
 
 import {
-  getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut
-} from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+  getAuth,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signOut
+} from
+  "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
 
 import {
-  getFirestore, collection, doc, getDoc, getDocs, query, where,
-  setDoc, addDoc, onSnapshot, orderBy, serverTimestamp
-} from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+  getFirestore,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  where,
+  setDoc,
+  addDoc,
+  onSnapshot,
+  orderBy,
+  serverTimestamp
+} from
+  "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyB3G98XBTZH6NFiZx6NQmyEKR8g6vnSYNQ",
+  apiKey: "AIzaSyB3G98XBTZH6NFiZxN6QmyEKR8g6vnSYNQ",
   authDomain: "pasan-fc8e2.firebaseapp.com",
   projectId: "pasan-fc8e2",
   storageBucket: "pasan-fc8e2.firebasestorage.app",
@@ -183,154 +438,248 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+
 const $ = id => document.getElementById(id);
 
-let friendUid = null;
-let stopMessages = null;
-let openingChat = false;
+let currentUser = null;
 let activeChatId = null;
+let unsubscribeMessages = null;
+let authMode = "login";
+let openingChat = false;
+let sendingMessage = false;
 
-function showStatus(id, message) {
-  $(id).textContent = message;
+function showStatus(id, message, type = "info") {
+  const el = $(id);
+  el.textContent = message;
+  el.className = `status show ${type}`;
 }
 
-function stopListening() {
-  if (stopMessages) stopMessages();
-  stopMessages = null;
+function hideStatus(id) {
+  $(id).textContent = "";
+  $(id).className = "status";
 }
 
-function clearMessages(message = "") {
-  $("messages").replaceChildren();
-  if (message) {
-    const p = document.createElement("p");
-    p.className = "description";
-    p.textContent = message;
-    $("messages").appendChild(p);
+function readableError(error) {
+  const code = error?.code || "";
+
+  const known = {
+    "auth/invalid-credential": "Email or password is incorrect.",
+    "auth/invalid-email": "Please enter a valid email address.",
+    "auth/email-already-in-use": "This email already has an account. Please sign in.",
+    "auth/weak-password": "Please choose a stronger password.",
+    "auth/too-many-requests": "Too many attempts. Wait and try again.",
+    "auth/network-request-failed": "Network error. Check your internet connection.",
+    "permission-denied": "Firebase permission denied. Check the Firestore Rules, collection name and approved friend documents."
+  };
+
+  if (known[code]) return known[code];
+  if (code.includes("permission-denied")) return known["permission-denied"];
+
+  return error?.message || "Something went wrong. Please try again.";
+}
+
+function stopMessageListener() {
+  if (unsubscribeMessages) {
+    unsubscribeMessages();
+    unsubscribeMessages = null;
   }
+  activeChatId = null;
 }
 
-$("loginForm").addEventListener("submit", async event => {
+function setAuthMode(mode) {
+  authMode = mode;
+
+  $("authTitle").textContent =
+    mode === "login" ? "Welcome Back" : "Create Your Account";
+
+  $("authSubtitle").textContent =
+    mode === "login"
+      ? "Sign in to continue to your private chat."
+      : "Create an account. The site owner must approve it before you can chat.";
+
+  $("loginBtn").textContent =
+    mode === "login" ? "Sign In" : "Create Account";
+
+  $("registerBtn").textContent =
+    mode === "login" ? "Create Account" : "Back to Sign In";
+
+  $("password").autocomplete =
+    mode === "login" ? "current-password" : "new-password";
+
+  hideStatus("authStatus");
+}
+
+$("registerBtn").addEventListener("click", () => {
+  setAuthMode(authMode === "login" ? "register" : "login");
+});
+
+$("authForm").addEventListener("submit", async event => {
   event.preventDefault();
-  const button = $("loginButton");
-  button.disabled = true;
-  showStatus("status", "Signing in...");
+
+  const email = $("email").value.trim().toLowerCase();
+  const password = $("password").value;
+
+  $("loginBtn").disabled = true;
+  $("loginBtn").textContent =
+    authMode === "login" ? "Signing in..." : "Creating account...";
+
+  hideStatus("authStatus");
 
   try {
-    await signInWithEmailAndPassword(
-      auth, $("email").value.trim(), $("password").value
-    );
-    showStatus("status", "");
+    if (authMode === "login") {
+      await signInWithEmailAndPassword(auth, email, password);
+    } else {
+      await createUserWithEmailAndPassword(auth, email, password);
+
+      showStatus(
+        "authStatus",
+        "Account created. The site owner must approve this account in Firestore before chatting.",
+        "success"
+      );
+    }
   } catch (error) {
-    console.error("LOGIN ERROR:", error.code, error.message);
-    showStatus("status", error.message);
+    showStatus("authStatus", readableError(error), "error");
   } finally {
-    button.disabled = false;
+    $("loginBtn").disabled = false;
+    $("loginBtn").textContent =
+      authMode === "login" ? "Sign In" : "Create Account";
   }
 });
 
 onAuthStateChanged(auth, user => {
-  $("login").style.display = user ? "none" : "block";
-  $("chat").style.display = user ? "block" : "none";
+  currentUser = user;
+  stopMessageListener();
 
-  stopListening();
-  friendUid = null;
-  activeChatId = null;
-  openingChat = false;
-  clearMessages("Choose an approved friend to start chatting.");
-  showStatus("chatStatus", "");
-
-  $("account").textContent = user
-    ? "Signed in: " + (user.email || "Account")
-    : "";
+  if (user) {
+    $("authPanel").classList.add("hidden");
+    $("chatPanel").classList.remove("hidden");
+    $("logoutBtn").classList.remove("hidden");
+    $("signedInEmail").textContent = user.email || "";
+    hideStatus("chatStatus");
+  } else {
+    $("authPanel").classList.remove("hidden");
+    $("chatPanel").classList.add("hidden");
+    $("logoutBtn").classList.add("hidden");
+    $("chatWindow").classList.add("hidden");
+    $("friendEmail").value = "";
+    hideStatus("chatStatus");
+    setAuthMode("login");
+  }
 });
 
-$("openChat").addEventListener("click", async () => {
-  if (openingChat) return;
+$("logoutBtn").addEventListener("click", async () => {
+  try {
+    stopMessageListener();
+    await signOut(auth);
+    showStatus("authStatus", "You have been logged out.", "success");
+  } catch (error) {
+    showStatus("chatStatus", readableError(error), "error");
+  }
+});
 
-  const user = auth.currentUser;
-  const email = $("friendEmail").value.trim().toLowerCase();
+$("friendForm").addEventListener("submit", async event => {
+  event.preventDefault();
 
-  if (!user) {
-    showStatus("chatStatus", "Please log in first.");
+  if (!currentUser || openingChat) return;
+
+  const friendEmail = $("friendEmail").value.trim().toLowerCase();
+
+  if (!friendEmail) {
+    showStatus("chatStatus", "Enter your friend's email.", "error");
     return;
   }
 
-  if (!email) {
-    showStatus("chatStatus", "Enter your friend's email address.");
-    return;
-  }
-
-  if (email === (user.email || "").toLowerCase()) {
-    showStatus("chatStatus", "Enter your friend's email, not your own.");
+  if (friendEmail === (currentUser.email || "").toLowerCase()) {
+    showStatus("chatStatus", "You cannot open a chat with yourself.", "error");
     return;
   }
 
   openingChat = true;
-  $("openChat").disabled = true;
-  stopListening();
-  friendUid = null;
-  activeChatId = null;
-  clearMessages("Connecting...");
-
-  let stage = "Checking approved friends";
+  $("openChatBtn").disabled = true;
+  $("openChatBtn").textContent = "Opening chat...";
+  $("chatWindow").classList.add("hidden");
+  stopMessageListener();
 
   try {
-    showStatus("chatStatus", stage + "...");
+    showStatus("chatStatus", "Checking your account approval...", "info");
 
-    const friendsQuery = query(
-      collection(db, "friends"),
-      where("email", "==", email),
+    // The collection name is "friend" (singular).
+    const ownRef = doc(db, "friend", currentUser.uid);
+    const ownSnap = await getDoc(ownRef);
+
+    if (!ownSnap.exists() || ownSnap.data().enabled !== true) {
+      showStatus(
+        "chatStatus",
+        "This account is not approved. Check friend/" +
+          currentUser.uid +
+          " in Firestore and ensure enabled is Boolean true.",
+        "error"
+      );
+      return;
+    }
+
+    showStatus("chatStatus", "Checking approved friends...", "info");
+
+    const friendQuery = query(
+      collection(db, "friend"),
+      where("email", "==", friendEmail),
       where("enabled", "==", true)
     );
 
-    const friendsSnapshot = await getDocs(friendsQuery);
-    const found = friendsSnapshot.docs.find(item => item.id !== user.uid);
+    const friendResults = await getDocs(friendQuery);
 
-    if (!found) {
-      throw new Error("Friend not found. Check their approved friends record.");
+    const friendDoc = friendResults.docs.find(
+      item => item.id !== currentUser.uid
+    );
+
+    if (!friendDoc) {
+      showStatus(
+        "chatStatus",
+        "No approved friend was found. Check the email field and enabled: true in friend/{UID}.",
+        "error"
+      );
+      return;
     }
 
-    friendUid = found.id;
-    const participants = [user.uid, friendUid].sort();
+    const friendUid = friendDoc.id;
+    const participants = [currentUser.uid, friendUid].sort();
     const chatId = participants.join("_");
     const chatRef = doc(db, "chats", chatId);
 
-    stage = "Checking existing chat";
-    showStatus("chatStatus", stage + "...");
+    showStatus("chatStatus", "Opening private conversation...", "info");
 
-    const chatSnapshot = await getDoc(chatRef);
+    const chatSnap = await getDoc(chatRef);
 
-    if (!chatSnapshot.exists()) {
-      stage = "Creating new chat";
-      showStatus("chatStatus", stage + "...");
-
+    if (!chatSnap.exists()) {
       await setDoc(chatRef, {
         participants,
         createdAt: serverTimestamp()
       });
     } else {
-      const saved = chatSnapshot.data().participants || [];
+      const existing = chatSnap.data().participants || [];
 
       if (
-        saved.length !== 2 ||
-        !saved.includes(user.uid) ||
-        !saved.includes(friendUid)
+        existing.length !== 2 ||
+        !existing.includes(currentUser.uid) ||
+        !existing.includes(friendUid)
       ) {
-        throw new Error("Chat participants do not match these two accounts.");
+        throw new Error("This conversation has invalid participants.");
       }
     }
 
-    stage = "Loading messages";
-    showStatus("chatStatus", stage + "...");
+    activeChatId = chatId;
+    $("chatFriendLabel").textContent =
+      friendDoc.data().email || friendEmail;
+
+    $("chatWindow").classList.remove("hidden");
+    $("messages").replaceChildren();
 
     const messagesQuery = query(
       collection(db, "chats", chatId, "messages"),
       orderBy("createdAt", "asc")
     );
 
-    activeChatId = chatId;
-
-    stopMessages = onSnapshot(
+    unsubscribeMessages = onSnapshot(
       messagesQuery,
       snapshot => {
         if (activeChatId !== chatId) return;
@@ -339,26 +688,29 @@ $("openChat").addEventListener("click", async () => {
         box.replaceChildren();
 
         if (snapshot.empty) {
-          clearMessages("No messages yet. Send the first message!");
+          const empty = document.createElement("div");
+          empty.className = "empty-chat";
+          empty.textContent = "No messages yet. Say hello!";
+          box.appendChild(empty);
           return;
         }
 
-        snapshot.forEach(item => {
-          const data = item.data();
+        snapshot.forEach(messageDoc => {
+          const data = messageDoc.data();
+
           const bubble = document.createElement("div");
-          bubble.className = "msg" +
-            (data.senderId === user.uid ? " mine" : "");
+          bubble.className =
+            "message " +
+            (data.senderId === currentUser.uid ? "mine" : "theirs");
 
-          const messageText = document.createElement("div");
-          messageText.textContent = data.text || "";
-          bubble.appendChild(messageText);
+          const text = document.createElement("div");
+          text.textContent = data.text || "";
+          bubble.appendChild(text);
 
-          const time = document.createElement("span");
-          time.className = "msg-time";
-
-          if (data.createdAt?.toDate) {
-            time.textContent = data.createdAt.toDate().toLocaleString();
-          }
+          const time = document.createElement("small");
+          time.textContent = data.createdAt?.toDate
+            ? data.createdAt.toDate().toLocaleString()
+            : "Sending...";
 
           bubble.appendChild(time);
           box.appendChild(bubble);
@@ -367,82 +719,68 @@ $("openChat").addEventListener("click", async () => {
         box.scrollTop = box.scrollHeight;
       },
       error => {
-        console.error("MESSAGES ERROR:", error.code, error.message);
         showStatus(
           "chatStatus",
-          "Loading messages failed (" + error.code + "): " + error.message
+          "Failed while loading messages: " + readableError(error),
+          "error"
         );
       }
     );
 
-    showStatus("chatStatus", "Chat connected.");
-  } catch (error) {
-    console.error("OPEN CHAT ERROR:", stage, error.code, error.message);
-    friendUid = null;
-    activeChatId = null;
-    clearMessages("No chat connection yet.");
+    hideStatus("chatStatus");
 
-    const code = error.code ? " [" + error.code + "]" : "";
+  } catch (error) {
+    console.error("Open chat error:", error);
+
     showStatus(
       "chatStatus",
-      "Failed at: " + stage + code + " — " + error.message
+      "Failed while opening chat: " + readableError(error),
+      "error"
     );
   } finally {
     openingChat = false;
-    $("openChat").disabled = false;
+    $("openChatBtn").disabled = false;
+    $("openChatBtn").textContent = "Open Friend Chat";
   }
 });
 
 $("sendForm").addEventListener("submit", async event => {
   event.preventDefault();
 
-  const user = auth.currentUser;
-  const text = $("message").value.trim();
+  if (!currentUser || !activeChatId || sendingMessage) return;
 
-  if (!user || !friendUid || !activeChatId) {
-    showStatus("chatStatus", "Open an approved friend's chat first.");
-    return;
-  }
+  const input = $("messageInput");
+  const text = input.value.trim();
 
   if (!text) return;
 
-  $("sendButton").disabled = true;
+  sendingMessage = true;
+  $("sendBtn").disabled = true;
 
   try {
     await addDoc(
       collection(db, "chats", activeChatId, "messages"),
       {
         text,
-        senderId: user.uid,
+        senderId: currentUser.uid,
         createdAt: serverTimestamp()
       }
     );
 
-    $("message").value = "";
-    showStatus("chatStatus", "Message sent.");
+    input.value = "";
   } catch (error) {
-    console.error("SEND ERROR:", error.code, error.message);
     showStatus(
       "chatStatus",
-      "Message failed (" + error.code + "): " + error.message
+      "Message was not sent: " + readableError(error),
+      "error"
     );
   } finally {
-    $("sendButton").disabled = false;
-  }
-});
-
-$("logout").addEventListener("click", async () => {
-  stopListening();
-  friendUid = null;
-  activeChatId = null;
-
-  try {
-    await signOut(auth);
-    showStatus("status", "You have been logged out.");
-  } catch (error) {
-    showStatus("chatStatus", error.message);
+    sendingMessage = false;
+    $("sendBtn").disabled = false;
+    input.focus();
   }
 });
 </script>
+
 </body>
 </html>
