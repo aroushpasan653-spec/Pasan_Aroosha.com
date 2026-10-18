@@ -9,251 +9,98 @@
 
 <style>
 :root {
-  --bg: #05080d;
-  --glass: rgba(12, 23, 32, .72);
-  --green: #39ff88;
-  --cyan: #00e5ff;
-  --text: #f3fff9;
-  --muted: #aebdca;
-  --border: rgba(57, 255, 136, .25);
+  --bg:#05080d;
+  --glass:rgba(12,23,32,.72);
+  --green:#39ff88;
+  --cyan:#00e5ff;
+  --text:#f3fff9;
+  --muted:#aebdca;
+  --border:rgba(57,255,136,.25);
 }
-
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  min-height: 100vh;
-  font-family: Arial, sans-serif;
-  color: var(--text);
+*{box-sizing:border-box}
+body{
+  margin:0;min-height:100vh;font-family:Arial,sans-serif;
+  color:var(--text);
   background:
-    radial-gradient(ellipse at 15% 15%, rgba(0,229,255,.12), transparent 40%),
-    radial-gradient(ellipse at 85% 75%, rgba(57,255,136,.13), transparent 40%),
-    var(--bg);
+    radial-gradient(ellipse at 15% 15%,rgba(0,229,255,.12),transparent 40%),
+    radial-gradient(ellipse at 85% 75%,rgba(57,255,136,.13),transparent 40%),
+    var(--bg)
 }
-
-header {
-  padding: 24px 16px;
-  text-align: center;
-  border-bottom: 1px solid var(--border);
-  background: rgba(5, 8, 13, .65);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+header{
+  padding:24px 16px;text-align:center;
+  border-bottom:1px solid var(--border);
+  background:rgba(5,8,13,.65);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px)
 }
-
-.logo {
-  margin: 0;
-  font-size: clamp(25px, 6vw, 36px);
-  font-weight: 900;
-  letter-spacing: 2px;
-  color: var(--green);
-  text-shadow: 0 0 18px rgba(57,255,136,.35);
+.logo{
+  margin:0;font-size:clamp(25px,6vw,36px);
+  font-weight:900;letter-spacing:2px;color:var(--green);
+  text-shadow:0 0 18px rgba(57,255,136,.35)
 }
-
-.subtitle {
-  margin: 9px 0 0;
-  color: var(--muted);
-  font-size: 13px;
-  letter-spacing: 2px;
+.subtitle{margin:9px 0 0;color:var(--muted);font-size:13px;letter-spacing:2px}
+main{width:min(100% - 28px,650px);margin:30px auto}
+.panel{
+  padding:clamp(20px,5vw,32px);
+  border:1px solid rgba(133,255,198,.23);border-radius:24px;
+  background:var(--glass);backdrop-filter:blur(22px);
+  -webkit-backdrop-filter:blur(22px);
+  box-shadow:0 18px 60px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.05)
 }
-
-main {
-  width: min(100% - 28px, 650px);
-  margin: 40px auto;
+h2{color:var(--green);font-size:27px;margin:0 0 10px}
+.description{color:var(--muted);line-height:1.6;margin-bottom:24px}
+.field-label{display:block;color:#d7e8e0;font-size:14px;margin:16px 0 7px}
+input{
+  display:block;width:100%;min-width:0;padding:15px;margin:0;
+  border-radius:12px;border:1px solid #344451;outline:none;
+  background:rgba(5,12,20,.8);color:white;font-size:16px
 }
-
-.panel {
-  padding: clamp(20px, 5vw, 32px);
-  border: 1px solid rgba(133, 255, 198, .23);
-  border-radius: 24px;
-  background: var(--glass);
-  backdrop-filter: blur(22px);
-  -webkit-backdrop-filter: blur(22px);
-  box-shadow: 0 18px 60px rgba(0,0,0,.35),
-              inset 0 1px 0 rgba(255,255,255,.05);
+input:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(57,255,136,.09)}
+button{
+  display:inline-flex;justify-content:center;align-items:center;
+  min-height:47px;padding:13px 19px;border:1px solid transparent;
+  border-radius:12px;background:var(--green);color:#04130a;
+  font-size:15px;font-weight:800;cursor:pointer;transition:.2s ease
 }
-
-h2 {
-  color: var(--green);
-  font-size: 27px;
-  margin: 0 0 10px;
+button:hover{transform:translateY(-2px);box-shadow:0 0 22px rgba(57,255,136,.2)}
+button:disabled{opacity:.55;cursor:wait;transform:none}
+.full-button{width:100%;margin-top:20px}
+.secondary{color:var(--green);background:rgba(57,255,136,.07);border-color:var(--border)}
+#chat{display:none}
+.account-bar{
+  padding:12px;border:1px solid var(--border);border-radius:12px;
+  color:var(--muted);overflow-wrap:anywhere;font-size:13px;margin:18px 0
 }
-
-.description {
-  color: var(--muted);
-  line-height: 1.6;
-  margin-bottom: 24px;
+.status{min-height:22px;color:var(--muted);font-size:13px;line-height:1.5;overflow-wrap:anywhere}
+#messages{
+  height:330px;overflow-y:auto;padding:12px;margin:16px 0;
+  border-radius:14px;border:1px solid rgba(255,255,255,.07);
+  background:rgba(2,7,12,.65)
 }
-
-.field-label {
-  display: block;
-  color: #d7e8e0;
-  font-size: 14px;
-  margin: 16px 0 7px;
+.msg{
+  max-width:88%;width:fit-content;padding:11px 13px;margin:9px 0;
+  border:1px solid rgba(255,255,255,.06);border-radius:13px 13px 13px 3px;
+  background:#172633;overflow-wrap:anywhere;white-space:pre-wrap;line-height:1.45
 }
-
-input {
-  display: block;
-  width: 100%;
-  min-width: 0;
-  padding: 15px;
-  margin: 0;
-  border-radius: 12px;
-  border: 1px solid #344451;
-  outline: none;
-  background: rgba(5, 12, 20, .8);
-  color: white;
-  font-size: 16px;
+.msg.mine{
+  margin-left:auto;background:rgba(5,92,65,.8);
+  border-color:rgba(57,255,136,.18);border-radius:13px 13px 3px 13px
 }
-
-input:focus {
-  border-color: var(--green);
-  box-shadow: 0 0 0 3px rgba(57,255,136,.09);
-}
-
-button, .back-link {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 47px;
-  padding: 13px 19px;
-  border: 1px solid transparent;
-  border-radius: 12px;
-  background: var(--green);
-  color: #04130a;
-  font-size: 15px;
-  font-weight: 800;
-  cursor: pointer;
-  text-decoration: none;
-  transition: .2s ease;
-}
-
-button:hover, .back-link:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 0 22px rgba(57,255,136,.2);
-}
-
-button:disabled {
-  opacity: .55;
-  cursor: wait;
-  transform: none;
-}
-
-.full-button {
-  width: 100%;
-  margin-top: 20px;
-}
-
-.secondary {
-  color: var(--green);
-  background: rgba(57,255,136,.07);
-  border-color: var(--border);
-}
-
-#chat {
-  display: none;
-}
-
-.account-bar {
-  padding: 12px;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  color: var(--muted);
-  overflow-wrap: anywhere;
-  font-size: 13px;
-  margin: 18px 0;
-}
-
-.status {
-  min-height: 22px;
-  color: var(--muted);
-  font-size: 13px;
-  line-height: 1.5;
-  overflow-wrap: anywhere;
-}
-
-#messages {
-  height: 330px;
-  overflow-y: auto;
-  padding: 12px;
-  margin: 16px 0;
-  border-radius: 14px;
-  border: 1px solid rgba(255,255,255,.07);
-  background: rgba(2,7,12,.65);
-}
-
-.msg {
-  max-width: 88%;
-  width: fit-content;
-  padding: 11px 13px;
-  margin: 9px 0;
-  border: 1px solid rgba(255,255,255,.06);
-  border-radius: 13px 13px 13px 3px;
-  background: #172633;
-  overflow-wrap: anywhere;
-  white-space: pre-wrap;
-  line-height: 1.45;
-}
-
-.msg.mine {
-  margin-left: auto;
-  background: rgba(5, 92, 65, .8);
-  border-color: rgba(57,255,136,.18);
-  border-radius: 13px 13px 3px 13px;
-}
-
-.msg-time {
-  display: block;
-  margin-top: 5px;
-  font-size: 10px;
-  color: #b8d5c8;
-}
-
-.send-row {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-}
-
-.send-row input {
-  flex: 1;
-  width: 0;
-}
-
-.send-row button {
-  flex-shrink: 0;
-}
-
-footer {
-  text-align: center;
-  padding: 15px;
-  color: #71818d;
-  font-size: 12px;
-}
-
-@media (max-width: 420px) {
-  main {
-    margin: 22px auto;
-  }
-
-  .send-row {
-    flex-wrap: wrap;
-  }
-
-  .send-row input {
-    width: 100%;
-    flex-basis: 100%;
-  }
-
-  .send-row button {
-    width: 100%;
-  }
+.msg-time{display:block;margin-top:5px;font-size:10px;color:#b8d5c8}
+.send-row{display:flex;align-items:center;gap:9px}
+.send-row input{flex:1;width:0}
+.send-row button{flex-shrink:0}
+footer{text-align:center;padding:15px;color:#71818d;font-size:12px}
+@media(max-width:420px){
+  main{margin:22px auto}
+  .send-row{flex-wrap:wrap}
+  .send-row input{width:100%;flex-basis:100%}
+  .send-row button{width:100%}
 }
 </style>
 </head>
-
 <body>
+
 <header>
   <h1 class="logo">PAZZAN.COM</h1>
   <p class="subtitle">PRIVATE CHAT SYSTEM</p>
@@ -262,9 +109,7 @@ footer {
 <main>
   <section class="panel" id="login">
     <h2>Welcome Back 👋</h2>
-    <p class="description">
-      Sign in to connect with your approved friends.
-    </p>
+    <p class="description">Sign in to connect with your approved friends.</p>
 
     <form id="loginForm">
       <label class="field-label" for="email">Email address</label>
@@ -272,13 +117,10 @@ footer {
              placeholder="you@example.com" required>
 
       <label class="field-label" for="password">Password</label>
-      <input id="password" type="password"
-             autocomplete="current-password"
+      <input id="password" type="password" autocomplete="current-password"
              placeholder="Enter your password" required>
 
-      <button class="full-button" id="loginButton" type="submit">
-        LOGIN SECURELY ↗
-      </button>
+      <button class="full-button" id="loginButton" type="submit">LOGIN SECURELY ↗</button>
     </form>
 
     <p class="status" id="status" role="status"></p>
@@ -289,22 +131,14 @@ footer {
 
   <section class="panel" id="chat">
     <h2>Private Messages 💬</h2>
-    <p class="description">
-      Your personal space to chat with approved friends.
-    </p>
+    <p class="description">Your personal space to chat with approved friends.</p>
 
     <div class="account-bar" id="account"></div>
 
-    <label class="field-label" for="friendEmail">
-      Friend's email address
-    </label>
-    <input id="friendEmail" type="email"
-           placeholder="friend@example.com">
+    <label class="field-label" for="friendEmail">Friend's email address</label>
+    <input id="friendEmail" type="email" placeholder="friend@example.com">
 
-    <button class="full-button" id="openChat" type="button">
-      OPEN FRIEND CHAT
-    </button>
-
+    <button class="full-button" id="openChat" type="button">OPEN FRIEND CHAT</button>
     <p class="status" id="chatStatus" role="status"></p>
 
     <div id="messages" aria-live="polite">
@@ -312,15 +146,12 @@ footer {
     </div>
 
     <form id="sendForm" class="send-row">
-      <input id="message" maxlength="2000"
-             placeholder="Write a message..."
+      <input id="message" maxlength="2000" placeholder="Write a message..."
              aria-label="Write a message" required>
       <button id="sendButton" type="submit">SEND ➤</button>
     </form>
 
-    <button class="full-button secondary" id="logout" type="button">
-      LOG OUT
-    </button>
+    <button class="full-button secondary" id="logout" type="button">LOG OUT</button>
   </section>
 </main>
 
@@ -331,28 +162,14 @@ import { initializeApp }
   from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
 
 import {
-  getAuth,
-  onAuthStateChanged,
-  signInWithEmailAndPassword,
-  signOut
+  getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut
 } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
 
 import {
-  getFirestore,
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  query,
-  where,
-  setDoc,
-  addDoc,
-  onSnapshot,
-  orderBy,
-  serverTimestamp
+  getFirestore, collection, doc, getDoc, getDocs, query, where,
+  setDoc, addDoc, onSnapshot, orderBy, serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
 
-/* Your Firebase web app configuration */
 const firebaseConfig = {
   apiKey: "AIzaSyB3G98XBTZH6NFiZx6NQmyEKR8g6vnSYNQ",
   authDomain: "pasan-fc8e2.firebaseapp.com",
@@ -366,12 +183,12 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
-
 const $ = id => document.getElementById(id);
 
 let friendUid = null;
 let stopMessages = null;
 let openingChat = false;
+let activeChatId = null;
 
 function showStatus(id, message) {
   $(id).textContent = message;
@@ -394,30 +211,18 @@ function clearMessages(message = "") {
 
 $("loginForm").addEventListener("submit", async event => {
   event.preventDefault();
-
   const button = $("loginButton");
   button.disabled = true;
   showStatus("status", "Signing in...");
 
   try {
     await signInWithEmailAndPassword(
-      auth,
-      $("email").value.trim(),
-      $("password").value
+      auth, $("email").value.trim(), $("password").value
     );
     showStatus("status", "");
   } catch (error) {
-    console.error(error);
-    showStatus(
-      "status",
-      error.code === "auth/invalid-api-key"
-        ? "Firebase API key is invalid. Check the web app configuration."
-        : error.code === "auth/invalid-credential" ||
-          error.code === "auth/wrong-password" ||
-          error.code === "auth/user-not-found"
-        ? "Email or password is incorrect."
-        : error.message
-    );
+    console.error("LOGIN ERROR:", error.code, error.message);
+    showStatus("status", error.message);
   } finally {
     button.disabled = false;
   }
@@ -429,15 +234,14 @@ onAuthStateChanged(auth, user => {
 
   stopListening();
   friendUid = null;
+  activeChatId = null;
   openingChat = false;
   clearMessages("Choose an approved friend to start chatting.");
   showStatus("chatStatus", "");
 
-  if (user) {
-    $("account").textContent = "Signed in: " + (user.email || "Account");
-  } else {
-    $("account").textContent = "";
-  }
+  $("account").textContent = user
+    ? "Signed in: " + (user.email || "Account")
+    : "";
 });
 
 $("openChat").addEventListener("click", async () => {
@@ -456,16 +260,23 @@ $("openChat").addEventListener("click", async () => {
     return;
   }
 
+  if (email === (user.email || "").toLowerCase()) {
+    showStatus("chatStatus", "Enter your friend's email, not your own.");
+    return;
+  }
+
   openingChat = true;
   $("openChat").disabled = true;
   stopListening();
   friendUid = null;
+  activeChatId = null;
   clearMessages("Connecting...");
-  showStatus("chatStatus", "Checking approved friends...");
+
+  let stage = "Checking approved friends";
 
   try {
-    // Friend documents must be in the "friends" collection.
-    // Each document ID must be that friend's Firebase Auth UID.
+    showStatus("chatStatus", stage + "...");
+
     const friendsQuery = query(
       collection(db, "friends"),
       where("email", "==", email),
@@ -473,48 +284,57 @@ $("openChat").addEventListener("click", async () => {
     );
 
     const friendsSnapshot = await getDocs(friendsQuery);
-
-    const found = friendsSnapshot.docs.find(
-      item => item.id !== user.uid
-    );
+    const found = friendsSnapshot.docs.find(item => item.id !== user.uid);
 
     if (!found) {
-      throw new Error(
-        "Friend not found. Check their approved friends record."
-      );
+      throw new Error("Friend not found. Check their approved friends record.");
     }
 
     friendUid = found.id;
-
-    const chatId = [user.uid, friendUid].sort().join("_");
+    const participants = [user.uid, friendUid].sort();
+    const chatId = participants.join("_");
     const chatRef = doc(db, "chats", chatId);
+
+    stage = "Checking existing chat";
+    showStatus("chatStatus", stage + "...");
 
     const chatSnapshot = await getDoc(chatRef);
 
     if (!chatSnapshot.exists()) {
+      stage = "Creating new chat";
+      showStatus("chatStatus", stage + "...");
+
       await setDoc(chatRef, {
-        participants: [user.uid, friendUid].sort(),
+        participants,
         createdAt: serverTimestamp()
       });
     } else {
-      const participants = chatSnapshot.data().participants || [];
+      const saved = chatSnapshot.data().participants || [];
 
       if (
-        !participants.includes(user.uid) ||
-        !participants.includes(friendUid)
+        saved.length !== 2 ||
+        !saved.includes(user.uid) ||
+        !saved.includes(friendUid)
       ) {
-        throw new Error("This chat's participants do not match.");
+        throw new Error("Chat participants do not match these two accounts.");
       }
     }
+
+    stage = "Loading messages";
+    showStatus("chatStatus", stage + "...");
 
     const messagesQuery = query(
       collection(db, "chats", chatId, "messages"),
       orderBy("createdAt", "asc")
     );
 
+    activeChatId = chatId;
+
     stopMessages = onSnapshot(
       messagesQuery,
       snapshot => {
+        if (activeChatId !== chatId) return;
+
         const box = $("messages");
         box.replaceChildren();
 
@@ -526,13 +346,12 @@ $("openChat").addEventListener("click", async () => {
         snapshot.forEach(item => {
           const data = item.data();
           const bubble = document.createElement("div");
+          bubble.className = "msg" +
+            (data.senderId === user.uid ? " mine" : "");
 
-          bubble.className =
-            "msg" + (data.senderId === user.uid ? " mine" : "");
-
-          const text = document.createElement("div");
-          text.textContent = data.text || "";
-          bubble.appendChild(text);
+          const messageText = document.createElement("div");
+          messageText.textContent = data.text || "";
+          bubble.appendChild(messageText);
 
           const time = document.createElement("span");
           time.className = "msg-time";
@@ -548,17 +367,26 @@ $("openChat").addEventListener("click", async () => {
         box.scrollTop = box.scrollHeight;
       },
       error => {
-        console.error(error);
-        showStatus("chatStatus", "Cannot load messages: " + error.message);
+        console.error("MESSAGES ERROR:", error.code, error.message);
+        showStatus(
+          "chatStatus",
+          "Loading messages failed (" + error.code + "): " + error.message
+        );
       }
     );
 
     showStatus("chatStatus", "Chat connected.");
   } catch (error) {
-    console.error(error);
+    console.error("OPEN CHAT ERROR:", stage, error.code, error.message);
     friendUid = null;
+    activeChatId = null;
     clearMessages("No chat connection yet.");
-    showStatus("chatStatus", error.message);
+
+    const code = error.code ? " [" + error.code + "]" : "";
+    showStatus(
+      "chatStatus",
+      "Failed at: " + stage + code + " — " + error.message
+    );
   } finally {
     openingChat = false;
     $("openChat").disabled = false;
@@ -571,19 +399,18 @@ $("sendForm").addEventListener("submit", async event => {
   const user = auth.currentUser;
   const text = $("message").value.trim();
 
-  if (!user || !friendUid) {
+  if (!user || !friendUid || !activeChatId) {
     showStatus("chatStatus", "Open an approved friend's chat first.");
     return;
   }
 
   if (!text) return;
 
-  const chatId = [user.uid, friendUid].sort().join("_");
   $("sendButton").disabled = true;
 
   try {
     await addDoc(
-      collection(db, "chats", chatId, "messages"),
+      collection(db, "chats", activeChatId, "messages"),
       {
         text,
         senderId: user.uid,
@@ -594,8 +421,11 @@ $("sendForm").addEventListener("submit", async event => {
     $("message").value = "";
     showStatus("chatStatus", "Message sent.");
   } catch (error) {
-    console.error(error);
-    showStatus("chatStatus", "Message failed: " + error.message);
+    console.error("SEND ERROR:", error.code, error.message);
+    showStatus(
+      "chatStatus",
+      "Message failed (" + error.code + "): " + error.message
+    );
   } finally {
     $("sendButton").disabled = false;
   }
@@ -604,6 +434,7 @@ $("sendForm").addEventListener("submit", async event => {
 $("logout").addEventListener("click", async () => {
   stopListening();
   friendUid = null;
+  activeChatId = null;
 
   try {
     await signOut(auth);
