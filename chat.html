@@ -1,20 +1,20 @@
 
 <!DOCTYPE html>
-<html lang="si">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#05080d">
-  <title>PAZZAN.COM | Live Chat</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PAZZAN.COM | Private Chat</title>
 
   <style>
     :root {
+      --bg: #05080d;
+      --panel: rgba(12, 23, 34, .78);
       --green: #39ff88;
       --cyan: #00e5ff;
-      --bg: #05080d;
-      --muted: #aab9c8;
-      --line: #39ff8840;
-      --glass: rgba(10, 20, 30, .76);
+      --text: #f3fff9;
+      --muted: #a9bac8;
+      --border: rgba(57, 255, 136, .24);
     }
 
     * { box-sizing: border-box; }
@@ -22,390 +22,290 @@
     body {
       margin: 0;
       min-height: 100vh;
-      color: #f3fff9;
+      color: var(--text);
       font-family: Arial, sans-serif;
       background:
-        radial-gradient(ellipse at 0 0, #123b3150, transparent 45%),
-        radial-gradient(ellipse at 100% 100%, #35135c55, transparent 45%),
+        radial-gradient(ellipse at top left, #103b36 0, transparent 40%),
+        radial-gradient(ellipse at bottom right, #10284a 0, transparent 40%),
         var(--bg);
-      background-attachment: fixed;
     }
 
     button, input { font: inherit; }
-    button { cursor: pointer; }
+
+    button {
+      cursor: pointer;
+      color: var(--text);
+    }
 
     .topbar {
       position: sticky;
       top: 0;
-      z-index: 10;
-      height: 65px;
+      z-index: 5;
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      padding: 0 5%;
-      gap: 10px;
-      background: #05080dcc;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 5%;
+      background: rgba(4, 8, 14, .72);
+      border-bottom: 1px solid var(--border);
       backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--line);
     }
 
     .logo {
       color: var(--green);
+      font-size: 20px;
       font-weight: 900;
-      font-size: 21px;
-      text-decoration: none;
       letter-spacing: 1px;
+      text-decoration: none;
+      text-shadow: 0 0 12px #39ff8866;
     }
 
-    .logo span { color: var(--cyan); }
-
-    .btn {
-      color: white;
-      background: #ffffff0a;
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      padding: 10px 13px;
+    .small-btn, .send-btn {
+      border: 1px solid var(--border);
+      background: rgba(57, 255, 136, .09);
+      border-radius: 12px;
+      padding: 10px 14px;
     }
 
-    .btn:hover { border-color: var(--cyan); }
-
-    .page {
-      max-width: 1200px;
-      margin: 24px auto;
-      padding: 0 14px;
+    .small-btn:hover, .send-btn:hover {
+      border-color: var(--green);
     }
 
     .layout {
-      min-height: 78vh;
+      width: min(1100px, 94%);
+      margin: 24px auto;
       display: grid;
       grid-template-columns: 290px minmax(0, 1fr);
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      overflow: hidden;
-      background: var(--glass);
-      backdrop-filter: blur(20px);
-      box-shadow: 0 0 35px #00e5ff0b;
+      gap: 18px;
     }
 
-    .sidebar {
+    .glass {
       min-width: 0;
-      border-right: 1px solid var(--line);
-      display: flex;
-      flex-direction: column;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      backdrop-filter: blur(18px);
+      box-shadow: 0 0 30px #00e5ff0b;
+      overflow: hidden;
     }
 
-    .side-head { padding: 20px 16px 12px; }
+    .panel-head {
+      padding: 18px;
+      border-bottom: 1px solid var(--border);
+    }
 
     h2 {
-      color: var(--green);
-      font-size: 21px;
-      margin: 0 0 8px;
+      font-size: 18px;
+      margin: 0 0 7px;
     }
 
-    .muted {
+    .muted, .status {
       color: var(--muted);
-      font-size: 12px;
-      overflow-wrap: anywhere;
+      font-size: 13px;
     }
 
-    .search {
-      width: calc(100% - 28px);
-      margin: 0 14px 12px;
-      padding: 12px;
-      color: white;
-      background: #ffffff08;
-      border: 1px solid #ffffff20;
-      border-radius: 10px;
-      outline: none;
-    }
-
-    .search:focus { border-color: var(--cyan); }
-
-    .friend-list {
-      flex: 1;
+    #friendList {
+      padding: 10px;
+      max-height: 65vh;
       overflow-y: auto;
     }
 
     .friend {
       width: 100%;
       display: flex;
-      gap: 11px;
       align-items: center;
-      padding: 14px;
-      color: white;
+      gap: 12px;
+      padding: 13px;
+      margin-bottom: 7px;
       text-align: left;
-      border: 0;
-      border-top: 1px solid #ffffff0c;
-      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 14px;
+      background: rgba(255,255,255,.025);
     }
 
     .friend:hover, .friend.active {
-      background: #39ff8810;
-    }
-
-    .friend.active {
-      box-shadow: inset 3px 0 var(--green);
+      background: rgba(57,255,136,.08);
+      border-color: var(--border);
     }
 
     .avatar {
-      width: 42px;
-      height: 42px;
+      width: 40px;
+      height: 40px;
       flex-shrink: 0;
       display: grid;
       place-items: center;
       border-radius: 50%;
       color: var(--green);
+      background: rgba(57,255,136,.10);
+      border: 1px solid var(--border);
       font-weight: bold;
-      border: 1px solid #39ff8870;
-      background: #39ff8810;
     }
 
-    .friend-info { min-width: 0; }
-    .friend-name { font-size: 14px; overflow-wrap: anywhere; }
-    .friend-status { color: var(--green); font-size: 11px; margin-top: 5px; }
-
-    .chat {
-      display: flex;
-      min-width: 0;
-      min-height: 0;
-      flex-direction: column;
-    }
-
-    .chat-head {
-      min-height: 72px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 13px 18px;
-      border-bottom: 1px solid #ffffff15;
-    }
-
-    .chat-head h3 {
-      font-size: 15px;
-      margin: 0 0 5px;
+    .friend-name {
+      font-weight: bold;
       overflow-wrap: anywhere;
     }
 
-    .chat-head .muted { font-size: 11px; }
+    .chat-panel {
+      display: flex;
+      flex-direction: column;
+      min-height: 560px;
+    }
 
-    .messages {
-      flex: 1;
-      min-height: 300px;
-      max-height: 58vh;
-      overflow-y: auto;
+    .chat-head {
+      padding: 18px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    #messages {
       display: flex;
       flex-direction: column;
       gap: 12px;
-      padding: 20px 16px;
-    }
-
-    .empty {
-      margin: auto;
-      padding: 25px 15px;
-      text-align: center;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.8;
+      flex: 1;
+      min-height: 320px;
+      max-height: 56vh;
+      padding: 18px;
+      overflow-y: auto;
     }
 
     .bubble {
       max-width: 82%;
-      width: fit-content;
-      padding: 11px 13px;
-      border: 1px solid #ffffff15;
-      background: #ffffff0a;
-      border-radius: 15px 15px 15px 4px;
+      padding: 11px 14px;
+      border-radius: 15px;
       overflow-wrap: anywhere;
       white-space: pre-wrap;
-      line-height: 1.5;
-      font-size: 14px;
+      line-height: 1.45;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.08);
     }
 
     .bubble.mine {
       align-self: flex-end;
-      background: #39ff8815;
-      border-color: #39ff8840;
-      border-radius: 15px 15px 4px 15px;
+      background: rgba(57,255,136,.10);
+      border-color: var(--border);
     }
 
     .bubble .time {
       display: block;
       margin-top: 6px;
-      font-size: 10px;
+      font-size: 11px;
       color: var(--muted);
-      text-align: right;
     }
 
     .composer {
       display: flex;
-      align-items: flex-end;
-      gap: 9px;
-      padding: 13px;
-      border-top: 1px solid #ffffff15;
+      gap: 10px;
+      padding: 14px;
+      border-top: 1px solid var(--border);
     }
 
-    .composer input {
-      flex: 1;
+    #messageInput {
       min-width: 0;
-      color: white;
+      flex: 1;
       padding: 13px;
+      color: var(--text);
+      background: rgba(0,0,0,.25);
+      border: 1px solid var(--border);
       border-radius: 12px;
-      border: 1px solid #ffffff20;
-      background: #ffffff08;
       outline: none;
     }
 
-    .composer input:focus { border-color: var(--green); }
-
-    .send {
-      border: none;
-      border-radius: 12px;
-      padding: 13px 17px;
-      font-weight: bold;
-      color: #04100b;
-      background: linear-gradient(100deg, var(--green), var(--cyan));
+    #messageInput:focus {
+      border-color: var(--cyan);
     }
 
-    .send:disabled { opacity: .5; cursor: not-allowed; }
+    .send-btn {
+      color: var(--green);
+      font-weight: bold;
+    }
 
-    .status {
-      margin: 12px 15px;
-      padding: 10px;
-      font-size: 12px;
-      line-height: 1.6;
-      border-radius: 9px;
+    .empty {
+      margin: auto;
+      padding: 25px;
+      text-align: center;
       color: var(--muted);
+      line-height: 1.6;
+    }
+
+    #notice {
+      padding: 12px 18px;
+      color: var(--muted);
+      font-size: 13px;
       overflow-wrap: anywhere;
     }
 
-    .status.error {
-      color: #ffb6bd;
-      background: #ff315515;
-      border: 1px solid #ff315540;
-    }
-
-    .status.ok {
-      color: var(--green);
-      background: #39ff880b;
-    }
-
-    .hidden { display: none !important; }
-
     @media (max-width: 700px) {
-      .page { margin: 12px auto; padding: 0 8px; }
-
       .layout {
         grid-template-columns: 1fr;
-        min-height: 82vh;
+        margin: 14px auto;
       }
 
-      .sidebar {
-        border-right: 0;
-        border-bottom: 1px solid var(--line);
-      }
-
-      .side-head { padding: 15px 14px 9px; }
-      .side-head h2 { font-size: 18px; }
-
-      .friend-list {
+      #friendList {
         display: flex;
+        gap: 8px;
+        max-height: none;
         overflow-x: auto;
-        flex: initial;
-        padding-bottom: 8px;
       }
 
       .friend {
-        flex: 0 0 145px;
-        width: 145px;
-        flex-direction: column;
-        align-items: flex-start;
-        border: 0;
-        border-right: 1px solid #ffffff0c;
-        gap: 7px;
+        width: 180px;
+        min-width: 180px;
+        margin: 0;
       }
 
-      .friend.active { box-shadow: inset 0 -3px var(--green); }
+      .chat-panel { min-height: 470px; }
 
-      .messages {
-        min-height: 300px;
-        max-height: none;
+      #messages {
+        min-height: 270px;
+        max-height: 48vh;
       }
 
-      .chat { min-height: 55vh; }
-      .bubble { max-width: 90%; }
-      .logo { font-size: 17px; }
+      .topbar { padding: 14px; }
     }
   </style>
 </head>
 
 <body>
   <header class="topbar">
-    <a class="logo" href="index.html">PAZZAN<span>.COM</span></a>
-    <div style="display:flex;gap:8px">
-      <a class="btn" href="index.html" style="text-decoration:none">Home</a>
-      <button class="btn" id="logoutBtn" type="button">Logout</button>
-    </div>
+    <a class="logo" href="index.html">PAZZAN.COM</a>
+    <button class="small-btn" id="logoutBtn" hidden>Log out</button>
   </header>
 
-  <main class="page">
-    <div class="layout">
-      <aside class="sidebar">
-        <div class="side-head">
-          <h2>Live Chat</h2>
-          <p class="muted" id="myEmail">සම්බන්ධ වෙමින්...</p>
-        </div>
+  <main class="layout">
+    <section class="glass">
+      <div class="panel-head">
+        <h2>My Friends</h2>
+        <div class="muted">Approved accounts only</div>
+      </div>
+      <div id="friendList">
+        <div class="empty">Loading friends...</div>
+      </div>
+    </section>
 
+    <section class="glass chat-panel">
+      <div class="chat-head">
+        <h2 id="chatTitle">Private Chat</h2>
+        <div class="status" id="chatStatus">Select a friend to start chatting.</div>
+      </div>
+
+      <div id="messages">
+        <div class="empty">Choose an approved friend to open a chat.</div>
+      </div>
+
+      <div class="composer">
         <input
-          id="search"
-          class="search"
-          type="search"
-          placeholder="යාළුවන් සොයන්න..."
-          aria-label="Search friends"
+          id="messageInput"
+          type="text"
+          maxlength="2000"
+          placeholder="Type a message..."
+          autocomplete="off"
+          disabled
         >
+        <button id="sendBtn" class="send-btn" disabled>Send</button>
+      </div>
 
-        <div id="friendList" class="friend-list">
-          <div class="empty">යාළුවන්ගේ ලැයිස්තුව ලබාගනිමින්...</div>
-        </div>
-
-        <div id="friendStatus" class="status">
-          සම්බන්ධ වෙමින්...
-        </div>
-      </aside>
-
-      <section class="chat">
-        <div class="chat-head">
-          <div class="avatar" id="chatAvatar">P</div>
-          <div>
-            <h3 id="chatName">යාළුවෙක් තෝරන්න</h3>
-            <p class="muted" id="chatSubtitle">
-              පණිවිඩ යැවීමට අනුමත යාළුවෙක් තෝරන්න
-            </p>
-          </div>
-        </div>
-
-        <div id="messages" class="messages">
-          <div class="empty">
-            💬 PAZZAN Live Chat<br>
-            වම් පැත්තේ ලැයිස්තුවෙන් යාළුවෙක් තෝරන්න.
-          </div>
-        </div>
-
-        <form id="composer" class="composer">
-          <input
-            id="messageInput"
-            type="text"
-            maxlength="2000"
-            placeholder="පණිවිඩයක් ලියන්න..."
-            autocomplete="off"
-            disabled
-            required
-          >
-          <button id="sendBtn" class="send" type="submit" disabled>
-            Send
-          </button>
-        </form>
-      </section>
-    </div>
+      <div id="notice" role="status" aria-live="polite"></div>
+    </section>
   </main>
 
   <script type="module">
@@ -421,20 +321,19 @@
     import {
       getFirestore,
       collection,
+      doc,
+      getDoc,
+      getDocs,
       query,
       where,
-      getDocs,
-      getDoc,
-      doc,
-      setDoc,
-      addDoc,
-      onSnapshot,
       orderBy,
       limit,
+      onSnapshot,
+      setDoc,
+      addDoc,
       serverTimestamp
     } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
 
-    // ඔයා ලබාදුන් Firebase configuration එක
     const firebaseConfig = {
       apiKey: "AIzaSyB3G98XBTZH6NFiZx6NQmyEKR8g6vnSYNQ",
       authDomain: "pasan-fc8e2.firebaseapp.com",
@@ -449,233 +348,189 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    const $ = id => document.getElementById(id);
+    const $ = (id) => document.getElementById(id);
 
     let currentUser = null;
-    let friends = [];
     let selectedFriend = null;
-    let unsubscribeMessages = null;
-    let unsubscribeFriends = null;
-    let selecting = false;
+    let activeChatId = null;
+    let stopMessages = null;
+    let friendButtons = [];
+    let sending = false;
 
-    function showStatus(text, type = "") {
-      $("friendStatus").textContent = text;
-      $("friendStatus").className = "status" + (type ? " " + type : "");
+    function notice(message) {
+      $("notice").textContent = message;
     }
 
-    function showError(error, area = "friendStatus") {
-      console.error("PAZZAN Chat:", error);
-      const el = $(area);
+    function showError(error) {
+      console.error(error);
 
-      if (area === "friendStatus") {
-        showStatus(
-          error.code === "permission-denied"
-            ? "ප්‍රවේශ අවසර නැහැ. Firestore Security Rules පරීක්ෂා කරන්න."
-            : error.code === "unavailable"
-              ? "Internet හෝ Firebase සම්බන්ධතාව පරීක්ෂා කරන්න."
-              : "දෝෂය: " + (error.code || error.message),
-          "error"
-        );
+      if (error.code === "permission-denied") {
+        notice("Permission denied: check Firestore Rules and friend document IDs.");
       } else {
-        el.textContent = "පණිවිඩ ලබාගැනීමට නොහැකි වුණා: " +
-          (error.code || error.message);
-        el.className = "empty";
+        notice(error.message || "Something went wrong.");
       }
     }
 
-    function escapeText(text) {
-      return String(text ?? "");
-    }
-
-    function initials(name) {
-      return (name || "?").trim().charAt(0).toUpperCase() || "?";
-    }
-
-    function getFriendName(friend) {
-      return friend.name || friend.displayName ||
-        friend.email || friend.uid || "Friend";
-    }
-
-    function renderFriends() {
-      const term = $("search").value.trim().toLowerCase();
-      const list = $("friendList");
-      list.replaceChildren();
-
-      const visible = friends.filter(friend =>
-        getFriendName(friend).toLowerCase().includes(term)
-      );
-
-      if (!visible.length) {
-        const empty = document.createElement("div");
-        empty.className = "empty";
-        empty.textContent = friends.length
-          ? "ගැළපෙන යාළුවෙක් නැහැ."
-          : "අනුමත යාළුවන් හමු වුණේ නැහැ.";
-        list.appendChild(empty);
-        return;
+    function stopCurrentChat() {
+      if (stopMessages) {
+        stopMessages();
+        stopMessages = null;
       }
 
-      visible.forEach(friend => {
-        const item = document.createElement("button");
-        item.type = "button";
-        item.className = "friend" +
-          (selectedFriend?.uid === friend.uid ? " active" : "");
-
-        const avatar = document.createElement("span");
-        avatar.className = "avatar";
-        avatar.textContent = initials(getFriendName(friend));
-
-        const info = document.createElement("span");
-        info.className = "friend-info";
-
-        const name = document.createElement("span");
-        name.className = "friend-name";
-        name.textContent = getFriendName(friend);
-
-        const status = document.createElement("span");
-        status.className = "friend-status";
-        status.textContent = "✓ අනුමත යාළුවෙක්";
-
-        info.append(name, status);
-        item.append(avatar, info);
-
-        item.addEventListener("click", () => selectFriend(friend));
-        list.appendChild(item);
-      });
-    }
-
-    /*
-      Friend document schema expected:
-      friend/{documentId}
-      {
-        members: ["uid_1", "uid_2"],
-        status: "approved"
-      }
-
-      Security Rules must allow only the appropriate members
-      to read approved friend documents.
-    */
-    async function loadFriends() {
-      showStatus("අනුමත යාළුවන් සොයමින්...");
-
-      try {
-        const friendQuery = query(
-          collection(db, "friend"),
-          where("members", "array-contains", currentUser.uid),
-          where("status", "==", "approved")
-        );
-
-        const snapshot = await getDocs(friendQuery);
-        const results = [];
-
-        for (const item of snapshot.docs) {
-          const data = item.data();
-          const members = data.members || [];
-
-          const otherUid = members.find(
-            uid => uid !== currentUser.uid
-          );
-
-          if (!otherUid) continue;
-
-          let name = "";
-          let email = "";
-
-          try {
-            const userDoc = await getDoc(doc(db, "users", otherUid));
-
-            if (userDoc.exists()) {
-              const profile = userDoc.data();
-              name = profile.displayName || profile.name || "";
-              email = profile.email || "";
-            }
-          } catch (profileError) {
-            // Profile reading is optional; use UID if unavailable.
-            console.warn("Optional friend profile unavailable.");
-          }
-
-          results.push({
-            uid: otherUid,
-            name,
-            email,
-            friendshipId: item.id
-          });
-        }
-
-        friends = results;
-        renderFriends();
-        showStatus(
-          friends.length
-            ? friends.length + " අනුමත යාළුවෙක් හමු වුණා."
-            : "දැනට අනුමත යාළුවන් නැහැ."
-        );
-
-        // If a friend was removed from the approved list,
-        // stop displaying that conversation.
-        if (selectedFriend &&
-            !friends.some(f => f.uid === selectedFriend.uid)) {
-          clearSelectedFriend();
-        }
-
-      } catch (error) {
-        showError(error);
-      }
-    }
-
-    function clearSelectedFriend() {
-      if (unsubscribeMessages) unsubscribeMessages();
-      unsubscribeMessages = null;
+      activeChatId = null;
       selectedFriend = null;
-      $("chatName").textContent = "යාළුවෙක් තෝරන්න";
-      $("chatAvatar").textContent = "P";
-      $("chatSubtitle").textContent = "අනුමත යාළුවෙක් තෝරන්න";
       $("messageInput").disabled = true;
       $("sendBtn").disabled = true;
-      $("messages").replaceChildren();
-
-      const empty = document.createElement("div");
-      empty.className = "empty";
-      empty.textContent = "💬 පණිවිඩ බැලීමට යාළුවෙක් තෝරන්න.";
-      $("messages").appendChild(empty);
-
-      renderFriends();
     }
 
-    async function selectFriend(friend) {
-      if (selecting) return;
-      selecting = true;
+    function makeChatId(uidA, uidB) {
+      return [uidA, uidB].sort().join("_");
+    }
+
+    function createFriendButton(friend) {
+      const button = document.createElement("button");
+      button.className = "friend";
+      button.type = "button";
+
+      const avatar = document.createElement("span");
+      avatar.className = "avatar";
+      avatar.textContent = (friend.name || friend.email || "?")
+        .trim().charAt(0).toUpperCase();
+
+      const details = document.createElement("span");
+      const name = document.createElement("div");
+      name.className = "friend-name";
+      name.textContent = friend.name || "Friend";
+
+      const email = document.createElement("div");
+      email.className = "muted";
+      email.textContent = friend.email || "";
+
+      details.append(name, email);
+      button.append(avatar, details);
+
+      button.addEventListener("click", () => openChat(friend, button));
+
+      return button;
+    }
+
+    async function loadFriends() {
+      $("friendList").replaceChildren();
+      const loading = document.createElement("div");
+      loading.className = "empty";
+      loading.textContent = "Loading friends...";
+      $("friendList").append(loading);
 
       try {
-        if (unsubscribeMessages) unsubscribeMessages();
-        unsubscribeMessages = null;
+        // Rules require the query to limit results to enabled documents.
+        const friendsQuery = query(
+          collection(db, "friend"),
+          where("enabled", "==", true)
+        );
 
-        selectedFriend = friend;
-        renderFriends();
+        const snapshot = await getDocs(friendsQuery);
+        $("friendList").replaceChildren();
+        friendButtons = [];
 
-        $("chatName").textContent = getFriendName(friend);
-        $("chatAvatar").textContent = initials(getFriendName(friend));
-        $("chatSubtitle").textContent = "Live Chat";
-        $("messageInput").disabled = true;
-        $("sendBtn").disabled = true;
-        $("messages").replaceChildren();
+        snapshot.forEach((friendDoc) => {
+          // Document ID must be the person's Firebase Auth UID.
+          const uid = friendDoc.id;
 
-        const loading = document.createElement("div");
-        loading.className = "empty";
-        loading.textContent = "පණිවිඩ ලබාගනිමින්...";
-        $("messages").appendChild(loading);
+          if (uid === currentUser.uid) return;
 
-        const ids = [currentUser.uid, friend.uid].sort();
-        const chatId = ids.join("_");
-        const chatRef = doc(db, "chats", chatId);
+          const data = friendDoc.data();
+          const friend = {
+            uid,
+            name: data.name || "Friend",
+            email: data.email || ""
+          };
 
-        // A chat may only be initialized for an approved friend.
-        // Firestore Rules must enforce the same requirement.
-        await setDoc(chatRef, {
-          members: ids,
-          updatedAt: serverTimestamp()
-        }, { merge: true });
+          const button = createFriendButton(friend);
+          friendButtons.push(button);
+          $("friendList").append(button);
+        });
 
-        if (selectedFriend?.uid !== friend.uid) return;
+        if (!friendButtons.length) {
+          const empty = document.createElement("div");
+          empty.className = "empty";
+          empty.textContent =
+            "No other approved friends found. Check the friend documents.";
+          $("friendList").append(empty);
+        }
+      } catch (error) {
+        showError(error);
+        $("friendList").replaceChildren();
+
+        const empty = document.createElement("div");
+        empty.className = "empty";
+        empty.textContent = "Could not load friends.";
+        $("friendList").append(empty);
+      }
+    }
+
+    async function openChat(friend, button) {
+      if (!currentUser || !friend.uid) return;
+
+      stopCurrentChat();
+      friendButtons.forEach((item) => item.classList.remove("active"));
+      button.classList.add("active");
+
+      selectedFriend = friend;
+      activeChatId = makeChatId(currentUser.uid, friend.uid);
+
+      $("chatTitle").textContent = friend.name;
+      $("chatStatus").textContent = "Connecting...";
+      $("messages").replaceChildren();
+      $("messageInput").disabled = true;
+      $("sendBtn").disabled = true;
+      notice("");
+
+      try {
+        // Confirm both accounts are still approved before opening the chat.
+        const myFriendDoc = await getDoc(
+          doc(db, "friend", currentUser.uid)
+        );
+        const theirFriendDoc = await getDoc(
+          doc(db, "friend", friend.uid)
+        );
+
+        if (
+          !myFriendDoc.exists() ||
+          myFriendDoc.data().enabled !== true ||
+          !theirFriendDoc.exists() ||
+          theirFriendDoc.data().enabled !== true
+        ) {
+          throw new Error("One of these accounts is not approved for chat.");
+        }
+
+        const chatRef = doc(db, "chats", activeChatId);
+        const chatSnapshot = await getDoc(chatRef);
+
+        if (!chatSnapshot.exists()) {
+          await setDoc(chatRef, {
+            participants: [currentUser.uid, friend.uid].sort(),
+            createdAt: serverTimestamp()
+          });
+        } else {
+          const participants = chatSnapshot.data().participants;
+
+          if (
+            !Array.isArray(participants) ||
+            participants.length !== 2 ||
+            !participants.includes(currentUser.uid) ||
+            !participants.includes(friend.uid)
+          ) {
+            throw new Error("Chat participants do not match.");
+          }
+        }
+
+        // A newer selection may have happened while the requests were pending.
+        const chatId = activeChatId;
+        if (chatId !== makeChatId(currentUser.uid, friend.uid)) return;
+
+        $("chatStatus").textContent = "Connected";
+        $("messageInput").disabled = false;
+        $("sendBtn").disabled = false;
 
         const messagesQuery = query(
           collection(db, "chats", chatId, "messages"),
@@ -683,156 +538,138 @@
           limit(100)
         );
 
-        unsubscribeMessages = onSnapshot(
+        stopMessages = onSnapshot(
           messagesQuery,
-          snapshot => {
-            if (selectedFriend?.uid !== friend.uid) return;
+          (snapshot) => {
+            if (activeChatId !== chatId) return;
 
-            const container = $("messages");
-            container.replaceChildren();
+            $("messages").replaceChildren();
 
             if (snapshot.empty) {
               const empty = document.createElement("div");
               empty.className = "empty";
-              empty.textContent =
-                "තවම පණිවිඩ නැහැ. පළමු පණිවිඩය යවන්න!";
-              container.appendChild(empty);
+              empty.textContent = "Say hello to start the conversation!";
+              $("messages").append(empty);
+              return;
             }
 
-            snapshot.forEach(messageDoc => {
+            snapshot.forEach((messageDoc) => {
               const data = messageDoc.data();
-              const bubble = document.createElement("div");
 
+              const bubble = document.createElement("div");
               bubble.className = "bubble" +
                 (data.senderId === currentUser.uid ? " mine" : "");
 
               const text = document.createElement("div");
-              text.textContent = escapeText(data.text);
-              bubble.appendChild(text);
+              text.textContent = data.text || "";
 
               const time = document.createElement("span");
               time.className = "time";
 
-              const date = data.createdAt?.toDate?.();
-              time.textContent = date
-                ? date.toLocaleTimeString([], {
-                    hour: "2-digit",
-                    minute: "2-digit"
-                  })
-                : "යවමින්...";
+              if (data.createdAt?.toDate) {
+                time.textContent = data.createdAt.toDate().toLocaleString();
+              } else {
+                time.textContent = "Sending...";
+              }
 
-              bubble.appendChild(time);
-              container.appendChild(bubble);
+              bubble.append(text, time);
+              $("messages").append(bubble);
             });
 
-            container.scrollTop = container.scrollHeight;
-            $("messageInput").disabled = false;
-            $("sendBtn").disabled = false;
+            $("messages").scrollTop = $("messages").scrollHeight;
           },
-          error => showError(error, "messages")
+          showError
         );
-
       } catch (error) {
         showError(error);
-        $("messages").replaceChildren();
-
-        const errorBox = document.createElement("div");
-        errorBox.className = "empty";
-        errorBox.textContent =
-          "Chat විවෘත කළ නොහැක. Friendship සහ Firestore Rules පරීක්ෂා කරන්න.";
-        $("messages").appendChild(errorBox);
-
-      } finally {
-        selecting = false;
+        $("chatStatus").textContent = "Unable to open chat.";
+        $("messageInput").disabled = true;
+        $("sendBtn").disabled = true;
       }
     }
 
-    $("composer").addEventListener("submit", async event => {
-      event.preventDefault();
-
+    async function sendMessage() {
       const text = $("messageInput").value.trim();
 
-      if (!text || !selectedFriend || !currentUser) return;
+      if (
+        !text ||
+        !currentUser ||
+        !selectedFriend ||
+        !activeChatId ||
+        sending
+      ) return;
 
-      const friend = selectedFriend;
-      const ids = [currentUser.uid, friend.uid].sort();
-      const chatId = ids.join("_");
-      const chatRef = doc(db, "chats", chatId);
-      const sendBtn = $("sendBtn");
-
-      sendBtn.disabled = true;
+      sending = true;
+      $("sendBtn").disabled = true;
 
       try {
-        // Recheck that this friend is still approved before sending.
-        const friendQuery = query(
-          collection(db, "friend"),
-          where("members", "array-contains", currentUser.uid),
-          where("status", "==", "approved")
-        );
+        const chatId = activeChatId;
+        const recipient = selectedFriend;
 
-        const approvedSnapshot = await getDocs(friendQuery);
-        const isApproved = approvedSnapshot.docs.some(item =>
-          (item.data().members || []).includes(friend.uid)
-        );
+        // Recheck approval before sending.
+        const [mine, theirs] = await Promise.all([
+          getDoc(doc(db, "friend", currentUser.uid)),
+          getDoc(doc(db, "friend", recipient.uid))
+        ]);
 
-        if (!isApproved) {
-          throw new Error("මෙම යාළුවා සමඟ Chat කිරීමට අවසර නැහැ.");
+        if (
+          !mine.exists() || mine.data().enabled !== true ||
+          !theirs.exists() || theirs.data().enabled !== true
+        ) {
+          throw new Error("This chat is no longer approved.");
         }
 
-        // Firestore Rules must independently enforce membership.
-        const value = text;
+        if (activeChatId !== chatId) return;
+
         $("messageInput").value = "";
 
-        await addDoc(collection(db, "chats", chatId, "messages"), {
-          senderId: currentUser.uid,
-          text: value,
-          createdAt: serverTimestamp()
-        });
-
-        await setDoc(chatRef, {
-          members: ids,
-          updatedAt: serverTimestamp()
-        }, { merge: true });
-
-      } catch (error) {
-        console.error("Message sending failed:", error);
-        $("messageInput").value = text;
-
-        showStatus(
-          error.code === "permission-denied"
-            ? "පණිවිඩ යැවීමට අවසර නැහැ. Firestore Rules පරීක්ෂා කරන්න."
-            : error.message || "පණිවිඩය යැවීමට නොහැකි වුණා.",
-          "error"
+        await addDoc(
+          collection(db, "chats", chatId, "messages"),
+          {
+            text,
+            senderId: currentUser.uid,
+            createdAt: serverTimestamp()
+          }
         );
-      } finally {
-        sendBtn.disabled = !selectedFriend;
-      }
-    });
 
-    $("search").addEventListener("input", renderFriends);
+        notice("");
+      } catch (error) {
+        showError(error);
+      } finally {
+        sending = false;
+        $("sendBtn").disabled = !activeChatId;
+        $("messageInput").focus();
+      }
+    }
+
+    $("sendBtn").addEventListener("click", sendMessage);
+
+    $("messageInput").addEventListener("keydown", (event) => {
+      if (event.key === "Enter") sendMessage();
+    });
 
     $("logoutBtn").addEventListener("click", async () => {
       try {
-        if (unsubscribeMessages) unsubscribeMessages();
-        if (unsubscribeFriends) unsubscribeFriends();
-
         await signOut(auth);
-        alert("You have been logged out.");
-        window.location.assign("login.html");
+        window.location.href = "login.html";
       } catch (error) {
-        showStatus("Logout කිරීමට නොහැකි වුණා.", "error");
-        console.error(error);
+        showError(error);
       }
     });
 
-    onAuthStateChanged(auth, async user => {
+    onAuthStateChanged(auth, async (user) => {
+      stopCurrentChat();
+
       if (!user) {
-        window.location.replace("login.html");
+        window.location.href = "login.html";
         return;
       }
 
       currentUser = user;
-      $("myEmail").textContent = user.email || "Logged in";
+      $("logoutBtn").hidden = false;
+      $("chatTitle").textContent = "Private Chat";
+      $("chatStatus").textContent = "Select a friend to start chatting.";
+
       await loadFriends();
     });
   </script>
