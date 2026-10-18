@@ -2,676 +2,669 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PAZZAN.COM | Private Chat</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PAZZAN.COM | Private Chat</title>
 
-  <style>
-    :root {
-      --bg: #05080d;
-      --panel: rgba(12, 23, 34, .78);
-      --green: #39ff88;
-      --cyan: #00e5ff;
-      --text: #f3fff9;
-      --muted: #a9bac8;
-      --border: rgba(57, 255, 136, .24);
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      color: var(--text);
-      font-family: Arial, sans-serif;
-      background:
-        radial-gradient(ellipse at top left, #103b36 0, transparent 40%),
-        radial-gradient(ellipse at bottom right, #10284a 0, transparent 40%),
-        var(--bg);
-    }
-
-    button, input { font: inherit; }
-
-    button {
-      cursor: pointer;
-      color: var(--text);
-    }
-
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 5;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      padding: 16px 5%;
-      background: rgba(4, 8, 14, .72);
-      border-bottom: 1px solid var(--border);
-      backdrop-filter: blur(20px);
-    }
-
-    .logo {
-      color: var(--green);
-      font-size: 20px;
-      font-weight: 900;
-      letter-spacing: 1px;
-      text-decoration: none;
-      text-shadow: 0 0 12px #39ff8866;
-    }
-
-    .small-btn, .send-btn {
-      border: 1px solid var(--border);
-      background: rgba(57, 255, 136, .09);
-      border-radius: 12px;
-      padding: 10px 14px;
-    }
-
-    .small-btn:hover, .send-btn:hover {
-      border-color: var(--green);
-    }
-
-    .layout {
-      width: min(1100px, 94%);
-      margin: 24px auto;
-      display: grid;
-      grid-template-columns: 290px minmax(0, 1fr);
-      gap: 18px;
-    }
-
-    .glass {
-      min-width: 0;
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      backdrop-filter: blur(18px);
-      box-shadow: 0 0 30px #00e5ff0b;
-      overflow: hidden;
-    }
-
-    .panel-head {
-      padding: 18px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    h2 {
-      font-size: 18px;
-      margin: 0 0 7px;
-    }
-
-    .muted, .status {
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    #friendList {
-      padding: 10px;
-      max-height: 65vh;
-      overflow-y: auto;
-    }
-
-    .friend {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 13px;
-      margin-bottom: 7px;
-      text-align: left;
-      border: 1px solid transparent;
-      border-radius: 14px;
-      background: rgba(255,255,255,.025);
-    }
-
-    .friend:hover, .friend.active {
-      background: rgba(57,255,136,.08);
-      border-color: var(--border);
-    }
-
-    .avatar {
-      width: 40px;
-      height: 40px;
-      flex-shrink: 0;
-      display: grid;
-      place-items: center;
-      border-radius: 50%;
-      color: var(--green);
-      background: rgba(57,255,136,.10);
-      border: 1px solid var(--border);
-      font-weight: bold;
-    }
-
-    .friend-name {
-      font-weight: bold;
-      overflow-wrap: anywhere;
-    }
-
-    .chat-panel {
-      display: flex;
-      flex-direction: column;
-      min-height: 560px;
-    }
-
-    .chat-head {
-      padding: 18px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    #messages {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      flex: 1;
-      min-height: 320px;
-      max-height: 56vh;
-      padding: 18px;
-      overflow-y: auto;
-    }
-
-    .bubble {
-      max-width: 82%;
-      padding: 11px 14px;
-      border-radius: 15px;
-      overflow-wrap: anywhere;
-      white-space: pre-wrap;
-      line-height: 1.45;
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.08);
-    }
-
-    .bubble.mine {
-      align-self: flex-end;
-      background: rgba(57,255,136,.10);
-      border-color: var(--border);
-    }
-
-    .bubble .time {
-      display: block;
-      margin-top: 6px;
-      font-size: 11px;
-      color: var(--muted);
-    }
-
-    .composer {
-      display: flex;
-      gap: 10px;
-      padding: 14px;
-      border-top: 1px solid var(--border);
-    }
-
-    #messageInput {
-      min-width: 0;
-      flex: 1;
-      padding: 13px;
-      color: var(--text);
-      background: rgba(0,0,0,.25);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      outline: none;
-    }
-
-    #messageInput:focus {
-      border-color: var(--cyan);
-    }
-
-    .send-btn {
-      color: var(--green);
-      font-weight: bold;
-    }
-
-    .empty {
-      margin: auto;
-      padding: 25px;
-      text-align: center;
-      color: var(--muted);
-      line-height: 1.6;
-    }
-
-    #notice {
-      padding: 12px 18px;
-      color: var(--muted);
-      font-size: 13px;
-      overflow-wrap: anywhere;
-    }
-
-    @media (max-width: 700px) {
-      .layout {
-        grid-template-columns: 1fr;
-        margin: 14px auto;
-      }
-
-      #friendList {
-        display: flex;
-        gap: 8px;
-        max-height: none;
-        overflow-x: auto;
-      }
-
-      .friend {
-        width: 180px;
-        min-width: 180px;
-        margin: 0;
-      }
-
-      .chat-panel { min-height: 470px; }
-
-      #messages {
-        min-height: 270px;
-        max-height: 48vh;
-      }
-
-      .topbar { padding: 14px; }
-    }
-  </style>
+<style>
+:root {
+  --green:#39ff88;
+  --cyan:#00e5ff;
+  --text:#effff8;
+  --muted:#9db3c0;
+  --line:rgba(57,255,136,.22);
+  --glass:rgba(8,20,29,.68);
+}
+* { box-sizing:border-box; }
+body {
+  margin:0;
+  min-height:100vh;
+  color:var(--text);
+  font-family:Arial,sans-serif;
+  background:
+    radial-gradient(ellipse at 10% 0%,#124d3b 0,transparent 38%),
+    radial-gradient(ellipse at 95% 80%,#102f58 0,transparent 40%),
+    #04070c;
+  background-attachment:fixed;
+}
+button,input { font:inherit; }
+button { cursor:pointer; color:var(--text); }
+header {
+  position:sticky; top:0; z-index:10;
+  min-height:68px; padding:13px 5%;
+  display:flex; align-items:center; justify-content:space-between;
+  gap:12px;
+  background:rgba(3,8,13,.68);
+  border-bottom:1px solid var(--line);
+  backdrop-filter:blur(22px) saturate(150%);
+}
+.logo {
+  color:var(--green); text-decoration:none;
+  font-size:21px; font-weight:900; letter-spacing:1px;
+  text-shadow:0 0 15px #39ff8866;
+}
+.btn {
+  border:1px solid var(--line);
+  border-radius:12px; padding:11px 15px;
+  background:rgba(57,255,136,.08);
+  transition:.2s;
+}
+.btn:hover { border-color:var(--green); box-shadow:0 0 16px #39ff8820; }
+.app {
+  width:min(1150px,95%);
+  margin:24px auto;
+  display:grid;
+  grid-template-columns:290px minmax(0,1fr);
+  gap:17px;
+}
+.glass {
+  min-width:0;
+  border:1px solid var(--line);
+  border-radius:20px;
+  overflow:hidden;
+  background:var(--glass);
+  backdrop-filter:blur(22px) saturate(140%);
+  box-shadow:0 12px 45px #0005, inset 0 1px #ffffff08;
+}
+.section-head,.chat-head {
+  padding:18px;
+  border-bottom:1px solid var(--line);
+}
+h2 { margin:0 0 6px; font-size:18px; }
+.muted { color:var(--muted); font-size:12px; }
+#friends {
+  padding:10px; max-height:68vh; overflow:auto;
+}
+.friend {
+  width:100%; display:flex; align-items:center; gap:11px;
+  padding:12px; margin-bottom:7px;
+  text-align:left; border-radius:14px;
+  border:1px solid transparent;
+  background:rgba(255,255,255,.025);
+}
+.friend:hover,.friend.active {
+  border-color:var(--line);
+  background:rgba(57,255,136,.08);
+}
+.avatar {
+  width:41px;height:41px;flex-shrink:0;
+  display:grid;place-items:center;border-radius:50%;
+  border:1px solid var(--line);
+  background:rgba(57,255,136,.10);
+  color:var(--green);font-weight:bold;
+}
+.name { font-weight:bold; overflow-wrap:anywhere; }
+.friend-status { display:flex;align-items:center;gap:5px;margin-top:5px; }
+.dot {
+  display:inline-block;width:7px;height:7px;border-radius:50%;
+  background:#64727d;
+}
+.dot.online { background:var(--green);box-shadow:0 0 8px var(--green); }
+.chat { display:flex;flex-direction:column;min-height:570px; }
+.chat-head { display:flex;align-items:center;justify-content:space-between;gap:12px; }
+#messages {
+  flex:1;min-height:330px;max-height:56vh;overflow:auto;
+  display:flex;flex-direction:column;gap:12px;padding:18px;
+}
+.bubble {
+  max-width:83%;align-self:flex-start;
+  padding:11px 13px;border-radius:15px 15px 15px 4px;
+  background:rgba(255,255,255,.065);
+  border:1px solid rgba(255,255,255,.08);
+  white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.45;
+}
+.bubble.mine {
+  align-self:flex-end;
+  border-color:var(--line);
+  background:rgba(57,255,136,.10);
+  border-radius:15px 15px 4px 15px;
+}
+.meta {
+  display:block;text-align:right;margin-top:6px;
+  font-size:10px;color:var(--muted);
+}
+#typing { min-height:20px;padding:0 18px;color:var(--cyan);font-size:12px; }
+.composer {
+  display:flex;gap:9px;padding:13px;
+  border-top:1px solid var(--line);
+  background:rgba(0,0,0,.10);
+}
+#message {
+  min-width:0;flex:1;color:var(--text);
+  background:rgba(0,0,0,.22);
+  border:1px solid var(--line);border-radius:13px;
+  padding:13px;outline:none;
+}
+#message:focus { border-color:var(--cyan);box-shadow:0 0 12px #00e5ff18; }
+#send { color:var(--green);font-weight:bold; }
+#notice { padding:0 16px 12px;color:var(--muted);font-size:12px;overflow-wrap:anywhere; }
+.empty { margin:auto;padding:25px;text-align:center;color:var(--muted);line-height:1.6; }
+@media(max-width:720px) {
+  .app { grid-template-columns:1fr;margin:12px auto; }
+  #friends { display:flex;gap:8px;max-height:none;overflow-x:auto; }
+  .friend { min-width:175px;width:175px;margin:0; }
+  .chat { min-height:480px; }
+  #messages { min-height:280px;max-height:48vh; }
+  header { padding:12px 4%; }
+}
+</style>
 </head>
 
 <body>
-  <header class="topbar">
-    <a class="logo" href="index.html">PAZZAN.COM</a>
-    <button class="small-btn" id="logoutBtn" hidden>Log out</button>
-  </header>
+<header>
+  <a class="logo" href="index.html">PAZZAN.COM</a>
+  <button class="btn" id="logout">Log out</button>
+</header>
 
-  <main class="layout">
-    <section class="glass">
-      <div class="panel-head">
-        <h2>My Friends</h2>
-        <div class="muted">Approved accounts only</div>
+<main class="app">
+  <aside class="glass">
+    <div class="section-head">
+      <h2>Friends</h2>
+      <div class="muted">Your approved chat contacts</div>
+    </div>
+    <div id="friends"><div class="empty">Loading friends...</div></div>
+  </aside>
+
+  <section class="glass chat">
+    <div class="chat-head">
+      <div>
+        <h2 id="chatName">Private Chat</h2>
+        <div class="muted" id="chatStatus">Choose a friend</div>
       </div>
-      <div id="friendList">
-        <div class="empty">Loading friends...</div>
-      </div>
-    </section>
+      <button class="btn" id="notify">Enable alerts</button>
+    </div>
 
-    <section class="glass chat-panel">
-      <div class="chat-head">
-        <h2 id="chatTitle">Private Chat</h2>
-        <div class="status" id="chatStatus">Select a friend to start chatting.</div>
-      </div>
+    <div id="messages">
+      <div class="empty">Choose a friend to start chatting.</div>
+    </div>
+    <div id="typing"></div>
 
-      <div id="messages">
-        <div class="empty">Choose an approved friend to open a chat.</div>
-      </div>
+    <form class="composer" id="composer">
+      <input id="message" maxlength="2000"
+        placeholder="Type a message..." autocomplete="off" disabled>
+      <button class="btn" id="send" type="submit" disabled>Send</button>
+    </form>
+    <div id="notice" role="status" aria-live="polite"></div>
+  </section>
+</main>
 
-      <div class="composer">
-        <input
-          id="messageInput"
-          type="text"
-          maxlength="2000"
-          placeholder="Type a message..."
-          autocomplete="off"
-          disabled
-        >
-        <button id="sendBtn" class="send-btn" disabled>Send</button>
-      </div>
+<script type="module">
+import { initializeApp }
+  from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
 
-      <div id="notice" role="status" aria-live="polite"></div>
-    </section>
-  </main>
+import {
+  getAuth,onAuthStateChanged,signOut
+} from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
 
-  <script type="module">
-    import { initializeApp }
-      from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+import {
+  getFirestore,collection,doc,getDoc,getDocs,query,where,
+  orderBy,limit,onSnapshot,setDoc,addDoc,serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
 
-    import {
-      getAuth,
-      onAuthStateChanged,
-      signOut
-    } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+const firebaseConfig = {
+  apiKey: "AIzaSyB3G98XBTZH6NFiZx6NQmyEKR8g6vnSYNQ",
+  authDomain: "pasan-fc8e2.firebaseapp.com",
+  projectId: "pasan-fc8e2",
+  storageBucket: "pasan-fc8e2.firebasestorage.app",
+  messagingSenderId: "330282693990",
+  appId: "1:330282693990:web:f754a4a09efaa73ab5c4a7",
+  measurementId: "G-B12LL33EQ3"
+};
 
-    import {
-      getFirestore,
-      collection,
-      doc,
-      getDoc,
-      getDocs,
-      query,
-      where,
-      orderBy,
-      limit,
-      onSnapshot,
-      setDoc,
-      addDoc,
-      serverTimestamp
-    } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const $ = id => document.getElementById(id);
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyB3G98XBTZH6NFiZx6NQmyEKR8g6vnSYNQ",
-      authDomain: "pasan-fc8e2.firebaseapp.com",
-      projectId: "pasan-fc8e2",
-      storageBucket: "pasan-fc8e2.firebasestorage.app",
-      messagingSenderId: "330282693990",
-      appId: "1:330282693990:web:f754a4a09efaa73ab5c4a7",
-      measurementId: "G-B12LL33EQ3"
-    };
+let me = null;
+let selected = null;
+let chatId = null;
+let stopMessages = null;
+let stopTyping = null;
+let stopPresence = null;
+let stopReceipt = null;
+let typingTimer = null;
+let presenceTimer = null;
+let typingWriteTimer = null;
+let isTyping = false;
+let sending = false;
+let firstMessageSnapshot = true;
+let lastSeenMessageIds = new Set();
+let presenceCache = {};
+let receiptCache = {};
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
+function say(text) { $("notice").textContent = text; }
 
-    const $ = (id) => document.getElementById(id);
+function report(error) {
+  console.error(error);
+  say(error.code === "permission-denied"
+    ? "Permission denied. Check the Firestore Rules and approved friend documents."
+    : (error.message || "Something went wrong."));
+}
 
-    let currentUser = null;
-    let selectedFriend = null;
-    let activeChatId = null;
-    let stopMessages = null;
-    let friendButtons = [];
-    let sending = false;
+function chatKey(a,b) { return [a,b].sort().join("_"); }
 
-    function notice(message) {
-      $("notice").textContent = message;
-    }
+function stopListeners() {
+  [stopMessages,stopTyping,stopPresence,stopReceipt].forEach(fn => {
+    if (fn) fn();
+  });
+  stopMessages = stopTyping = stopPresence = stopReceipt = null;
+  clearTimeout(typingTimer);
+  clearTimeout(typingWriteTimer);
+  selected = null;
+  chatId = null;
+  isTyping = false;
+  $("message").disabled = true;
+  $("send").disabled = true;
+  $("typing").textContent = "";
+}
 
-    function showError(error) {
-      console.error(error);
+function approvedDoc(uid) {
+  return getDoc(doc(db,"friend",uid));
+}
 
-      if (error.code === "permission-denied") {
-        notice("Permission denied: check Firestore Rules and friend document IDs.");
-      } else {
-        notice(error.message || "Something went wrong.");
-      }
-    }
+async function writeTyping(value, targetChat = chatId) {
+  if (!me || !targetChat) return;
+  try {
+    await setDoc(doc(db,"chats",targetChat,"typing",me.uid), {
+      typing:value,
+      updatedAt:serverTimestamp()
+    });
+  } catch (error) {
+    report(error);
+  }
+}
 
-    function stopCurrentChat() {
-      if (stopMessages) {
-        stopMessages();
-        stopMessages = null;
-      }
+async function loadFriends() {
+  $("friends").replaceChildren();
+  const waiting = document.createElement("div");
+  waiting.className = "empty";
+  waiting.textContent = "Loading friends...";
+  $("friends").append(waiting);
 
-      activeChatId = null;
-      selectedFriend = null;
-      $("messageInput").disabled = true;
-      $("sendBtn").disabled = true;
-    }
+  try {
+    const q = query(collection(db,"friend"),where("enabled","==",true));
+    const snapshot = await getDocs(q);
+    $("friends").replaceChildren();
+    let count = 0;
 
-    function makeChatId(uidA, uidB) {
-      return [uidA, uidB].sort().join("_");
-    }
+    for (const item of snapshot.docs) {
+      if (item.id === me.uid) continue;
+      count++;
 
-    function createFriendButton(friend) {
+      const data = item.data();
+      const person = {
+        uid:item.id,
+        name:data.name || "Friend",
+        email:data.email || ""
+      };
+
       const button = document.createElement("button");
-      button.className = "friend";
       button.type = "button";
+      button.className = "friend";
 
       const avatar = document.createElement("span");
       avatar.className = "avatar";
-      avatar.textContent = (friend.name || friend.email || "?")
-        .trim().charAt(0).toUpperCase();
+      avatar.textContent = person.name.charAt(0).toUpperCase();
 
       const details = document.createElement("span");
       const name = document.createElement("div");
-      name.className = "friend-name";
-      name.textContent = friend.name || "Friend";
+      name.className = "name";
+      name.textContent = person.name;
 
-      const email = document.createElement("div");
-      email.className = "muted";
-      email.textContent = friend.email || "";
+      const status = document.createElement("div");
+      status.className = "friend-status muted";
 
-      details.append(name, email);
-      button.append(avatar, details);
+      const dot = document.createElement("span");
+      dot.className = "dot";
+      dot.id = "dot-" + person.uid;
 
-      button.addEventListener("click", () => openChat(friend, button));
+      const statusText = document.createElement("span");
+      statusText.id = "status-" + person.uid;
+      statusText.textContent = "Offline";
 
-      return button;
+      status.append(dot,statusText);
+      details.append(name,status);
+      button.append(avatar,details);
+
+      button.addEventListener("click",() => openChat(person,button));
+      $("friends").append(button);
+
+      // Listen to this friend's presence document.
+      onSnapshot(doc(db,"presence",person.uid), snap => {
+        const data = snap.exists() ? snap.data() : {};
+        const fresh = data.online === true &&
+          data.updatedAt?.toDate &&
+          Date.now() - data.updatedAt.toDate().getTime() < 70000;
+
+        presenceCache[person.uid] = fresh;
+        const dotEl = $("dot-" + person.uid);
+        const statusEl = $("status-" + person.uid);
+        if (dotEl) dotEl.classList.toggle("online",fresh);
+        if (statusEl) statusEl.textContent = fresh ? "Online" : "Offline";
+      },error => console.warn("Presence:",error.code));
     }
 
-    async function loadFriends() {
-      $("friendList").replaceChildren();
-      const loading = document.createElement("div");
-      loading.className = "empty";
-      loading.textContent = "Loading friends...";
-      $("friendList").append(loading);
+    if (!count) {
+      $("friends").innerHTML =
+        '<div class="empty">No approved friends found.<br>Check the friend documents.</div>';
+    }
+  } catch (error) {
+    report(error);
+    $("friends").innerHTML =
+      '<div class="empty">Could not load friends.</div>';
+  }
+}
 
-      try {
-        // Rules require the query to limit results to enabled documents.
-        const friendsQuery = query(
-          collection(db, "friend"),
-          where("enabled", "==", true)
-        );
+async function openChat(person,button) {
+  stopListeners();
+  document.querySelectorAll(".friend").forEach(el => el.classList.remove("active"));
+  button.classList.add("active");
 
-        const snapshot = await getDocs(friendsQuery);
-        $("friendList").replaceChildren();
-        friendButtons = [];
+  selected = person;
+  const thisChat = chatKey(me.uid,person.uid);
+  chatId = thisChat;
+  firstMessageSnapshot = true;
+  lastSeenMessageIds = new Set();
 
-        snapshot.forEach((friendDoc) => {
-          // Document ID must be the person's Firebase Auth UID.
-          const uid = friendDoc.id;
+  $("chatName").textContent = person.name;
+  $("chatStatus").textContent = "Connecting...";
+  $("messages").replaceChildren();
+  $("typing").textContent = "";
+  $("message").disabled = true;
+  $("send").disabled = true;
+  say("");
 
-          if (uid === currentUser.uid) return;
+  try {
+    const [mine,theirs] = await Promise.all([
+      approvedDoc(me.uid),approvedDoc(person.uid)
+    ]);
 
-          const data = friendDoc.data();
-          const friend = {
-            uid,
-            name: data.name || "Friend",
-            email: data.email || ""
-          };
+    if (!mine.exists() || mine.data().enabled !== true ||
+        !theirs.exists() || theirs.data().enabled !== true) {
+      throw new Error("This account is not approved for chat.");
+    }
 
-          const button = createFriendButton(friend);
-          friendButtons.push(button);
-          $("friendList").append(button);
-        });
+    const chatRef = doc(db,"chats",thisChat);
+    const existing = await getDoc(chatRef);
 
-        if (!friendButtons.length) {
-          const empty = document.createElement("div");
-          empty.className = "empty";
-          empty.textContent =
-            "No other approved friends found. Check the friend documents.";
-          $("friendList").append(empty);
+    if (chatId !== thisChat) return;
+
+    if (!existing.exists()) {
+      await setDoc(chatRef,{
+        participants:[me.uid,person.uid].sort(),
+        createdAt:serverTimestamp()
+      });
+    } else {
+      const p = existing.data().participants;
+      if (!Array.isArray(p) || p.length !== 2 ||
+          !p.includes(me.uid) || !p.includes(person.uid)) {
+        throw new Error("Chat participants do not match.");
+      }
+    }
+
+    if (chatId !== thisChat) return;
+
+    $("chatStatus").textContent = "Connected";
+    $("message").disabled = false;
+    $("send").disabled = false;
+
+    // Track the recipient's last-read time.
+    stopReceipt = onSnapshot(
+      doc(db,"chats",thisChat,"receipts",person.uid),
+      snap => {
+        receiptCache[thisChat] = snap.exists()
+          ? snap.data().lastReadAt?.toDate?.() || null : null;
+        renderReadStatus();
+      },
+      error => console.warn("Read receipt:",error.code)
+    );
+
+    // Listen for typing state.
+    stopTyping = onSnapshot(
+      collection(db,"chats",thisChat,"typing"),
+      snapshot => {
+        const other = snapshot.docs.find(d => d.id === person.uid);
+        const data = other?.data();
+        $("typing").textContent = data?.typing === true
+          ? person.name + " is typing..." : "";
+      },
+      error => console.warn("Typing:",error.code)
+    );
+
+    // Live message listener.
+    const messagesQuery = query(
+      collection(db,"chats",thisChat,"messages"),
+      orderBy("createdAt","asc"),
+      limit(100)
+    );
+
+    stopMessages = onSnapshot(messagesQuery,async snapshot => {
+      if (chatId !== thisChat) return;
+
+      const newIncoming = [];
+      snapshot.docChanges().forEach(change => {
+        if (change.type === "added" &&
+            change.doc.data().senderId !== me.uid) {
+          newIncoming.push(change.doc);
         }
-      } catch (error) {
-        showError(error);
-        $("friendList").replaceChildren();
+      });
 
+      if (!firstMessageSnapshot && newIncoming.length &&
+          document.visibilityState !== "visible" &&
+          "Notification" in window &&
+          Notification.permission === "granted") {
+        const latest = newIncoming[newIncoming.length - 1].data();
+        new Notification("PAZZAN.COM — " + person.name,{
+          body:latest.text || "New message"
+        });
+      }
+
+      firstMessageSnapshot = false;
+      lastSeenMessageIds = new Set(snapshot.docs.map(d => d.id));
+      $("messages").replaceChildren();
+
+      if (snapshot.empty) {
         const empty = document.createElement("div");
         empty.className = "empty";
-        empty.textContent = "Could not load friends.";
-        $("friendList").append(empty);
+        empty.textContent = "Say hello to start chatting!";
+        $("messages").append(empty);
       }
+
+      snapshot.forEach(messageDoc => {
+        const data = messageDoc.data();
+        const bubble = document.createElement("div");
+        bubble.className = "bubble" +
+          (data.senderId === me.uid ? " mine" : "");
+
+        const content = document.createElement("div");
+        content.textContent = data.text || "";
+
+        const meta = document.createElement("span");
+        meta.className = "meta";
+        const time = data.createdAt?.toDate?.();
+        meta.textContent = (time ? time.toLocaleTimeString([],{
+          hour:"2-digit",minute:"2-digit"
+        }) : "Sending...") +
+          (data.senderId === me.uid ? " ✓" : "");
+
+        bubble.append(content,meta);
+        $("messages").append(bubble);
+      });
+
+      $("messages").scrollTop = $("messages").scrollHeight;
+
+      // Mark messages as read using a separate receipt document.
+      try {
+        await setDoc(doc(db,"chats",thisChat,"receipts",me.uid),{
+          lastReadAt:serverTimestamp()
+        });
+      } catch (error) {
+        console.warn("Read receipt update:",error.code);
+      }
+
+      renderReadStatus();
+    },report);
+  } catch (error) {
+    report(error);
+    $("chatStatus").textContent = "Unable to open chat.";
+    $("message").disabled = true;
+    $("send").disabled = true;
+  }
+}
+
+function renderReadStatus() {
+  const readAt = receiptCache[chatId];
+  if (!readAt) return;
+
+  // Update visible outgoing message labels.
+  document.querySelectorAll(".bubble.mine .meta").forEach(meta => {
+    if (meta.textContent.includes("✓")) {
+      meta.textContent = meta.textContent.replace(/✓+$/, "✓✓");
+      meta.style.color = "#00e5ff";
+    }
+  });
+}
+
+async function sendMessage(event) {
+  event.preventDefault();
+  const text = $("message").value.trim();
+
+  if (!text || !me || !selected || !chatId || sending) return;
+
+  sending = true;
+  $("send").disabled = true;
+  const thisChat = chatId;
+  const recipient = selected;
+
+  try {
+    const [mine,theirs] = await Promise.all([
+      approvedDoc(me.uid),approvedDoc(recipient.uid)
+    ]);
+
+    if (!mine.exists() || mine.data().enabled !== true ||
+        !theirs.exists() || theirs.data().enabled !== true) {
+      throw new Error("This chat is no longer approved.");
     }
 
-    async function openChat(friend, button) {
-      if (!currentUser || !friend.uid) return;
+    if (chatId !== thisChat) return;
 
-      stopCurrentChat();
-      friendButtons.forEach((item) => item.classList.remove("active"));
-      button.classList.add("active");
+    const inputText = text;
+    $("message").value = "";
 
-      selectedFriend = friend;
-      activeChatId = makeChatId(currentUser.uid, friend.uid);
+    await addDoc(collection(db,"chats",thisChat,"messages"),{
+      text:inputText,
+      senderId:me.uid,
+      createdAt:serverTimestamp()
+    });
 
-      $("chatTitle").textContent = friend.name;
-      $("chatStatus").textContent = "Connecting...";
-      $("messages").replaceChildren();
-      $("messageInput").disabled = true;
-      $("sendBtn").disabled = true;
-      notice("");
+    say("");
+  } catch (error) {
+    report(error);
+    $("message").value = text;
+  } finally {
+    sending = false;
+    $("send").disabled = !chatId;
+    $("message").focus();
+  }
+}
 
-      try {
-        // Confirm both accounts are still approved before opening the chat.
-        const myFriendDoc = await getDoc(
-          doc(db, "friend", currentUser.uid)
-        );
-        const theirFriendDoc = await getDoc(
-          doc(db, "friend", friend.uid)
-        );
+$("composer").addEventListener("submit",sendMessage);
 
-        if (
-          !myFriendDoc.exists() ||
-          myFriendDoc.data().enabled !== true ||
-          !theirFriendDoc.exists() ||
-          theirFriendDoc.data().enabled !== true
-        ) {
-          throw new Error("One of these accounts is not approved for chat.");
-        }
+$("message").addEventListener("input",() => {
+  if (!chatId) return;
+  if (!isTyping) {
+    isTyping = true;
+    writeTyping(true);
+  }
 
-        const chatRef = doc(db, "chats", activeChatId);
-        const chatSnapshot = await getDoc(chatRef);
+  clearTimeout(typingTimer);
+  typingTimer = setTimeout(() => {
+    isTyping = false;
+    writeTyping(false);
+  },1200);
+});
 
-        if (!chatSnapshot.exists()) {
-          await setDoc(chatRef, {
-            participants: [currentUser.uid, friend.uid].sort(),
-            createdAt: serverTimestamp()
-          });
-        } else {
-          const participants = chatSnapshot.data().participants;
+$("message").addEventListener("blur",() => {
+  if (isTyping) {
+    isTyping = false;
+    writeTyping(false);
+  }
+});
 
-          if (
-            !Array.isArray(participants) ||
-            participants.length !== 2 ||
-            !participants.includes(currentUser.uid) ||
-            !participants.includes(friend.uid)
-          ) {
-            throw new Error("Chat participants do not match.");
-          }
-        }
+$("notify").addEventListener("click",async () => {
+  if (!("Notification" in window)) {
+    say("Notifications are not supported by this browser.");
+    return;
+  }
+  try {
+    const result = await Notification.requestPermission();
+    say(result === "granted"
+      ? "Browser notifications enabled."
+      : "Notifications were not enabled.");
+  } catch (error) {
+    report(error);
+  }
+});
 
-        // A newer selection may have happened while the requests were pending.
-        const chatId = activeChatId;
-        if (chatId !== makeChatId(currentUser.uid, friend.uid)) return;
+$("logout").addEventListener("click",async () => {
+  try {
+    if (me) {
+      await setDoc(doc(db,"presence",me.uid),{
+        online:false,updatedAt:serverTimestamp()
+      });
+    }
+    await signOut(auth);
+    window.location.href = "login.html";
+  } catch (error) {
+    report(error);
+  }
+});
 
-        $("chatStatus").textContent = "Connected";
-        $("messageInput").disabled = false;
-        $("sendBtn").disabled = false;
+onAuthStateChanged(auth,async user => {
+  if (!user) {
+    window.location.href = "login.html";
+    return;
+  }
 
-        const messagesQuery = query(
-          collection(db, "chats", chatId, "messages"),
-          orderBy("createdAt", "asc"),
-          limit(100)
-        );
+  me = user;
 
-        stopMessages = onSnapshot(
-          messagesQuery,
-          (snapshot) => {
-            if (activeChatId !== chatId) return;
-
-            $("messages").replaceChildren();
-
-            if (snapshot.empty) {
-              const empty = document.createElement("div");
-              empty.className = "empty";
-              empty.textContent = "Say hello to start the conversation!";
-              $("messages").append(empty);
-              return;
-            }
-
-            snapshot.forEach((messageDoc) => {
-              const data = messageDoc.data();
-
-              const bubble = document.createElement("div");
-              bubble.className = "bubble" +
-                (data.senderId === currentUser.uid ? " mine" : "");
-
-              const text = document.createElement("div");
-              text.textContent = data.text || "";
-
-              const time = document.createElement("span");
-              time.className = "time";
-
-              if (data.createdAt?.toDate) {
-                time.textContent = data.createdAt.toDate().toLocaleString();
-              } else {
-                time.textContent = "Sending...";
-              }
-
-              bubble.append(text, time);
-              $("messages").append(bubble);
-            });
-
-            $("messages").scrollTop = $("messages").scrollHeight;
-          },
-          showError
-        );
-      } catch (error) {
-        showError(error);
-        $("chatStatus").textContent = "Unable to open chat.";
-        $("messageInput").disabled = true;
-        $("sendBtn").disabled = true;
-      }
+  try {
+    const mine = await approvedDoc(me.uid);
+    if (!mine.exists() || mine.data().enabled !== true) {
+      say("Your account is not enabled for private chat.");
+      return;
     }
 
-    async function sendMessage() {
-      const text = $("messageInput").value.trim();
-
-      if (
-        !text ||
-        !currentUser ||
-        !selectedFriend ||
-        !activeChatId ||
-        sending
-      ) return;
-
-      sending = true;
-      $("sendBtn").disabled = true;
-
+    const updatePresence = async online => {
       try {
-        const chatId = activeChatId;
-        const recipient = selectedFriend;
-
-        // Recheck approval before sending.
-        const [mine, theirs] = await Promise.all([
-          getDoc(doc(db, "friend", currentUser.uid)),
-          getDoc(doc(db, "friend", recipient.uid))
-        ]);
-
-        if (
-          !mine.exists() || mine.data().enabled !== true ||
-          !theirs.exists() || theirs.data().enabled !== true
-        ) {
-          throw new Error("This chat is no longer approved.");
-        }
-
-        if (activeChatId !== chatId) return;
-
-        $("messageInput").value = "";
-
-        await addDoc(
-          collection(db, "chats", chatId, "messages"),
-          {
-            text,
-            senderId: currentUser.uid,
-            createdAt: serverTimestamp()
-          }
-        );
-
-        notice("");
+        await setDoc(doc(db,"presence",me.uid),{
+          online,updatedAt:serverTimestamp()
+        });
       } catch (error) {
-        showError(error);
-      } finally {
-        sending = false;
-        $("sendBtn").disabled = !activeChatId;
-        $("messageInput").focus();
+        console.warn("Presence update:",error.code);
       }
-    }
+    };
 
-    $("sendBtn").addEventListener("click", sendMessage);
+    await updatePresence(true);
+    presenceTimer = setInterval(() => {
+      if (document.visibilityState === "visible") updatePresence(true);
+    },25000);
 
-    $("messageInput").addEventListener("keydown", (event) => {
-      if (event.key === "Enter") sendMessage();
+    document.addEventListener("visibilitychange",() => {
+      if (document.visibilityState === "visible") updatePresence(true);
     });
 
-    $("logoutBtn").addEventListener("click", async () => {
-      try {
-        await signOut(auth);
-        window.location.href = "login.html";
-      } catch (error) {
-        showError(error);
-      }
+    window.addEventListener("pagehide",() => {
+      // Best-effort offline update; browsers may stop page scripts immediately.
+      updatePresence(false);
     });
 
-    onAuthStateChanged(auth, async (user) => {
-      stopCurrentChat();
-
-      if (!user) {
-        window.location.href = "login.html";
-        return;
-      }
-
-      currentUser = user;
-      $("logoutBtn").hidden = false;
-      $("chatTitle").textContent = "Private Chat";
-      $("chatStatus").textContent = "Select a friend to start chatting.";
-
-      await loadFriends();
-    });
-  </script>
+    await loadFriends();
+  } catch (error) {
+    report(error);
+  }
+});
+</script>
 </body>
 </html>
