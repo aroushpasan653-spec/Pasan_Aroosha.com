@@ -1,786 +1,840 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="si">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#07120f">
-<title>PAZZAN | Private Chat</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#05080d">
+  <title>PAZZAN.COM | Live Chat</title>
 
-<style>
-:root {
-  --green: #39ff9a;
-  --cyan: #53eaff;
-  --text: #effff7;
-  --muted: #b2c9bf;
-  --glass: rgba(13,35,29,.48);
-  --line: rgba(150,255,205,.2);
-}
+  <style>
+    :root {
+      --green: #39ff88;
+      --cyan: #00e5ff;
+      --bg: #05080d;
+      --muted: #aab9c8;
+      --line: #39ff8840;
+      --glass: rgba(10, 20, 30, .76);
+    }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+    * { box-sizing: border-box; }
 
-body {
-  min-height: 100vh;
-  padding: 16px;
-  color: var(--text);
-  font-family: Arial, sans-serif;
-  background:
-    radial-gradient(ellipse at 10% 10%, #174d3c, transparent 45%),
-    radial-gradient(ellipse at 90% 90%, #123d50, transparent 42%),
-    linear-gradient(135deg,#030807,#071511,#06101a);
-  background-attachment: fixed;
-}
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: #f3fff9;
+      font-family: Arial, sans-serif;
+      background:
+        radial-gradient(ellipse at 0 0, #123b3150, transparent 45%),
+        radial-gradient(ellipse at 100% 100%, #35135c55, transparent 45%),
+        var(--bg);
+      background-attachment: fixed;
+    }
 
-button, input, textarea { font: inherit; }
-button { cursor: pointer; }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
 
-.glass {
-  background: var(--glass);
-  border: 1px solid var(--line);
-  backdrop-filter: blur(22px) saturate(150%);
-  -webkit-backdrop-filter: blur(22px) saturate(150%);
-  box-shadow: 0 12px 45px #0004, inset 0 1px #ffffff0f;
-}
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      height: 65px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 5%;
+      gap: 10px;
+      background: #05080dcc;
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--line);
+    }
 
-.topbar {
-  width: min(1000px,100%);
-  margin: 0 auto 24px;
-  padding: 18px;
-  border-radius: 18px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-}
+    .logo {
+      color: var(--green);
+      font-weight: 900;
+      font-size: 21px;
+      text-decoration: none;
+      letter-spacing: 1px;
+    }
 
-.brand {
-  color: var(--green);
-  font-size: 23px;
-  font-weight: 900;
-  letter-spacing: 2px;
-  text-shadow: 0 0 18px #39ff9a55;
-}
+    .logo span { color: var(--cyan); }
 
-.brand span {
-  color: white;
-  font-size: 11px;
-}
+    .btn {
+      color: white;
+      background: #ffffff0a;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 10px 13px;
+    }
 
-main {
-  width: min(1000px,100%);
-  margin: auto;
-}
+    .btn:hover { border-color: var(--cyan); }
 
-.hero {
-  text-align: center;
-  padding: 24px 8px;
-}
+    .page {
+      max-width: 1200px;
+      margin: 24px auto;
+      padding: 0 14px;
+    }
 
-.hero h1 {
-  font-size: clamp(30px,6vw,48px);
-  margin-bottom: 12px;
-}
+    .layout {
+      min-height: 78vh;
+      display: grid;
+      grid-template-columns: 290px minmax(0, 1fr);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      overflow: hidden;
+      background: var(--glass);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 0 35px #00e5ff0b;
+    }
 
-.hero h1 span { color: var(--green); }
+    .sidebar {
+      min-width: 0;
+      border-right: 1px solid var(--line);
+      display: flex;
+      flex-direction: column;
+    }
 
-.hero p, .subtext {
-  color: var(--muted);
-  line-height: 1.7;
-}
+    .side-head { padding: 20px 16px 12px; }
 
-.panel {
-  width: min(640px,100%);
-  margin: 0 auto 24px;
-  padding: clamp(20px,5vw,32px);
-  border-radius: 24px;
-}
+    h2 {
+      color: var(--green);
+      font-size: 21px;
+      margin: 0 0 8px;
+    }
 
-.panel h2 { margin-bottom: 10px; }
-.subtext { font-size: 14px; margin-bottom: 22px; }
+    .muted {
+      color: var(--muted);
+      font-size: 12px;
+      overflow-wrap: anywhere;
+    }
 
-.field { margin-bottom: 16px; }
+    .search {
+      width: calc(100% - 28px);
+      margin: 0 14px 12px;
+      padding: 12px;
+      color: white;
+      background: #ffffff08;
+      border: 1px solid #ffffff20;
+      border-radius: 10px;
+      outline: none;
+    }
 
-.field label {
-  display: block;
-  font-size: 13px;
-  margin-bottom: 8px;
-}
+    .search:focus { border-color: var(--cyan); }
 
-.field input {
-  width: 100%;
-  padding: 14px;
-  color: white;
-  background: #0004;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  outline: none;
-}
+    .friend-list {
+      flex: 1;
+      overflow-y: auto;
+    }
 
-.field input:focus, textarea:focus {
-  border-color: var(--green);
-  box-shadow: 0 0 0 3px #39ff9a12;
-}
+    .friend {
+      width: 100%;
+      display: flex;
+      gap: 11px;
+      align-items: center;
+      padding: 14px;
+      color: white;
+      text-align: left;
+      border: 0;
+      border-top: 1px solid #ffffff0c;
+      background: transparent;
+    }
 
-.field input::placeholder, textarea::placeholder {
-  color: #8ba79a;
-}
+    .friend:hover, .friend.active {
+      background: #39ff8810;
+    }
 
-.primary-btn, .secondary-btn, .small-btn {
-  padding: 12px 16px;
-  border-radius: 12px;
-  font-weight: bold;
-}
+    .friend.active {
+      box-shadow: inset 3px 0 var(--green);
+    }
 
-.primary-btn {
-  color: #03150d;
-  border: none;
-  background: linear-gradient(110deg,var(--green),#9affd1);
-  transition: .2s;
-}
+    .avatar {
+      width: 42px;
+      height: 42px;
+      flex-shrink: 0;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      color: var(--green);
+      font-weight: bold;
+      border: 1px solid #39ff8870;
+      background: #39ff8810;
+    }
 
-.primary-btn:hover {
-  box-shadow: 0 0 22px #39ff9a35;
-  transform: translateY(-1px);
-}
+    .friend-info { min-width: 0; }
+    .friend-name { font-size: 14px; overflow-wrap: anywhere; }
+    .friend-status { color: var(--green); font-size: 11px; margin-top: 5px; }
 
-.secondary-btn, .small-btn {
-  color: var(--text);
-  border: 1px solid var(--line);
-  background: #ffffff0d;
-}
+    .chat {
+      display: flex;
+      min-width: 0;
+      min-height: 0;
+      flex-direction: column;
+    }
 
-.full { width: 100%; margin-top: 6px; }
-.button-row { display: flex; gap: 10px; margin-top: 12px; }
-.button-row button { flex: 1; }
-button:disabled { opacity: .6; cursor: not-allowed; }
+    .chat-head {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 13px 18px;
+      border-bottom: 1px solid #ffffff15;
+    }
 
-.status {
-  display: none;
-  padding: 13px;
-  margin-top: 16px;
-  border-radius: 12px;
-  font-size: 13px;
-  line-height: 1.6;
-  overflow-wrap: anywhere;
-}
+    .chat-head h3 {
+      font-size: 15px;
+      margin: 0 0 5px;
+      overflow-wrap: anywhere;
+    }
 
-.status.show { display: block; }
-.status.info { color: #b9f3ff; background: #2696be20; border: 1px solid #53eaff30; }
-.status.error { color: #ffd2d2; background: #ff415520; border: 1px solid #ff646430; }
-.status.success { color: #c5ffdc; background: #39ff9a15; border: 1px solid #39ff9a30; }
+    .chat-head .muted { font-size: 11px; }
 
-.hidden { display: none !important; }
+    .messages {
+      flex: 1;
+      min-height: 300px;
+      max-height: 58vh;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 20px 16px;
+    }
 
-.user-line {
-  margin-bottom: 22px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid var(--line);
-}
+    .empty {
+      margin: auto;
+      padding: 25px 15px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.8;
+    }
 
-.user-email {
-  margin-top: 6px;
-  color: var(--muted);
-  font-size: 13px;
-  overflow-wrap: anywhere;
-}
+    .bubble {
+      max-width: 82%;
+      width: fit-content;
+      padding: 11px 13px;
+      border: 1px solid #ffffff15;
+      background: #ffffff0a;
+      border-radius: 15px 15px 15px 4px;
+      overflow-wrap: anywhere;
+      white-space: pre-wrap;
+      line-height: 1.5;
+      font-size: 14px;
+    }
 
-.online-dot {
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  margin-right: 6px;
-  border-radius: 50%;
-  background: var(--green);
-  box-shadow: 0 0 12px var(--green);
-}
+    .bubble.mine {
+      align-self: flex-end;
+      background: #39ff8815;
+      border-color: #39ff8840;
+      border-radius: 15px 15px 4px 15px;
+    }
 
-.chat-window {
-  margin-top: 24px;
-  border: 1px solid var(--line);
-  border-radius: 18px;
-  overflow: hidden;
-  background: #0003;
-}
+    .bubble .time {
+      display: block;
+      margin-top: 6px;
+      font-size: 10px;
+      color: var(--muted);
+      text-align: right;
+    }
 
-.chat-head {
-  padding: 16px;
-  border-bottom: 1px solid var(--line);
-}
+    .composer {
+      display: flex;
+      align-items: flex-end;
+      gap: 9px;
+      padding: 13px;
+      border-top: 1px solid #ffffff15;
+    }
 
-.chat-head p {
-  margin-top: 5px;
-  color: var(--muted);
-  font-size: 12px;
-  overflow-wrap: anywhere;
-}
+    .composer input {
+      flex: 1;
+      min-width: 0;
+      color: white;
+      padding: 13px;
+      border-radius: 12px;
+      border: 1px solid #ffffff20;
+      background: #ffffff08;
+      outline: none;
+    }
 
-.messages {
-  height: min(48vh,430px);
-  min-height: 230px;
-  overflow-y: auto;
-  padding: 16px 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
+    .composer input:focus { border-color: var(--green); }
 
-.empty-chat {
-  color: var(--muted);
-  text-align: center;
-  margin: auto;
-  font-size: 13px;
-  line-height: 1.8;
-}
+    .send {
+      border: none;
+      border-radius: 12px;
+      padding: 13px 17px;
+      font-weight: bold;
+      color: #04100b;
+      background: linear-gradient(100deg, var(--green), var(--cyan));
+    }
 
-.message {
-  max-width: 82%;
-  padding: 11px 13px;
-  border-radius: 15px;
-  overflow-wrap: anywhere;
-  white-space: pre-wrap;
-  line-height: 1.5;
-  font-size: 14px;
-}
+    .send:disabled { opacity: .5; cursor: not-allowed; }
 
-.message.mine {
-  align-self: flex-end;
-  color: #03160d;
-  background: linear-gradient(135deg,#39ff9a,#a6ffd5);
-  border-bottom-right-radius: 4px;
-}
+    .status {
+      margin: 12px 15px;
+      padding: 10px;
+      font-size: 12px;
+      line-height: 1.6;
+      border-radius: 9px;
+      color: var(--muted);
+      overflow-wrap: anywhere;
+    }
 
-.message.theirs {
-  align-self: flex-start;
-  background: #ffffff12;
-  border: 1px solid var(--line);
-  border-bottom-left-radius: 4px;
-}
+    .status.error {
+      color: #ffb6bd;
+      background: #ff315515;
+      border: 1px solid #ff315540;
+    }
 
-.message small {
-  display: block;
-  margin-top: 5px;
-  font-size: 10px;
-  opacity: .7;
-}
+    .status.ok {
+      color: var(--green);
+      background: #39ff880b;
+    }
 
-.send-row {
-  display: flex;
-  gap: 9px;
-  padding: 12px;
-  border-top: 1px solid var(--line);
-}
+    .hidden { display: none !important; }
 
-.send-row textarea {
-  flex: 1;
-  min-width: 0;
-  min-height: 46px;
-  max-height: 120px;
-  resize: vertical;
-  padding: 13px;
-  color: white;
-  background: #0004;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  outline: none;
-}
+    @media (max-width: 700px) {
+      .page { margin: 12px auto; padding: 0 8px; }
 
-.footer-note {
-  text-align: center;
-  color: #8fa99b;
-  font-size: 12px;
-  padding: 20px 5px;
-  line-height: 1.7;
-}
+      .layout {
+        grid-template-columns: 1fr;
+        min-height: 82vh;
+      }
 
-@media(max-width:520px) {
-  body { padding: 10px; }
-  .topbar { padding: 13px; }
-  .brand { font-size: 18px; }
-  .brand span { font-size: 9px; }
-  .panel { border-radius: 19px; }
-  .message { max-width: 90%; }
-  .send-row { padding: 9px; gap: 7px; }
-}
-</style>
+      .sidebar {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .side-head { padding: 15px 14px 9px; }
+      .side-head h2 { font-size: 18px; }
+
+      .friend-list {
+        display: flex;
+        overflow-x: auto;
+        flex: initial;
+        padding-bottom: 8px;
+      }
+
+      .friend {
+        flex: 0 0 145px;
+        width: 145px;
+        flex-direction: column;
+        align-items: flex-start;
+        border: 0;
+        border-right: 1px solid #ffffff0c;
+        gap: 7px;
+      }
+
+      .friend.active { box-shadow: inset 0 -3px var(--green); }
+
+      .messages {
+        min-height: 300px;
+        max-height: none;
+      }
+
+      .chat { min-height: 55vh; }
+      .bubble { max-width: 90%; }
+      .logo { font-size: 17px; }
+    }
+  </style>
 </head>
 
 <body>
-
-<header class="topbar glass">
-  <div class="brand">PAZZAN <span>PRIVATE CHAT</span></div>
-  <button id="logoutBtn" class="small-btn hidden" type="button">Log out</button>
-</header>
-
-<main>
-  <section class="hero">
-    <h1>Your Space. <span>Your Friends.</span></h1>
-    <p>A private place to chat with approved friends.</p>
-  </section>
-
-  <section id="authPanel" class="panel glass">
-    <h2 id="authTitle">Welcome Back</h2>
-    <p id="authSubtitle" class="subtext">
-      Sign in to continue to your private chat.
-    </p>
-
-    <form id="authForm">
-      <div class="field">
-        <label for="email">Email address</label>
-        <input id="email" type="email" placeholder="you@example.com"
-          autocomplete="email" required>
-      </div>
-
-      <div class="field">
-        <label for="password">Password</label>
-        <input id="password" type="password" placeholder="Password"
-          minlength="6" autocomplete="current-password" required>
-      </div>
-
-      <button id="loginBtn" class="primary-btn full" type="submit">Sign In</button>
-    </form>
-
-    <div class="button-row">
-      <button id="registerBtn" class="secondary-btn" type="button">Create Account</button>
+  <header class="topbar">
+    <a class="logo" href="index.html">PAZZAN<span>.COM</span></a>
+    <div style="display:flex;gap:8px">
+      <a class="btn" href="index.html" style="text-decoration:none">Home</a>
+      <button class="btn" id="logoutBtn" type="button">Logout</button>
     </div>
+  </header>
 
-    <div id="authStatus" class="status" role="status"></div>
-  </section>
+  <main class="page">
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="side-head">
+          <h2>Live Chat</h2>
+          <p class="muted" id="myEmail">සම්බන්ධ වෙමින්...</p>
+        </div>
 
-  <section id="chatPanel" class="panel glass hidden">
-    <div class="user-line">
-      <strong><span class="online-dot"></span>Connected</strong>
-      <div id="signedInEmail" class="user-email"></div>
+        <input
+          id="search"
+          class="search"
+          type="search"
+          placeholder="යාළුවන් සොයන්න..."
+          aria-label="Search friends"
+        >
+
+        <div id="friendList" class="friend-list">
+          <div class="empty">යාළුවන්ගේ ලැයිස්තුව ලබාගනිමින්...</div>
+        </div>
+
+        <div id="friendStatus" class="status">
+          සම්බන්ධ වෙමින්...
+        </div>
+      </aside>
+
+      <section class="chat">
+        <div class="chat-head">
+          <div class="avatar" id="chatAvatar">P</div>
+          <div>
+            <h3 id="chatName">යාළුවෙක් තෝරන්න</h3>
+            <p class="muted" id="chatSubtitle">
+              පණිවිඩ යැවීමට අනුමත යාළුවෙක් තෝරන්න
+            </p>
+          </div>
+        </div>
+
+        <div id="messages" class="messages">
+          <div class="empty">
+            💬 PAZZAN Live Chat<br>
+            වම් පැත්තේ ලැයිස්තුවෙන් යාළුවෙක් තෝරන්න.
+          </div>
+        </div>
+
+        <form id="composer" class="composer">
+          <input
+            id="messageInput"
+            type="text"
+            maxlength="2000"
+            placeholder="පණිවිඩයක් ලියන්න..."
+            autocomplete="off"
+            disabled
+            required
+          >
+          <button id="sendBtn" class="send" type="submit" disabled>
+            Send
+          </button>
+        </form>
+      </section>
     </div>
+  </main>
 
-    <h2>Open a Private Chat</h2>
-    <p class="subtext">Enter the email address of an approved friend.</p>
+  <script type="module">
+    import { initializeApp }
+      from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
 
-    <form id="friendForm">
-      <div class="field">
-        <label for="friendEmail">Friend's email address</label>
-        <input id="friendEmail" type="email"
-          placeholder="friend@example.com" required>
-      </div>
-      <button id="openChatBtn" class="primary-btn full" type="submit">
-        Open Friend Chat
-      </button>
-    </form>
+    import {
+      getAuth,
+      onAuthStateChanged,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
 
-    <div id="chatStatus" class="status" role="status"></div>
+    import {
+      getFirestore,
+      collection,
+      query,
+      where,
+      getDocs,
+      getDoc,
+      doc,
+      setDoc,
+      addDoc,
+      onSnapshot,
+      orderBy,
+      limit,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
 
-    <div id="chatWindow" class="chat-window hidden">
-      <div class="chat-head">
-        <h3><span class="online-dot"></span>Private Conversation</h3>
-        <p id="chatFriendLabel"></p>
-      </div>
+    // ඔයා ලබාදුන් Firebase configuration එක
+    const firebaseConfig = {
+      apiKey: "AIzaSyB3G98XBTZH6NFiZx6NQmyEKR8g6vnSYNQ",
+      authDomain: "pasan-fc8e2.firebaseapp.com",
+      projectId: "pasan-fc8e2",
+      storageBucket: "pasan-fc8e2.firebasestorage.app",
+      messagingSenderId: "330282693990",
+      appId: "1:330282693990:web:f754a4a09efaa73ab5c4a7",
+      measurementId: "G-B12LL33EQ3"
+    };
 
-      <div id="messages" class="messages" aria-live="polite">
-        <div class="empty-chat">Your messages will appear here.</div>
-      </div>
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
 
-      <form id="sendForm" class="send-row">
-        <textarea id="messageInput" maxlength="2000"
-          placeholder="Write a message..." required></textarea>
-        <button id="sendBtn" class="primary-btn" type="submit">Send</button>
-      </form>
-    </div>
-  </section>
+    const $ = id => document.getElementById(id);
 
-  <div class="footer-note">
-    PAZZAN Private Chat · Approved accounts only.
-    <br>Keep your password private.
-  </div>
-</main>
+    let currentUser = null;
+    let friends = [];
+    let selectedFriend = null;
+    let unsubscribeMessages = null;
+    let unsubscribeFriends = null;
+    let selecting = false;
 
-<script type="module">
-import { initializeApp } from
-  "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
-
-import {
-  getAuth,
-  onAuthStateChanged,
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  signOut
-} from
-  "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
-
-import {
-  getFirestore,
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  query,
-  where,
-  setDoc,
-  addDoc,
-  onSnapshot,
-  orderBy,
-  serverTimestamp
-} from
-  "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyB3G98XBTZH6NFiZxN6QmyEKR8g6vnSYNQ",
-  authDomain: "pasan-fc8e2.firebaseapp.com",
-  projectId: "pasan-fc8e2",
-  storageBucket: "pasan-fc8e2.firebasestorage.app",
-  messagingSenderId: "330282693990",
-  appId: "1:330282693990:web:f754a4a09efaa73ab5c4a7",
-  measurementId: "G-B12LL33EQ3"
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-
-const $ = id => document.getElementById(id);
-
-let currentUser = null;
-let activeChatId = null;
-let unsubscribeMessages = null;
-let authMode = "login";
-let openingChat = false;
-let sendingMessage = false;
-
-function showStatus(id, message, type = "info") {
-  const el = $(id);
-  el.textContent = message;
-  el.className = `status show ${type}`;
-}
-
-function hideStatus(id) {
-  $(id).textContent = "";
-  $(id).className = "status";
-}
-
-function readableError(error) {
-  const code = error?.code || "";
-
-  const known = {
-    "auth/invalid-credential": "Email or password is incorrect.",
-    "auth/invalid-email": "Please enter a valid email address.",
-    "auth/email-already-in-use": "This email already has an account. Please sign in.",
-    "auth/weak-password": "Please choose a stronger password.",
-    "auth/too-many-requests": "Too many attempts. Wait and try again.",
-    "auth/network-request-failed": "Network error. Check your internet connection.",
-    "permission-denied": "Firebase permission denied. Check the Firestore Rules, collection name and approved friend documents."
-  };
-
-  if (known[code]) return known[code];
-  if (code.includes("permission-denied")) return known["permission-denied"];
-
-  return error?.message || "Something went wrong. Please try again.";
-}
-
-function stopMessageListener() {
-  if (unsubscribeMessages) {
-    unsubscribeMessages();
-    unsubscribeMessages = null;
-  }
-  activeChatId = null;
-}
-
-function setAuthMode(mode) {
-  authMode = mode;
-
-  $("authTitle").textContent =
-    mode === "login" ? "Welcome Back" : "Create Your Account";
-
-  $("authSubtitle").textContent =
-    mode === "login"
-      ? "Sign in to continue to your private chat."
-      : "Create an account. The site owner must approve it before you can chat.";
-
-  $("loginBtn").textContent =
-    mode === "login" ? "Sign In" : "Create Account";
-
-  $("registerBtn").textContent =
-    mode === "login" ? "Create Account" : "Back to Sign In";
-
-  $("password").autocomplete =
-    mode === "login" ? "current-password" : "new-password";
-
-  hideStatus("authStatus");
-}
-
-$("registerBtn").addEventListener("click", () => {
-  setAuthMode(authMode === "login" ? "register" : "login");
-});
-
-$("authForm").addEventListener("submit", async event => {
-  event.preventDefault();
-
-  const email = $("email").value.trim().toLowerCase();
-  const password = $("password").value;
-
-  $("loginBtn").disabled = true;
-  $("loginBtn").textContent =
-    authMode === "login" ? "Signing in..." : "Creating account...";
-
-  hideStatus("authStatus");
-
-  try {
-    if (authMode === "login") {
-      await signInWithEmailAndPassword(auth, email, password);
-    } else {
-      await createUserWithEmailAndPassword(auth, email, password);
-
-      showStatus(
-        "authStatus",
-        "Account created. The site owner must approve this account in Firestore before chatting.",
-        "success"
-      );
-    }
-  } catch (error) {
-    showStatus("authStatus", readableError(error), "error");
-  } finally {
-    $("loginBtn").disabled = false;
-    $("loginBtn").textContent =
-      authMode === "login" ? "Sign In" : "Create Account";
-  }
-});
-
-onAuthStateChanged(auth, user => {
-  currentUser = user;
-  stopMessageListener();
-
-  if (user) {
-    $("authPanel").classList.add("hidden");
-    $("chatPanel").classList.remove("hidden");
-    $("logoutBtn").classList.remove("hidden");
-    $("signedInEmail").textContent = user.email || "";
-    hideStatus("chatStatus");
-  } else {
-    $("authPanel").classList.remove("hidden");
-    $("chatPanel").classList.add("hidden");
-    $("logoutBtn").classList.add("hidden");
-    $("chatWindow").classList.add("hidden");
-    $("friendEmail").value = "";
-    hideStatus("chatStatus");
-    setAuthMode("login");
-  }
-});
-
-$("logoutBtn").addEventListener("click", async () => {
-  try {
-    stopMessageListener();
-    await signOut(auth);
-    showStatus("authStatus", "You have been logged out.", "success");
-  } catch (error) {
-    showStatus("chatStatus", readableError(error), "error");
-  }
-});
-
-$("friendForm").addEventListener("submit", async event => {
-  event.preventDefault();
-
-  if (!currentUser || openingChat) return;
-
-  const friendEmail = $("friendEmail").value.trim().toLowerCase();
-
-  if (!friendEmail) {
-    showStatus("chatStatus", "Enter your friend's email.", "error");
-    return;
-  }
-
-  if (friendEmail === (currentUser.email || "").toLowerCase()) {
-    showStatus("chatStatus", "You cannot open a chat with yourself.", "error");
-    return;
-  }
-
-  openingChat = true;
-  $("openChatBtn").disabled = true;
-  $("openChatBtn").textContent = "Opening chat...";
-  $("chatWindow").classList.add("hidden");
-  stopMessageListener();
-
-  try {
-    showStatus("chatStatus", "Checking your account approval...", "info");
-
-    // The collection name is "friend" (singular).
-    const ownRef = doc(db, "friend", currentUser.uid);
-    const ownSnap = await getDoc(ownRef);
-
-    if (!ownSnap.exists() || ownSnap.data().enabled !== true) {
-      showStatus(
-        "chatStatus",
-        "This account is not approved. Check friend/" +
-          currentUser.uid +
-          " in Firestore and ensure enabled is Boolean true.",
-        "error"
-      );
-      return;
+    function showStatus(text, type = "") {
+      $("friendStatus").textContent = text;
+      $("friendStatus").className = "status" + (type ? " " + type : "");
     }
 
-    showStatus("chatStatus", "Checking approved friends...", "info");
+    function showError(error, area = "friendStatus") {
+      console.error("PAZZAN Chat:", error);
+      const el = $(area);
 
-    const friendQuery = query(
-      collection(db, "friend"),
-      where("email", "==", friendEmail),
-      where("enabled", "==", true)
-    );
-
-    const friendResults = await getDocs(friendQuery);
-
-    const friendDoc = friendResults.docs.find(
-      item => item.id !== currentUser.uid
-    );
-
-    if (!friendDoc) {
-      showStatus(
-        "chatStatus",
-        "No approved friend was found. Check the email field and enabled: true in friend/{UID}.",
-        "error"
-      );
-      return;
-    }
-
-    const friendUid = friendDoc.id;
-    const participants = [currentUser.uid, friendUid].sort();
-    const chatId = participants.join("_");
-    const chatRef = doc(db, "chats", chatId);
-
-    showStatus("chatStatus", "Opening private conversation...", "info");
-
-    const chatSnap = await getDoc(chatRef);
-
-    if (!chatSnap.exists()) {
-      await setDoc(chatRef, {
-        participants,
-        createdAt: serverTimestamp()
-      });
-    } else {
-      const existing = chatSnap.data().participants || [];
-
-      if (
-        existing.length !== 2 ||
-        !existing.includes(currentUser.uid) ||
-        !existing.includes(friendUid)
-      ) {
-        throw new Error("This conversation has invalid participants.");
-      }
-    }
-
-    activeChatId = chatId;
-    $("chatFriendLabel").textContent =
-      friendDoc.data().email || friendEmail;
-
-    $("chatWindow").classList.remove("hidden");
-    $("messages").replaceChildren();
-
-    const messagesQuery = query(
-      collection(db, "chats", chatId, "messages"),
-      orderBy("createdAt", "asc")
-    );
-
-    unsubscribeMessages = onSnapshot(
-      messagesQuery,
-      snapshot => {
-        if (activeChatId !== chatId) return;
-
-        const box = $("messages");
-        box.replaceChildren();
-
-        if (snapshot.empty) {
-          const empty = document.createElement("div");
-          empty.className = "empty-chat";
-          empty.textContent = "No messages yet. Say hello!";
-          box.appendChild(empty);
-          return;
-        }
-
-        snapshot.forEach(messageDoc => {
-          const data = messageDoc.data();
-
-          const bubble = document.createElement("div");
-          bubble.className =
-            "message " +
-            (data.senderId === currentUser.uid ? "mine" : "theirs");
-
-          const text = document.createElement("div");
-          text.textContent = data.text || "";
-          bubble.appendChild(text);
-
-          const time = document.createElement("small");
-          time.textContent = data.createdAt?.toDate
-            ? data.createdAt.toDate().toLocaleString()
-            : "Sending...";
-
-          bubble.appendChild(time);
-          box.appendChild(bubble);
-        });
-
-        box.scrollTop = box.scrollHeight;
-      },
-      error => {
+      if (area === "friendStatus") {
         showStatus(
-          "chatStatus",
-          "Failed while loading messages: " + readableError(error),
+          error.code === "permission-denied"
+            ? "ප්‍රවේශ අවසර නැහැ. Firestore Security Rules පරීක්ෂා කරන්න."
+            : error.code === "unavailable"
+              ? "Internet හෝ Firebase සම්බන්ධතාව පරීක්ෂා කරන්න."
+              : "දෝෂය: " + (error.code || error.message),
           "error"
         );
+      } else {
+        el.textContent = "පණිවිඩ ලබාගැනීමට නොහැකි වුණා: " +
+          (error.code || error.message);
+        el.className = "empty";
       }
-    );
+    }
 
-    hideStatus("chatStatus");
+    function escapeText(text) {
+      return String(text ?? "");
+    }
 
-  } catch (error) {
-    console.error("Open chat error:", error);
+    function initials(name) {
+      return (name || "?").trim().charAt(0).toUpperCase() || "?";
+    }
 
-    showStatus(
-      "chatStatus",
-      "Failed while opening chat: " + readableError(error),
-      "error"
-    );
-  } finally {
-    openingChat = false;
-    $("openChatBtn").disabled = false;
-    $("openChatBtn").textContent = "Open Friend Chat";
-  }
-});
+    function getFriendName(friend) {
+      return friend.name || friend.displayName ||
+        friend.email || friend.uid || "Friend";
+    }
 
-$("sendForm").addEventListener("submit", async event => {
-  event.preventDefault();
+    function renderFriends() {
+      const term = $("search").value.trim().toLowerCase();
+      const list = $("friendList");
+      list.replaceChildren();
 
-  if (!currentUser || !activeChatId || sendingMessage) return;
+      const visible = friends.filter(friend =>
+        getFriendName(friend).toLowerCase().includes(term)
+      );
 
-  const input = $("messageInput");
-  const text = input.value.trim();
+      if (!visible.length) {
+        const empty = document.createElement("div");
+        empty.className = "empty";
+        empty.textContent = friends.length
+          ? "ගැළපෙන යාළුවෙක් නැහැ."
+          : "අනුමත යාළුවන් හමු වුණේ නැහැ.";
+        list.appendChild(empty);
+        return;
+      }
 
-  if (!text) return;
+      visible.forEach(friend => {
+        const item = document.createElement("button");
+        item.type = "button";
+        item.className = "friend" +
+          (selectedFriend?.uid === friend.uid ? " active" : "");
 
-  sendingMessage = true;
-  $("sendBtn").disabled = true;
+        const avatar = document.createElement("span");
+        avatar.className = "avatar";
+        avatar.textContent = initials(getFriendName(friend));
 
-  try {
-    await addDoc(
-      collection(db, "chats", activeChatId, "messages"),
+        const info = document.createElement("span");
+        info.className = "friend-info";
+
+        const name = document.createElement("span");
+        name.className = "friend-name";
+        name.textContent = getFriendName(friend);
+
+        const status = document.createElement("span");
+        status.className = "friend-status";
+        status.textContent = "✓ අනුමත යාළුවෙක්";
+
+        info.append(name, status);
+        item.append(avatar, info);
+
+        item.addEventListener("click", () => selectFriend(friend));
+        list.appendChild(item);
+      });
+    }
+
+    /*
+      Friend document schema expected:
+      friend/{documentId}
       {
-        text,
-        senderId: currentUser.uid,
-        createdAt: serverTimestamp()
+        members: ["uid_1", "uid_2"],
+        status: "approved"
       }
-    );
 
-    input.value = "";
-  } catch (error) {
-    showStatus(
-      "chatStatus",
-      "Message was not sent: " + readableError(error),
-      "error"
-    );
-  } finally {
-    sendingMessage = false;
-    $("sendBtn").disabled = false;
-    input.focus();
-  }
-});
-</script>
+      Security Rules must allow only the appropriate members
+      to read approved friend documents.
+    */
+    async function loadFriends() {
+      showStatus("අනුමත යාළුවන් සොයමින්...");
 
+      try {
+        const friendQuery = query(
+          collection(db, "friend"),
+          where("members", "array-contains", currentUser.uid),
+          where("status", "==", "approved")
+        );
+
+        const snapshot = await getDocs(friendQuery);
+        const results = [];
+
+        for (const item of snapshot.docs) {
+          const data = item.data();
+          const members = data.members || [];
+
+          const otherUid = members.find(
+            uid => uid !== currentUser.uid
+          );
+
+          if (!otherUid) continue;
+
+          let name = "";
+          let email = "";
+
+          try {
+            const userDoc = await getDoc(doc(db, "users", otherUid));
+
+            if (userDoc.exists()) {
+              const profile = userDoc.data();
+              name = profile.displayName || profile.name || "";
+              email = profile.email || "";
+            }
+          } catch (profileError) {
+            // Profile reading is optional; use UID if unavailable.
+            console.warn("Optional friend profile unavailable.");
+          }
+
+          results.push({
+            uid: otherUid,
+            name,
+            email,
+            friendshipId: item.id
+          });
+        }
+
+        friends = results;
+        renderFriends();
+        showStatus(
+          friends.length
+            ? friends.length + " අනුමත යාළුවෙක් හමු වුණා."
+            : "දැනට අනුමත යාළුවන් නැහැ."
+        );
+
+        // If a friend was removed from the approved list,
+        // stop displaying that conversation.
+        if (selectedFriend &&
+            !friends.some(f => f.uid === selectedFriend.uid)) {
+          clearSelectedFriend();
+        }
+
+      } catch (error) {
+        showError(error);
+      }
+    }
+
+    function clearSelectedFriend() {
+      if (unsubscribeMessages) unsubscribeMessages();
+      unsubscribeMessages = null;
+      selectedFriend = null;
+      $("chatName").textContent = "යාළුවෙක් තෝරන්න";
+      $("chatAvatar").textContent = "P";
+      $("chatSubtitle").textContent = "අනුමත යාළුවෙක් තෝරන්න";
+      $("messageInput").disabled = true;
+      $("sendBtn").disabled = true;
+      $("messages").replaceChildren();
+
+      const empty = document.createElement("div");
+      empty.className = "empty";
+      empty.textContent = "💬 පණිවිඩ බැලීමට යාළුවෙක් තෝරන්න.";
+      $("messages").appendChild(empty);
+
+      renderFriends();
+    }
+
+    async function selectFriend(friend) {
+      if (selecting) return;
+      selecting = true;
+
+      try {
+        if (unsubscribeMessages) unsubscribeMessages();
+        unsubscribeMessages = null;
+
+        selectedFriend = friend;
+        renderFriends();
+
+        $("chatName").textContent = getFriendName(friend);
+        $("chatAvatar").textContent = initials(getFriendName(friend));
+        $("chatSubtitle").textContent = "Live Chat";
+        $("messageInput").disabled = true;
+        $("sendBtn").disabled = true;
+        $("messages").replaceChildren();
+
+        const loading = document.createElement("div");
+        loading.className = "empty";
+        loading.textContent = "පණිවිඩ ලබාගනිමින්...";
+        $("messages").appendChild(loading);
+
+        const ids = [currentUser.uid, friend.uid].sort();
+        const chatId = ids.join("_");
+        const chatRef = doc(db, "chats", chatId);
+
+        // A chat may only be initialized for an approved friend.
+        // Firestore Rules must enforce the same requirement.
+        await setDoc(chatRef, {
+          members: ids,
+          updatedAt: serverTimestamp()
+        }, { merge: true });
+
+        if (selectedFriend?.uid !== friend.uid) return;
+
+        const messagesQuery = query(
+          collection(db, "chats", chatId, "messages"),
+          orderBy("createdAt", "asc"),
+          limit(100)
+        );
+
+        unsubscribeMessages = onSnapshot(
+          messagesQuery,
+          snapshot => {
+            if (selectedFriend?.uid !== friend.uid) return;
+
+            const container = $("messages");
+            container.replaceChildren();
+
+            if (snapshot.empty) {
+              const empty = document.createElement("div");
+              empty.className = "empty";
+              empty.textContent =
+                "තවම පණිවිඩ නැහැ. පළමු පණිවිඩය යවන්න!";
+              container.appendChild(empty);
+            }
+
+            snapshot.forEach(messageDoc => {
+              const data = messageDoc.data();
+              const bubble = document.createElement("div");
+
+              bubble.className = "bubble" +
+                (data.senderId === currentUser.uid ? " mine" : "");
+
+              const text = document.createElement("div");
+              text.textContent = escapeText(data.text);
+              bubble.appendChild(text);
+
+              const time = document.createElement("span");
+              time.className = "time";
+
+              const date = data.createdAt?.toDate?.();
+              time.textContent = date
+                ? date.toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit"
+                  })
+                : "යවමින්...";
+
+              bubble.appendChild(time);
+              container.appendChild(bubble);
+            });
+
+            container.scrollTop = container.scrollHeight;
+            $("messageInput").disabled = false;
+            $("sendBtn").disabled = false;
+          },
+          error => showError(error, "messages")
+        );
+
+      } catch (error) {
+        showError(error);
+        $("messages").replaceChildren();
+
+        const errorBox = document.createElement("div");
+        errorBox.className = "empty";
+        errorBox.textContent =
+          "Chat විවෘත කළ නොහැක. Friendship සහ Firestore Rules පරීක්ෂා කරන්න.";
+        $("messages").appendChild(errorBox);
+
+      } finally {
+        selecting = false;
+      }
+    }
+
+    $("composer").addEventListener("submit", async event => {
+      event.preventDefault();
+
+      const text = $("messageInput").value.trim();
+
+      if (!text || !selectedFriend || !currentUser) return;
+
+      const friend = selectedFriend;
+      const ids = [currentUser.uid, friend.uid].sort();
+      const chatId = ids.join("_");
+      const chatRef = doc(db, "chats", chatId);
+      const sendBtn = $("sendBtn");
+
+      sendBtn.disabled = true;
+
+      try {
+        // Recheck that this friend is still approved before sending.
+        const friendQuery = query(
+          collection(db, "friend"),
+          where("members", "array-contains", currentUser.uid),
+          where("status", "==", "approved")
+        );
+
+        const approvedSnapshot = await getDocs(friendQuery);
+        const isApproved = approvedSnapshot.docs.some(item =>
+          (item.data().members || []).includes(friend.uid)
+        );
+
+        if (!isApproved) {
+          throw new Error("මෙම යාළුවා සමඟ Chat කිරීමට අවසර නැහැ.");
+        }
+
+        // Firestore Rules must independently enforce membership.
+        const value = text;
+        $("messageInput").value = "";
+
+        await addDoc(collection(db, "chats", chatId, "messages"), {
+          senderId: currentUser.uid,
+          text: value,
+          createdAt: serverTimestamp()
+        });
+
+        await setDoc(chatRef, {
+          members: ids,
+          updatedAt: serverTimestamp()
+        }, { merge: true });
+
+      } catch (error) {
+        console.error("Message sending failed:", error);
+        $("messageInput").value = text;
+
+        showStatus(
+          error.code === "permission-denied"
+            ? "පණිවිඩ යැවීමට අවසර නැහැ. Firestore Rules පරීක්ෂා කරන්න."
+            : error.message || "පණිවිඩය යැවීමට නොහැකි වුණා.",
+          "error"
+        );
+      } finally {
+        sendBtn.disabled = !selectedFriend;
+      }
+    });
+
+    $("search").addEventListener("input", renderFriends);
+
+    $("logoutBtn").addEventListener("click", async () => {
+      try {
+        if (unsubscribeMessages) unsubscribeMessages();
+        if (unsubscribeFriends) unsubscribeFriends();
+
+        await signOut(auth);
+        alert("You have been logged out.");
+        window.location.assign("login.html");
+      } catch (error) {
+        showStatus("Logout කිරීමට නොහැකි වුණා.", "error");
+        console.error(error);
+      }
+    });
+
+    onAuthStateChanged(auth, async user => {
+      if (!user) {
+        window.location.replace("login.html");
+        return;
+      }
+
+      currentUser = user;
+      $("myEmail").textContent = user.email || "Logged in";
+      await loadFriends();
+    });
+  </script>
 </body>
 </html>
