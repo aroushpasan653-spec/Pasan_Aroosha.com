@@ -1,0 +1,150 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PAZZAN Private Chat</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#05080d;color:#f3fff9;font-family:Arial,sans-serif}
+header{padding:18px;background:#09131d;border-bottom:1px solid #39ff88}
+h2{color:#39ff88}
+main{max-width:600px;margin:25px auto;padding:15px}
+.panel{background:#0b121c;border:1px solid #244536;border-radius:14px;padding:18px}
+input,button{padding:12px;border-radius:8px;font-size:16px}
+input{width:100%;margin:7px 0;background:#101a25;color:white;border:1px solid #314050}
+button{background:#39ff88;color:#06110b;border:0;font-weight:bold;cursor:pointer}
+#chat{display:none}
+#messages{height:300px;overflow:auto;padding:10px;background:#071019;margin:12px 0;border-radius:8px}
+.msg{padding:9px;margin:7px 0;background:#182431;border-radius:9px;overflow-wrap:anywhere}
+.mine{background:#075c43;text-align:right}
+.small{color:#b4bfd0;font-size:13px}
+</style>
+</head>
+<body>
+<header><h2>PAZZAN.COM CHAT</h2></header>
+<main>
+<section class="panel" id="login">
+<h2>Private Login</h2>
+<form id="loginForm">
+<input id="email" type="email" placeholder="Email" required>
+<input id="password" type="password" placeholder="Password" required>
+<button type="submit">Login</button>
+</form>
+<p id="status" class="small"></p>
+</section>
+
+<section class="panel" id="chat">
+<h2>My Private Chat</h2>
+<p id="account" class="small"></p>
+<input id="friendEmail" type="email" placeholder="Friend's approved email">
+<button id="openChat">Open Chat</button>
+<div id="messages"></div>
+<form id="sendForm">
+<input id="message" maxlength="2000" placeholder="Type message..." required>
+<button>Send</button>
+</form>
+<button id="logout">Logout</button>
+<p id="chatStatus" class="small"></p>
+</section>
+</main>
+
+<script type="module">
+import {initializeApp}
+from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+
+import {
+getAuth,onAuthStateChanged,signInWithEmailAndPassword,signOut
+} from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+
+import {
+getFirestore,collection,doc,getDoc,query,where,
+addDoc,onSnapshot,orderBy,serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+
+/* Replace with YOUR complete Firebase web config */
+const firebaseConfig = {
+  apiKey: "PASTE_YOUR_API_KEY",
+  authDomain: "pasan-fc8e2.firebaseapp.com",
+  projectId: "pasan-fc8e2",
+  storageBucket: "pasan-fc8e2.firebasestorage.app",
+  messagingSenderId: "330282693990",
+  appId: "PASTE_YOUR_APP_ID"
+};
+
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app);
+const db=getFirestore(app);
+const $=id=>document.getElementById(id);
+let friend=null,stopMessages=null;
+
+$("loginForm").addEventListener("submit",async e=>{
+e.preventDefault();
+$("status").textContent="Logging in...";
+try{
+await signInWithEmailAndPassword(auth,$("email").value.trim(),$("password").value);
+$("status").textContent="";
+}catch(err){$("status").textContent="Login failed: "+err.message}
+});
+
+onAuthStateChanged(auth,user=>{
+$("login").style.display=user?"none":"block";
+$("chat").style.display=user?"block":"none";
+if(user)$("account").textContent="Signed in: "+user.email;
+if(!user){
+if(stopMessages)stopMessages();
+stopMessages=null;friend=null;
+$("messages").replaceChildren();
+}
+});
+
+$("openChat").addEventListener("click",async()=>{
+const email=$("friendEmail").value.trim().toLowerCase();
+if(!email||!auth.currentUser)return;
+$("chatStatus").textContent="Checking friend...";
+try{
+const q=query(collection(db,"friends"),where("email","==",email),where("enabled","==",true));
+const result=await import("https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js");
+const snap=await result.getDocs(q);
+const found=snap.docs.find(d=>d.id!==auth.currentUser.uid);
+if(!found)throw new Error("Friend not found in approved friends.");
+friend=found.id;
+const id=[auth.currentUser.uid,friend].sort().join("_");
+const chatRef=doc(db,"chats",id);
+const chatDoc=await getDoc(chatRef);
+if(!chatDoc.exists())throw new Error("Chat must be created using the approved chat setup first.");
+if(stopMessages)stopMessages();
+const mq=query(collection(db,"chats",id,"messages"),orderBy("createdAt","asc"));
+stopMessages=onSnapshot(mq,s=>{
+const box=$("messages");box.replaceChildren();
+s.forEach(d=>{
+const data=d.data(),el=document.createElement("div");
+el.className="msg"+(data.senderId===auth.currentUser.uid?" mine":"");
+el.textContent=data.text||"";
+box.appendChild(el);
+});
+box.scrollTop=box.scrollHeight;
+},err=>$("chatStatus").textContent=err.message);
+$("chatStatus").textContent="Chat connected.";
+}catch(err){$("chatStatus").textContent=err.message}
+});
+
+$("sendForm").addEventListener("submit",async e=>{
+e.preventDefault();
+if(!friend||!auth.currentUser)return;
+const text=$("message").value.trim();
+if(!text)return;
+const id=[auth.currentUser.uid,friend].sort().join("_");
+try{
+await addDoc(collection(db,"chats",id,"messages"),{
+text,senderId:auth.currentUser.uid,createdAt:serverTimestamp()
+});
+$("message").value="";
+}catch(err){$("chatStatus").textContent="Message failed: "+err.message}
+});
+
+$("logout").addEventListener("click",()=>signOut(auth));
+</script>
+</body>
+</html>
