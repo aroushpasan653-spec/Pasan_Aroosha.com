@@ -1,199 +1,1329 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Data Submission Portal</title>
+<meta name="theme-color" content="#f5f7fc">
+<title>ChronoX — Ultimate Clock</title>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Orbitron:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --bg:#f5f7fc;
+  --surface:#ffffff;
+  --surface2:#f0f3f9;
+  --text:#182033;
+  --muted:#8490a5;
+  --border:#e8ecf3;
+  --accent:#5875ed;
+  --accent2:#8295ff;
+  --shadow:0 10px 35px rgba(35,53,91,.07);
+  --soft:rgba(88,117,237,.09);
+}
+
+body.dark {
+  --bg:#10131c;
+  --surface:#191e2b;
+  --surface2:#222838;
+  --text:#f2f4fb;
+  --muted:#929db3;
+  --border:#2a3142;
+  --accent:#91a3ff;
+  --accent2:#6f86ff;
+  --shadow:0 12px 35px rgba(0,0,0,.22);
+  --soft:rgba(145,163,255,.12);
+}
+
 * {
-  box-sizing: border-box;
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
 }
 
 body {
-  margin: 0;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  background: #080b12;
-  font-family: Arial, sans-serif;
-  color: white;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Inter,sans-serif;
+  min-height:100vh;
+  transition:background .3s,color .3s;
 }
 
-.container {
-  width: 100%;
-  max-width: 390px;
-  padding: 30px 25px;
-  border: 1px solid #263849;
-  border-radius: 18px;
-  background: #111925;
-  box-shadow: 0 0 30px #00e5ff18;
-}
-
-h2 {
-  text-align: center;
-  color: #39ff88;
-  margin-bottom: 10px;
-}
-
-.subtitle {
-  text-align: center;
-  color: #aab7c5;
-  font-size: 13px;
-  margin-bottom: 25px;
-}
-
-label {
-  display: block;
-  margin: 17px 0 8px;
-  font-size: 14px;
-}
-
-input {
-  width: 100%;
-  padding: 14px;
-  border: 1px solid #35475a;
-  border-radius: 9px;
-  background: #080e17;
-  color: white;
-  font-size: 15px;
-  outline: none;
-}
-
-input:focus {
-  border-color: #00e5ff;
+button,input,select {
+  font:inherit;
 }
 
 button {
-  width: 100%;
-  margin-top: 23px;
-  padding: 14px;
-  border: none;
-  border-radius: 9px;
-  background: linear-gradient(90deg,#39ff88,#00e5ff);
-  color: #071019;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
+  cursor:pointer;
+  border:0;
 }
 
-button:disabled {
-  opacity: .5;
+.app {
+  width:min(1120px,94%);
+  margin:auto;
+  padding:28px 0 45px;
 }
 
-#message {
-  text-align: center;
-  font-size: 14px;
-  margin-top: 18px;
-  overflow-wrap: anywhere;
+/* HEADER */
+
+header {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:34px;
+  gap:15px;
+}
+
+.brand {
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.brand-icon {
+  width:45px;
+  height:45px;
+  display:grid;
+  place-items:center;
+  border-radius:15px;
+  color:white;
+  background:linear-gradient(135deg,#6986ff,#5260d9);
+  font-size:23px;
+  box-shadow:0 7px 18px #6078e544;
+}
+
+.brand h1 {
+  font-size:21px;
+  font-weight:900;
+  letter-spacing:-1px;
+}
+
+.brand p {
+  font-size:10px;
+  color:var(--muted);
+  margin-top:3px;
+  letter-spacing:2px;
+}
+
+.header-actions {
+  display:flex;
+  gap:9px;
+}
+
+.icon-btn {
+  width:43px;
+  height:43px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:14px;
+  color:var(--text);
+  font-size:19px;
+  box-shadow:var(--shadow);
+}
+
+/* NAVIGATION */
+
+.nav {
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:9px;
+  padding:9px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:19px;
+  box-shadow:var(--shadow);
+  margin-bottom:25px;
+}
+
+.nav button {
+  padding:14px 5px;
+  background:transparent;
+  border-radius:12px;
+  color:var(--muted);
+  font-size:12px;
+  font-weight:700;
+  transition:.25s;
+}
+
+.nav button span {
+  display:block;
+  font-size:20px;
+  margin-bottom:7px;
+}
+
+.nav button.active {
+  background:var(--soft);
+  color:var(--accent);
+}
+
+/* GENERAL CARDS */
+
+.panel {
+  display:none;
+  animation:fade .35s ease;
+}
+
+.panel.active {
+  display:block;
+}
+
+@keyframes fade {
+  from {opacity:0;transform:translateY(9px)}
+  to {opacity:1;transform:translateY(0)}
+}
+
+.card {
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:24px;
+  padding:30px;
+  box-shadow:var(--shadow);
+}
+
+.card-heading {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin-bottom:25px;
+}
+
+.card-heading h2 {
+  font-size:19px;
+  font-weight:800;
+}
+
+.tag {
+  background:var(--soft);
+  color:var(--accent);
+  border-radius:30px;
+  padding:7px 12px;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:1px;
+}
+
+/* CLOCK DISPLAY */
+
+.clock-display {
+  text-align:center;
+  padding:40px 10px 32px;
+}
+
+.clock-time {
+  font-family:Orbitron,sans-serif;
+  font-size:clamp(42px,9vw,90px);
+  font-weight:600;
+  letter-spacing:3px;
+  font-variant-numeric:tabular-nums;
+  color:var(--text);
+}
+
+.clock-date {
+  color:var(--muted);
+  font-size:14px;
+  margin-top:17px;
+  font-weight:600;
+}
+
+.clock-greeting {
+  margin-top:27px;
+  color:var(--accent);
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:3px;
+}
+
+.info-grid {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  margin-top:20px;
+}
+
+.info-box {
+  background:var(--surface2);
+  border-radius:16px;
+  padding:17px;
+  text-align:center;
+}
+
+.info-box small {
+  display:block;
+  font-size:10px;
+  color:var(--muted);
+  font-weight:700;
+  letter-spacing:1px;
+  margin-bottom:9px;
+}
+
+.info-box strong {
+  font-size:19px;
+}
+
+/* STOPWATCH */
+
+.digital-display {
+  text-align:center;
+  padding:35px 5px;
+}
+
+.digital-display .time {
+  font-family:Orbitron,sans-serif;
+  font-size:clamp(36px,8vw,68px);
+  letter-spacing:2px;
+  font-variant-numeric:tabular-nums;
+}
+
+.digital-display .subtime {
+  color:var(--muted);
+  font-size:13px;
+  margin-top:13px;
+}
+
+.controls {
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:10px;
+  margin:15px 0 25px;
+}
+
+.btn {
+  padding:14px 23px;
+  border-radius:13px;
+  background:var(--surface2);
+  color:var(--text);
+  font-weight:800;
+  font-size:12px;
+  transition:.2s;
+}
+
+.btn:hover {
+  transform:translateY(-2px);
+}
+
+.btn.primary {
+  background:var(--accent);
+  color:white;
+}
+
+.btn.danger {
+  background:#ffeded;
+  color:#e45454;
+}
+
+body.dark .btn.danger {
+  background:#482b35;
+  color:#ff929d;
+}
+
+.lap-list {
+  max-height:220px;
+  overflow-y:auto;
+  margin-top:20px;
+}
+
+.lap-row {
+  display:flex;
+  justify-content:space-between;
+  padding:14px 8px;
+  border-bottom:1px solid var(--border);
+  font-size:13px;
+  font-weight:600;
+}
+
+.lap-row span:last-child {
+  color:var(--accent);
+  font-family:Orbitron,sans-serif;
+  font-size:12px;
+}
+
+/* TIMER */
+
+.timer-inputs {
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  margin:10px 0 25px;
+}
+
+.input-group {
+  width:95px;
+  text-align:center;
+}
+
+.input-group input {
+  width:100%;
+  background:var(--surface2);
+  color:var(--text);
+  border:1px solid var(--border);
+  outline:none;
+  border-radius:15px;
+  padding:18px 5px;
+  text-align:center;
+  font-family:Orbitron,sans-serif;
+  font-size:23px;
+}
+
+.input-group label {
+  display:block;
+  margin-top:10px;
+  font-size:10px;
+  font-weight:800;
+  color:var(--muted);
+  letter-spacing:1px;
+}
+
+.timer-progress {
+  width:190px;
+  height:190px;
+  border-radius:50%;
+  margin:20px auto;
+  display:grid;
+  place-items:center;
+  background:conic-gradient(var(--accent) 0deg,var(--surface2) 0deg);
+  position:relative;
+}
+
+.timer-progress:before {
+  content:"";
+  position:absolute;
+  inset:9px;
+  border-radius:50%;
+  background:var(--surface);
+}
+
+.timer-progress .time {
+  z-index:1;
+  font-family:Orbitron,sans-serif;
+  font-size:27px;
+}
+
+/* COUNTDOWN */
+
+.countdown-date {
+  text-align:center;
+  margin:12px 0 28px;
+}
+
+.countdown-date .date {
+  font-size:24px;
+  font-weight:900;
+  color:var(--accent);
+}
+
+.countdown-date p {
+  color:var(--muted);
+  font-size:12px;
+  margin-top:8px;
+}
+
+.countdown-grid {
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+}
+
+.count-box {
+  background:var(--surface2);
+  border-radius:18px;
+  text-align:center;
+  padding:25px 8px;
+}
+
+.count-box strong {
+  display:block;
+  font-family:Orbitron,sans-serif;
+  font-size:clamp(23px,4vw,38px);
+  color:var(--accent);
+  font-weight:700;
+}
+
+.count-box span {
+  display:block;
+  margin-top:12px;
+  font-size:10px;
+  font-weight:800;
+  color:var(--muted);
+  letter-spacing:1px;
+}
+
+.count-note {
+  text-align:center;
+  color:var(--muted);
+  font-size:12px;
+  margin-top:25px;
+}
+
+/* TIME MANAGER */
+
+.manager-select {
+  width:100%;
+  padding:16px;
+  background:var(--surface2);
+  color:var(--text);
+  border:1px solid var(--border);
+  border-radius:13px;
+  outline:none;
+  margin-bottom:18px;
+}
+
+.manager-time {
+  text-align:center;
+  font-family:Orbitron,sans-serif;
+  font-size:clamp(35px,7vw,60px);
+  padding:28px 0;
+  font-variant-numeric:tabular-nums;
+}
+
+.manager-label {
+  text-align:center;
+  color:var(--muted);
+  font-size:12px;
+  font-weight:700;
+}
+
+.stats {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  margin-top:25px;
+}
+
+.stat-card {
+  padding:17px 8px;
+  background:var(--surface2);
+  border-radius:15px;
+  text-align:center;
+}
+
+.stat-card .emoji {
+  font-size:22px;
+}
+
+.stat-card h3 {
+  font-size:18px;
+  margin-top:9px;
+  font-family:Orbitron,sans-serif;
+}
+
+.stat-card p {
+  color:var(--muted);
+  font-size:10px;
+  font-weight:800;
+  margin-top:7px;
+}
+
+.manager-note {
+  margin-top:20px;
+  color:var(--muted);
+  font-size:11px;
+  text-align:center;
+  line-height:1.8;
+}
+
+/* FOOTER */
+
+footer {
+  text-align:center;
+  margin-top:28px;
+  color:var(--muted);
+  font-size:11px;
+  line-height:2;
+}
+
+@media(max-width:600px) {
+  .app {width:92%;padding-top:20px}
+  header {margin-bottom:24px}
+  .brand h1 {font-size:18px}
+  .nav {gap:3px;padding:6px;border-radius:15px}
+  .nav button {font-size:9px;padding:12px 2px}
+  .nav button span {font-size:18px}
+  .card {padding:20px 15px;border-radius:20px}
+  .clock-display {padding:40px 0 25px}
+  .countdown-grid {gap:8px}
+  .count-box {padding:20px 4px}
+  .count-box span {font-size:8px}
+  .info-box {padding:14px 5px}
+  .info-box strong {font-size:15px}
+  .stats {gap:7px}
+  .stat-card {padding:14px 4px}
+  .stat-card h3 {font-size:14px}
+  .btn {padding:13px 17px}
+}
+
+@media(max-width:350px) {
+  .nav button {font-size:8px}
+  .nav button span {font-size:16px}
+  .countdown-grid {grid-template-columns:repeat(2,1fr)}
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="app">
 
-  <h2>Welcome</h2>
-  <p class="subtitle">Data Submission Portal</p>
+<header>
+  <div class="brand">
+    <div class="brand-icon">◷</div>
+    <div>
+      <h1>ChronoX</h1>
+      <p>ULTIMATE TIME EXPERIENCE</p>
+    </div>
+  </div>
 
-  <form id="submissionForm">
+  <div class="header-actions">
+    <button class="icon-btn" id="themeBtn" onclick="toggleTheme()" title="Change theme">☀️</button>
+    <button class="icon-btn" onclick="toggleFullscreen()" title="Fullscreen">⛶</button>
+  </div>
+</header>
 
-    <label>Username / Email / Mobile Number</label>
-    <input
-      type="text"
-      id="username"
-      placeholder="Enter username, email or mobile"
-      maxlength="150"
-      required
-    >
+<nav class="nav">
+  <button class="active" onclick="showPanel('normal',this)">
+    <span>◷</span>Clock
+  </button>
+  <button onclick="showPanel('stopwatch',this)">
+    <span>⏱</span>Stopwatch
+  </button>
+  <button onclick="showPanel('timer',this)">
+    <span>⌛</span>Timer
+  </button>
+  <button onclick="showPanel('countdown',this)">
+    <span>▦</span>Countdown
+  </button>
+  <button onclick="showPanel('manager',this)">
+    <span>◴</span>Manage
+  </button>
+</nav>
 
-    <label>Password</label>
-    <input
-      type="password"
-      id="password"
-      placeholder="Password"
-      maxlength="100"
-      required
-    >
+<!-- NORMAL CLOCK -->
 
-    <button type="submit" id="submitBtn">
-      Submit
-    </button>
+<section class="panel active" id="normal">
+  <div class="card">
+    <div class="card-heading">
+      <h2>Current Time</h2>
+      <span class="tag">SRI LANKA</span>
+    </div>
 
-    <p id="message" role="status"></p>
+    <div class="clock-display">
+      <div class="clock-time" id="clock">00:00:00</div>
+      <div class="clock-date" id="clockDate">Loading date...</div>
+      <div class="clock-greeting">MAKE EVERY SECOND COUNT</div>
+    </div>
 
-  </form>
+    <div class="info-grid">
+      <div class="info-box">
+        <small>DAY</small>
+        <strong id="dayName">--</strong>
+      </div>
+      <div class="info-box">
+        <small>MONTH</small>
+        <strong id="monthName">--</strong>
+      </div>
+      <div class="info-box">
+        <small>YEAR</small>
+        <strong id="yearName">----</strong>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STOPWATCH -->
+
+<section class="panel" id="stopwatch">
+  <div class="card">
+    <div class="card-heading">
+      <h2>Stopwatch</h2>
+      <span class="tag">PRECISION TIMER</span>
+    </div>
+
+    <div class="digital-display">
+      <div class="time" id="swDisplay">00:00:00</div>
+      <div class="subtime" id="swMs">000 milliseconds</div>
+    </div>
+
+    <div class="controls">
+      <button class="btn primary" id="swStart" onclick="startSW()">▶ Start</button>
+      <button class="btn" onclick="pauseSW()">Ⅱ Pause</button>
+      <button class="btn danger" onclick="resetSW()">↻ Reset</button>
+      <button class="btn" onclick="lapSW()">⚑ Lap</button>
+    </div>
+
+    <div class="card-heading">
+      <h2>Lap Records</h2>
+      <span class="tag" id="lapCount">0 LAPS</span>
+    </div>
+
+    <div class="lap-list" id="lapList">
+      <p style="text-align:center;color:var(--muted);font-size:12px;padding:20px">
+        Your lap records will appear here.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- TIMER -->
+
+<section class="panel" id="timer">
+  <div class="card">
+    <div class="card-heading">
+      <h2>Countdown Timer</h2>
+      <span class="tag">SET YOUR TIME</span>
+    </div>
+
+    <div class="timer-inputs">
+      <div class="input-group">
+        <input type="number" id="th" min="0" max="99" value="0">
+        <label>HOURS</label>
+      </div>
+      <div class="input-group">
+        <input type="number" id="tm" min="0" max="59" value="5">
+        <label>MINUTES</label>
+      </div>
+      <div class="input-group">
+        <input type="number" id="ts" min="0" max="59" value="0">
+        <label>SECONDS</label>
+      </div>
+    </div>
+
+    <div class="timer-progress" id="timerCircle">
+      <div class="time" id="timerDisplay">00:05:00</div>
+    </div>
+
+    <div class="controls">
+      <button class="btn primary" onclick="startTimer()">▶ Start</button>
+      <button class="btn" onclick="pauseTimer()">Ⅱ Pause</button>
+      <button class="btn danger" onclick="resetTimer()">↻ Reset</button>
+    </div>
+
+    <p class="count-note" id="timerStatus">Ready to start your timer.</p>
+  </div>
+</section>
+
+<!-- A/L COUNTDOWN -->
+
+<section class="panel" id="countdown">
+  <div class="card">
+    <div class="card-heading">
+      <h2>My A/L Countdown</h2>
+      <span class="tag">2027 TARGET</span>
+    </div>
+
+    <div class="countdown-date">
+      <div class="date">01 AUGUST 2027</div>
+      <p>YOUR TARGET DATE • SRI LANKA TIME</p>
+    </div>
+
+    <div class="countdown-grid">
+      <div class="count-box">
+        <strong id="cdDays">000</strong>
+        <span>DAYS</span>
+      </div>
+      <div class="count-box">
+        <strong id="cdHours">00</strong>
+        <span>HOURS</span>
+      </div>
+      <div class="count-box">
+        <strong id="cdMinutes">00</strong>
+        <span>MINUTES</span>
+      </div>
+      <div class="count-box">
+        <strong id="cdSeconds">00</strong>
+        <span>SECONDS</span>
+      </div>
+    </div>
+
+    <p class="count-note" id="cdMessage">
+      Every second is an opportunity to move closer to your goal.
+    </p>
+  </div>
+</section>
+
+<!-- TIME MANAGER -->
+
+<section class="panel" id="manager">
+  <div class="card">
+    <div class="card-heading">
+      <h2>Time Manager</h2>
+      <span class="tag">PRODUCTIVITY</span>
+    </div>
+
+    <select class="manager-select" id="taskType">
+      <option value="study">📚 Study Time</option>
+      <option value="break">☕ Break Time</option>
+      <option value="personal">✨ Personal Time</option>
+    </select>
+
+    <div class="manager-label" id="managerLabel">STUDY SESSION</div>
+    <div class="manager-time" id="managerDisplay">00:00:00</div>
+
+    <div class="controls">
+      <button class="btn primary" onclick="startManager()">▶ Start</button>
+      <button class="btn" onclick="pauseManager()">Ⅱ Pause</button>
+      <button class="btn danger" onclick="resetManager()">↻ Reset</button>
+    </div>
+
+    <div class="card-heading">
+      <h2>Today's Time Records</h2>
+      <span class="tag">TOTAL</span>
+    </div>
+
+    <div class="stats">
+      <div class="stat-card">
+        <div class="emoji">📚</div>
+        <h3 id="studyTotal">00:00</h3>
+        <p>STUDY</p>
+      </div>
+      <div class="stat-card">
+        <div class="emoji">☕</div>
+        <h3 id="breakTotal">00:00</h3>
+        <p>BREAK</p>
+      </div>
+      <div class="stat-card">
+        <div class="emoji">✨</div>
+        <h3 id="personalTotal">00:00</h3>
+        <p>PERSONAL</p>
+      </div>
+    </div>
+
+    <p class="manager-note">
+      Records are saved on this device. Switch tasks after pausing
+      the current session. Daily totals reset automatically on a new day.
+    </p>
+
+    <div class="controls">
+      <button class="btn danger" onclick="clearManagerRecords()">
+        Clear Today's Records
+      </button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <strong>ChronoX</strong> — Every Second Matters.<br>
+  Designed for your time. Built for your goals.
+</footer>
+
 </div>
 
-<script type="module">
+<script>
 
-import { initializeApp } 
-from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+/* THEME */
 
-import { 
-  getFirestore, 
-  collection, 
-  addDoc, 
-  serverTimestamp 
-} 
-from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+function applyTheme(theme) {
+  document.body.classList.toggle('dark',theme==='dark');
+  document.getElementById('themeBtn').textContent =
+    theme==='dark' ? '🌙' : '☀️';
 
-const firebaseConfig = {
-  apiKey: "AIzaSyCpZw11RVkWAYlGsuLIemhufgPFGxWeoNc",
-  authDomain: "login-data-2e0b1.firebaseapp.com",
-  projectId: "login-data-2e0b1",
-  storageBucket: "login-data-2e0b1.firebasestorage.app",
-  messagingSenderId: "21440446512",
-  appId: "1:40446512:web:e73ece526bf4053fea6df5"
-};
+  document.querySelector('meta[name="theme-color"]').content =
+    theme==='dark' ? '#10131c' : '#f5f7fc';
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+  localStorage.setItem('chronox-theme',theme);
+}
 
-const form = document.getElementById("submissionForm");
-const button = document.getElementById("submitBtn");
-const message = document.getElementById("message");
+function toggleTheme() {
+  applyTheme(document.body.classList.contains('dark')?'light':'dark');
+}
 
-form.addEventListener("submit", async (event) => {
-  event.preventDefault();
+applyTheme(localStorage.getItem('chronox-theme') || 'light');
 
-  const username = document.getElementById("username").value.trim();
-  const password = document.getElementById("password").value.trim();
 
-  if (!username || !password) {
-    message.textContent = "Please complete both fields.";
-    message.style.color = "#ff7070";
+/* NAVIGATION */
+
+function showPanel(id,button) {
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+
+  document.getElementById(id).classList.add('active');
+  button.classList.add('active');
+}
+
+
+/* FULLSCREEN */
+
+function toggleFullscreen() {
+  if(!document.fullscreenElement) {
+    document.documentElement.requestFullscreen?.();
+  } else {
+    document.exitFullscreen?.();
+  }
+}
+
+
+/* SRI LANKA CLOCK */
+
+const slTime = new Intl.DateTimeFormat('en-GB',{
+  timeZone:'Asia/Colombo',
+  hour:'2-digit',
+  minute:'2-digit',
+  second:'2-digit',
+  hour12:false
+});
+
+const slDate = new Intl.DateTimeFormat('en-US',{
+  timeZone:'Asia/Colombo',
+  weekday:'long',
+  day:'numeric',
+  month:'long',
+  year:'numeric'
+});
+
+const slParts = new Intl.DateTimeFormat('en-US',{
+  timeZone:'Asia/Colombo',
+  weekday:'long',
+  month:'long',
+  year:'numeric'
+});
+
+function getSLDate() {
+  const parts = new Intl.DateTimeFormat('en-CA',{
+    timeZone:'Asia/Colombo',
+    year:'numeric',
+    month:'2-digit',
+    day:'2-digit'
+  }).formatToParts(new Date());
+
+  const obj={};
+  parts.forEach(p=>obj[p.type]=p.value);
+
+  return {
+    year:+obj.year,
+    month:+obj.month,
+    day:+obj.day
+  };
+}
+
+function updateClock() {
+  const now=new Date();
+  const d=getSLDate();
+  const parts=slParts.formatToParts(now);
+
+  document.getElementById('clock').textContent=slTime.format(now);
+  document.getElementById('clockDate').textContent=slDate.format(now);
+
+  document.getElementById('dayName').textContent =
+    parts.find(p=>p.type==='weekday').value;
+
+  document.getElementById('monthName').textContent =
+    parts.find(p=>p.type==='month').value;
+
+  document.getElementById('yearName').textContent=d.year;
+}
+
+updateClock();
+setInterval(updateClock,250);
+
+
+/* STOPWATCH */
+
+let swElapsed=0;
+let swStartTime=0;
+let swRunning=false;
+let swFrame=null;
+let laps=[];
+
+function formatTime(ms) {
+  let total=Math.floor(ms/1000);
+  let h=Math.floor(total/3600);
+  let m=Math.floor((total%3600)/60);
+  let s=total%60;
+
+  return [h,m,s].map(x=>String(x).padStart(2,'0')).join(':');
+}
+
+function renderSW() {
+  let elapsed=swElapsed;
+
+  if(swRunning) elapsed+=performance.now()-swStartTime;
+
+  document.getElementById('swDisplay').textContent=formatTime(elapsed);
+
+  document.getElementById('swMs').textContent =
+    String(Math.floor(elapsed%1000)).padStart(3,'0')+' milliseconds';
+
+  if(swRunning) swFrame=requestAnimationFrame(renderSW);
+}
+
+function startSW() {
+  if(swRunning)return;
+
+  swRunning=true;
+  swStartTime=performance.now();
+
+  document.getElementById('swStart').textContent='▶ Running';
+
+  renderSW();
+}
+
+function pauseSW() {
+  if(!swRunning)return;
+
+  swElapsed+=performance.now()-swStartTime;
+  swRunning=false;
+
+  cancelAnimationFrame(swFrame);
+  document.getElementById('swStart').textContent='▶ Start';
+
+  renderSW();
+}
+
+function resetSW() {
+  pauseSW();
+  swElapsed=0;
+  laps=[];
+
+  document.getElementById('lapList').innerHTML=
+    '<p style="text-align:center;color:var(--muted);font-size:12px;padding:20px">Your lap records will appear here.</p>';
+
+  document.getElementById('lapCount').textContent='0 LAPS';
+  renderSW();
+}
+
+function lapSW() {
+  if(!swRunning && swElapsed===0)return;
+
+  let elapsed=swElapsed+(swRunning?performance.now()-swStartTime:0);
+
+  laps.unshift(elapsed);
+
+  document.getElementById('lapCount').textContent=laps.length+' LAPS';
+
+  document.getElementById('lapList').innerHTML=laps.map((lap,i)=>`
+    <div class="lap-row">
+      <span>Lap ${laps.length-i}</span>
+      <span>${formatTime(lap)}</span>
+    </div>
+  `).join('');
+}
+
+
+/* COUNTDOWN TIMER */
+
+let timerRemaining=300;
+let timerInitial=300;
+let timerRunning=false;
+let timerEnd=0;
+let timerInterval=null;
+let audioContext=null;
+
+function readTimerInputs() {
+  const h=Number(document.getElementById('th').value);
+  const m=Number(document.getElementById('tm').value);
+  const s=Number(document.getElementById('ts').value);
+
+  if(!Number.isInteger(h)||!Number.isInteger(m)||!Number.isInteger(s)||
+     h<0||h>99||m<0||m>59||s<0||s>59) {
+    alert('Please enter valid time values.');
+    return null;
+  }
+
+  return h*3600+m*60+s;
+}
+
+function drawTimer() {
+  const total=Math.max(0,Math.ceil(timerRemaining));
+  const h=Math.floor(total/3600);
+  const m=Math.floor((total%3600)/60);
+  const s=total%60;
+
+  document.getElementById('timerDisplay').textContent=
+    [h,m,s].map(x=>String(x).padStart(2,'0')).join(':');
+
+  let percent=timerInitial>0?timerRemaining/timerInitial:0;
+
+  document.getElementById('timerCircle').style.background=
+    `conic-gradient(var(--accent) ${percent*360}deg,var(--surface2) 0deg)`;
+}
+
+function startTimer() {
+  if(timerRunning)return;
+
+  if(timerRemaining<=0) {
+    const v=readTimerInputs();
+    if(v===null)return;
+    timerRemaining=v;
+    timerInitial=v;
+  }
+
+  if(timerRemaining<=0) {
+    alert('Please set a time first.');
     return;
   }
 
-  button.disabled = true;
-  message.textContent = "Submitting...";
-  message.style.color = "#ffffff";
+  timerRunning=true;
+  timerEnd=Date.now()+timerRemaining*1000;
 
-  try {
-    await addDoc(collection(db, "submissions"), {
-      username: username,
-      password: password,
-      createdAt: serverTimestamp()
-    });
+  document.getElementById('timerStatus').textContent='Timer is running...';
 
-    message.textContent = "Submitted successfully!";
-    message.style.color = "#39ff88";
-    form.reset();
+  clearInterval(timerInterval);
 
-  } catch (error) {
-    console.error(error);
-    message.textContent = "Submission failed. Please check Firebase Rules.";
-    message.style.color = "#ff7070";
+  timerInterval=setInterval(()=>{
+    timerRemaining=Math.max(0,(timerEnd-Date.now())/1000);
+    drawTimer();
+
+    if(timerRemaining<=0) {
+      pauseTimer();
+      document.getElementById('timerStatus').textContent='Time is up! 🎉';
+      playAlert();
+    }
+  },100);
+}
+
+function pauseTimer() {
+  if(timerRunning) {
+    timerRemaining=Math.max(0,(timerEnd-Date.now())/1000);
   }
 
-  button.disabled = false;
+  timerRunning=false;
+  clearInterval(timerInterval);
+  drawTimer();
+
+  if(timerRemaining>0) {
+    document.getElementById('timerStatus').textContent='Timer paused.';
+  }
+}
+
+function resetTimer() {
+  pauseTimer();
+
+  const v=readTimerInputs();
+  if(v===null)return;
+
+  timerRemaining=v;
+  timerInitial=v;
+
+  document.getElementById('timerStatus').textContent='Ready to start your timer.';
+  drawTimer();
+}
+
+['th','tm','ts'].forEach(id=>{
+  document.getElementById(id).addEventListener('change',()=>{
+    if(timerRunning)return;
+    const v=readTimerInputs();
+    if(v!==null) {
+      timerRemaining=v;
+      timerInitial=v;
+      drawTimer();
+    }
+  });
 });
 
-</script>
+drawTimer();
 
+
+/* SOUND ALERT */
+
+function playAlert() {
+  try {
+    const AC=window.AudioContext||window.webkitAudioContext;
+    if(!AC)return;
+
+    audioContext=new AC();
+
+    [0,0.35,0.7].forEach(delay=>{
+      const osc=audioContext.createOscillator();
+      const gain=audioContext.createGain();
+
+      osc.connect(gain);
+      gain.connect(audioContext.destination);
+
+      osc.frequency.value=880;
+      gain.gain.setValueAtTime(.18,audioContext.currentTime+delay);
+      gain.gain.exponentialRampToValueAtTime(.001,audioContext.currentTime+delay+.25);
+
+      osc.start(audioContext.currentTime+delay);
+      osc.stop(audioContext.currentTime+delay+.26);
+    });
+  } catch(e) {}
+}
+
+
+/* A/L COUNTDOWN */
+
+function updateCountdown() {
+  const d=getSLDate();
+
+  // 2027 August 1, midnight Sri Lanka time
+  const target=Date.UTC(2027,7,1,0,0,0)-330*60*1000;
+
+  const now=Date.now();
+  let diff=Math.max(0,target-now);
+
+  const days=Math.floor(diff/86400000);
+  diff%=86400000;
+
+  const hours=Math.floor(diff/3600000);
+  diff%=3600000;
+
+  const minutes=Math.floor(diff/60000);
+  const seconds=Math.floor((diff%60000)/1000);
+
+  document.getElementById('cdDays').textContent=String(days).padStart(3,'0');
+  document.getElementById('cdHours').textContent=String(hours).padStart(2,'0');
+  document.getElementById('cdMinutes').textContent=String(minutes).padStart(2,'0');
+  document.getElementById('cdSeconds').textContent=String(seconds).padStart(2,'0');
+
+  if(now>=target) {
+    document.getElementById('cdMessage').textContent='Your target date has arrived!';
+  }
+}
+
+updateCountdown();
+setInterval(updateCountdown,1000);
+
+
+/* TIME MANAGER */
+
+let managerElapsed=0;
+let managerStart=0;
+let managerRunning=false;
+let managerFrame=null;
+
+const defaultRecords={
+  study:0,
+  break:0,
+  personal:0
+};
+
+function todayKey() {
+  const d=getSLDate();
+  return `${d.year}-${String(d.month).padStart(2,'0')}-${String(d.day).padStart(2,'0')}`;
+}
+
+function loadRecords() {
+  let saved;
+
+  try {
+    saved=JSON.parse(localStorage.getItem('chronox-records'));
+  } catch(e) {}
+
+  if(saved && saved.date===todayKey()) {
+    return {...defaultRecords,...saved.data};
+  }
+
+  return {...defaultRecords};
+}
+
+let records=loadRecords();
+
+function saveRecords() {
+  localStorage.setItem('chronox-records',JSON.stringify({
+    date:todayKey(),
+    data:records
+  }));
+}
+
+function formatShort(seconds) {
+  let m=Math.floor(seconds/60);
+  let h=Math.floor(m/60);
+  m%=60;
+
+  return String(h).padStart(2,'0')+':'+String(m).padStart(2,'0');
+}
+
+function updateManagerStats() {
+  document.getElementById('studyTotal').textContent=formatShort(records.study);
+  document.getElementById('breakTotal').textContent=formatShort(records.break);
+  document.getElementById('personalTotal').textContent=formatShort(records.personal);
+}
+
+function managerRender() {
+  const elapsed=managerElapsed+
+    (managerRunning?performance.now()-managerStart:0);
+
+  document.getElementById('managerDisplay').textContent=
+    formatTime(elapsed);
+
+  if(managerRunning)managerFrame=requestAnimationFrame(managerRender);
+}
+
+function selectedTask() {
+  return document.getElementById('taskType').value;
+}
+
+function startManager() {
+  if(managerRunning)return;
+
+  managerRunning=true;
+  managerStart=performance.now();
+
+  document.getElementById('managerLabel').textContent=
+    selectedTask().toUpperCase()+' SESSION';
+
+  managerRender();
+}
+
+function pauseManager() {
+  if(!managerRunning)return;
+
+  let elapsed=performance.now()-managerStart;
+
+  managerElapsed+=elapsed;
+
+  records[selectedTask()]+=Math.floor(elapsed/1000);
+
+  managerRunning=false;
+  cancelAnimationFrame(managerFrame);
+
+  saveRecords();
+  updateManagerStats();
+  managerRender();
+}
+
+function resetManager() {
+  if(managerRunning)pauseManager();
+
+  managerElapsed=0;
+  managerRender();
+}
+
+document.getElementById('taskType').addEventListener('change',()=>{
+  if(managerRunning) {
+    pauseManager();
+  }
+
+  managerElapsed=0;
+
+  document.getElementById('managerLabel').textContent=
+    selectedTask().toUpperCase()+' SESSION';
+
+  managerRender();
+});
+
+function clearManagerRecords() {
+  if(!confirm("Are you sure you want to clear today's records?"))return;
+
+  records={...defaultRecords};
+  managerElapsed=0;
+
+  saveRecords();
+  updateManagerStats();
+  managerRender();
+}
+
+updateManagerStats();
+managerRender();
+
+
+/* AUTOMATIC DAILY RECORD RESET */
+
+setInterval(()=>{
+  const key=localStorage.getItem('chronox-records');
+
+  try {
+    const saved=JSON.parse(key);
+
+    if(saved && saved.date!==todayKey()) {
+      records={...defaultRecords};
+      saveRecords();
+      updateManagerStats();
+    }
+  } catch(e) {}
+},30000);
+
+</script>
 </body>
 </html>
