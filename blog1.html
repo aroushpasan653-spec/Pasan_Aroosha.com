@@ -136,12 +136,105 @@ h1 span{color:var(--gold)}
   font-size:14px;
 }
 .remove{background:none;border:0;color:#ff8c8c;font-size:19px}
-#map{
-  width:100%;height:490px;border-radius:20px;
-  border:1px solid var(--line);z-index:1;
+
+/* MAP VIEW UPGRADE ONLY */
+.map-panel{
+  overflow:hidden;
+  position:relative;
+  background:rgba(255,255,255,.035);
 }
-.map-panel{overflow:hidden}
-.map-note{padding:12px;color:var(--muted);font-size:12px}
+.map-toolbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
+  padding:13px 15px;
+  border-bottom:1px solid var(--line);
+  background:rgba(7,23,34,.65);
+}
+.map-toolbar-title{
+  font-size:13px;
+  font-weight:700;
+  letter-spacing:.5px;
+  color:var(--white);
+}
+.map-toolbar-controls{
+  display:flex;
+  gap:7px;
+  flex-wrap:wrap;
+}
+.map-control{
+  padding:8px 12px;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,.15);
+  background:rgba(255,255,255,.07);
+  color:white;
+  font-size:11px;
+  font-weight:600;
+  transition:.2s;
+}
+.map-control:hover{
+  border-color:var(--cyan);
+  color:var(--cyan);
+}
+.map-control.active{
+  background:var(--cyan);
+  color:#05252b;
+  border-color:var(--cyan);
+}
+#map{
+  width:100%;
+  height:490px;
+  border-radius:0;
+  border:0;
+  z-index:1;
+  background:#102b39;
+}
+.map-note{
+  padding:12px 15px;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.6;
+  border-top:1px solid var(--line);
+}
+.map-legend{
+  display:flex;
+  align-items:center;
+  gap:15px;
+  flex-wrap:wrap;
+  padding:11px 15px;
+  border-top:1px solid var(--line);
+  color:var(--muted);
+  font-size:11px;
+}
+.legend-item{
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.legend-dot{
+  width:10px;height:10px;
+  display:inline-block;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.8);
+}
+.legend-start{background:#35e6a2}
+.legend-stop{background:#55aaff}
+.legend-finish{background:#ff647d}
+.legend-route{
+  width:19px;height:4px;
+  display:inline-block;
+  background:#45e6d0;
+  border-radius:5px;
+}
+.map-status{
+  padding:9px 15px;
+  color:#b8d5df;
+  background:rgba(69,230,208,.055);
+  font-size:11px;
+  line-height:1.5;
+}
 .stats{
   display:grid;grid-template-columns:repeat(3,1fr);
   gap:10px;margin-top:14px;
@@ -160,8 +253,63 @@ footer{
   color:var(--muted);text-align:center;font-size:13px;
 }
 footer strong{color:var(--cyan)}
-.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:#102b39;color:white}
+
+/* Map marker styling */
+.ceyora-marker{
+  background:transparent;
+  border:0;
+}
+.marker-bubble{
+  width:38px;
+  height:38px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50% 50% 50% 8px;
+  transform:rotate(-45deg);
+  border:3px solid #fff;
+  box-shadow:0 5px 16px rgba(0,0,0,.5);
+  font-family:'Outfit',sans-serif;
+  font-size:13px;
+  font-weight:800;
+  color:#071722;
+}
+.marker-bubble span{
+  transform:rotate(45deg);
+}
+.marker-start{background:#35e6a2}
+.marker-stop{background:#55aaff}
+.marker-finish{background:#ff647d}
+
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip{
+  background:#102b39;
+  color:white;
+}
+.leaflet-popup-content-wrapper{
+  border:1px solid rgba(69,230,208,.35);
+  border-radius:12px;
+  box-shadow:0 8px 25px rgba(0,0,0,.35);
+}
+.leaflet-popup-content{
+  font-family:'Outfit',sans-serif;
+  line-height:1.6;
+  margin:12px 15px;
+}
+.leaflet-popup-content b{color:#45e6d0}
 .leaflet-container a{color:var(--cyan)}
+.leaflet-control-zoom a{
+  background:#102b39!important;
+  color:#fff!important;
+  border-color:rgba(255,255,255,.15)!important;
+}
+.leaflet-control-attribution{
+  font-size:9px!important;
+  background:rgba(7,23,34,.75)!important;
+  color:#d1e0e7!important;
+}
+.leaflet-control-attribution a{color:#45e6d0!important}
+
 @media(max-width:800px){
   .navlinks{
     display:none;position:absolute;top:76px;left:0;right:0;
@@ -179,6 +327,13 @@ footer strong{color:var(--cyan)}
   .hero-content{padding:65px 0}
   .searchbox{margin-top:-35px;padding:18px}
   .stats{grid-template-columns:1fr 1fr 1fr}
+  .map-toolbar{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+  .map-toolbar-controls{width:100%}
+  .map-control{flex:1}
+  #map{height:380px}
 }
 </style>
 </head>
@@ -286,8 +441,32 @@ footer strong{color:var(--cyan)}
       </div>
       <p class="hint" style="margin-top:15px" id="routeMessage" aria-live="polite">Add at least two destinations to create a route.</p>
     </div>
-    <div class="glass map-panel">
+
+    <div class="glass map-panel" id="mapPanel">
+      <div class="map-toolbar">
+        <div class="map-toolbar-title">🗺️ INTERACTIVE JOURNEY MAP</div>
+        <div class="map-toolbar-controls">
+          <button class="map-control active" id="lightMapBtn" type="button">☀ Light</button>
+          <button class="map-control" id="darkMapBtn" type="button">☾ Dark</button>
+          <button class="map-control" id="fitMapBtn" type="button">◎ Fit Route</button>
+          <button class="map-control" id="fullscreenMapBtn" type="button">⛶ Fullscreen</button>
+        </div>
+      </div>
+
       <div id="map"></div>
+
+      <div class="map-legend">
+        <span class="legend-item"><i class="legend-dot legend-start"></i> START</span>
+        <span class="legend-item"><i class="legend-dot legend-stop"></i> DESTINATION</span>
+        <span class="legend-item"><i class="legend-dot legend-finish"></i> FINISH</span>
+        <span class="legend-item"><i class="legend-route"></i> TRAVEL ROUTE</span>
+        <span class="legend-item">➜ Direction</span>
+      </div>
+
+      <div class="map-status" id="mapStatus">
+        Add destinations to see your journey on the map.
+      </div>
+
       <div class="map-note" data-i18n="mapNote">Map data © OpenStreetMap contributors. Routes use public routing services.</div>
     </div>
   </div>
@@ -315,6 +494,7 @@ footer strong{color:var(--cyan)}
 </footer>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-polylinedecorator@1.6.0/dist/leaflet.polylineDecorator.js"></script>
 
 <script>
 const places = [
@@ -340,7 +520,9 @@ const translations = {
 
 const $ = id => document.getElementById(id);
 let selected = [];
-let map, markers, routeLine;
+let map, markers, routeLine, routeArrows;
+let lightTiles, darkTiles, activeTiles;
+let lastRouteBounds = null;
 
 function renderDestinations(){
  $("destinations").innerHTML=places.map(p=>`
@@ -396,25 +578,184 @@ function removePlace(name){
  renderList();
 }
 
+/* MAP VIEW: base layers */
 function initMap(){
- map=L.map("map").setView([7.8731,80.7718],7);
- L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{
-  attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
- }).addTo(map);
+ map=L.map("map",{
+  zoomControl:true,
+  scrollWheelZoom:true
+ }).setView([7.8731,80.7718],7);
+
+ lightTiles=L.tileLayer(
+  "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
+  {
+   attribution:'&copy; OpenStreetMap contributors &copy; CARTO',
+   subdomains:"abcd",
+   maxZoom:20
+  }
+ );
+
+ darkTiles=L.tileLayer(
+  "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+  {
+   attribution:'&copy; OpenStreetMap contributors &copy; CARTO',
+   subdomains:"abcd",
+   maxZoom:20
+  }
+ );
+
+ activeTiles=lightTiles;
+ lightTiles.addTo(map);
+
  markers=L.layerGroup().addTo(map);
+
+ map.on("fullscreenchange",()=>{
+  setTimeout(()=>map.invalidateSize(),200);
+ });
+}
+
+function setMapTheme(theme){
+ if(!map)return;
+
+ if(activeTiles)map.removeLayer(activeTiles);
+
+ activeTiles=theme==="dark"?darkTiles:lightTiles;
+ activeTiles.addTo(map);
+
+ $("lightMapBtn").classList.toggle("active",theme==="light");
+ $("darkMapBtn").classList.toggle("active",theme==="dark");
+
+ setTimeout(()=>map.invalidateSize(),150);
+}
+
+function clearRouteLayers(){
+ if(routeLine){
+  map.removeLayer(routeLine);
+  routeLine=null;
+ }
+ if(routeArrows){
+  map.removeLayer(routeArrows);
+  routeArrows=null;
+ }
+}
+
+function markerIcon(number,type){
+ const className=type==="start"?"marker-start":
+  type==="finish"?"marker-finish":"marker-stop";
+
+ const label=type==="start"?"S":type==="finish"?"F":number;
+
+ return L.divIcon({
+  className:"ceyora-marker",
+  html:`<div class="marker-bubble ${className}"><span>${label}</span></div>`,
+  iconSize:[38,46],
+  iconAnchor:[19,40],
+  popupAnchor:[0,-38]
+ });
 }
 
 function drawMarkers(){
  markers.clearLayers();
- if(routeLine){map.removeLayer(routeLine);routeLine=null;}
+ clearRouteLayers();
+ lastRouteBounds=null;
+
  selected.forEach((p,i)=>{
-  L.marker([p.lat,p.lon]).addTo(markers)
-  .bindPopup(`<b>${i+1}. ${p.name}</b>`);
+  let type="stop";
+  if(i===0)type="start";
+  if(i===selected.length-1)type="finish";
+
+  const marker=L.marker([p.lat,p.lon],{
+   icon:markerIcon(i+1,type),
+   zIndexOffset:1000-i
+  }).addTo(markers);
+
+  const label=type==="start"?"START":
+   type==="finish"?"FINISH":"STOP "+(i+1);
+
+  marker.bindPopup(`
+   <div>
+    <b>${label}</b><br>
+    ${p.name}
+   </div>
+  `);
  });
- if(selected.length) {
+
+ if(selected.length){
   const bounds=L.latLngBounds(selected.map(p=>[p.lat,p.lon]));
-  map.fitBounds(bounds.pad(.2));
+  lastRouteBounds=bounds;
+  map.fitBounds(bounds.pad(.22),{maxZoom:10});
  }
+
+ $("mapStatus").textContent=selected.length
+  ? "Destinations added. Generate your route to see the road journey and direction arrows."
+  : "Add destinations to see your journey on the map.";
+}
+
+function fitRoute(){
+ if(!map)return;
+
+ if(routeLine && routeLine.getBounds().isValid()){
+  map.fitBounds(routeLine.getBounds().pad(.2),{maxZoom:11});
+ }else if(selected.length){
+  const bounds=L.latLngBounds(selected.map(p=>[p.lat,p.lon]));
+  map.fitBounds(bounds.pad(.22),{maxZoom:10});
+ }else{
+  map.setView([7.8731,80.7718],7);
+ }
+
+ setTimeout(()=>map.invalidateSize(),150);
+}
+
+function addRouteToMap(geometry){
+ clearRouteLayers();
+
+ const latlngs=geometry.coordinates.map(c=>[c[1],c[0]]);
+
+ /* Outer casing makes the route stand out from the map */
+ const casing=L.polyline(latlngs,{
+  color:"#062c3c",
+  weight:12,
+  opacity:.9,
+  lineCap:"round",
+  lineJoin:"round"
+ }).addTo(map);
+
+ /* Main bright route */
+ const mainLine=L.polyline(latlngs,{
+  color:"#45e6d0",
+  weight:6,
+  opacity:1,
+  lineCap:"round",
+  lineJoin:"round"
+ }).addTo(map);
+
+ /* Keep both lines together as one route layer group */
+ routeLine=L.layerGroup([casing,mainLine]).addTo(map);
+
+ /* Direction arrows along the route */
+ if(typeof L.polylineDecorator==="function"){
+  routeArrows=L.polylineDecorator(mainLine,{
+   patterns:[{
+    offset:45,
+    repeat:125,
+    symbol:L.Symbol.arrowHead({
+     pixelSize:13,
+     polygon:false,
+     pathOptions:{
+      color:"#ffffff",
+      weight:3,
+      opacity:1
+     }
+    })
+   }]
+  }).addTo(map);
+ }
+
+ lastRouteBounds=mainLine.getBounds();
+
+ map.fitBounds(mainLine.getBounds().pad(.2),{
+  maxZoom:11,
+  animate:true
+ });
 }
 
 function haversine(a,b){
@@ -443,36 +784,46 @@ async function generateRoute(){
   $("routeMessage").textContent="Please add at least two places.";
   return;
  }
+
  const ordered=optimizeOrder(selected);
  selected=ordered;
  renderList();
+
  $("generateBtn").disabled=true;
  $("routeMessage").textContent="Finding a driving route...";
+ $("mapStatus").textContent="Calculating road route and directions...";
+
  try{
   const coords=ordered.map(p=>`${p.lon},${p.lat}`).join(";");
   const url=`https://router.project-osrm.org/route/v1/driving/${coords}?overview=full&geometries=geojson`;
+
   const response=await fetch(url);
   if(!response.ok)throw new Error("Routing service unavailable");
+
   const data=await response.json();
   if(data.code!=="Ok"||!data.routes.length)throw new Error("No route found");
+
   const route=data.routes[0];
   const km=route.distance/1000;
   const hours=route.duration/3600;
+
   $("distance").textContent=km.toFixed(0)+" km";
   $("duration").textContent=hours.toFixed(1)+" h";
+
   $("routeMessage").textContent="Route generated! Your stops have been arranged in a suggested order.";
-  if(routeLine)map.removeLayer(routeLine);
-  routeLine=L.geoJSON(route.geometry,{
-   style:{color:"#45e6d0",weight:5,opacity:.9}
-  }).addTo(map);
-  map.fitBounds(routeLine.getBounds().pad(.15));
+  $("mapStatus").textContent="Road route ready. Follow the numbered stops and white direction arrows.";
+
+  addRouteToMap(route.geometry);
+
  }catch(e){
-  const total=ordered.slice(1).reduce((sum,p,i)=>sum+haversine(ordered[i],p),0);
-  $("distance").textContent="~"+total.toFixed(0)+" km";
-  $("duration").textContent="Estimate";
-  $("routeMessage").textContent="Driving route service is unavailable. Showing approximate straight-line distance; no road route is displayed.";
+  $("distance").textContent="—";
+  $("duration").textContent="—";
+  $("routeMessage").textContent="Driving route service is unavailable. Approximate distance is not shown as a road route.";
+  $("mapStatus").textContent="Road route unavailable. Destination markers are still visible.";
+
   drawMarkers();
  }
+
  $("generateBtn").disabled=false;
 }
 
@@ -480,11 +831,38 @@ $("addBtn").onclick=()=>addPlace($("placeInput").value);
 $("placeInput").addEventListener("keydown",e=>{if(e.key==="Enter")addPlace(e.target.value)});
 $("quickAdd").onclick=()=>addPlace($("quickSearch").value);
 $("generateBtn").onclick=generateRoute;
+
 $("clearBtn").onclick=()=>{
- selected=[];renderList();
+ selected=[];
+ renderList();
  $("routeMessage").textContent="Your trip has been cleared.";
+ $("mapStatus").textContent="Add destinations to see your journey on the map.";
 };
+
 $("menuBtn").onclick=()=>$("navlinks").classList.toggle("open");
+
+$("lightMapBtn").onclick=()=>setMapTheme("light");
+$("darkMapBtn").onclick=()=>setMapTheme("dark");
+$("fitMapBtn").onclick=fitRoute;
+
+$("fullscreenMapBtn").onclick=async()=>{
+ const panel=$("mapPanel");
+
+ try{
+  if(!document.fullscreenElement){
+   if(panel.requestFullscreen){
+    await panel.requestFullscreen();
+   }else{
+    $("mapStatus").textContent="Fullscreen is not supported by this browser.";
+   }
+  }else{
+   await document.exitFullscreen();
+  }
+  setTimeout(()=>map.invalidateSize(),250);
+ }catch(error){
+  $("mapStatus").textContent="Fullscreen is not available in this browser.";
+ }
+};
 
 $("language").addEventListener("change",e=>{
  const lang=e.target.value;
