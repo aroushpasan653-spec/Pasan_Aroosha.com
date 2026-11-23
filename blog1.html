@@ -4,519 +4,503 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#071b27">
+<meta name="description" content="Discover Sri Lanka with Ceyora Travel. Plan your journey, explore beautiful destinations and create your own travel route.">
+<title>Ceyora Travel | Discover Sri Lanka</title>
 
-<title>Beyond the Ordinary | PASAN</title>
-<meta name="description" content="A personal article about dreams, creativity, learning and the journey beyond the ordinary.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 :root {
-  --purple: #bd63ff;
-  --cyan: #48edff;
-  --background: #080b14;
-  --panel: #111727;
-  --muted: #b7bfd2;
+  --bg:#071722;
+  --panel:#102b39;
+  --glass:rgba(255,255,255,.075);
+  --cyan:#45e6d0;
+  --gold:#ffcc80;
+  --white:#f4fbff;
+  --muted:#a9bec8;
+  --line:rgba(255,255,255,.12);
 }
-
-body {
-  font-family: Arial, "Noto Sans Sinhala", sans-serif;
-  color: #f6f7ff;
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Outfit',sans-serif;
+  background:var(--bg);
+  color:var(--white);
+  overflow-x:hidden;
+}
+button,input,select{font:inherit}
+button{cursor:pointer}
+a{color:inherit;text-decoration:none}
+.container{width:min(1160px,92%);margin:auto}
+.glass{
+  background:var(--glass);
+  border:1px solid var(--line);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  border-radius:22px;
+  box-shadow:0 15px 45px rgba(0,0,0,.18);
+}
+nav{
+  position:sticky;top:0;z-index:1000;
+  background:rgba(7,23,34,.85);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--line);
+}
+.navinner{
+  min-height:76px;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:15px;
+}
+.logo{font-size:25px;font-weight:800;letter-spacing:1px}
+.logo span{color:var(--cyan)}
+.navlinks{display:flex;align-items:center;gap:25px}
+.navlinks a{font-size:14px;color:var(--muted)}
+.navlinks a:hover{color:var(--cyan)}
+select{
+  color:white;background:#153444;border:1px solid var(--line);
+  padding:10px;border-radius:12px;outline:none;
+}
+select option{background:#102b39}
+.menu{display:none;background:none;border:0;color:white;font-size:26px}
+.hero{
+  min-height:610px;
+  display:flex;align-items:center;
+  position:relative;overflow:hidden;
   background:
-    radial-gradient(ellipse at 15% 5%, #30104e70, transparent 40%),
-    radial-gradient(ellipse at 90% 45%, #07334355, transparent 38%),
-    var(--background);
-  min-height: 100vh;
-  line-height: 1.8;
+  linear-gradient(90deg,rgba(4,17,25,.95),rgba(4,17,25,.4)),
+  url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1800&q=85') center/cover;
 }
-
-/* HEADER */
-header {
-  padding: 18px 6%;
-  border-bottom: 1px solid #ffffff15;
-  background: #080b14cc;
-  backdrop-filter: blur(15px);
-  position: sticky;
-  top: 0;
-  z-index: 10;
+.hero:after{
+  content:"";position:absolute;width:420px;height:420px;
+  background:var(--cyan);filter:blur(160px);opacity:.12;
+  right:0;top:10%;
 }
-
-.nav {
-  max-width: 1000px;
-  margin: auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+.hero-content{position:relative;z-index:2;max-width:720px;padding:90px 0}
+.eyebrow{color:var(--cyan);font-weight:700;letter-spacing:3px;font-size:12px}
+h1{font-size:clamp(43px,7vw,78px);line-height:1.05;margin:20px 0}
+h1 span{color:var(--gold)}
+.hero p{color:#d3e1e7;line-height:1.8;max-width:570px}
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
+.btn{
+  border:0;padding:14px 22px;border-radius:14px;
+  font-weight:700;transition:.25s;
 }
-
-.logo {
-  color: white;
-  font-size: 23px;
-  font-weight: 900;
-  letter-spacing: 2px;
-  text-decoration: none;
+.btn:hover{transform:translateY(-3px);filter:brightness(1.1)}
+.primary{background:linear-gradient(120deg,var(--cyan),#8af4d5);color:#05252b}
+.secondary{background:var(--glass);color:white;border:1px solid var(--line)}
+.section{padding:75px 0}
+.section-title{text-align:center;margin-bottom:35px}
+.section-title h2{font-size:clamp(28px,4vw,42px)}
+.section-title p{color:var(--muted);margin-top:10px}
+.searchbox{padding:25px;margin-top:-55px;position:relative;z-index:5}
+.searchrow{display:flex;gap:12px;flex-wrap:wrap}
+.field{flex:1;min-width:180px}
+.field label{display:block;color:var(--muted);font-size:12px;margin-bottom:9px}
+.field input,.field select{
+  width:100%;padding:14px;border-radius:12px;
+  background:#0a2532;color:white;border:1px solid var(--line);
 }
-
-.logo span {
-  color: var(--purple);
-  text-shadow: 0 0 15px #bd63ff80;
+.dest-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:20px;
 }
-
-.home-link {
-  color: var(--cyan);
-  text-decoration: none;
-  font-size: 14px;
+.destination{
+  overflow:hidden;transition:.3s;cursor:pointer;
 }
-
-/* ARTICLE HERO */
-.hero {
-  max-width: 850px;
-  margin: 65px auto 30px;
-  padding: 0 22px;
-  text-align: center;
+.destination:hover{transform:translateY(-7px)}
+.destination img{
+  width:100%;height:210px;object-fit:cover;display:block;
 }
-
-.tag {
-  display: inline-block;
-  color: var(--cyan);
-  border: 1px solid #48edff70;
-  background: #48edff0b;
-  border-radius: 30px;
-  padding: 6px 15px;
-  font-size: 11px;
-  letter-spacing: 3px;
+.dest-info{padding:18px}
+.dest-info h3{font-size:21px}
+.dest-info p{color:var(--muted);font-size:13px;line-height:1.6;margin:8px 0}
+.tag{color:var(--cyan);font-size:12px;font-weight:700}
+.planner{
+  display:grid;grid-template-columns:370px 1fr;gap:20px;
 }
-
-.hero h1 {
-  font-size: clamp(34px, 6vw, 58px);
-  line-height: 1.2;
-  margin: 24px 0 18px;
-  letter-spacing: -1px;
+.planner-panel{padding:23px}
+.planner-panel h3{font-size:22px;margin-bottom:8px}
+.hint{color:var(--muted);font-size:13px;line-height:1.6;margin-bottom:18px}
+.place-input{display:flex;gap:8px}
+.place-input input{
+  width:100%;min-width:0;padding:13px;border-radius:12px;
+  background:#0a2532;border:1px solid var(--line);color:white;
 }
-
-.hero h1 span {
-  color: var(--purple);
-  text-shadow: 0 0 30px #bd63ff55;
+.place-list{margin:15px 0;display:grid;gap:8px}
+.place-item{
+  display:flex;justify-content:space-between;align-items:center;
+  background:rgba(255,255,255,.055);padding:11px 12px;border-radius:11px;
+  font-size:14px;
 }
-
-.hero p {
-  color: var(--muted);
-  font-size: 16px;
+.remove{background:none;border:0;color:#ff8c8c;font-size:19px}
+#map{
+  width:100%;height:490px;border-radius:20px;
+  border:1px solid var(--line);z-index:1;
 }
-
-/* LANGUAGE BUTTONS */
-.language-bar {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin: 28px auto 35px;
-  padding: 0 15px;
+.map-panel{overflow:hidden}
+.map-note{padding:12px;color:var(--muted);font-size:12px}
+.stats{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:10px;margin-top:14px;
 }
-
-.language-bar button {
-  cursor: pointer;
-  border: 1px solid #ffffff25;
-  background: #111727;
-  color: #dce2f3;
-  border-radius: 10px;
-  padding: 10px 19px;
-  font-size: 14px;
-  font-weight: bold;
-  transition: .2s;
+.stat{padding:15px;text-align:center}
+.stat strong{display:block;font-size:21px;color:var(--cyan)}
+.stat span{font-size:11px;color:var(--muted)}
+.recommendations{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:15px;
 }
-
-.language-bar button:hover,
-.language-bar button.active {
-  border-color: var(--purple);
-  color: white;
-  background: #bd63ff20;
-  box-shadow: 0 0 18px #bd63ff22;
+.rec{padding:20px}
+.rec h3{margin:8px 0}
+.rec p{font-size:13px;line-height:1.7;color:var(--muted)}
+footer{
+  padding:35px 0;border-top:1px solid var(--line);
+  color:var(--muted);text-align:center;font-size:13px;
 }
-
-/* ARTICLE CONTENT */
-.article {
-  max-width: 800px;
-  margin: 0 auto 60px;
-  padding: 38px 34px;
-  width: calc(100% - 32px);
-  background: #111727e8;
-  border: 1px solid #ffffff15;
-  border-radius: 22px;
-  box-shadow: 0 20px 70px #0004;
-}
-
-.article .intro {
-  color: var(--cyan);
-  font-size: 19px;
-  font-style: italic;
-  margin-bottom: 28px;
-}
-
-.article h2 {
-  color: var(--purple);
-  font-size: 23px;
-  margin: 30px 0 10px;
-  line-height: 1.5;
-}
-
-.article p {
-  color: #d0d6e6;
-  font-size: 16px;
-  margin-bottom: 17px;
-  overflow-wrap: anywhere;
-}
-
-.article .closing {
-  margin-top: 32px;
-  padding: 22px;
-  border-left: 3px solid var(--purple);
-  background: #bd63ff0b;
-  border-radius: 0 12px 12px 0;
-}
-
-.signature {
-  text-align: right;
-  color: var(--cyan) !important;
-  font-weight: bold;
-  margin-top: 18px;
-}
-
-.hidden {
-  display: none;
-}
-
-/* FOOTER */
-footer {
-  text-align: center;
-  padding: 25px 15px;
-  border-top: 1px solid #ffffff12;
-  color: #8993ad;
-  font-size: 13px;
-}
-
-footer span {
-  color: var(--purple);
-  font-weight: bold;
-}
-
-@media (max-width: 600px) {
-  header {
-    padding: 15px 18px;
+footer strong{color:var(--cyan)}
+.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:#102b39;color:white}
+.leaflet-container a{color:var(--cyan)}
+@media(max-width:800px){
+  .navlinks{
+    display:none;position:absolute;top:76px;left:0;right:0;
+    background:#0b202c;padding:25px;flex-direction:column;
   }
-
-  .hero {
-    margin-top: 42px;
-  }
-
-  .article {
-    padding: 25px 20px;
-  }
-
-  .article h2 {
-    font-size: 21px;
-  }
-
-  .article p {
-    font-size: 15px;
-  }
-
-  .language-bar button {
-    padding: 10px 14px;
-  }
+  .navlinks.open{display:flex}
+  .menu{display:block}
+  .planner{grid-template-columns:1fr}
+  .dest-grid,.recommendations{grid-template-columns:repeat(2,1fr)}
+  #map{height:390px}
+}
+@media(max-width:520px){
+  .dest-grid,.recommendations{grid-template-columns:1fr}
+  .hero{min-height:550px}
+  .hero-content{padding:65px 0}
+  .searchbox{margin-top:-35px;padding:18px}
+  .stats{grid-template-columns:1fr 1fr 1fr}
 }
 </style>
 </head>
 
 <body>
 
-<header>
-  <nav class="nav">
-    <a class="logo" href="index.html">
-      PASAN<span>.</span>
-    </a>
+<nav>
+<div class="container navinner">
+  <a href="#" class="logo">CEYORA<span>.</span></a>
+  <div class="navlinks" id="navlinks">
+    <a href="#home" data-i18n="home">Home</a>
+    <a href="#explore" data-i18n="explore">Explore</a>
+    <a href="#planner" data-i18n="planner">Plan Trip</a>
+    <a href="#discover" data-i18n="discover">Discover</a>
+  </div>
+  <div style="display:flex;gap:9px;align-items:center">
+    <select id="language" aria-label="Language">
+      <option value="en">🇬🇧 English</option>
+      <option value="si">🇱🇰 සිංහල</option>
+      <option value="ta">🇱🇰 தமிழ்</option>
+      <option value="fr">🇫🇷 Français</option>
+      <option value="de">🇩🇪 Deutsch</option>
+      <option value="es">🇪🇸 Español</option>
+      <option value="it">🇮🇹 Italiano</option>
+      <option value="ja">🇯🇵 日本語</option>
+      <option value="ko">🇰🇷 한국어</option>
+      <option value="zh">🇨🇳 中文</option>
+      <option value="ru">🇷🇺 Русский</option>
+      <option value="ar">🇸🇦 العربية</option>
+      <option value="hi">🇮🇳 हिन्दी</option>
+      <option value="pt">🇵🇹 Português</option>
+      <option value="nl">🇳🇱 Nederlands</option>
+      <option value="th">🇹🇭 ไทย</option>
+    </select>
+    <button class="menu" id="menuBtn" aria-label="Menu">☰</button>
+  </div>
+</div>
+</nav>
 
-    <a class="home-link" href="index.html">
-      ← Home
-    </a>
-  </nav>
+<header class="hero" id="home">
+<div class="container hero-content">
+  <div class="eyebrow">THE PEARL OF THE INDIAN OCEAN</div>
+  <h1 data-i18n="heroTitle">Discover the Magic of <span>Sri Lanka</span></h1>
+  <p data-i18n="heroText">
+    Explore breathtaking destinations, discover hidden gems and create your perfect Sri Lankan journey.
+  </p>
+  <div class="actions">
+    <a class="btn primary" href="#planner" data-i18n="start">Plan Your Journey →</a>
+    <a class="btn secondary" href="#explore" data-i18n="explorePlaces">Explore Places</a>
+  </div>
+</div>
 </header>
 
-<section class="hero">
-  <span class="tag">✦ PERSONAL BLOG ✦</span>
-
-  <h1>
-    Beyond the Ordinary:<br>
-    <span>My Journey, My Dreams</span>
-  </h1>
-
-  <p id="subtitle">
-    A story about dreams, creativity, learning and new beginnings.
-  </p>
-</section>
-
-<div class="language-bar" aria-label="Choose article language">
-  <button type="button" id="englishBtn"
-    class="active" onclick="setLanguage('en')">
-    🇬🇧 English
-  </button>
-
-  <button type="button" id="sinhalaBtn"
-    onclick="setLanguage('si')">
-    🇱🇰 සිංහල
-  </button>
+<main>
+<div class="container">
+  <div class="glass searchbox">
+    <div class="searchrow">
+      <div class="field">
+        <label data-i18n="quickSearch">QUICK DESTINATION SEARCH</label>
+        <input id="quickSearch" placeholder="Search Sri Lanka..." list="placesData">
+        <datalist id="placesData"></datalist>
+      </div>
+      <div class="field" style="flex:0">
+        <label>&nbsp;</label>
+        <button class="btn primary" id="quickAdd" data-i18n="addPlace">+ Add Place</button>
+      </div>
+    </div>
+  </div>
 </div>
 
-<main class="article">
+<section class="section" id="explore">
+<div class="container">
+  <div class="section-title">
+    <div class="eyebrow">EXPLORE THE ISLAND</div>
+    <h2 data-i18n="exploreTitle">Beautiful Places of Sri Lanka</h2>
+    <p data-i18n="exploreSub">Discover unforgettable destinations.</p>
+  </div>
+  <div class="dest-grid" id="destinations"></div>
+</div>
+</section>
 
-  <!-- ENGLISH ARTICLE -->
-  <div id="englishArticle" lang="en">
-
-    <p class="intro">
-      Every great journey begins with a single step.
-    </p>
-
-    <p>
-      Life is more than just waking up every morning and
-      following the same routine. It is about discovering
-      who we are, learning from our experiences, and
-      building a future that reflects our dreams.
-    </p>
-
-    <p>
-      Welcome to my little corner of the internet — a place
-      where I share my thoughts, creativity, experiences,
-      and ideas with the world.
-    </p>
-
-    <h2>01. Dreams Give Life a Direction</h2>
-
-    <p>
-      Everyone has dreams. Some dream of becoming successful,
-      some want to explore the world, and others simply wish
-      to create a life filled with happiness and peace.
-    </p>
-
-    <p>
-      But dreams alone are not enough. They need patience,
-      dedication, and the courage to keep moving forward,
-      even when the road becomes difficult.
-    </p>
-
-    <p>
-      I believe that every small effort matters. A little
-      progress each day can eventually lead to something
-      extraordinary.
-    </p>
-
-    <h2>02. Learning Along the Way</h2>
-
-    <p>
-      Life is a journey full of lessons. Not every plan
-      works out, and not every day brings the results we
-      hope for. However, every experience gives us an
-      opportunity to learn something new.
-    </p>
-
-    <p>
-      Instead of being afraid of mistakes, we can use them
-      as stepping stones toward growth. The most important
-      thing is to stay curious, keep learning, and never
-      stop improving ourselves.
-    </p>
-
-    <h2>03. A Space for Creativity</h2>
-
-    <p>
-      This website is more than just a website to me.
-      It is a space where ideas can become reality.
-    </p>
-
-    <p>
-      Through PASAN, I hope to share interesting content,
-      explore new creative projects, and connect with people
-      who enjoy discovering something different.
-    </p>
-
-    <p>
-      There is still so much to learn and create, and this
-      is only the beginning.
-    </p>
-
-    <h2>04. The Journey Starts Here</h2>
-
-    <p>
-      I do not know exactly where this journey will lead me,
-      but I know that every new beginning brings fresh
-      opportunities.
-    </p>
-
-    <p>
-      My goal is to keep creating, keep learning, and keep
-      turning ideas into something meaningful.
-    </p>
-
-    <div class="closing">
-      <p>
-        Thank you for visiting my website and being a part
-        of this beginning.
-      </p>
-
-      <p>
-        This is my journey. This is my story.
-        And this is only the beginning.
-      </p>
-    </div>
-
-    <p class="signature">
-      — PASAN | Think Beyond Ordinary.
-    </p>
+<section class="section" id="planner">
+<div class="container">
+  <div class="section-title">
+    <div class="eyebrow">YOUR PERSONAL TRIP</div>
+    <h2 data-i18n="plannerTitle">Create Your Travel Route</h2>
+    <p data-i18n="plannerSub">Add your destinations and build your journey.</p>
   </div>
 
-  <!-- SINHALA TRANSLATION -->
-  <div id="sinhalaArticle" class="hidden" lang="si">
-
-    <p class="intro">
-      සෑම විශිෂ්ට ගමනක්ම ආරම්භ වන්නේ එක් කුඩා පියවරකිනි.
-    </p>
-
-    <p>
-      ජීවිතය කියන්නේ හැම උදෑසනකම අවදි වී එකම දේ නැවත නැවත
-      කිරීම පමණක් නොවේ. අපි කවුදැයි හඳුනා ගැනීම,
-      අත්දැකීම්වලින් ඉගෙන ගැනීම සහ අපේ සිහිනවලට ගැළපෙන
-      අනාගතයක් ගොඩනැගීමත් ජීවිතයේ කොටසකි.
-    </p>
-
-    <p>
-      මගේ අන්තර්ජාලයේ පුංචි අවකාශයට ඔයාලා සාදරයෙන්
-      පිළිගන්නවා. මගේ සිතුවිලි, නිර්මාණශීලී අදහස්,
-      අත්දැකීම් සහ අලුත් අදහස් ලෝකය සමඟ බෙදාගන්න
-      මම බලාපොරොත්තු වෙනවා.
-    </p>
-
-    <h2>01. සිහින ජීවිතයට දිශාවක් ලබා දෙයි</h2>
-
-    <p>
-      හැම කෙනෙකුටම සිහින තියෙනවා. සමහරු සාර්ථක වෙන්න
-      සිහින දකිනවා. තවත් අය ලෝකය ගවේෂණය කරන්න
-      බලාපොරොත්තු වෙනවා. සමහරු සතුට සහ සාමය පිරුණු
-      ජීවිතයක් ගොඩනඟන්න කැමතියි.
-    </p>
-
-    <p>
-      නමුත් සිහින දැකීම පමණක් ප්‍රමාණවත් නැහැ.
-      ඒවා සැබෑ කරගන්න ඉවසීම, කැපවීම සහ මඟ දුෂ්කර
-      වුණත් ඉදිරියට යාමට ධෛර්යය අවශ්‍යයි.
-    </p>
-
-    <p>
-      සෑම කුඩා උත්සාහයක්ම වැදගත් කියලා මම විශ්වාස කරනවා.
-      හැම දවසකම ටිකෙන් ටික ඉදිරියට යාමෙන් කාලයත් සමඟ
-      විශේෂ දෙයක් නිර්මාණය කරගන්න පුළුවන්.
-    </p>
-
-    <h2>02. ගමන අතරතුර ඉගෙන ගැනීම</h2>
-
-    <p>
-      ජීවිතය කියන්නේ පාඩම් රැසක් ඉගෙන ගන්න ලැබෙන ගමනක්.
-      අපි සැලසුම් කරන හැම දෙයක්ම සාර්ථක වෙන්නේ නැහැ.
-      බලාපොරොත්තු වන ප්‍රතිඵල හැම දවසකම ලැබෙන්නෙත් නැහැ.
-      ඒත් හැම අත්දැකීමක්ම අලුත් දෙයක් ඉගෙන ගැනීමට
-      අවස්ථාවක් ලබා දෙනවා.
-    </p>
-
-    <p>
-      වැරදිවලට බිය වෙනවා වෙනුවට ඒවා අපේ දියුණුවට
-      පියවරක් කරගන්න පුළුවන්. වැදගත්ම දේ වන්නේ
-      අලුත් දේවල් ගැන උනන්දුවෙන් සිටීම, දිගටම ඉගෙනීම
-      සහ තමන්ව දියුණු කරගැනීම නතර නොකිරීමයි.
-    </p>
-
-    <h2>03. නිර්මාණශීලීත්වයට වෙන් වූ අවකාශයක්</h2>
-
-    <p>
-      මේ වෙබ් අඩවිය මට සාමාන්‍ය වෙබ් අඩවියක් විතරක්
-      නෙවෙයි. අදහස් සැබෑ නිර්මාණ බවට පත් කරගන්න
-      පුළුවන් අවකාශයක්.
-    </p>
-
-    <p>
-      PASAN හරහා රසවත් දේවල් බෙදාගන්නත්, අලුත්
-      නිර්මාණශීලී ව්‍යාපෘති අත්හදා බලන්නත්, වෙනස්
-      දෙයක් සොයාගන්න කැමති අය සමඟ සම්බන්ධ වෙන්නත්
-      මම බලාපොරොත්තු වෙනවා.
-    </p>
-
-    <p>
-      තව බොහෝ දේ ඉගෙන ගන්නත් නිර්මාණය කරන්නත්
-      තියෙනවා. මේ ගමනේ ආරම්භය විතරයි.
-    </p>
-
-    <h2>04. ගමන ආරම්භ වන්නේ මෙතැනින්</h2>
-
-    <p>
-      මේ ගමන මාව කොතැනට ගෙන යයිද කියලා මම හරියටම
-      දන්නේ නැහැ. නමුත් හැම අලුත් ආරම්භයක්ම අලුත්
-      අවස්ථා ගෙන එන බව මම දන්නවා.
-    </p>
-
-    <p>
-      දිගටම නිර්මාණය කිරීම, ඉගෙනීම සහ අදහස් අර්ථවත්
-      දෙයක් බවට පත් කිරීම මගේ අරමුණයි.
-    </p>
-
-    <div class="closing">
-      <p>
-        මගේ වෙබ් අඩවියට පැමිණ මේ ආරම්භයේ කොටසක්
-        වීම ගැන ඔයාලා හැමෝටම ස්තුතියි.
-      </p>
-
-      <p>
-        මේ මගේ ගමනයි. මේ මගේ කතාවයි.
-        ඒ වගේම මේ ආරම්භය පමණයි.
-      </p>
+  <div class="planner">
+    <div class="glass planner-panel">
+      <h3 data-i18n="yourPlaces">Your Destinations</h3>
+      <p class="hint" data-i18n="plannerHint">Enter places in Sri Lanka. Select a suggestion or type a place name.</p>
+      <div class="place-input">
+        <input id="placeInput" list="placesData" placeholder="e.g. Sigiriya">
+        <button class="btn primary" id="addBtn">+</button>
+      </div>
+      <div class="place-list" id="placeList"></div>
+      <button class="btn primary" id="generateBtn" style="width:100%" data-i18n="generate">✦ Generate Route</button>
+      <button class="btn secondary" id="clearBtn" style="width:100%;margin-top:9px" data-i18n="clear">Clear All</button>
+      <div class="stats">
+        <div class="glass stat"><strong id="distance">—</strong><span data-i18n="distance">Distance</span></div>
+        <div class="glass stat"><strong id="duration">—</strong><span data-i18n="duration">Travel time</span></div>
+        <div class="glass stat"><strong id="stops">0</strong><span data-i18n="stops">Stops</span></div>
+      </div>
+      <p class="hint" style="margin-top:15px" id="routeMessage" aria-live="polite">Add at least two destinations to create a route.</p>
     </div>
-
-    <p class="signature">
-      — PASAN | සාමාන්‍ය සීමාවෙන් ඔබ්බට සිතන්න.
-    </p>
+    <div class="glass map-panel">
+      <div id="map"></div>
+      <div class="map-note" data-i18n="mapNote">Map data © OpenStreetMap contributors. Routes use public routing services.</div>
+    </div>
   </div>
+</div>
+</section>
 
+<section class="section" id="discover">
+<div class="container">
+  <div class="section-title">
+    <div class="eyebrow">GO BEYOND THE ORDINARY</div>
+    <h2 data-i18n="discoverTitle">Discover More of Sri Lanka</h2>
+    <p data-i18n="discoverSub">Ideas for your next adventure.</p>
+  </div>
+  <div class="recommendations" id="recommendations"></div>
+</div>
+</section>
 </main>
 
 <footer>
-  © <span>PASAN</span> · My Journey, My Dreams
+<div class="container">
+  <div class="logo">CEYORA<span>.</span></div>
+  <p style="margin:12px 0">Discover Sri Lanka. Your Journey, Your Way.</p>
+  <p>© <span id="year"></span> <strong>Ceyora Travel</strong>. Made for explorers.</p>
+</div>
 </footer>
 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
 <script>
-function setLanguage(language) {
-  const english = document.getElementById("englishArticle");
-  const sinhala = document.getElementById("sinhalaArticle");
-  const englishBtn = document.getElementById("englishBtn");
-  const sinhalaBtn = document.getElementById("sinhalaBtn");
-  const subtitle = document.getElementById("subtitle");
+const places = [
+ {name:"Colombo",lat:6.9271,lon:79.8612,desc:"The vibrant capital city.",category:"City",image:"https://images.unsplash.com/photo-1590123732197-e7079d7f2f2b?auto=format&fit=crop&w=700&q=80"},
+ {name:"Sigiriya",lat:7.9570,lon:80.7603,desc:"The legendary Lion Rock fortress.",category:"Heritage",image:"https://images.unsplash.com/photo-1588598198321-9735fd524c16?auto=format&fit=crop&w=700&q=80"},
+ {name:"Kandy",lat:7.2906,lon:80.6337,desc:"Culture, temples and mountain views.",category:"Culture",image:"https://images.unsplash.com/photo-1588598198321-9735fd524c16?auto=format&fit=crop&w=700&q=80"},
+ {name:"Ella",lat:6.8667,lon:81.0466,desc:"Mountain scenery and green tea hills.",category:"Nature",image:"https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=700&q=80"},
+ {name:"Galle",lat:6.0535,lon:80.2210,desc:"Historic fort and beautiful coastline.",category:"Heritage",image:"https://images.unsplash.com/photo-1586861635167-e5223aadc9fe?auto=format&fit=crop&w=700&q=80"},
+ {name:"Nuwara Eliya",lat:6.9497,lon:80.7891,desc:"Cool weather and tea plantations.",category:"Nature",image:"https://images.unsplash.com/photo-1586183189334-7c0f7f5c6e8e?auto=format&fit=crop&w=700&q=80"},
+ {name:"Mirissa",lat:5.9483,lon:80.4716,desc:"Relax on tropical beaches.",category:"Beach",image:"https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?auto=format&fit=crop&w=700&q=80"},
+ {name:"Trincomalee",lat:8.5874,lon:81.2152,desc:"Beautiful beaches and clear waters.",category:"Beach",image:"https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=700&q=80"},
+ {name:"Anuradhapura",lat:8.3114,lon:80.4037,desc:"Ancient city and historic sites.",category:"History",image:"https://images.unsplash.com/photo-1606293926075-69a00dbfde81?auto=format&fit=crop&w=700&q=80"},
+ {name:"Yala",lat:6.3725,lon:81.5185,desc:"Wildlife and nature experiences.",category:"Wildlife",image:"https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&w=700&q=80"},
+ {name:"Haputale",lat:6.7654,lon:80.9510,desc:"Mountain viewpoints and tea estates.",category:"Nature",image:"https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=700&q=80"},
+ {name:"Dambulla",lat:7.8567,lon:80.6492,desc:"Famous cave temple and history.",category:"Heritage",image:"https://images.unsplash.com/photo-1606293926075-69a00dbfde81?auto=format&fit=crop&w=700&q=80"}
+];
 
-  const showEnglish = language === "en";
+const translations = {
+ en:{home:"Home",explore:"Explore",planner:"Plan Trip",discover:"Discover",heroTitle:'Discover the Magic of <span>Sri Lanka</span>',heroText:"Explore breathtaking destinations, discover hidden gems and create your perfect Sri Lankan journey.",start:"Plan Your Journey →",explorePlaces:"Explore Places",quickSearch:"QUICK DESTINATION SEARCH",addPlace:"+ Add Place",exploreTitle:"Beautiful Places of Sri Lanka",exploreSub:"Discover unforgettable destinations.",plannerTitle:"Create Your Travel Route",plannerSub:"Add your destinations and build your journey.",yourPlaces:"Your Destinations",plannerHint:"Enter places in Sri Lanka. Select a suggestion or type a place name.",generate:"✦ Generate Route",clear:"Clear All",distance:"Distance",duration:"Travel time",stops:"Stops",mapNote:"Map data © OpenStreetMap contributors. Routes use public routing services.",discoverTitle:"Discover More of Sri Lanka",discoverSub:"Ideas for your next adventure."},
+ si:{home:"මුල් පිටුව",explore:"සංචාරක ස්ථාන",planner:"ගමන සැලසුම් කරන්න",discover:"සොයාගන්න",heroTitle:'ශ්‍රී ලංකාවේ මායාව <span>විඳගන්න</span>',heroText:"සුන්දර ස්ථාන ගවේෂණය කරන්න. අලුත් ස්ථාන සොයාගන්න. ඔබේ ගමන සැලසුම් කරන්න.",start:"ගමන සැලසුම් කරන්න →",explorePlaces:"ස්ථාන බලන්න",quickSearch:"ඉක්මන් ස්ථාන සෙවුම",addPlace:"+ එකතු කරන්න",exploreTitle:"ශ්‍රී ලංකාවේ සුන්දර ස්ථාන",exploreSub:"අමතක නොවන සංචාරක ස්ථාන සොයාගන්න.",plannerTitle:"ඔබේ ගමන් මාර්ගය හදන්න",plannerSub:"යන්න කැමති ස්ථාන ඇතුළත් කරන්න.",yourPlaces:"ඔබේ ස්ථාන",plannerHint:"ශ්‍රී ලංකාවේ ස්ථාන ඇතුළත් කරන්න.",generate:"✦ ගමන් මාර්ගය සාදන්න",clear:"සියල්ල ඉවත් කරන්න",distance:"දුර",duration:"ගමන් කාලය",stops:"නැවතුම්",mapNote:"සිතියම් දත්ත © OpenStreetMap.",discoverTitle:"තවත් ස්ථාන සොයාගන්න",discoverSub:"ඔබේ ඊළඟ ගමනට අදහස්."},
+ ta:{home:"முகப்பு",explore:"இடங்களை ஆராயுங்கள்",planner:"பயணத்தைத் திட்டமிடுங்கள்",discover:"கண்டறியுங்கள்",heroTitle:'இலங்கையின் அழகை <span>கண்டறியுங்கள்</span>',heroText:"அழகான இடங்களை ஆராய்ந்து உங்கள் பயணத்தைத் திட்டமிடுங்கள்.",start:"பயணத்தைத் திட்டமிடுங்கள் →",explorePlaces:"இடங்களைப் பாருங்கள்",quickSearch:"விரைவு தேடல்",addPlace:"+ சேர்க்க",exploreTitle:"இலங்கையின் அழகான இடங்கள்",exploreSub:"மறக்க முடியாத இடங்களைக் கண்டறியுங்கள்.",plannerTitle:"உங்கள் பயண வழியை உருவாக்குங்கள்",plannerSub:"நீங்கள் செல்ல விரும்பும் இடங்களைச் சேர்க்கவும்.",yourPlaces:"உங்கள் இடங்கள்",plannerHint:"இலங்கையில் உள்ள இடங்களை உள்ளிடுங்கள்.",generate:"✦ வழியை உருவாக்கு",clear:"அனைத்தையும் அழி",distance:"தூரம்",duration:"பயண நேரம்",stops:"நிறுத்தங்கள்",mapNote:"வரைபடத் தரவு © OpenStreetMap.",discoverTitle:"மேலும் இடங்களைக் கண்டறியுங்கள்",discoverSub:"உங்கள் அடுத்த பயணத்திற்கான யோசனைகள்."}
+};
 
-  english.classList.toggle("hidden", !showEnglish);
-  sinhala.classList.toggle("hidden", showEnglish);
+const $ = id => document.getElementById(id);
+let selected = [];
+let map, markers, routeLine;
 
-  englishBtn.classList.toggle("active", showEnglish);
-  sinhalaBtn.classList.toggle("active", !showEnglish);
-
-  subtitle.textContent = showEnglish
-    ? "A story about dreams, creativity, learning and new beginnings."
-    : "සිහින, නිර්මාණශීලීත්වය, ඉගෙනීම සහ අලුත් ආරම්භයන් ගැන කතාවක්.";
-
-  document.documentElement.lang = showEnglish ? "en" : "si";
+function renderDestinations(){
+ $("destinations").innerHTML=places.map(p=>`
+ <article class="glass destination">
+ <img src="${p.image}" alt="${p.name}" loading="lazy">
+ <div class="dest-info">
+ <div class="tag">${p.category.toUpperCase()}</div>
+ <h3>${p.name}</h3>
+ <p>${p.desc}</p>
+ <button class="btn secondary" onclick="addPlace('${p.name}')">+ Add to trip</button>
+ </div></article>`).join("");
+ $("placesData").innerHTML=places.map(p=>`<option value="${p.name}">`).join("");
 }
-</script>
 
+function renderRecommendations(){
+ const recommendations=[
+ ["🌿","Haputale","Explore beautiful mountain viewpoints."],
+ ["🏛️","Polonnaruwa","Discover ancient Sri Lankan heritage."],
+ ["🌊","Nilaveli","Enjoy the eastern coastline."]
+ ];
+ $("recommendations").innerHTML=recommendations.map(r=>`
+ <article class="glass rec"><div style="font-size:30px">${r[0]}</div>
+ <h3>${r[1]}</h3><p>${r[2]}</p>
+ <button class="btn secondary" style="margin-top:12px" onclick="addPlace('${r[1]}')">Add to trip +</button>
+ </article>`).join("");
+}
+
+function addPlace(name){
+ const p=places.find(x=>x.name.toLowerCase()===name.trim().toLowerCase());
+ if(!p){$("routeMessage").textContent="Please select a destination from the suggestions.";return;}
+ if(selected.some(x=>x.name===p.name)){ $("routeMessage").textContent="This place is already added.";return;}
+ selected.push(p);
+ $("placeInput").value="";
+ $("quickSearch").value="";
+ renderList();
+}
+
+function renderList(){
+ $("placeList").innerHTML=selected.map((p,i)=>`
+ <div class="place-item">
+ <span>${i+1}. ${p.name}</span>
+ <button class="remove" aria-label="Remove ${p.name}" onclick="removePlace('${p.name}')">×</button>
+ </div>`).join("");
+ $("stops").textContent=selected.length;
+ $("distance").textContent="—";
+ $("duration").textContent="—";
+ $("routeMessage").textContent=selected.length<2?"Add at least two destinations to create a route.":"Ready to generate your route.";
+ if(map)drawMarkers();
+}
+
+function removePlace(name){
+ selected=selected.filter(x=>x.name!==name);
+ renderList();
+}
+
+function initMap(){
+ map=L.map("map").setView([7.8731,80.7718],7);
+ L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{
+  attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+ }).addTo(map);
+ markers=L.layerGroup().addTo(map);
+}
+
+function drawMarkers(){
+ markers.clearLayers();
+ if(routeLine){map.removeLayer(routeLine);routeLine=null;}
+ selected.forEach((p,i)=>{
+  L.marker([p.lat,p.lon]).addTo(markers)
+  .bindPopup(`<b>${i+1}. ${p.name}</b>`);
+ });
+ if(selected.length) {
+  const bounds=L.latLngBounds(selected.map(p=>[p.lat,p.lon]));
+  map.fitBounds(bounds.pad(.2));
+ }
+}
+
+function haversine(a,b){
+ const R=6371,rad=x=>x*Math.PI/180;
+ const dLat=rad(b.lat-a.lat),dLon=rad(b.lon-a.lon);
+ const x=Math.sin(dLat/2)**2+
+ Math.cos(rad(a.lat))*Math.cos(rad(b.lat))*Math.sin(dLon/2)**2;
+ return 2*R*Math.asin(Math.sqrt(x));
+}
+
+function optimizeOrder(list){
+ let remaining=[...list],ordered=[remaining.shift()];
+ while(remaining.length){
+  const last=ordered[ordered.length-1];
+  let best=0;
+  remaining.forEach((p,i)=>{
+   if(haversine(last,p)<haversine(last,remaining[best]))best=i;
+  });
+  ordered.push(remaining.splice(best,1)[0]);
+ }
+ return ordered;
+}
+
+async function generateRoute(){
+ if(selected.length<2){
+  $("routeMessage").textContent="Please add at least two places.";
+  return;
+ }
+ const ordered=optimizeOrder(selected);
+ selected=ordered;
+ renderList();
+ $("generateBtn").disabled=true;
+ $("routeMessage").textContent="Finding a driving route...";
+ try{
+  const coords=ordered.map(p=>`${p.lon},${p.lat}`).join(";");
+  const url=`https://router.project-osrm.org/route/v1/driving/${coords}?overview=full&geometries=geojson`;
+  const response=await fetch(url);
+  if(!response.ok)throw new Error("Routing service unavailable");
+  const data=await response.json();
+  if(data.code!=="Ok"||!data.routes.length)throw new Error("No route found");
+  const route=data.routes[0];
+  const km=route.distance/1000;
+  const hours=route.duration/3600;
+  $("distance").textContent=km.toFixed(0)+" km";
+  $("duration").textContent=hours.toFixed(1)+" h";
+  $("routeMessage").textContent="Route generated! Your stops have been arranged in a suggested order.";
+  if(routeLine)map.removeLayer(routeLine);
+  routeLine=L.geoJSON(route.geometry,{
+   style:{color:"#45e6d0",weight:5,opacity:.9}
+  }).addTo(map);
+  map.fitBounds(routeLine.getBounds().pad(.15));
+ }catch(e){
+  const total=ordered.slice(1).reduce((sum,p,i)=>sum+haversine(ordered[i],p),0);
+  $("distance").textContent="~"+total.toFixed(0)+" km";
+  $("duration").textContent="Estimate";
+  $("routeMessage").textContent="Driving route service is unavailable. Showing approximate straight-line distance; no road route is displayed.";
+  drawMarkers();
+ }
+ $("generateBtn").disabled=false;
+}
+
+$("addBtn").onclick=()=>addPlace($("placeInput").value);
+$("placeInput").addEventListener("keydown",e=>{if(e.key==="Enter")addPlace(e.target.value)});
+$("quickAdd").onclick=()=>addPlace($("quickSearch").value);
+$("generateBtn").onclick=generateRoute;
+$("clearBtn").onclick=()=>{
+ selected=[];renderList();
+ $("routeMessage").textContent="Your trip has been cleared.";
+};
+$("menuBtn").onclick=()=>$("navlinks").classList.toggle("open");
+
+$("language").addEventListener("change",e=>{
+ const lang=e.target.value;
+ const t=translations[lang]||translations.en;
+ document.documentElement.lang=lang;
+ document.querySelectorAll("[data-i18n]").forEach(el=>{
+  const key=el.dataset.i18n;
+  if(t[key])el.innerHTML=t[key];
+ });
+});
+
+$("year").textContent=new Date().getFullYear();
+
+renderDestinations();
+renderRecommendations();
+initMap();
+</script>
 </body>
 </html>
